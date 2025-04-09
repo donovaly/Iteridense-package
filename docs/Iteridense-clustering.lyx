@@ -1,0 +1,4618 @@
+#LyX 2.4 created this file. For more info see https://www.lyx.org/
+\lyxformat 620
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass IEEEtran
+\begin_preamble
+% enable hyperlinks to subcaptions
+\usepackage[figure]{hypcap}
+% set caption labels bold and use indentation
+\usepackage[labelfont=bf,format=hang]{caption}
+
+% redefine the automatic names for references to labels
+\AtBeginDocument{\renewcommand{\ref}[1]{\mbox{\autoref{#1}}}}
+\newlength{\abc}
+\settowidth{\abc}{\space}
+\AtBeginDocument{%
+ \renewcommand{\equationautorefname}{\hspace{-\abc}}
+ \renewcommand{\itemautorefname}{\hspace{-\abc}}
+ \renewcommand{\sectionautorefname}{Sec.\negthinspace}
+ \renewcommand{\subsectionautorefname}{Sec.\negthinspace}
+ \renewcommand{\subsubsectionautorefname}{Sec.\negthinspace}
+ \renewcommand{\figureautorefname}{Fig.\negthinspace}
+}
+
+% raises threshold above which floats appear on
+% one page alone
+\renewcommand{\floatpagefraction}{0.7}
+
+% raises threshold above which floats appear at
+% bottom of page
+\renewcommand{\bottomfraction}{0.5}
+
+% needed for biblatex
+\usepackage{csquotes}
+
+% protect some workds from being hyphenated
+\hyphenation{DBSCAN}
+\hyphenation{DENCLUE}
+\hyphenation{CLIQUE}
+\end_preamble
+\options compsoc
+\use_default_options false
+\maintain_unincluded_children no
+\language english
+\language_package default
+\inputencoding auto-legacy
+\fontencoding auto
+\font_roman "lmodern" "default"
+\font_sans "lmss" "default"
+\font_typewriter "lmtt" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_roman_osf false
+\font_sans_osf false
+\font_typewriter_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement h
+\float_alignment class
+\paperfontsize 12
+\spacing single
+\use_hyperref true
+\pdf_title "A simple iterative grid- and density-based Clustering Algorithm"
+\pdf_author "Uwe Stöhr"
+\pdf_subject "data clustering"
+\pdf_keywords "clustering"
+\pdf_bookmarks true
+\pdf_bookmarksnumbered true
+\pdf_bookmarksopen true
+\pdf_bookmarksopenlevel 2
+\pdf_breaklinks false
+\pdf_pdfborder true
+\pdf_colorlinks true
+\pdf_backref false
+\pdf_pdfusetitle true
+\pdf_quoted_options "pdfpagelayout=OneColumn,pdfstartview=XYZ,linkcolor=black, citecolor=black"
+\papersize default
+\use_geometry false
+\use_package amsmath 2
+\use_package amssymb 2
+\use_package cancel 1
+\use_package esint 0
+\use_package mathdots 0
+\use_package mathtools 1
+\use_package mhchem 0
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine biblatex
+\cite_engine_type numerical
+\biblio_style plain
+\biblio_options sorting=none
+\biblatex_bibstyle numeric
+\biblatex_citestyle numeric
+\use_bibtopic true
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\use_formatted_ref 0
+\use_minted 0
+\use_lineno 0
+\notefontcolor #0000ff
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation skip
+\defskip halfline
+\is_math_indent 1
+\math_indentation default
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tablestyle default
+\tracking_changes false
+\output_changes false
+\change_bars false
+\postpone_fragile_content false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\docbook_table_output 0
+\docbook_mathml_prefix 1
+\end_header
+
+\begin_body
+
+\begin_layout Title
+A simple iterative grid- and density-based Clustering Algorithm
+\end_layout
+
+\begin_layout Author
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+IEEEauthorblockN{
+\end_layout
+
+\end_inset
+
+Uwe Stöhr
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+IEEEauthorblockA{
+\end_layout
+
+\end_inset
+
+Soloof EOOD,
+ Sofia,
+ Bulgaria
+\begin_inset Newline newline
+\end_inset
+
+Email:
+ research
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+negthinspace{ }
+\end_layout
+
+\end_inset
+
+@
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+negthinspace{ }
+\end_layout
+
+\end_inset
+
+soloof.com
+\begin_inset Newline newline
+\end_inset
+
+Project Page:
+ 
+\begin_inset CommandInset href
+LatexCommand href
+name "https://codeberg.org/Soloof/Iteridense"
+target "https://codeberg.org/Soloof/Iteridense"
+literal "false"
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\begin_inset VSpace -300baselineskip%
+\end_inset
+
+
+\end_layout
+
+\begin_layout Abstract
+We introduce 
+\noun on
+Iteridense
+\noun default
+,
+ an iterative clustering algorithm combining grid-based and density-based methods.
+ It provides two possibilities to perform the clustering and for both it provides a clear path on how to change the algorithm's input parameters to achieve suitable results.
+ We show that 
+\noun on
+Iteridense
+\noun default
+ is applicable for datasets with any dimensionality.
+ 
+\noun on
+Iteridense
+\noun default
+ provides shorter computation times than pure density-based algorithms and that it performs clustering at least as good to the DBSCAN algorithm.
+ This work enables users to cluster data in a quick,
+ reliable and objective way based on the the probability-density of the data.
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+Density-based clustering algorithms have been proven useful for many practical application.
+ There exists a wide variety of algorithms,
+ some optimized for particular use cases
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Kriegel2011"
+literal "false"
+
+\end_inset
+
+.
+ However,
+ these algorithms have a major drawback – one needs to evaluate neighboring points for every data point in the dataset to determine if it is part of a cluster.
+ This is the case for most density-based clustering algorithms like PreDeCon
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Boehm2004"
+literal "false"
+
+\end_inset
+
+ or HDBSCAN
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Campello2013"
+literal "false"
+
+\end_inset
+
+.
+ Other algorithms that combine grid-based with density-based methods like DENCLUE
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Hinneburg1998"
+literal "false"
+
+\end_inset
+
+ or CLIQUE
+\begin_inset space \thinspace{}
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Agrawal1998"
+literal "false"
+
+\end_inset
+
+ don't have this drawback but make assumptions about the shape of the probability distribution.
+\end_layout
+
+\begin_layout Standard
+Another issue of many clustering algorithms is that as user there is no clear path on how to change the algorithm's input parameters to achieve a suitable clustering result.
+ Taking for example the algorithm DBSCAN
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Ester1996"
+literal "false"
+
+\end_inset
+
+,
+ it requires to specify the parameter 
+\begin_inset Formula $\epsilon$
+\end_inset
+
+,
+ the maximum distance to another core point of a cluster.
+ For many use cases there is no clear path on how to change 
+\begin_inset Formula $\epsilon$
+\end_inset
+
+ to get a suitable result as we will also discuss in this paper.
+\end_layout
+
+\begin_layout Standard
+The algorithm presented in this paper uses both,
+ density-based and grid-based methods.
+ Its base idea is to work with different probability-density functions of the dataset and analyzing them in a grid.
+ Therefore even for small datasets in 2
+\begin_inset space ~
+\end_inset
+
+dimensions the computation can be 10
+\begin_inset space ~
+\end_inset
+
+times faster than a pure density-based algorithm like DBSCAN.
+ Our algorithm follows an iterative approach to calculate the probability-density function and makes no assumptions about the shape of that function.
+ Therefore it provides a clear path on how to set a start value of the algorithm's main parameter and how to change it to achieve a certain result.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Derivation of the Algorithm
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Derivation-of-the"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The basic idea of the algorithm is how mountain peak areas are separated from each other in a geographical relief.
+ Take for example the relief shown at the left in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Relief-of-a"
+
+\end_inset
+
+.
+ To identify areas around a peak one cuts the relief at a desired height.
+ The cut-off areas are then the mountain peak areas.
+ For example in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Relief-of-a"
+
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+(a) the relief was cut at about 2/3 of the maximal height leading to more than a dozen peak areas.
+ In 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Relief-of-a"
+
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+(b) the relief was cut at about half the maximal size leading to larger areas.
+ By decreasing the cutting height,
+ the number of areas will become fewer unless at a zero height the whole relief area is part of a single mountain area.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement class
+alignment document
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename clipart/Height-map-layer-854.png
+	lyxscale 50
+	width 75col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Cut at 2/3 of its maximal height.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename clipart/Height-map-layer-682.png
+	lyxscale 50
+	width 75col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Cut at half of its maximal height.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Relief-of-a"
+
+\end_inset
+
+Relief of a random geographic area cut at different heights.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Translating the height to the density of data points 
+\begin_inset Formula $\rho$
+\end_inset
+
+ the cut is made along a certain 
+\begin_inset Formula $\rho$
+\end_inset
+
+ through the probability-density function of the dataset.
+ See also the section 
+\emph on
+Background and Motivation
+\emph default
+ of 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Kriegel2011"
+literal "false"
+
+\end_inset
+
+ for a similar visualization than in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Relief-of-a"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Detecting clusters by making a cut through the probability-distribution is state-of-the-art
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Kriegel2011"
+literal "false"
+
+\end_inset
+
+.
+ The novelty is how to generate the distribution and how to cut it.
+ Instead of calculating a single probability-density function calculate different probability-density functions in an iterative process with increasing resolutions.
+ Resolution means hereby into how many cells every dimension of the dataset is divided to calculate the probability-density function.
+ For every resolution a clustering of the cells is performed and there are two results:
+ the amount of clusters and the density of every cluster.
+ Depending on the results,
+ the algorithm is stopped or it continues and calculates another probability-density function at a higher resolution.
+\end_layout
+
+\begin_layout Standard
+We call our algorithm 
+\noun on
+Iteridense
+\noun default
+ (ITERative grID- and dENSity-based clustering).
+ Based on our approach the key features of 
+\noun on
+Iteridense
+\noun default
+ are:
+\end_layout
+
+\begin_layout Itemize
+The clustering works without the need to test neighbors of every data point,
+ making the clustering more computation-efficient.
+ The clusters are derived by counting the numbers of data points within a certain data area.
+\end_layout
+
+\begin_layout Itemize
+One has the choice to specify either 
+\begin_inset Formula $\rho$
+\end_inset
+
+,
+ the minimal density every found cluster must have to stop the algorithm,
+ or 
+\series bold
+MinClusters
+\series default
+ ,
+ the number of how many clusters should at least be detected to stop the algorithm.
+ When specifying 
+\series bold
+MinClusters
+\series default
+ is possible,
+ one gets a completely objective result (no human bias involved as specifying a 
+\begin_inset Formula $\rho$
+\end_inset
+
+ is not necessary).
+ The possibility to specify 
+\series bold
+MinClusters
+\series default
+ is a big advantage compared to pure density-based algorithms that by design cannot have this feature.
+\end_layout
+
+\begin_layout Itemize
+For 
+\noun on
+Iteridense
+\noun default
+ 
+\begin_inset Formula $\rho$
+\end_inset
+
+ is defined being normalized so that the whole dataset has 
+\begin_inset Formula $\rho=1$
+\end_inset
+
+.
+ Because of the iteration with increasing resolutions our algorithm provides a clear path on how to set and change 
+\begin_inset Formula $\rho$
+\end_inset
+
+:
+ Start with a low 
+\begin_inset Formula $\rho>1$
+\end_inset
+
+ and increasing 
+\begin_inset Formula $\rho$
+\end_inset
+
+ until one gets a suitable result.
+ The algorithm stops at a resolution that fulfills the specification of 
+\begin_inset Formula $\rho$
+\end_inset
+
+.
+ We will demonstrate this feature with an example in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Clustering-Performance"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+Description of the Iteridense Clustering Algorithm
+\end_layout
+
+\begin_layout Subsection
+Basic Algorithm
+\end_layout
+
+\begin_layout Standard
+There are two possible input parameters to the algorithm,
+ either to specify how many clusters should at least be detected (
+\series bold
+MinClusters
+\series default
+) or the minimal data point density to form a cluster 
+\begin_inset Formula $\rho$
+\end_inset
+
+.
+ 
+\begin_inset Formula $\rho$
+\end_inset
+
+ is treated as a dimensionless number since the dimension of the data point space can be anything,
+ depending on the source of the data points.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Clustering-process"
+
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+(a) shows as example a 2-dimensional dataset which represents the relative humidity and temperature of air inside a thermo-box after a certain chemical process.
+ It looks like there might be a cluster of points inside an area in form of a quarter circle.
+ To find that potential cluster,
+ 
+\noun on
+Iteridense
+\noun default
+ works on this dataset the following way:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement class
+alignment document
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Float figure
+placement h
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename clipart/Temperature-initial.svg
+	lyxscale 50
+	width 33col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Data to be clustered.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename clipart/Temperature-4x4-countmap.svg
+	lyxscale 50
+	width 33col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Count map generated in
+\begin_inset Newline newline
+\end_inset
+
+algorithm step
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:AlgoStep3"
+
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename clipart/Clustering-Scheme.pdf
+	lyxscale 200
+	width 29col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Clustering scheme of the count map.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Clustering-process"
+
+\end_inset
+
+Clustering process of 
+\noun on
+Iteridense
+\noun default
+.
+ (a) Data to be clustered;
+ (b) Count map generated in of algorithm step
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:AlgoStep3"
+
+\end_inset
+
+:
+ 16
+\begin_inset space ~
+\end_inset
+
+cells with the info how many data points are in.;
+ (c) Clustering scheme of the count map.
+ The red cell is the currently evaluated cell,
+ the blue cells have already be evaluated,
+ cells
+\begin_inset space ~
+\end_inset
+
+A
+\begin_inset space \thinspace{}
+\end_inset
+
+–
+\begin_inset space \thinspace{}
+\end_inset
+
+D are neighboring cells determining the clustering for the red cell.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset CommandInset label
+LatexCommand label
+name "enu:AlgoStep1"
+
+\end_inset
+
+The space of the dataset is divided into a grid of 4
+\begin_inset space \thinspace{}
+\end_inset
+
+×
+\begin_inset space \thinspace{}
+\end_inset
+
+4
+\begin_inset space ~
+\end_inset
+
+cells.
+ In our example the data range of dimension
+\begin_inset space ~
+\end_inset
+
+1 
+\begin_inset Quotes eld
+\end_inset
+
+temperature
+\begin_inset Quotes erd
+\end_inset
+
+ is 4
+\begin_inset space \thinspace{}
+\end_inset
+
+–
+\begin_inset space \thinspace{}
+\end_inset
+
+89
+\begin_inset space \thinspace{}
+\end_inset
+
+°C and the dimension
+\begin_inset space ~
+\end_inset
+
+2 
+\begin_inset Quotes eld
+\end_inset
+
+humidity
+\begin_inset Quotes erd
+\end_inset
+
+ is 6
+\begin_inset space \thinspace{}
+\end_inset
+
+–
+\begin_inset space \thinspace{}
+\end_inset
+
+93
+\begin_inset space \thinspace{}
+\end_inset
+
+%.
+ This range defines the space of the dataset.
+ 4
+\begin_inset space \thinspace{}
+\end_inset
+
+×
+\begin_inset space \thinspace{}
+\end_inset
+
+4
+\begin_inset space ~
+\end_inset
+
+cells is defined as a resolution of 4.
+ 5
+\begin_inset space \thinspace{}
+\end_inset
+
+×
+\begin_inset space \thinspace{}
+\end_inset
+
+5
+\begin_inset space ~
+\end_inset
+
+cells would be a resolution of 5 and so on.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset CommandInset label
+LatexCommand label
+name "enu:AlgoStep2"
+
+\end_inset
+
+The number of data points in the cell spaces ([4
+\begin_inset space \thinspace{}
+\end_inset
+
+–
+\begin_inset space \thinspace{}
+\end_inset
+
+89/4
+\begin_inset space \thinspace{}
+\end_inset
+
+°C,
+ 6
+\begin_inset space \thinspace{}
+\end_inset
+
+–
+\begin_inset space \thinspace{}
+\end_inset
+
+93/4
+\begin_inset space \thinspace{}
+\end_inset
+
+%],
+ [89/4
+\begin_inset space \thinspace{}
+\end_inset
+
+–
+\begin_inset space \thinspace{}
+\end_inset
+
+2·89/4
+\begin_inset space \thinspace{}
+\end_inset
+
+°C;
+ 6
+\begin_inset space \thinspace{}
+\end_inset
+
+–
+\begin_inset space \thinspace{}
+\end_inset
+
+2·93/4
+\begin_inset space \thinspace{}
+\end_inset
+
+%],
+ 
+\begin_inset Formula $\ldots$
+\end_inset
+
+) are counted.
+ The result is a count map as shown in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Clustering-process"
+
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+(a).
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset CommandInset label
+LatexCommand label
+name "enu:AlgoStep3"
+
+\end_inset
+
+Now the actual clustering is performed.
+ The processing scheme ist depicted in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Clustering-process"
+
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+(b).
+ Every cell is processed one after another first in x- then in y-direction.
+ If a cell has more than 1
+\begin_inset space ~
+\end_inset
+
+data point it could be part of a cluster and then its neighboring cells are evaluated.
+ Thereby only those neighbors are evaluated that have already be evaluated (blue and light-blue in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Clustering-process"
+
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+(b)) because for them it is already known to which cluster they belong to.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+If none of the neighbor cells A
+\begin_inset space \thinspace{}
+\end_inset
+
+–
+\begin_inset space \thinspace{}
+\end_inset
+
+D are in a cluster,
+ the current cell will start a new cluster.
+ If any neighbor is in a cluster the current cell will become part of that cluster.
+ If neighbor cells are in different clusters,
+ these clusters are merged and the current cell becomes part of that merged cluster.
+ For example cell
+\begin_inset space \thinspace{}
+\end_inset
+
+A and cell
+\begin_inset space \thinspace{}
+\end_inset
+
+C could be in different clusters and the current cell unites both clusters.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+The density of every cluster 
+\begin_inset Formula $\rho_{\mathrm{cluster}}$
+\end_inset
+
+ is calculated as the number of points in the cluster divided by the number of cells in the cluster.
+ To normalize the density,
+ the result is divided by the density of the whole dataset:
+\begin_inset Formula 
+\begin{equation}
+\rho_{\mathrm{cluster}}=\cfrac{\text{num points in cluster}}{\text{num cells in cluster}}\cdot\cfrac{\text{total num of cells}}{\text{total num of points}}\label{eq:DensityDefinition}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+So the whole dataset has the density 1.0.
+ As exception,
+ if the clustering results in a single cluster containing all points,
+ its 
+\begin_inset Formula $\rho_{\mathrm{cluster}}$
+\end_inset
+
+ is set to 1.0.
+\end_layout
+
+\begin_layout Standard
+The final density 
+\begin_inset Formula $\rho_{\mathrm{final}}$
+\end_inset
+
+ is the minimum of all 
+\begin_inset Formula $\rho_{\mathrm{cluster}}$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+\begin_inset CommandInset label
+LatexCommand label
+name "enu:AlgoStep5"
+
+\end_inset
+
+All clusters are evaluated.
+ Clusters with 
+\begin_inset Formula $\rho_{\mathrm{cluster}}<1.0$
+\end_inset
+
+ will be deleted as they are not sensible.
+ Optionally,
+ if 
+\begin_inset Formula $\rho_{\mathrm{cluster}}$
+\end_inset
+
+ is too low or clusters contain too few data points they are deleted as well.
+ See the next section of a description of these optional parameters.
+ The result of this algorithm step is a set of clusters that are subsequently numbered.
+\end_layout
+
+\begin_layout Enumerate
+The resolution is incremented by one and the steps 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:AlgoStep1"
+
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+–
+\begin_inset space \thinspace{}
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:AlgoStep5"
+
+\end_inset
+
+ are repeated until either 
+\begin_inset Formula $\rho_{\mathrm{final}}>\rho$
+\end_inset
+
+ or until as many clusters were detected as specified as 
+\series bold
+MinClusters
+\series default
+.
+ To assure that the steps are not repeated forever,
+ the loop is stopped if the resolution reaches the total number of points in the dataset.
+ The resolution reached at the end of this step is the final resolution.
+\end_layout
+
+\begin_layout Enumerate
+All data points are assigned according to the found clusters.
+ Points in cluster 
+\begin_inset Quotes eld
+\end_inset
+
+0
+\begin_inset Quotes erd
+\end_inset
+
+ are hereby not part of a cluster.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset CommandInset label
+LatexCommand label
+name "enu:AlgoStep8"
+
+\end_inset
+
+Due to the grid generated in step
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:AlgoStep1"
+
+\end_inset
+
+,
+ single points might appear in the corner of a cell and are thus not detected as part of a cluster.
+ Therefore steps 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:AlgoStep1"
+
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+–
+\begin_inset space \thinspace{}
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:AlgoStep5"
+
+\end_inset
+
+ are repeated with the final resolution plus 1.
+\end_layout
+
+\begin_layout Enumerate
+Points that were before step
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:AlgoStep8"
+
+\end_inset
+
+ not part of a cluster but now are,
+ are finally assigned to that cluster.
+ This will only be done if the number of clusters did not change in step
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:AlgoStep8"
+
+\end_inset
+
+ and if no data point belongs now to another cluster than before step
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:AlgoStep8"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Result-Iteridense"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ shows the result for 
+\begin_inset Formula $\rho=3.0$
+\end_inset
+
+.
+ The final resolution is 13,
+ there is one cluster with 
+\begin_inset Formula $\rho_{\mathrm{cluster}}=4.32$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement class
+alignment document
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename clipart/Temperature-final.svg
+	lyxscale 50
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Resulting data point assignment.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename clipart/Temperature-13x13-countmap.svg
+	lyxscale 50
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Final count map (resolution 13).
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Result-Iteridense"
+
+\end_inset
+
+Result of 
+\noun on
+Iteridense
+\noun default
+ for the dataset in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Data-the-2dimensions"
+
+\end_inset
+
+ for 
+\begin_inset Formula $\rho=3.0$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Options
+\end_layout
+
+\begin_layout Standard
+The algorithm can optionally be modified this way:
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset CommandInset label
+LatexCommand label
+name "enu:Specification-of-the"
+
+\end_inset
+
+Specification of the start resolution for step
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:AlgoStep1"
+
+\end_inset
+
+ (
+\series bold
+StartResolution
+\series default
+).
+ The default and minimum is 2,
+ the maximum is the total number of points in the dataset.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset CommandInset label
+LatexCommand label
+name "enu:OptionDiagonal"
+
+\end_inset
+
+In step
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:AlgoStep3"
+
+\end_inset
+
+ don't take cells into account that are diagonally connected to the current cell (
+\series bold
+NoDiagonals
+\series default
+).
+ In 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Clustering-process"
+
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+(b) cells
+\begin_inset space ~
+\end_inset
+
+A and C would then not be evaluated.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset CommandInset label
+LatexCommand label
+name "enu:OptionClusterSize"
+
+\end_inset
+
+Specification of the minimal number of data points in a cluster (
+\series bold
+MinClusterSize
+\series default
+).
+ Clusters with less points will be erased.
+ The default is 3,
+ the minimum is 2,
+ the maximum is the total number of points in the dataset minus 1.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset CommandInset label
+LatexCommand label
+name "enu:OptionClusterDensity"
+
+\end_inset
+
+Specification of the minimal 
+\begin_inset Formula $\rho_{\mathrm{cluster}}$
+\end_inset
+
+ of a cluster (
+\series bold
+MinClusterDensity
+\series default
+).
+ Clusters with lower 
+\begin_inset Formula $\rho_{\mathrm{cluster}}$
+\end_inset
+
+ will be erased.
+ The minimum and default is 1.0.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset CommandInset label
+LatexCommand label
+name "enu:Specification-of-a"
+
+\end_inset
+
+Specification of a resolution at which the loop step
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:AlgoStep1"
+
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+–
+\begin_inset space \thinspace{}
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:AlgoStep5"
+
+\end_inset
+
+ is stopped
+\begin_inset Newline newline
+\end_inset
+
+ (
+\series bold
+StopResolution
+\series default
+).
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset CommandInset label
+LatexCommand label
+name "enu:OptionFixedResolution"
+
+\end_inset
+
+Instead of a the loop step
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:AlgoStep1"
+
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+–
+\begin_inset space \thinspace{}
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:AlgoStep5"
+
+\end_inset
+
+,
+ run the steps once with a fixed resolution
+\begin_inset Newline linebreak
+\end_inset
+
+ (
+\series bold
+FixedResolution
+\series default
+).
+\end_layout
+
+\begin_layout Standard
+Option
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:Specification-of-the"
+
+\end_inset
+
+ can speed up the computation significantly.
+\end_layout
+
+\begin_layout Standard
+Option
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:OptionDiagonal"
+
+\end_inset
+
+ can be useful for a low 
+\begin_inset Formula $\rho$
+\end_inset
+
+ (and thus low resolutions)
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+For example with 
+\series bold
+NoDiagonals
+\series default
+ in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Result-Iteridense"
+
+\end_inset
+
+ with 
+\begin_inset Formula $\rho=2.2$
+\end_inset
+
+ the cluster would contain more points.
+\end_layout
+
+\end_inset
+
+ while for higher 
+\begin_inset Formula $\rho$
+\end_inset
+
+ and also high dimensions it might lead to bad results.
+ Therefore this option should only be used if really desired.
+\end_layout
+
+\begin_layout Standard
+Option
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:OptionClusterSize"
+
+\end_inset
+
+ is useful to exclude unsuitably small clusters.
+ It is recommended to set 
+\begin_inset Formula $\text{\textbf{MinClusterSize}}\ge D+1$
+\end_inset
+
+ where 
+\begin_inset Formula $D$
+\end_inset
+
+ is the dimensionality of the data set.
+\end_layout
+
+\begin_layout Standard
+Option
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:OptionClusterDensity"
+
+\end_inset
+
+ has only an effect if 
+\series bold
+MinClusters
+\series default
+ is used.
+ It helps to sort out clusters with a density too low to be sensible for the use case.
+\end_layout
+
+\begin_layout Standard
+Option
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:Specification-of-a"
+
+\end_inset
+
+ prevents undesired many loops.
+ For example if 
+\begin_inset Formula $\rho$
+\end_inset
+
+ was set to a high value and no cluster will be found.
+\end_layout
+
+\begin_layout Standard
+Option
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:OptionFixedResolution"
+
+\end_inset
+
+ is only useful for academic purpose.
+ However,
+ it is internally used for step
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:AlgoStep8"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+A reference implementation of 
+\noun on
+Iteridense
+\noun default
+ is online available
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Iteridense"
+literal "false"
+
+\end_inset
+
+.
+ Its outputs are besides the assignments of the points to clusters also the size of clusters,
+ density of clusters,
+ final resolution,
+ number of clusters,
+ the count map as tensor in the final resolution (the actual probability-density function) and a tensor like the count map but with information about what cluster a grid cell belongs to.
+\end_layout
+
+\begin_layout Section
+Clustering Results
+\end_layout
+
+\begin_layout Standard
+To show the clustering results artificial data was generated using the library 
+\emph on
+sklearn.datasets
+\emph default
+ from the scikit-learn project
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "SciKitLearnDataSets"
+literal "false"
+
+\end_inset
+
+.
+ Real data were taken from the 
+\emph on
+Rdatasets
+\emph default
+ database
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Rdatasets"
+literal "false"
+
+\end_inset
+
+.
+ All clustering results figures were created using the package 
+\emph on
+Plots
+\emph default
+ of the 
+\noun on
+Julia
+\noun default
+ programming language
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "JuliaPlots"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Effect of the Density Parameter
+\end_layout
+
+\begin_layout Standard
+The data shown in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Result-of-the"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Effect-of-a"
+
+\end_inset
+
+ was generated using the 
+\emph on
+make_moons 
+\emph default
+call to 
+\emph on
+sklearn.datasets
+\emph default
+.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Result-of-the"
+
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+(a) shows the result for 
+\begin_inset Formula $\rho=2.2$
+\end_inset
+
+,
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Result-of-the"
+
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+(b) shows the result for 
+\begin_inset Formula $\rho=5.0$
+\end_inset
+
+.
+ As derived in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Derivation-of-the"
+
+\end_inset
+
+,
+ the greater the density means,
+ translated to the relief example,
+ the area of the cluster gets smaller.
+ Therefore less points are assigned to the clusters for 
+\begin_inset Formula $\rho=5.0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement h
+alignment document
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename clipart/Moons-Iteridense-rho2-2.svg
+	lyxscale 50
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset Formula $\rho=2.2$
+\end_inset
+
+,
+ resulting resolution:
+ 12
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename clipart/Moons-Iteridense-rho5.svg
+	lyxscale 50
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset Formula $\rho=5.0$
+\end_inset
+
+,
+ resulting resolution:
+ 43
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Result-of-the"
+
+\end_inset
+
+Result of 
+\noun on
+Iteridense
+\noun default
+ for intersected moon-like clusters using different 
+\begin_inset Formula $\rho$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Effect-of-a"
+
+\end_inset
+
+ shows the result for 
+\begin_inset Formula $\rho=6.0$
+\end_inset
+
+.
+ The density is now so high that the moon-like clusters break down into many small clusters if the option 
+\series bold
+NoDiagonals
+\series default
+ is used for the clustering.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement class
+alignment document
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename clipart/Moons-Iteridense-rho6-noDiagonals.svg
+	lyxscale 50
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset Formula $\rho=6.0$
+\end_inset
+
+ with option 
+\series bold
+NoDiagonals
+\series default
+,
+ resulting resolution:
+ 68
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename clipart/Moons-Iteridense-rho6.svg
+	lyxscale 50
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset Formula $\rho=6.0$
+\end_inset
+
+,
+ resulting resolution:
+ 52
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Effect-of-a"
+
+\end_inset
+
+Effect of a high 
+\begin_inset Formula $\rho$
+\end_inset
+
+ and the option to evaluate neighbor cells on the clustering result.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Clustering Performance
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Clustering-Performance"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+An advantage compared to other clustering algorithm is that 
+\noun on
+Iteridense
+\noun default
+ treats all data points the same way.
+ There is no division between core points,
+ outliers or the like.
+ Another major feature of 
+\noun on
+Iteridense
+\noun default
+ is that it provides two ways to achieve results and a clear path for the user on how to change the input parameters to get a suitable result:
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Either start with a low 
+\begin_inset Formula $\rho$
+\end_inset
+
+ and increase it gradually to get a suitable result.
+ If the result is not suitable,
+ look at the resulting 
+\begin_inset Formula $\rho_{\mathrm{cluster}}$
+\end_inset
+
+ and set for the next run 
+\begin_inset Formula $\rho$
+\end_inset
+
+ above their minimum.
+\end_layout
+
+\begin_layout Itemize
+Or specify with 
+\series bold
+MinClusters
+\series default
+ the desired number of clusters.
+ If the result is not suitable,
+ increase gradually either 
+\series bold
+MinClusterSize
+\series default
+ or 
+\series bold
+MinClusterDensity
+\series default
+.
+\end_layout
+
+\begin_layout Standard
+The second path is computationally the fastest,
+ as discussed in the next section.
+ However,
+ it can only be taken if there is a physical or technical reason for the number of clusters.
+ For the path to specify 
+\begin_inset Formula $\rho$
+\end_inset
+
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Result-Iteridense-Blobs"
+
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+(a)
+\begin_inset space \thinspace{}
+\end_inset
+
+–
+\begin_inset space \thinspace{}
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Result-Iteridense-Blobs2"
+
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+(a) shows the results:
+ Until 
+\begin_inset Formula $\rho\le6.8$
+\end_inset
+
+ only one cluster is detected and starting at 
+\begin_inset Formula $\rho=7.3$
+\end_inset
+
+ there are 3
+\begin_inset space ~
+\end_inset
+
+clusters.
+ Increasing 
+\begin_inset Formula $\rho$
+\end_inset
+
+ leads to more and more clusters.
+ This can be used to identify regions with higher density inside a 
+\begin_inset Quotes eld
+\end_inset
+
+base
+\begin_inset Quotes erd
+\end_inset
+
+ cluster.
+ In the example there are 3
+\begin_inset space ~
+\end_inset
+
+base clusters and every one has more dense regions that are unveiled with greater 
+\begin_inset Formula $\rho$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement p
+alignment document
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename clipart/Anisotropes-Iteridense-rho6-8.svg
+	lyxscale 50
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset Formula $\rho=6.8$
+\end_inset
+
+,
+ resulting resolution:
+ 30
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename clipart/Anisotropes-Iteridense-rho7-3.svg
+	lyxscale 50
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset Formula $\rho=7.3$
+\end_inset
+
+,
+ resulting resolution:
+ 35
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Result-Iteridense-Blobs"
+
+\end_inset
+
+Result of 
+\noun on
+Iteridense
+\noun default
+ for 
+\begin_inset Formula $\rho\ge7.3$
+\end_inset
+
+ 
+\series bold
+MinClusterSize
+\begin_inset space ~
+\end_inset
+
+=
+\begin_inset space ~
+\end_inset
+
+
+\series default
+6 at anistotope clusters.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement p
+alignment document
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename clipart/Anisotropes-Iteridense-rho12.svg
+	lyxscale 50
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset Formula $\rho=12.0$
+\end_inset
+
+,
+ resulting resolution:
+ 84
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename clipart/Anisotropes-DBSCAN-eps0-10.svg
+	lyxscale 50
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset Formula $\epsilon=0.1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Result-Iteridense-Blobs2"
+
+\end_inset
+
+Result of 
+\noun on
+Iteridense
+\noun default
+ for 
+\begin_inset Formula $\rho=6.8$
+\end_inset
+
+ and DBSCAN for 
+\begin_inset Formula $\epsilon=0.1$
+\end_inset
+
+ at anistotope clusters.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+For comparison,
+ the algorithm DBSCAN does not provide a clear path on how to change its input parameters.
+ An example is the data shown in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Result-Iteridense-Blobs2"
+
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+(b).
+ This data was generated using the 
+\emph on
+make_blobs 
+\emph default
+call to 
+\emph on
+sklearn.datasets
+\emph default
+ with a subsequent transformation.
+ Like in the previous example,
+ there are 1500
+\begin_inset space ~
+\end_inset
+
+data points.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\epsilon=0.1$
+\end_inset
+
+ seems to be a sensible start value for DBSCAN.
+ The result is 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Result-of-DBSCAN"
+
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+(b).
+ As the result is not a useful one might increase 
+\begin_inset Formula $\epsilon$
+\end_inset
+
+ in small steps and gets with 
+\series bold
+MinPts
+\series default
+ (minimal points to form a dense region) of 6 as results 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Result-of-DBSCAN"
+
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+–
+\begin_inset space \thinspace{}
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Result-of-DBSCAN-1"
+
+\end_inset
+
+.
+ For this dataset a human would expect 3
+\begin_inset space ~
+\end_inset
+
+base clusters but DBSCAN does not find exactly 3
+\begin_inset space ~
+\end_inset
+
+clusters.
+ One has to try different 
+\begin_inset Formula $\epsilon$
+\end_inset
+
+ to get this result.
+ For data in 2 or 3
+\begin_inset space ~
+\end_inset
+
+dimensions one can plot the data to get a feeling for 
+\begin_inset Formula $\epsilon$
+\end_inset
+
+ and for example increase 
+\series bold
+MinPts
+\series default
+.
+ However,
+ for data in higher dimensions this is hardly possible.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement p
+alignment document
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename clipart/Anisotropes-DBSCAN-eps0-15.svg
+	lyxscale 50
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset Formula $\epsilon=0.15$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename clipart/Anisotropes-DBSCAN-eps0-20.svg
+	lyxscale 50
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset Formula $\epsilon=0.2$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Result-of-DBSCAN"
+
+\end_inset
+
+Result of DBSCAN at anistotope clusters with 
+\begin_inset Formula $\epsilon\le0.2$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement p
+alignment document
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename clipart/Anisotropes-DBSCAN-eps0-25.svg
+	lyxscale 50
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset Formula $\epsilon=0.25$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename clipart/Anisotropes-DBSCAN-eps0-30.svg
+	lyxscale 50
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset Formula $\epsilon=0.3$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Result-of-DBSCAN-1"
+
+\end_inset
+
+Result of DBSCAN at anistotope clusters with 
+\begin_inset Formula $\epsilon>0.2$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Result-of-Iteridense-NoisyBlobs"
+
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+(a) is another example with 1500
+\begin_inset space ~
+\end_inset
+
+data points,
+ generated using the 
+\emph on
+make_blobs 
+\emph default
+call to 
+\emph on
+sklearn.datasets
+\emph default
+ with a subsequent transformation.
+ 
+\series bold
+MinClusters
+\series default
+ was set to 2 and 
+\series bold
+MinClusterSize
+\series default
+ 20.
+ Cluster
+\begin_inset space ~
+\end_inset
+
+2 has 
+\begin_inset Formula $\rho_{\mathrm{cluster}}=3.07$
+\end_inset
+
+ and is a merge of a high- and low-density region.
+ The two ways to change or to achieve a certain result are:
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Either set 
+\series bold
+MinClusters
+\series default
+ to 3 to get two clusters with a high density and one with a lower density,
+ see 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Result-of-Iteridense-NoisyBlobs"
+
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+(b).
+\end_layout
+
+\begin_layout Itemize
+Or increase 
+\begin_inset Formula $\rho$
+\end_inset
+
+ and also increase 
+\series bold
+MinClusterSize
+\series default
+ e.g.
+\begin_inset space ~
+\end_inset
+
+to 50 unless one gets only 2
+\begin_inset space ~
+\end_inset
+
+high-density clusters,
+ see 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Result-of-Iteridense-NoisyBlobs"
+
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+(c).
+ Increasing 
+\series bold
+MinClusterSize
+\series default
+ is hereby necessary to avoid small clusters in the low-density area.
+\end_layout
+
+\begin_layout Standard
+The change of 
+\series bold
+MinClusterSize
+\series default
+ might not be obvious when one cannot plot for example high-dimensional data.
+ But that this is the way to go is a feature of the the 
+\noun on
+Iteridense
+\noun default
+ algorithm.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement class
+alignment document
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename clipart/BlobNoise-Iteridense-MinClusters2.svg
+	lyxscale 50
+	width 33col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\series bold
+MinClusters
+\series default
+ = 2
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename clipart/BlobNoise-Iteridense-MinClusters3.svg
+	lyxscale 50
+	width 33col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\series bold
+MinClusters
+\series default
+ = 3
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename clipart/BlobNoise-Iteridense-rho4-3.svg
+	lyxscale 50
+	width 33col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset Formula $\rho=4.3$
+\end_inset
+
+,
+\begin_inset Newline newline
+\end_inset
+
+
+\series bold
+MinClusterSize
+\series default
+ = 50
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Result-of-Iteridense-NoisyBlobs"
+
+\end_inset
+
+Result of 
+\noun on
+Iteridense
+\noun default
+ for clusters with different densities.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Computation Performance
+\end_layout
+
+\begin_layout Standard
+The data shown in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Result-Iteridense-Circles"
+
+\end_inset
+
+ was generated using the 
+\emph on
+make_circles 
+\emph default
+call to 
+\emph on
+sklearn.datasets
+\emph default
+.
+\end_layout
+
+\begin_layout Standard
+In that case,
+ there must be 2
+\begin_inset space ~
+\end_inset
+
+clusters,
+ therefore one can specify 
+\series bold
+MinClusters
+\series default
+.
+ This will lead to a shorter computation as with the specification of 
+\begin_inset Formula $\rho$
+\end_inset
+
+ since the algorithm loop is stopped as soon as 2
+\begin_inset space ~
+\end_inset
+
+clusters are detected,
+ otherwise there might be further loops.
+ For our example 10,000
+\begin_inset space ~
+\end_inset
+
+cluster runs with 
+\series bold
+MinClusters
+\begin_inset space ~
+\end_inset
+
+
+\series default
+=
+\begin_inset space ~
+\end_inset
+
+2 took 
+\begin_inset Formula $\approx9.4\thinspace$
+\end_inset
+
+s
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+The times were measured using the feature 
+\emph on
+@elapsed
+\emph default
+ of the 
+\noun on
+Julia
+\noun default
+ programming language.
+\end_layout
+
+\end_inset
+
+ and the final resolution was 13.
+ For 
+\begin_inset Formula $\rho=2.0$
+\end_inset
+
+ the final resolution was 25 and with 
+\begin_inset Formula $\approx24\thinspace$
+\end_inset
+
+s more time was needed.
+ By starting the algorithm at a higher resolution,
+ e.
+\begin_inset space \thinspace{}
+\end_inset
+
+g.
+ with 
+\series bold
+StartResolution
+\begin_inset space ~
+\end_inset
+
+
+\series default
+=
+\begin_inset space ~
+\end_inset
+
+10 the time would decrease from 
+\begin_inset Formula $\approx9.4\thinspace$
+\end_inset
+
+s to 
+\begin_inset Formula $\approx7.1\thinspace$
+\end_inset
+
+s.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Result-Iteridense-Circles"
+
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+(a) shows the 
+\noun on
+Iteridense
+\noun default
+ result.
+ For comparison 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Result-Iteridense-Circles"
+
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+(b) shows the result using the DBSCAN algorithm for 
+\begin_inset Formula $\epsilon=0.1$
+\end_inset
+
+ and 
+\begin_inset Formula $\text{\textbf{MinPts}}=3$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The benefit of 
+\noun on
+Iteridense
+\noun default
+ compared to density-based algorithms is the computation time.
+ In this example the dataset has 1500
+\begin_inset space ~
+\end_inset
+
+data points.
+ To generate the count map in algorithm step
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:AlgoStep1"
+
+\end_inset
+
+,
+ every data point has to be evaluated in form of generating its coordinate value for the current grid coordinate system.
+ This is the most costly operation,
+ especially for high-dimensional data.
+ Afterwards,
+ only the cells have to be evaluated,
+ not the data points.
+ For DBSCAN in comparison the coordinates for every data point are only read out once but the distances between every point and neighboring points have to be calculated.
+ The larger 
+\begin_inset Formula $\epsilon$
+\end_inset
+
+ or the greater the point density the more points are neighbors and have to be evaluated.
+ This can become very computation-intensive.
+ For the data of 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Result-Iteridense-Circles"
+
+\end_inset
+
+ with 
+\begin_inset Formula $\epsilon=0.1$
+\end_inset
+
+ and 
+\begin_inset Formula $\text{\textbf{MinPts}}=3$
+\end_inset
+
+ 10,000
+\begin_inset space ~
+\end_inset
+
+cluster runs took 
+\begin_inset Formula $\approx17.8\thinspace$
+\end_inset
+
+s while the same with 
+\begin_inset Formula $\epsilon=0.5$
+\end_inset
+
+ took 
+\begin_inset Formula $\approx69\thinspace$
+\end_inset
+
+s and with 
+\begin_inset Formula $\epsilon=0.5$
+\end_inset
+
+ both clusters were even not detected.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+The computation time measurement of the DBSCAN algorithm was performed using its implementation in the package 
+\emph on
+Clustering
+\emph default
+ of the 
+\noun on
+Julia
+\noun default
+ programming language
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ClusteringDBSCAN"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+ Therefore setting 
+\begin_inset Formula $\epsilon$
+\end_inset
+
+ to a suitable value does not only affect the result a lot but also the computation time.
+ Since there is no clear path on how to change 
+\begin_inset Formula $\epsilon$
+\end_inset
+
+ to get a useful result,
+ more cluster runs have to be performed than with 
+\noun on
+Iteridense
+\noun default
+.
+\end_layout
+
+\begin_layout Standard
+For 
+\noun on
+Iteridense
+\noun default
+ the worst case in terms of computation is to set 
+\begin_inset Formula $\rho$
+\end_inset
+
+ so high that the algorithm runs 1500
+\begin_inset space \thinspace{}
+\end_inset
+
+loops as there are 1500
+\begin_inset space ~
+\end_inset
+
+data points.
+ A single run of this takes 
+\begin_inset Formula $\approx13.4\thinspace$
+\end_inset
+
+s.
+ So 1500
+\begin_inset space \thinspace{}
+\end_inset
+
+loops take longer than 10.000
+\begin_inset space ~
+\end_inset
+
+times the 12
+\begin_inset space ~
+\end_inset
+
+loops from the default 
+\series bold
+StartResolution
+\series default
+ 2 to the final resolution
+\begin_inset space ~
+\end_inset
+
+13.
+ This is because the number of cells in the grid scales in 2
+\begin_inset space ~
+\end_inset
+
+dimensions squarely with the resolution.
+ To prevent that undesired many loops are run,
+ the parameter 
+\series bold
+StopResolution
+\series default
+ can be set.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement class
+alignment document
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename clipart/Circles-Iteridense-MinClusters2.svg
+	lyxscale 50
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\series bold
+MinClusters
+\series default
+ = 2,
+ resulting resolution:
+ 16
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename clipart/Circles-DBSCAN-eps0-1.svg
+	lyxscale 50
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset Formula $\epsilon=0.1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Result-Iteridense-Circles"
+
+\end_inset
+
+Result of 
+\noun on
+Iteridense
+\noun default
+ and DBSCAN for intersected circle-like clusters.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Results in higher Dimensions
+\end_layout
+
+\begin_layout Standard
+Data with higher dimensions are a main use case for clustering algorithms as no human could do the clustering according to plots.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Iteridense-Pluton"
+
+\end_inset
+
+ is an example and also demonstrate the clustering performance of 
+\noun on
+Iteridense
+\noun default
+.
+ The data are the publicly available 
+\emph on
+pluton
+\emph default
+ dataset
+\begin_inset CommandInset citation
+LatexCommand cite
+key "RDataPluton"
+literal "false"
+
+\end_inset
+
+ containing concentrations of the different Plutonium isotopes in 45
+\begin_inset space ~
+\end_inset
+
+ore samples.
+ It has 4
+\begin_inset space ~
+\end_inset
+
+dimensions.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement class
+alignment document
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename clipart/Pluto-Iteridense-rho27-only3.png
+	lyxscale 50
+	width 33col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Clustering with only shown
+\begin_inset Newline newline
+\end_inset
+
+dimensions taken into account.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename clipart/Pluto-Iteridense-rho27-all.png
+	lyxscale 50
+	width 33col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Clustering with all dimensions taken into account.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename clipart/Pluto-Iteridense-rho106-all.png
+	lyxscale 50
+	width 33col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+like (b) but 
+\begin_inset Formula $\rho=106$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Iteridense-Pluton"
+
+\end_inset
+
+Result of 
+\noun on
+Iteridense
+\noun default
+ for the 
+\emph on
+pluton
+\emph default
+ dataset.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+By plotting 3
+\begin_inset space ~
+\end_inset
+
+dimensions of the dataset and performing 
+\noun on
+Iteridense
+\noun default
+ only on the plotted dimensions,
+ the result would be 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Iteridense-Pluton"
+
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+(a).
+ Taking all dimensions into account,
+ the result is 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Iteridense-Pluton"
+
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+(b).
+ The points of high Pu-241 concentrations are then identified as a cluster.
+ Cluster
+\begin_inset space ~
+\end_inset
+
+1 is so large because its density in all 4
+\begin_inset space ~
+\end_inset
+
+dimensions matters.
+ If one wants for some reason cluster
+\begin_inset space ~
+\end_inset
+
+1 to be split into 2
+\begin_inset space ~
+\end_inset
+
+clusters,
+ one follows the 
+\noun on
+Iteridense
+\noun default
+ path and increases 
+\begin_inset Formula $\rho$
+\end_inset
+
+ above the lowest 
+\begin_inset Formula $\rho_{\mathrm{cluster}}$
+\end_inset
+
+and ends up with 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Iteridense-Pluton"
+
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+(c).
+ The high value for 
+\begin_inset Formula $\rho$
+\end_inset
+
+ is the result of the high dimensionality of the data.
+\begin_inset Newline newline
+\end_inset
+
+For comparison DBSCAN cannot find in this dataset more than 2
+\begin_inset space ~
+\end_inset
+
+clusters.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Result-Iteridense-PhD"
+
+\end_inset
+
+ shows a use case in which 
+\noun on
+Iteridense
+\noun default
+ shows its strengths.
+ The data is the publicly available 
+\emph on
+PhDPublications
+\emph default
+ dataset
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "RDataPhDCandData"
+literal "false"
+
+\end_inset
+
+.
+ It has 6
+\begin_inset space ~
+\end_inset
+
+dimensions and we selected 3 for the visualization.
+ Since there are 5
+\begin_inset space ~
+\end_inset
+
+classes in the set,
+ 
+\series bold
+MinCluster
+\series default
+s was set to 5.
+ By evaluating only the 3
+\begin_inset space ~
+\end_inset
+
+shown dimensions,
+ one gets 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Result-Iteridense-PhD"
+
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+(a).
+ This shows that 
+\noun on
+Iteridense
+\noun default
+'s grid-based approach combined with its density analysis makes it possible to deal directly with classes inside datasets.
+ Pure density-based algorithms cannot directly cluster the dataset in the same way.
+\end_layout
+
+\begin_layout Standard
+When evaluating all available dimensions the clusters run across the clusters,
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Result-Iteridense-PhD"
+
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+(b).
+ To find in this case clusters inside the classes,
+ one has to extract the classes to different datasets and then run 
+\noun on
+Iteridense
+\noun default
+ on every class.
+ This is requires more efforts but leads to sensible results when going the way to specify 
+\begin_inset Formula $\rho$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement class
+alignment document
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename clipart/PhdPubs-Iteridense-MinClusters5-sub.png
+	lyxscale 50
+	width 45col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Evaluation of the 3
+\begin_inset space ~
+\end_inset
+
+shown dimensions
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename clipart/PhdPubs-Iteridense-MinClusters5-complete.png
+	lyxscale 50
+	width 45col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Evaluation of all 6
+\begin_inset space ~
+\end_inset
+
+dimension
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Result-Iteridense-PhD"
+
+\end_inset
+
+Result of 
+\noun on
+Iteridense
+\noun default
+ on the 
+\emph on
+PhDPublications
+\emph default
+ dataset.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Discussion
+\end_layout
+
+\begin_layout Standard
+As shown in the previous sections,
+ the 
+\noun on
+Iteridense
+\noun default
+ algorithm is applicable for general purposes.
+ It is more computation-efficient than pure density-based algorithms that evaluate neighboring data points.
+ But it shares with density-based algorithms the drawback that clusters overlapping each other cannot be detected.
+ For example it will perform as poor as DBSCAN on Fisher's Iris data set
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Fisher1936"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+\noun on
+Iteridense
+\noun default
+ shows some similarities to the grid-based DENCLUE algorithm.
+ However,
+ the assignments of the data points to the clusters is different because
+\begin_inset Newline linebreak
+\end_inset
+
+ DENCLUE assumes a Gaussian distribution function as shape the the density function.
+ Another big difference to DENCLUE is that there is not only a single probability-density function created but iteratively several ones with increasing resolutions.
+ This costs more computation efforts but one does not have to make assumptions about the density in the dataset.
+ DENCLUE requires at least 2
+\begin_inset space ~
+\end_inset
+
+input variables.
+ 
+\begin_inset Formula $\xi$
+\end_inset
+
+ is similar to 
+\begin_inset Formula $\rho$
+\end_inset
+
+ in 
+\noun on
+Iteridense
+\noun default
+.
+ The parameter 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ defines the width of the Gaussian that is used to assign the data points to the clusters.
+ Its value has to be guessed introducing for some practical applications trial and error.
+ There are approaches to improve initial the setting of the DENCLUE parameters,
+ see
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Ajmal2024"
+literal "false"
+
+\end_inset
+
+,
+ but in general this will remain as a practical challenge.
+\end_layout
+
+\begin_layout Standard
+Compared to the grid-based algorithm CLIQUE,
+ 
+\noun on
+Iteridense
+\noun default
+ does not require to specify the size of the cell (CLIQUE's parameter 
+\begin_inset Formula $\xi$
+\end_inset
+
+) since the cell width is iteratively approached.
+ There is also no need to specify the number of data points in a cell to treat the cell as being part of a cell (CLIQUE's parameter 
+\begin_inset Formula $\tau$
+\end_inset
+
+).
+ The 
+\noun on
+Iteridense 
+\noun default
+algorithm treats every cell with at least 2
+\begin_inset space ~
+\end_inset
+
+data points as part of a cluster.
+ This is possible because at the end of every loop (steps
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:AlgoStep1"
+
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+–
+\begin_inset space \thinspace{}
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:AlgoStep5"
+
+\end_inset
+
+) the clusters are evaluated and if their 
+\begin_inset Formula $\rho_{\mathrm{cluster}}$
+\end_inset
+
+ is too low,
+ the cluster is deleted.
+ This is an advantage to CLIQUE because especially for high-dimensional data it is hard to estimate how many data points might end up in a cell.
+\end_layout
+
+\begin_layout Standard
+
+\noun on
+Iteridense
+\noun default
+ is a simple algorithm:
+ The user does not need to estimate in advance a cell size,
+ how many data points will be in a cell,
+ the mean distance between data points in a cluster or the like.
+ One can either specify 
+\series bold
+MinClusters
+\series default
+ or 
+\begin_inset Formula $\rho$
+\end_inset
+
+ ,
+ sets 
+\series bold
+MinClusterSize
+\series default
+ and gets in many cases directly a suitable result.
+ If necessary,
+ 
+\noun on
+Iteridense
+\noun default
+'s clear path on how to change the input parameters guides the user to more suitable or different results.
+\end_layout
+
+\begin_layout Section
+Conclusions
+\end_layout
+
+\begin_layout Standard
+This paper introduced 
+\noun on
+Iteridense
+\noun default
+,
+ an iterative clustering algorithm combining grid-based and density-based methods.
+ It is simple to use because it does not require to estimate settings in advance and because it provides two possibilities to run the clustering and for both a clear path on how to change the algorithm's input parameters to achieve suitable results.
+ 
+\noun on
+Iteridense
+\noun default
+ is applicable for datasets with any dimensionality.
+\end_layout
+
+\begin_layout Standard
+The 
+\noun on
+Iteridense
+\noun default
+ algorithm provides shorter computation times than pure density-based algorithms.
+ Compared to pure grid-based algorithms it has the advantage that the user does not have to make assumptions on how the grid should be defined or about the shape of the probability-distribution.
+\end_layout
+
+\begin_layout Standard
+It was demonstrated that 
+\noun on
+Iteridense
+\noun default
+ performs clustering as good to the DBSCAN algorithm and for cases of high-dimension datasets even better.
+\end_layout
+
+\begin_layout Standard
+
+\noun on
+Iteridense
+\noun default
+ provides different options to affect either the clustering result and to improve the computation time.
+ We provide online a reference implementation together with an example worksheet,
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Iteridense"
+literal "false"
+
+\end_inset
+
+,
+ demonstrating the clustering with 
+\noun on
+Iteridense
+\noun default
+ on the datasets shown in this paper.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+btprint "btPrintCited"
+bibfiles "biblio/Clustering"
+options "bibtotoc,biblio/IEEEtran"
+encoding "default"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
