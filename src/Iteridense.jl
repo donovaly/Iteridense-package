@@ -1,4 +1,3 @@
-# This file is a part of the "Data fitting with neuronal nets" course.
 # License is LGPL-3.0-or-later (https://spdx.org/licenses/LGPL-3.0-or-later.html)
 #
 # author: Uwe Stöhr
@@ -460,7 +459,7 @@ function Clustering(dataMatrix; minClusterSize::Int= 3, startResolution::Int= 2,
                 The resolution was reset to MaxResolution")
     end
     # the main clustering loop
-    MountainResult = IteridenseLoop(dataMatrix, minClusterSize, density, stopResolution,
+    LoopResult = IteridenseLoop(dataMatrix, minClusterSize, density, stopResolution,
                         minClusters, minClusterDensity, noDiagonals, useDensity, useClusters,
                         useFixedResolution, resolution, maxResolution, minMatrix, maxMatrix,
                         totalCounts, Val(dimensions))
@@ -474,49 +473,49 @@ function Clustering(dataMatrix; minClusterSize::Int= 3, startResolution::Int= 2,
 
     # if no cluster was found, return a warning and an empty result and set the assignment
     # to cluster 0
-    if MountainResult.numOfClusters == 0
+    if LoopResult.numOfClusters == 0
         printstyled("Information: "; bold=true, color=:blue)
         println("The clustering detected no clusters")
         return IteridenseResult(clusterTensor= [], countTensor= [], numOfClusters= 0,
-                                finalResolution= MountainResult.finalResolution,
+                                finalResolution= LoopResult.finalResolution,
                                 assignments= zeros(Int, totalCounts),
                                 clusterDensities= [], clusterSizes= [])
     else
         # run a single loop with a higher fixed resolution
-        secondResolution = MountainResult.finalResolution + 1
-        MountainResultSecond = IteridenseLoop(dataMatrix, minClusterSize, density, stopResolution,
+        secondResolution = LoopResult.finalResolution + 1
+        LoopResultSecond = IteridenseLoop(dataMatrix, minClusterSize, density, stopResolution,
                                 minClusters, minClusterDensity, noDiagonals, useDensity,
                                 useClusters, true, secondResolution, maxResolution, minMatrix,
                                 maxMatrix, totalCounts, Val(dimensions))
     end
 
     # assign the data points according to the first clustering result
-    assignments = AssignPoints(dataMatrix, MountainResult.clusterTensor,
-                                MountainResult.finalResolution, minMatrix, maxMatrix,
+    assignments = AssignPoints(dataMatrix, LoopResult.clusterTensor,
+                                LoopResult.finalResolution, minMatrix, maxMatrix,
                                 totalCounts, Val(dimensions))
 
-    intermediateResult = IteridenseResult(clusterTensor= MountainResult.clusterTensor,
-                                            countTensor= MountainResult.countTensor,
-                                            numOfClusters= MountainResult.numOfClusters,
-                                            finalResolution= MountainResult.finalResolution,
+    intermediateResult = IteridenseResult(clusterTensor= LoopResult.clusterTensor,
+                                            countTensor= LoopResult.countTensor,
+                                            numOfClusters= LoopResult.numOfClusters,
+                                            finalResolution= LoopResult.finalResolution,
                                             assignments= assignments,
-                                            clusterDensities= MountainResult.clusterDensities,
-                                            clusterSizes= MountainResult.clusterSizes)
+                                            clusterDensities= LoopResult.clusterDensities,
+                                            clusterSizes= LoopResult.clusterSizes)
 
     # if the number of clusters did change between the 2 runs, return the assignment according
     # to the first clustering result
-    if MountainResult.numOfClusters != MountainResultSecond.numOfClusters || useFixedResolution
+    if LoopResult.numOfClusters != LoopResultSecond.numOfClusters || useFixedResolution
         return intermediateResult
     else
-        assignmentsSecond = AssignPoints(dataMatrix, MountainResultSecond.clusterTensor,
-                                            MountainResultSecond.finalResolution,
+        assignmentsSecond = AssignPoints(dataMatrix, LoopResultSecond.clusterTensor,
+                                            LoopResultSecond.finalResolution,
                                             minMatrix, maxMatrix, totalCounts, Val(dimensions))
     end
 
     #=
     The merging logic is the following:
     * if a point is in different non-zero clusters, we cannot decide and then have to
-      use the MountainResult as final result
+      use the LoopResult as final result
     * if a point is in cluster zero in only one of both assignments, change it to the
       non-zero value
     =#
@@ -536,7 +535,7 @@ function Clustering(dataMatrix; minClusterSize::Int= 3, startResolution::Int= 2,
     # to update clusterSizes we don't need to update and evaluate the clusterTensor
     # but count in assignmentsResult
     # we have to count the zero clusters too
-    clusterCounts = zeros(Int, MountainResult.numOfClusters + 1)
+    clusterCounts = zeros(Int, LoopResult.numOfClusters + 1)
     for num in assignmentsResult
         #println("num: $(num)")
         #println("num: $(num)")
@@ -547,14 +546,14 @@ function Clustering(dataMatrix; minClusterSize::Int= 3, startResolution::Int= 2,
     clusterSizes = reshape(clusterCounts, 1, :)
     # For the clusterDensities it is not straigh-forward since there is no clear resolution
     # and tensors to be taken. We therefore simply take the mean of the 2.
-    clusterDensities = (MountainResult.clusterDensities .+
-                        MountainResultSecond.clusterDensities) ./ 2
+    clusterDensities = (LoopResult.clusterDensities .+
+                        LoopResultSecond.clusterDensities) ./ 2
 
     # for the final result we output the tensors and resolution of the first result
-    return IteridenseResult(clusterTensor= MountainResult.clusterTensor,
-                            countTensor= MountainResult.countTensor,
-                            numOfClusters= MountainResult.numOfClusters,
-                            finalResolution= MountainResult.finalResolution,
+    return IteridenseResult(clusterTensor= LoopResult.clusterTensor,
+                            countTensor= LoopResult.countTensor,
+                            numOfClusters= LoopResult.numOfClusters,
+                            finalResolution= LoopResult.finalResolution,
                             assignments= assignmentsResult,
                             clusterDensities= clusterDensities,
                             clusterSizes= clusterSizes)
