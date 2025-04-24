@@ -379,13 +379,13 @@ end
 
 # for C we must fix the dimensions to a maximal value
 # 256 dimensions should be sufficient
-const MAX_DIMS = 256
+const MAX_DIMENSIONS = 256
 
 # C-compatible tensor struct
 struct CTensor
     data::Ptr{Cvoid}          # pointer to data buffer
     ndims::Cint               # number of dimensions
-    dims::NTuple{MAX_DIMS, Csize_t}  # sizes of each dimension, padded with zeros
+    dims::NTuple{MAX_DIMENSIONS, Csize_t}  # sizes of each dimension, padded with zeros
 end
 
 # C-compatible IteridenseResult struct
@@ -585,9 +585,9 @@ end
 # function to convert a Julia array to a C-compatible CTensor struct
 function ArrayToCTensor(anArray::AbstractArray)
     numDimensions = ndims(anArray)
-    # pad with zeros if dimension < 32
-    dims = ntuple(i -> i <= numDimensions ? size(anArray, i) : 0, MAX_DIMS)
-    return CTensor(pointer(anArray), Cint(numDimensions), dims)
+    # pad with zeros if numDimensions < MAX_DIMENSIONS
+    dimensions = ntuple(i -> i <= numDimensions ? size(anArray, i) : 0, MAX_DIMENSIONS)
+    return CTensor(pointer(anArray), Cint(numDimensions), dimensions)
 end
 
 # the C wrapper function for Clustering()
