@@ -1,22 +1,19 @@
 program IteridenseTest;
 
-{$mode objfpc}{$H+}
+{$mode objfpc}{$H+}{$R+}{$Q+}
 
 uses
   {$IFDEF UNIX}
   cthreads,
   {$ENDIF}
-  {$IFDEF HASAMIGA}
-  athreads,
-  {$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, IteridenseTestUnit;
+  Forms, TAChartLazarusPkg, IteridenseTestUnit;
 
 {$R *.res}
 
 begin
   RequireDerivedFormResource:= True;
-  Application.Scaled:= True;
+  Application.Scaled:=True;
   Application.Initialize;
   Application.CreateForm(TMainF, MainF);
   Application.Run;

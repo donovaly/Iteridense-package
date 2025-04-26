@@ -9,39 +9,51 @@
         <Filename Value="IteridenseTest.lpr"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="1"/>
-        <CursorPos X="20" Y="13"/>
-        <UsageCount Value="34"/>
+        <CursorPos X="41" Y="18"/>
+        <UsageCount Value="60"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
-        <Filename Value="IteridenseTest.pas"/>
+        <Filename Value="IteridenseTestUnit.pas"/>
         <IsPartOfProject Value="True"/>
+        <ComponentName Value="MainF"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="123"/>
+        <CursorPos X="22" Y="140"/>
+        <UsageCount Value="24"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="IteridenseTest.pas"/>
         <ComponentName Value="MainF"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="IteridenseTestUnit"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="30"/>
-        <UsageCount Value="34"/>
+        <UsageCount Value="56"/>
       </Unit>
       <Unit>
         <Filename Value="JuliaDLLConnection.pas"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="5" Y="28"/>
-        <UsageCount Value="26"/>
+        <UsageCount Value="24"/>
       </Unit>
       <Unit>
         <Filename Value="DLL-Test\juliadllconnection.pas"/>
         <UnitName Value="JuliaDLLConnection"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="71" Y="8"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="18"/>
       </Unit>
       <Unit>
         <Filename Value="mylib.h"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="33" Y="2"/>
-        <UsageCount Value="11"/>
+        <UsageCount Value="9"/>
         <DefaultSyntaxHighlighter Value="C++"/>
       </Unit>
       <Unit>
@@ -50,48 +62,156 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="263"/>
         <CursorPos X="46" Y="281"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="8"/>
       </Unit>
       <Unit>
         <Filename Value="julia_init.h"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="8"/>
         <DefaultSyntaxHighlighter Value="C++"/>
       </Unit>
       <Unit>
         <Filename Value="julia_init.pas"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="27" Y="40"/>
-        <UsageCount Value="11"/>
+        <UsageCount Value="9"/>
       </Unit>
       <Unit>
-        <Filename Value="IteridenseTestUnit.pas"/>
-        <ComponentName Value="MainF"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
-        <TopLine Value="134"/>
-        <CursorPos X="53" Y="95"/>
+        <Filename Value="C:\lazarus\fpc\3.2.2\source\rtl\inc\ctypes.pp"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="8"/>
+      </Unit>
+      <Unit>
+        <Filename Value="C:\lazarus\fpc\3.2.2\source\rtl\objpas\sysutils\syshelph.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="87"/>
+        <CursorPos X="23" Y="103"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
       </Unit>
     </Units>
     <Debugger>
       <Backend Value="{0599E7CA-746F-4D8B-BD06-CEE8C2E1AC4F}"/>
     </Debugger>
-    <JumpHistory HistoryIndex="2">
+    <JumpHistory HistoryIndex="29">
       <Position>
-        <Filename Value="IteridenseTest.lpr"/>
-        <Caret Line="13" Column="28"/>
+        <Filename Value="IteridenseTestUnit.pas"/>
+        <Caret Line="313" Column="15" TopLine="292"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseTestUnit.pas"/>
+        <Caret Line="338" Column="38" TopLine="322"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseTestUnit.pas"/>
+        <Caret Line="354" Column="21" TopLine="333"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseTestUnit.pas"/>
+        <Caret Line="10" Column="35"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseTestUnit.pas"/>
+        <Caret Line="342" Column="3" TopLine="336"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseTestUnit.pas"/>
+        <Caret Line="10" Column="45"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseTestUnit.pas"/>
+        <Caret Line="747" Column="32" TopLine="728"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseTestUnit.pas"/>
+        <Caret Line="819" Column="14" TopLine="791"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseTestUnit.pas"/>
+        <Caret Line="820" Column="37" TopLine="792"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseTestUnit.pas"/>
+        <Caret Line="1068" Column="13" TopLine="1040"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseTestUnit.pas"/>
+        <Caret Line="1069" Column="32" TopLine="1041"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseTestUnit.pas"/>
+        <Caret Line="11" Column="25"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseTestUnit.pas"/>
+        <Caret Line="345" Column="21" TopLine="322"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseTestUnit.pas"/>
+        <Caret Line="362" Column="101" TopLine="231"/>
       </Position>
       <Position>
         <Filename Value="IteridenseTest.lpr"/>
-        <Caret Line="14" Column="28"/>
+        <Caret Line="22"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseTestUnit.pas"/>
+        <Caret Line="362" Column="101" TopLine="231"/>
       </Position>
       <Position>
         <Filename Value="IteridenseTest.lpr"/>
-        <Caret Line="13" Column="20"/>
+        <Caret Line="22"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseTestUnit.pas"/>
+        <Caret Line="318" Column="58" TopLine="317"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseTestUnit.pas"/>
+        <Caret Line="368" Column="16" TopLine="345"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseTest.lpr"/>
+        <Caret Line="3" Column="31"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseTestUnit.pas"/>
+        <Caret Line="8" Column="24"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseTest.lpr"/>
+        <Caret Line="15"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseTest.lpr"/>
+        <Caret Line="16"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseTest.lpr"/>
+        <Caret Line="17"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseTest.lpr"/>
+        <Caret Line="18"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseTest.lpr"/>
+        <Caret Line="15"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseTest.lpr"/>
+        <Caret Line="16"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseTest.lpr"/>
+        <Caret Line="17"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseTestUnit.pas"/>
+        <Caret Line="141" Column="22" TopLine="124"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseTestUnit.pas"/>
+        <Caret Line="140" Column="22" TopLine="123"/>
       </Position>
     </JumpHistory>
     <RunParams>
@@ -99,4 +219,15 @@
       <Modes ActiveMode=""/>
     </RunParams>
   </ProjectSession>
+  <Debugging>
+    <BreakPoints>
+      <Item>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="IteridenseTestUnit.pas"/>
+        <Line Value="143"/>
+      </Item>
+    </BreakPoints>
+  </Debugging>
 </CONFIG>
