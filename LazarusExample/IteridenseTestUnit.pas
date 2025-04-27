@@ -9,7 +9,7 @@ uses
   EditBtn, ExtCtrls, ComCtrls, Spin, Math, CTypes,
   TATransformations, TATools, TAGraph, TASeries, TAChartAxis, TALegend, TATextElements,
   TATypes, TAChartUtils,
-  FileInfo, StrUtils, Streamex;
+  FileInfo, StrUtils, Streamex, Generics.Collections;
 
 const
   MAX_DIMS = 256;
@@ -41,7 +41,7 @@ type
   // returns a pointer to a heap-allocated IteridenseResultC
   // caller must free with IteridenseFree
   // returns nil on failure
-  TIteridenseClustering = function():PIteridenseResultC; cdecl;
+  TIteridenseClustering = function(): PIteridenseResultC; cdecl;
   // frees memory allocated by TIteridenseClustering
   // returns 0 on success, -1 if ptr is nil
   TIteridenseFree = function(pointer: PIteridenseResultC): Integer; cdecl;
@@ -100,6 +100,7 @@ type
     function SaveHandling(InName: string; FileExt: string): string;
     procedure SaveAppearance(iniFile: string);
     procedure LoadAppearance(iniFile: string);
+    procedure FormDropFiles(Sender: TObject; const FileNames{%H-}: array of String);
   private
   public
   end;
@@ -121,6 +122,12 @@ var
   const AppearanceFile : string = 'Appearance-IteridenseTest.ini';
   // filename with default appearance
   const AppearanceDefault : string = 'Appearance-IteridenseTest.default';
+  // a palette with distinguishable colors
+  colorPalette: array[0..2] of TColor = (
+    $7F7F7F,      // RGB(127,127,127)
+    $00FF7F,     // RGB(0,127,255)
+    $7F007F      // RGB(127,127,127)
+  );
 
 implementation
 
@@ -146,14 +153,6 @@ begin
   // stores initial values with trailing LineEnding
   LoadedDataFileM.Text:= 'None';
 
-  // load definition file file directly if it was provided via command line
-  if ParamStr(1) <> '' then
-  begin
-    DropfileName:= ParamStr(1);
-    OpenBBClick(Sender);
-    DropfileName:= '';
-  end;
-
   // initialize chart transformation before we can draw in chart, otherwise there
   // would be an error when sensor data is load before chart is shown first time
   DataC.Prepare;
@@ -176,6 +175,16 @@ begin
   //if FileExists(iniFile) then
   //  LoadAppearance(iniFile)
 
+end;
+
+
+procedure TMainF.FormDropFiles(Sender: TObject;
+const
+  FileNames: array of String);
+begin
+  DropfileName:= FileNames[0];
+  OpenBBClick(Sender);
+  DropfileName:= '';
 end;
 
 
@@ -260,6 +269,8 @@ var
   DummyString, firstLine, secondLine : string;
   FileSuccess : Boolean = false;
   MousePointer : TPoint;
+  i, idx, clusterCount, newColumns : Integer;
+  Series : array of TLineSeries;
 begin
   MousePointer:= Mouse.CursorPos; // store mouse position
   DummyString:= '';
@@ -275,8 +286,11 @@ begin
   end;
 
   if not FileSuccess then
-   MessageDlgPos('Error while attempting to open file',
-    mtError, [mbOK], 0, MousePointer.X, MousePointer.Y)
+  begin
+    MessageDlgPos('Error while attempting to open file',
+     mtError, [mbOK], 0, MousePointer.X, MousePointer.Y);
+     exit;
+  end
   else
   begin
     if DropfileName <> '' then
@@ -291,7 +305,7 @@ begin
       LoadedDataFileM.Hint:= DummyString;
     // display file name without suffix
     DummyString:= ExtractFileName(InNameData);
-    SetLength(DummyString, Length(DummyString) - 9);
+    SetLength(DummyString, Length(DummyString) - 4);
     LoadedDataFileM.Color:= clActiveCaption;
     LoadedDataFileM.Text:= DummyString;
 
@@ -300,25 +314,57 @@ begin
   end; // else if not FileSuccess
 
   // plot the data
+  // first delete existing data
+  for i := DataC.SeriesCount - 1 downto 0 do
+  begin
+    DataC.Series[i].Free;
+  end;
+  clusterCount:= 3;
+  Randomize; // Initialize random number generator
+  // add a column with random numbers 0, 1 or 2
+  newColumns:= length(DataArray[0]) + 1;
+  SetLength(DataArray, high(DataArray), newColumns);
+  for i:= 0 to high(DataArray) do
+    DataArray[i][newColumns-1]:= Random(clusterCount);
+
+
+  // Create a series for each cluster
+  SetLength(Series, clusterCount);
+  for i:= 0 to clusterCount - 1 do
+  begin
+    Series[i]:= TLineSeries.Create(DataC);
+    Series[i].ShowLines:= False; // Points only
+    Series[i].Pointer.Visible:= True;
+    Series[i].Pointer.Brush.Color:= colorPalette[i]; // Assign a unique color for each cluster
+    DataC.AddSeries(Series[i]);
+  end;
+
+  // Add data points to the correct series
+  for i:= 0 to high(DataArray) do
+  begin
+    idx := round(DataArray[i, 2]); // clusterID
+    Series[idx].AddXY(DataArray[i, 0], DataArray[i, 1]);
+  end;
 end;
 
 
 function TMainF.ReadData(InName: string): Boolean;
 var
   columnSeparator : char;
-  firstLine, secondLine : string;
+  firstLine, secondLine, textLine : string;
   OpenFileStream : TFileStream;
   LineReader : TStreamReader;
   StringArray : TStringArray;
-  RowCounter : integer = 0;
+  rowCounter : integer = 0;
   MousePointer : TPoint;
-  i : integer;
+  List : specialize TList<TStringArray>;
+  i, j, columns : integer;
 begin
   Result:= false;
   MousePointer:= Mouse.CursorPos; // store mouse position
   // read the file into an array
   try
-    OpenFileStream:= TFileStream.Create(InNameData, fmOpenRead or fmShareDenyNone);
+    OpenFileStream:= TFileStream.Create(InName, fmOpenRead or fmShareDenyNone);
   except
     on EFOpenError do
     begin
@@ -327,6 +373,7 @@ begin
       exit;
     end;
   end;
+ try
   LineReader:= TStreamReader.Create(OpenFileStream);
 
   // read the first header line to get the data names and the column separator
@@ -335,10 +382,12 @@ begin
   LineReader.ReadLine(secondLine);
   inc(rowCounter);
   // we assume the second line is the first one with data, therefore we
-  // parse the second line for the first character that is either a ',', ' ' or a tab
-  for i:= 0 to Length(secondLine)-1 do
+  // parse the second line for the first character that is a potential column separator
+  // we detect for these possible separators: ',', ';', #9, '|', ' '
+  for i:= 1 to Length(secondLine) do
   begin
-    if (secondLine[i] = ',') or (secondLine[i] = ' ') or (secondLine[i] = #9) then
+    if (secondLine[i] = ',') or (secondLine[i] = ' ') or (secondLine[i] = #9)
+      or (secondLine[i] = ';') or (secondLine[i] = '|') then
     begin
       columnSeparator:= secondLine[i];
       break;
@@ -348,9 +397,10 @@ begin
   // otherwise we have to parse the second line
   if firstLine.CountChar(columnSeparator) <> secondLine.CountChar(columnSeparator) then
   begin
-    for i:= 0 to Length(firstLine)-1 do
+    for i:= 1 to Length(firstLine) do
     begin
-      if (firstLine[i] = ',') or (firstLine[i] = ' ') or (firstLine[i] = #9) then
+      if (firstLine[i] = ',') or (firstLine[i] = ' ') or (firstLine[i] = #9)
+        or (secondLine[i] = ';') or (secondLine[i] = '|') then
       begin
         columnSeparator:= firstLine[i];
         break;
@@ -364,7 +414,47 @@ begin
     exit;
   end;
 
+  // set the chart axis titles according to the header
+  StringArray:= firstLine.Split(columnSeparator);
+  DataC.AxisList[0].Title.Caption:= StringArray[0];
+  DataC.AxisList[1].Title.Caption:= StringArray[1];
+  // secondLine is the first row of the StringArray
+  StringArray:= secondLine.Split(columnSeparator);
+ try
+  List:= specialize TList<TStringArray>.Create;
+  List.Add(StringArray);
+  // read file until end
+  while not LineReader.Eof do
+  begin
+    LineReader.ReadLine(textLine);
+    StringArray:= textLine.Split(columnSeparator);
+    List.Add(StringArray);
+    inc(rowCounter);
+  end;
+
+  // convert the string array to an array of double
+  columns:= length(StringArray);
+  setlength(DataArray, rowCounter, columns);
+  for i:= 0 to List.Count-1 do
+    for j:= 0 to columns-1 do
+      begin
+        if not TryStrToFloat(List[i][j], DataArray[i][j]) then
+        begin
+          MessageDlg('The value in column ' + IntToStr(i) + ' of line ' + IntToStr(j)
+            + ' of the CSV file could not be converted to a number', mtError, [mbOK], 0);
+          exit;
+        end;
+      end;
+ finally
+   List.Free;
+ end;
+
   Result:= true;
+
+ finally
+  LineReader.Free;
+  OpenFileStream.Free;
+ end;
 
 end;
 
@@ -1150,6 +1240,7 @@ begin
   List.Free;
  end;
 end;
+
 
 
 end.

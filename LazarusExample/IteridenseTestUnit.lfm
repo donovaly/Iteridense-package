@@ -3,12 +3,14 @@ object MainF: TMainF
   Height = 664
   Top = 146
   Width = 1064
+  AllowDropFiles = True
   Caption = 'Iteridense Clustering'
   ClientHeight = 664
   ClientWidth = 1064
   DesignTimePPI = 110
   OnClose = FormClose
   OnCreate = FormCreate
+  OnDropFiles = FormDropFiles
   LCLVersion = '3.8.0.0'
   object IteridenseBB: TBitBtn
     AnchorSideTop.Side = asrCenter
