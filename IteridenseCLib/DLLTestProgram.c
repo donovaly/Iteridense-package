@@ -32,13 +32,10 @@ void print_clusterTensor(const CTensor* tensor) {
 int main(int argc, char *argv[]) {
 
     init_julia(argc, argv);
-    // Define the 3x2 matrix in column-major order (Julia style)
-    // Julia matrix: [19 23 57; 42 39 34] means columns:
-    // col1 = {19,42}, col2 = {23,39}, col3 = {57,34}
-    // So data in memory: 19,42, 23,39, 57,34
-    double dataMatrix[6] = {19, 42, 23, 39, 57, 34};
-    size_t nrows = 2;
-    size_t ncols = 3;
+    // Julia matrix: dataMatrix = [[19, 23, 57] [42, 39, 34]]
+    double dataMatrix[6] = {19, 23, 57, 42, 39, 34};
+    size_t nrows = 3;
+    size_t ncols = 2;
 
     // Call IteridenseClustering
     IteridenseResultC* result = IteridenseClustering(
