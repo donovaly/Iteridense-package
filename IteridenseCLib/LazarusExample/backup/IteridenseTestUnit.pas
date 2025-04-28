@@ -19,7 +19,7 @@ type
   // C-compatible tensor struct
   CTensor = record
     data : Pointer;       // void* data
-    ndims : cint;         // int ndims
+    ndims : clonglong;         // int ndims
     dims : array[0..MAX_DIMS-1] of csize_t; // size_t dims[MAX_DIMS]
   end;
 
@@ -27,8 +27,8 @@ type
   IteridenseResultC = record
     clusterTensor : CTensor;
     countTensor : CTensor;
-    numOfClusters : cint;
-    finalResolution : cint;
+    numOfClusters : clonglong;
+    finalResolution : clonglong;
     assignments : CTensor;
     clusterDensities : CTensor;
     clusterSizes : CTensor;
@@ -41,7 +41,7 @@ type
   // returns a pointer to a heap-allocated IteridenseResultC
   // caller must free with IteridenseFree
   // returns nil on failure
-  TIteridenseClustering = function(): PIteridenseResultC; cdecl;
+ // TIteridenseClustering = function(): PIteridenseResultC; cdecl;
   // frees memory allocated by TIteridenseClustering
   // returns 0 on success, -1 if ptr is nil
   TIteridenseFree = function(pointer: PIteridenseResultC): Integer; cdecl;
@@ -105,15 +105,16 @@ type
   public
   end;
 
+const
+  libName : string;
 var
   MainF : TMainF;
   Version : string = '';
   LibHandle : THandle;
-  IteridenseClustering : TIteridenseClustering;
+  //IteridenseClustering : TIteridenseClustering;
   IteridenseFree : TIteridenseFree;
   InitJulia : TInitJulia;
   ShutdownJulia : TShutdownJulia;
-  DLLPath : String;
   DropfileName : string = ''; // name of dropped CSV file
   InNameData : string = ''; // name of loaded data CSV file
   DataArray : Array of Array of double; // array that holds the data to be clustered
@@ -138,6 +139,7 @@ var
   iniFile : string;
   FileVerInfo: TFileVersionInfo;
   i : integer;
+  args: array[0..1] of PAnsiChar;
 begin
   try
     FileVerInfo:= TFileVersionInfo.Create(nil);
@@ -175,6 +177,47 @@ begin
   //if FileExists(iniFile) then
   //  LoadAppearance(iniFile)
 
+  // load the Iteridense DLL
+  LibHandle:= LoadLibrary(PChar(DLLName));
+  if LibHandle <> 0 then
+  begin
+    // testing the Julia start/stop functions
+    InitJulia:= TInitJulia(GetProcAddress(LibHandle, 'init_julia'));
+    if not Assigned(InitJulia) then
+    begin
+      MessageDlg('The function "init_julia" is not found in the DLL', mtError, [mbOK], 0);
+      FreeLibrary(LibHandle);
+    end;
+    ShutdownJulia:= TShutdownJulia(GetProcAddress(LibHandle, 'shutdown_julia'));
+    if not Assigned(ShutdownJulia) then
+    begin
+      MessageDlg('The function "shutdown_julia" is not found in the DLL', mtError, [mbOK], 0);
+      FreeLibrary(LibHandle);
+    end;
+    // testing the struct functions
+    //IteridenseClustering:= TIteridenseClustering(GetProcAddress(LibHandle, 'IteridenseClustering'));
+    //if not Assigned(IteridenseClustering) then
+    //begin
+    //  MessageDlg('The function "IteridenseClustering" is not found in the DLL', mtError, [mbOK], 0);
+    //  FreeLibrary(LibHandle);
+    //end;
+    IteridenseFree:= TIteridenseFree(GetProcAddress(LibHandle, 'IteridenseFree'));
+    if not Assigned(IteridenseFree) then
+    begin
+      MessageDlg('The function "IteridenseFree" is not found in the DLL', mtError, [mbOK], 0);
+      FreeLibrary(LibHandle);
+    end;
+  end
+  else
+  begin
+    MessageDlg('DLL could not be loaded', mtError, [mbOK], 0);
+  end;
+
+  // initialize Julia runtime
+  args[0] := PAnsiChar(AnsiString('MyProgram'));
+  args[1] := nil;
+  InitJulia(1, @args[0]);
+
 end;
 
 
@@ -193,9 +236,10 @@ var
   iniFile : string;
 begin
   // shutdown Julia runtime with exit code 0 (success)
-  //ShutdownJulia(0);
+  ShutdownJulia(0);
   // unload the DLL
-  //FreeLibrary(LibHandle);
+  FreeLibrary(LibHandle);
+
   // save the current chart appearance settings
   // we write into the same folder than the program .exe
   iniFile:= ExtractFilePath(Application.ExeName) + AppearanceFile;
@@ -227,7 +271,7 @@ var
   textLine : String;
   iteridenseResult : PIteridenseResultC;
 begin
-
+  {
   iteridenseResult:= IteridenseClustering();
   if iteridenseResult = nil then
   begin
@@ -261,6 +305,7 @@ begin
   // free the allocated struct
   if IteridenseFree(iteridenseResult) <> 0 then
     MessageDlg('Warning: failed to free iteridenseResult', mtError, [mbOK], 0);
+  }
 end;
 
 

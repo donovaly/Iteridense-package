@@ -20,8 +20,8 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="307"/>
-        <CursorPos X="18" Y="324"/>
+        <TopLine Value="96"/>
+        <CursorPos X="6" Y="109"/>
         <UsageCount Value="32"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -101,10 +101,6 @@
       <Backend Value="{289FFECE-B51F-4612-B78A-395C9DE00FB6}"/>
     </Debugger>
     <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="IteridenseTestUnit.pas"/>
-        <Caret Line="335" TopLine="318"/>
-      </Position>
       <Position>
         <Filename Value="IteridenseTestUnit.pas"/>
         <Caret Line="337" TopLine="318"/>
@@ -219,7 +215,11 @@
       </Position>
       <Position>
         <Filename Value="IteridenseTestUnit.pas"/>
-        <Caret Line="273" Column="33" TopLine="304"/>
+        <Caret Line="239" Column="14" TopLine="214"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseTestUnit.pas"/>
+        <Caret Line="112" Column="5" TopLine="94"/>
       </Position>
     </JumpHistory>
     <RunParams>
@@ -228,6 +228,22 @@
     </RunParams>
   </ProjectSession>
   <Debugging>
+    <BreakPoints>
+      <Item>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="IteridenseTestUnit.pas"/>
+        <Line Value="44"/>
+      </Item>
+      <Item>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="IteridenseTestUnit.pas"/>
+        <Line Value="114"/>
+      </Item>
+    </BreakPoints>
     <Watches>
       <Item>
         <Expression Value="DataArray[1][0]"/>
