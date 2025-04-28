@@ -1,5 +1,4 @@
-include(joinpath(@__DIR__, "Iteridense-C-library.jl"))
-using .IteridenseCLib
+using IteridenseCLib
 
 function TestIteridenseClustering()
     # a 3x2 Float64 matrix as test

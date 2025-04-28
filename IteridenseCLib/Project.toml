@@ -1,0 +1,4 @@
+name = "IteridenseCLib"
+uuid = "482c3695-aeb3-4db8-8924-f4846b66d7ed"
+authors = ["Uwe Stöhr <uwestoehr@lyx.de>"]
+version = "0.1.0"
