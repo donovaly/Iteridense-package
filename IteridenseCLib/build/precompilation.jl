@@ -1,3 +1,5 @@
+#include(joinpath(@__DIR__, "IteridenseCLib.jl"))
+#using .IteridenseCLib
 using IteridenseCLib
 
 function TestIteridenseClustering()
