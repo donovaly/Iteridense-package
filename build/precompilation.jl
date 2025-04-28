@@ -52,7 +52,7 @@ end
 # Run multiple times to trigger precompilation and test stability
 tensor = nothing
 for i in 1:5
-    tensor = TestIteridenseClustering()
+    global tensor = TestIteridenseClustering()
 end
 
 println("complete tensor: $tensor")
