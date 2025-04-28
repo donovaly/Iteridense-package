@@ -1,41 +1,58 @@
-using IteridenseCLib
+include(joinpath(@__DIR__, "Iteridense-C-library.jl"))
+using .IteridenseCLib
 
 function TestIteridenseClustering()
-    pointer = CreateTensorStruct()
-    if pointer == C_NULL
+    # a 3x2 Float64 matrix as test
+    dataMatrix = Float64.([[19, 23, 57] [42, 39, 34]])
+
+    resultPointer = IteridenseClustering(
+        pointer(dataMatrix), 3, 2,
+        3,    # minClusterSize
+        2,    # startResolution
+        1.1,  # density
+        2,    # fixedResolution
+        -1,   # stopResolution
+        1,    # minClusters
+        1.0,  # minClusterDensity
+        0,    # noDiagonals (false)
+        1,    # useDensity (true)
+        0,    # useClusters (false)
+        0     # useFixedResolution (false)
+    )
+
+    if resultPointer == C_NULL
         error("Failed to allocate IteridenseResultC")
     end
 
-    # load the struct
-    result = unsafe_load(pointer)
+    # Load the struct by value
+    result = unsafe_load(resultPointer)
 
     #println("numOfClusters: ", result.numOfClusters)
     #println("finalResolution: ", result.finalResolution)
 
-    # inspect clusterTensor
+    # Inspect clusterTensor
     clusterTensorDims = Tuple(result.clusterTensor.dims[1:result.clusterTensor.ndims])
-    clusterTensorArray = unsafe_wrap(Array, Ptr{Float64}(result.clusterTensor.data),
-                                        clusterTensorDims)
+    clusterTensorArray = unsafe_wrap(Array, Ptr{Float64}(result.clusterTensor.data), clusterTensorDims)
     #println("clusterTensor dimensions: ", map(Int, clusterTensorDims))
     #println("clusterTensor data[1, 1, 1]: ", clusterTensorArray[1, 1, 1])
     #println("clusterTensor complete: ", clusterTensorArray)
-    tensor = clusterTensorArray
 
-    # inspect assignments
+    # Inspect assignments
     assignmentsDims = Tuple(result.assignments.dims[1:result.assignments.ndims])
     assignmentsArray = unsafe_wrap(Array, Ptr{Int32}(result.assignments.data), assignmentsDims)
     #println("assignments dimensions: ", map(Int, assignmentsDims))
     #println("assignments data: ", assignmentsArray)
 
-    # free allocated memory
-    IteridenseFree(pointer)
+    # Free allocated memory
+    IteridenseFree(resultPointer)
 
-    return tensor
+    return clusterTensorArray
 end
 
-tensor = []
+# Run multiple times to trigger precompilation and test stability
+tensor = nothing
 for i in 1:5
-    global tensor = TestIteridenseClustering()
+    tensor = TestIteridenseClustering()
 end
 
 println("complete tensor: $tensor")
