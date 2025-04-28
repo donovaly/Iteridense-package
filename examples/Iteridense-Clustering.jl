@@ -10,7 +10,7 @@
 
 # uncomment on the first run to install mising packages
 # using Pkg; Pkg.add("Clustering"); Pkg.add("CSV"); Pkg.add("DataFrames");
-# Pkg.add("Plots"); Pkg.add("PlotlyBase")
+# Pkg.add("Plots"); Pkg.add("PlotlyBase"); Pkg.add("PlotlyJS")
 using Clustering, CSV, DataFrames, Plots
 
 begin
