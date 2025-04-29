@@ -385,7 +385,7 @@ const MAX_DIMENSIONS = 256
 struct CTensor
     data::Ptr{Cvoid}          # pointer to data buffer
     ndims::Clonglong          # number of dimensions
-    dims::NTuple{MAX_DIMENSIONS, Csize_t}  # sizes of each dimension, padded with zeros
+    dims::NTuple{MAX_DIMENSIONS, Csize_t} # sizes of each dimension, padded with zeros
 end
 
 
@@ -596,15 +596,6 @@ end
 
 
 #-------------------------------------------------------------------------------------------------
-# Convert raw pointer + dims to Julia array without copying
-function PtrToArray(ptr::Ptr{Float64}, nrows::Int64, ncols::Int64)
-    # create a Julia array wrapper around the pointer
-    # Julia arrays are column-major, so shape is (nrows, ncols)
-    return unsafe_wrap(Array, ptr, (nrows, ncols))
-end
-
-
-#-------------------------------------------------------------------------------------------------
 # the C wrapper function for Clustering()
 Base.@ccallable function IteridenseClustering(
     dataMatrix::Ptr{Float64},
@@ -621,7 +612,7 @@ Base.@ccallable function IteridenseClustering(
     useDensity::Clonglong,
     useClusters::Clonglong,
     useFixedResolution::Clonglong
-)::Ptr{IteridenseResultC}
+    )::Ptr{IteridenseResultC}
     
     # allocate memory for the uninitialized struct
     resultPointer = Ptr{IteridenseResultC}(malloc(sizeof(IteridenseResultC)))
@@ -629,7 +620,8 @@ Base.@ccallable function IteridenseClustering(
         return C_NULL
     end
     # wrap the raw pointer into a Julia Array without copying
-    data = PtrToArray(dataMatrix, Int(nrows), Int(ncols))
+    # Julia arrays are column-major, so shape is (nrows, ncols)
+    data = unsafe_wrap(Array, dataMatrix, (nrows, ncols))
 
     # perform the clustering
     result = Clustering(data;
@@ -645,20 +637,9 @@ Base.@ccallable function IteridenseClustering(
         useClusters = useClusters != 0,
         useFixedResolution = useFixedResolution != 0
     )
-    
-    # convert the Julia result to IteridenseResultC
-    c_result = IteridenseResultC(
-        result.clusterTensor,
-        result.countTensor,
-        Clonglong(result.numOfClusters),
-        Clonglong(result.finalResolution),
-        result.assignments,
-        result.clusterDensities,
-        result.clusterSizes
-    )
 
     # write result into allocated memory
-    unsafe_store!(resultPointer, c_result)
+    unsafe_store!(resultPointer, result)
 
     return resultPointer
 end

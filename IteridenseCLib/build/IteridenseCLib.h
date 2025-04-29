@@ -13,9 +13,9 @@ extern "C" {
 
 // C-compatible tensor struct
 typedef struct {
-    void* data;                     // pointer to data buffer
-    int64_t ndims;                  // number of dimensions
-    size_t dims[MAX_DIMENSIONS];    // sizes of each dimension, padded with zeros
+    void* data;                  // pointer to data buffer
+    int64_t ndims;               // number of dimensions
+    size_t dims[MAX_DIMENSIONS]; // sizes of each dimension, padded with zeros
 } CTensor;
 
 // C-compatible IteridenseResult struct

@@ -20,34 +20,33 @@ function TestIteridenseClustering()
         0,    # useClusters (false)
         0     # useFixedResolution (false)
     )
-
     if resultPointer == C_NULL
         error("Failed to allocate IteridenseResultC")
     end
 
-    # Load the struct by value
+    # load the struct
     result = unsafe_load(resultPointer)
 
-    #println("numOfClusters: ", result.numOfClusters)
-    #println("finalResolution: ", result.finalResolution)
+    println("numOfClusters: ", result.numOfClusters)
+    println("finalResolution: ", result.finalResolution)
 
-    # Inspect clusterTensor
-    clusterTensorDims = Tuple(result.clusterTensor.dims[1:result.clusterTensor.ndims])
-    clusterTensorArray = unsafe_wrap(Array, Ptr{Float64}(result.clusterTensor.data), clusterTensorDims)
-    #println("clusterTensor dimensions: ", map(Int, clusterTensorDims))
-    #println("clusterTensor data[1, 1, 1]: ", clusterTensorArray[1, 1, 1])
-    #println("clusterTensor complete: ", clusterTensorArray)
+    # Inspect countTensor
+    countTensorDims = Tuple(result.countTensor.dims[1:result.countTensor.ndims])
+    countTensorArray = unsafe_wrap(Array, Ptr{Float64}(result.countTensor.data), countTensorDims)
+    #println("countTensor dimensions: ", map(Int, countTensorDims))
+    #println("countTensor data[1, 1, 1]: ", countTensorArray[1, 1, 1])
+    #println("countTensor complete: ", countTensorArray)
 
-    # Inspect assignments
+    # inspect assignments
     assignmentsDims = Tuple(result.assignments.dims[1:result.assignments.ndims])
     assignmentsArray = unsafe_wrap(Array, Ptr{Int32}(result.assignments.data), assignmentsDims)
-    #println("assignments dimensions: ", map(Int, assignmentsDims))
-    #println("assignments data: ", assignmentsArray)
+    println("assignments dimensions: ", map(Int, assignmentsDims))
+    println("assignments data: ", assignmentsArray)
 
-    # Free allocated memory
+    # free allocated memory
     IteridenseFree(resultPointer)
 
-    return clusterTensorArray
+    return countTensorArray
 end
 
 # Run multiple times to trigger precompilation and test stability
@@ -56,4 +55,4 @@ for i in 1:5
     global tensor = TestIteridenseClustering()
 end
 
-println("complete tensor: $tensor")
+println("countTensor: $tensor")
