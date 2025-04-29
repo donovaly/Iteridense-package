@@ -32,6 +32,7 @@ void print_clusterTensor(const CTensor* tensor) {
 int main(int argc, char *argv[]) {
 
     init_julia(argc, argv);
+
     // Julia matrix: dataMatrix = [[19, 23, 57] [42, 39, 34]]
     double dataMatrix[6] = {19, 23, 57, 42, 39, 34};
     size_t nrows = 3;

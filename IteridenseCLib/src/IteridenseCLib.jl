@@ -574,8 +574,7 @@ function Clustering(dataMatrix; minClusterSize::Int= 3, startResolution::Int= 2,
                         LoopResultSecond.clusterDensities) ./ 2
 
     # for the final result we output the tensors and resolution of the first result
-    # Convert all to CTensor
-    return IteridenseResultC(ArrayToCTensor(LoopResult.clusterTensor),
+     return IteridenseResultC(ArrayToCTensor(LoopResult.clusterTensor),
                                 ArrayToCTensor(LoopResult.countTensor),
                                 Clonglong(LoopResult.numOfClusters),
                                 Clonglong(LoopResult.finalResolution),
@@ -591,7 +590,7 @@ function ArrayToCTensor(anArray::AbstractArray)
     numDimensions = ndims(anArray)
     # pad with zeros if numDimensions < MAX_DIMENSIONS
     dimensions = ntuple(i -> i <= numDimensions ? size(anArray, i) : 0, MAX_DIMENSIONS)
-    return CTensor(pointer(anArray), Cint(numDimensions), dimensions)
+    return CTensor(pointer(anArray), Clonglong(numDimensions), dimensions)
 end
 
 

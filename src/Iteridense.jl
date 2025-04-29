@@ -592,4 +592,5 @@ function PlotIteridenseHeatmap(dataMatrix, resolution::Int)
     end
 end
 
-end # module
+
+end # end of module
