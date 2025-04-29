@@ -1,10 +1,9 @@
-# This file is a part of the "Data fitting with neuronal nets" course.
 # https://codeberg.org/donovaly/Iteridense
 # License is LGPL-3.0-or-later (https://spdx.org/licenses/LGPL-3.0-or-later.html)
 #
 # author: Uwe Stöhr
 #=
- This skript demonstrates how Iteridense clustering is performed on different data sets.
+ This script demonstrates how Iteridense clustering is performed on different data sets.
  It also shows the clustering of the same datasets using the k-means and the DBSCAN algorithm
 =#
 
@@ -95,7 +94,7 @@ end
 #---------------------------------------------
 # Now clustering just 3 points as an extreme test case.
 begin
-dataMatrix =[[19, 23, 57] [42, 39, 34]]
+dataMatrix = Float64.([[19, 23, 57] [42, 39, 34]])
 # initialize plot
 DataPlot= Plots.scatter(dataMatrix[:, 1], dataMatrix[:, 2],
                         xlabel= dataLabels[1], ylabel= dataLabels[2],
