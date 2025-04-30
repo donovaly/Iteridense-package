@@ -1,7 +1,7 @@
 object MainF: TMainF
-  Left = 285
+  Left = 341
   Height = 664
-  Top = 146
+  Top = 159
   Width = 1064
   AllowDropFiles = True
   Caption = 'Iteridense Clustering'
@@ -16,13 +16,14 @@ object MainF: TMainF
     AnchorSideTop.Side = asrCenter
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
-    Left = 64
+    Left = 248
     Height = 52
     Hint = 'Click to start the Iteridense clustering'
-    Top = 392
+    Top = 556
     Width = 184
     BorderSpacing.Left = 16
     Caption = 'Clustering'
+    Enabled = False
     Glyph.Data = {
       7A1A0000424D7A1A000000000000360000002800000029000000290000000100
       200000000000441A000064000000640000000000000000000000FFFFFF00FFFF
@@ -291,11 +292,9 @@ object MainF: TMainF
     Legend.BackgroundBrush.Color = clSilver
     Legend.UseSidebar = False
     Legend.Visible = True
-    Title.Brush.Color = clWindow
-    Title.Font.Color = clBlue
     Title.Font.Height = -15
     Title.Text.Strings = (
-      'SIX Values'
+      'Data'
     )
     Title.Visible = True
     Toolset = ChartToolset
@@ -375,10 +374,10 @@ object MainF: TMainF
     AnchorSideTop.Side = asrCenter
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
-    Left = 368
+    Left = 536
     Height = 52
     Hint = 'Save date with clustering result as CSV'
-    Top = 552
+    Top = 556
     Width = 184
     BorderSpacing.Left = 16
     Caption = 'Save Result as CSV'
@@ -424,7 +423,7 @@ object MainF: TMainF
   end
   object MethodsPC: TPageControl
     Left = 24
-    Height = 240
+    Height = 392
     Top = 128
     Width = 280
     ActivePage = IteridenseTS
@@ -432,26 +431,232 @@ object MainF: TMainF
     TabOrder = 4
     object IteridenseTS: TTabSheet
       Caption = 'Iteridense'
-      ClientHeight = 208
+      ClientHeight = 360
       ClientWidth = 272
-      object FloatSpinEdit1: TFloatSpinEdit
-        Left = 24
+      object DensityFSE: TFloatSpinEdit
+        AnchorSideLeft.Control = IteridenseTS
+        AnchorSideTop.Control = UseDensityRB
+        AnchorSideTop.Side = asrBottom
+        Left = 16
         Height = 27
-        Top = 24
-        Width = 69
+        Top = 47
+        Width = 70
+        BorderSpacing.Left = 16
+        BorderSpacing.Top = 8
+        Increment = 0.1
+        MaxValue = 1000000
+        MinValue = 1
         TabOrder = 0
+        Value = 1.1
       end
-      object FloatSpinEdit2: TFloatSpinEdit
-        Left = 24
+      object MinClusterDensityFSE: TFloatSpinEdit
+        AnchorSideLeft.Control = DensityFSE
+        AnchorSideTop.Control = StopResolutionSE
+        AnchorSideTop.Side = asrBottom
+        Left = 16
         Height = 27
-        Top = 72
-        Width = 69
+        Top = 293
+        Width = 70
+        BorderSpacing.Top = 8
+        Increment = 0.1
+        MaxValue = 1000000
+        MinValue = 1
         TabOrder = 1
+        Value = 1
+      end
+      object StartResolutionSE: TSpinEdit
+        AnchorSideLeft.Control = DensityFSE
+        AnchorSideTop.Control = IteridenseBevelBottomB
+        AnchorSideTop.Side = asrBottom
+        Left = 16
+        Height = 27
+        Top = 223
+        Width = 70
+        BorderSpacing.Top = 12
+        MaxValue = 1000000
+        MinValue = 2
+        TabOrder = 2
+        Value = 2
+      end
+      object MinClusterSizeSE: TSpinEdit
+        AnchorSideLeft.Control = DensityFSE
+        AnchorSideTop.Control = IteridenseBevelTopB
+        Left = 16
+        Height = 27
+        Top = 170
+        Width = 70
+        BorderSpacing.Top = 12
+        MaxValue = 1000000
+        MinValue = 2
+        TabOrder = 3
+        Value = 3
+      end
+      object StopResolutionSE: TSpinEdit
+        AnchorSideLeft.Control = DensityFSE
+        AnchorSideTop.Control = StartResolutionSE
+        AnchorSideTop.Side = asrBottom
+        Left = 16
+        Height = 27
+        Top = 258
+        Width = 70
+        BorderSpacing.Top = 8
+        MaxValue = 1000000
+        MinValue = 2
+        TabOrder = 4
+        Value = 100
+      end
+      object Label1: TLabel
+        AnchorSideLeft.Control = DensityFSE
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = DensityFSE
+        AnchorSideTop.Side = asrCenter
+        Left = 94
+        Height = 19
+        Top = 51
+        Width = 46
+        BorderSpacing.Left = 8
+        Caption = 'Density'
+      end
+      object Label2: TLabel
+        AnchorSideLeft.Control = MinClusterDensityFSE
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = MinClusterDensityFSE
+        AnchorSideTop.Side = asrCenter
+        Left = 94
+        Height = 19
+        Top = 297
+        Width = 73
+        BorderSpacing.Left = 8
+        Caption = 'min Density'
+      end
+      object Label3: TLabel
+        AnchorSideLeft.Control = MinClusterSizeSE
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = MinClusterSizeSE
+        AnchorSideTop.Side = asrCenter
+        Left = 94
+        Height = 19
+        Top = 174
+        Width = 97
+        BorderSpacing.Left = 8
+        Caption = 'min Cluster Size'
+      end
+      object Label4: TLabel
+        AnchorSideLeft.Control = StartResolutionSE
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = StartResolutionSE
+        AnchorSideTop.Side = asrCenter
+        Left = 94
+        Height = 19
+        Top = 227
+        Width = 96
+        BorderSpacing.Left = 8
+        Caption = 'start Resolution'
+      end
+      object Label5: TLabel
+        AnchorSideLeft.Control = StopResolutionSE
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = StopResolutionSE
+        AnchorSideTop.Side = asrCenter
+        Left = 94
+        Height = 19
+        Top = 262
+        Width = 95
+        BorderSpacing.Left = 8
+        Caption = 'stop Resolution'
+      end
+      object MinClustersSE: TSpinEdit
+        AnchorSideLeft.Control = DensityFSE
+        AnchorSideTop.Control = UseClustersRB
+        AnchorSideTop.Side = asrBottom
+        Left = 16
+        Height = 27
+        Top = 119
+        Width = 70
+        BorderSpacing.Top = 8
+        Enabled = False
+        MaxValue = 1000000
+        MinValue = 1
+        TabOrder = 5
+        Value = 1
+      end
+      object Label6: TLabel
+        AnchorSideLeft.Control = MinClusterSizeSE
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = MinClustersSE
+        AnchorSideTop.Side = asrCenter
+        Left = 94
+        Height = 19
+        Top = 123
+        Width = 146
+        BorderSpacing.Left = 8
+        Caption = 'min Number of Clusters'
+      end
+      object UseDensityRB: TRadioButton
+        Left = 16
+        Height = 23
+        Top = 16
+        Width = 91
+        Caption = 'use Density'
+        Checked = True
+        TabOrder = 7
+        TabStop = True
+        OnChange = UseDensityRBChange
+      end
+      object UseClustersRB: TRadioButton
+        Left = 16
+        Height = 23
+        Top = 88
+        Width = 164
+        Caption = 'use Number of Clusters'
+        TabOrder = 6
+      end
+      object IteridenseBevelBottomB: TBevel
+        AnchorSideLeft.Control = IteridenseTS
+        AnchorSideTop.Control = MinClusterSizeSE
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = IteridenseTS
+        AnchorSideRight.Side = asrBottom
+        Left = 8
+        Height = 2
+        Top = 209
+        Width = 256
+        Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Left = 8
+        BorderSpacing.Top = 12
+        BorderSpacing.Right = 8
+      end
+      object IteridenseBevelTopB: TBevel
+        AnchorSideLeft.Control = IteridenseTS
+        AnchorSideTop.Control = MinClustersSE
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = IteridenseTS
+        AnchorSideRight.Side = asrBottom
+        Left = 8
+        Height = 2
+        Top = 158
+        Width = 256
+        Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Left = 8
+        BorderSpacing.Top = 12
+        BorderSpacing.Right = 8
+      end
+      object NoDiagonalsCB: TCheckBox
+        AnchorSideLeft.Control = DensityFSE
+        AnchorSideTop.Control = MinClusterDensityFSE
+        AnchorSideTop.Side = asrBottom
+        Left = 16
+        Height = 23
+        Top = 328
+        Width = 126
+        BorderSpacing.Top = 8
+        Caption = 'no Diagonal Cells'
+        TabOrder = 8
       end
     end
     object DBSCANTS: TTabSheet
       Caption = 'DBSCAN'
-      ClientHeight = 208
+      ClientHeight = 360
       ClientWidth = 272
       object FloatSpinEdit3: TFloatSpinEdit
         Left = 24
@@ -470,7 +675,7 @@ object MainF: TMainF
     end
     object KMeansTS: TTabSheet
       Caption = 'K-Means'
-      ClientHeight = 208
+      ClientHeight = 360
       ClientWidth = 272
       object FloatSpinEdit5: TFloatSpinEdit
         Left = 24

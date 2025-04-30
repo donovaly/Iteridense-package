@@ -8,27 +8,27 @@ uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, Buttons,
   EditBtn, ExtCtrls, ComCtrls, Spin, Math, CTypes,
   TATransformations, TATools, TAGraph, TASeries, TAChartAxis, TALegend, TATextElements,
-  TATypes, TAChartUtils,
+  TATypes, TAChartUtils, SpinEx,
   FileInfo, StrUtils, Streamex, Generics.Collections;
 
 const
-  MAX_DIMS = 256;
+  MAX_DIMENSIONS = 256;
 
 type
 
   // C-compatible tensor struct
   CTensor = record
-    data : Pointer;       // void* data
-    ndims : clonglong;         // int ndims
-    dims : array[0..MAX_DIMS-1] of csize_t; // size_t dims[MAX_DIMS]
+    data : Pointer;         // void* data
+    ndims : cint64;         // int64_t ndims
+    dims : array[0..MAX_DIMENSIONS-1] of csize_t; // size_t dims[MAX_DIMENSIONS]
   end;
 
   // C-compatible IteridenseResult struct
   IteridenseResultC = record
     clusterTensor : CTensor;
     countTensor : CTensor;
-    numOfClusters : clonglong;
-    finalResolution : clonglong;
+    numOfClusters : cint64;
+    finalResolution : cint64;
     assignments : CTensor;
     clusterDensities : CTensor;
     clusterSizes : CTensor;
@@ -41,7 +41,21 @@ type
   // returns a pointer to a heap-allocated IteridenseResultC
   // caller must free with IteridenseFree
   // returns nil on failure
- // TIteridenseClustering = function(): PIteridenseResultC; cdecl;
+  TIteridenseClustering = function(
+    const dataMatrix: PDouble; // const double* dataMatrix
+    nrows, ncols: cint64;      // int64_t
+    minClusterSize: cint64;
+    startResolution: cint64;
+    density: cdouble;
+    fixedResolution: cint64;
+    stopResolution: cint64;
+    minClusters: cint64;
+    minClusterDensity: cdouble;
+    noDiagonals: cint64;       // int64_t (0 or 1)
+    useDensity: cint64;
+    useClusters: cint64;
+    useFixedResolution: cint64
+    ): PIteridenseResultC; cdecl;
   // frees memory allocated by TIteridenseClustering
   // returns 0 on success, -1 if ptr is nil
   TIteridenseFree = function(pointer: PIteridenseResultC): Integer; cdecl;
@@ -49,6 +63,21 @@ type
 
   TMainF = class(TForm)
     AxisClickTool: TAxisClickTool;
+    NoDiagonalsCB: TCheckBox;
+    IteridenseBevelBottomB: TBevel;
+    IteridenseBevelTopB: TBevel;
+    UseDensityRB: TRadioButton;
+    UseClustersRB: TRadioButton;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    MinClustersSE: TSpinEdit;
+    StartResolutionSE: TSpinEdit;
+    MinClusterSizeSE: TSpinEdit;
+    StopResolutionSE: TSpinEdit;
     TopLine: TConstantLine;
     BottomLine: TConstantLine;
     LeftLine: TConstantLine;
@@ -61,8 +90,8 @@ type
     DataPointCrosshairTool: TDataPointCrosshairTool;
     DataPointHintTool: TDataPointHintTool;
     DataPointMarksClickTool: TDataPointMarksClickTool;
-    FloatSpinEdit1: TFloatSpinEdit;
-    FloatSpinEdit2: TFloatSpinEdit;
+    DensityFSE: TFloatSpinEdit;
+    MinClusterDensityFSE: TFloatSpinEdit;
     FloatSpinEdit3: TFloatSpinEdit;
     FloatSpinEdit4: TFloatSpinEdit;
     FloatSpinEdit5: TFloatSpinEdit;
@@ -101,6 +130,7 @@ type
     procedure SaveAppearance(iniFile: string);
     procedure LoadAppearance(iniFile: string);
     procedure FormDropFiles(Sender: TObject; const FileNames{%H-}: array of String);
+    procedure UseDensityRBChange(Sender: TObject);
   private
   public
   end;
@@ -111,7 +141,7 @@ var
   MainF : TMainF;
   Version : string = '';
   LibHandle : THandle;
-  //IteridenseClustering : TIteridenseClustering;
+  IteridenseClustering : TIteridenseClustering;
   IteridenseFree : TIteridenseFree;
   InitJulia : TInitJulia;
   ShutdownJulia : TShutdownJulia;
@@ -230,6 +260,20 @@ begin
   DropfileName:= '';
 end;
 
+procedure TMainF.UseDensityRBChange(Sender: TObject);
+begin
+  if UseDensityRB.Checked then
+  begin
+    DensityFSE.Enabled:= true;
+    MinClustersSE.Enabled:= false;
+  end
+  else
+  begin
+    DensityFSE.Enabled:= false;
+    MinClustersSE.Enabled:= true;
+  end;
+end;
+
 
 procedure TMainF.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 var
@@ -266,13 +310,52 @@ end;
 procedure TMainF.IteridenseBBClick(Sender: TObject);
 var
   dataPointer : PDouble;
-  val, i, count : LongInt;
+  counter, rows, columns, val, i, count : LongInt;
   randomNumber : Double;
   textLine : String;
   iteridenseResult : PIteridenseResultC;
+  inputArray : array of Double;
+  nrows, ncols, minClusterSize, startResolution, stopResolution,
+  minClusters, noDiagonals, useDensity, useClusters : cint64;
+  density, minClusterDensity: cdouble;
 begin
-  {
-  iteridenseResult:= IteridenseClustering();
+  // we must transform the DataArray to a contiguous 1D array in
+  // column-major order to make it accessible for Julia
+  nrows:= Length(DataArray);
+  // fixme: nrows = 3 because of assignments at loading
+  ncols:= Length(DataArray[1]) - 1;
+  setlength(inputArray, nrows * ncols);
+  counter:= 0;
+  for rows:= 0 to Length(DataArray)-1 do
+    for columns:= 0 to Length(DataArray[1])-1-1 do
+      begin
+        inputArray[counter]:= DataArray[rows, columns];
+        inc(counter);
+      end;
+
+  minClusterSize:= MinClusterSizeSE.Value;
+  startResolution:= StartResolutionSE.Value;
+  stopResolution:= StopResolutionSE.Value;
+  minClusters:= MinClustersSE.Value;
+  noDiagonals:= NoDiagonalsCB.Checked.ToInteger;
+  useDensity:= UseDensityRB.Checked.ToInteger;
+  useClusters:= UseClustersRB.Checked.ToInteger;
+   {
+  DataArray
+  iteridenseResult:= IteridenseClustering(
+    @inputArray[0], // pointer to first element
+    nrows,
+    ncols,
+    minClusterSize,
+    startResolution,
+    density,
+    stopResolution,
+    minClusters,
+    minClusterDensity,
+    noDiagonals,
+    useDensity,
+    useClusters
+  );
   if iteridenseResult = nil then
   begin
     MessageDlg('Failed to create iteridenseResult', mtError, [mbOK], 0);
@@ -390,6 +473,9 @@ begin
     idx := round(DataArray[i, 2]); // clusterID
     Series[idx].AddXY(DataArray[i, 0], DataArray[i, 1]);
   end;
+
+  // finally enable the clustering button
+  IteridenseBB.Enabled:= true;
 end;
 
 
