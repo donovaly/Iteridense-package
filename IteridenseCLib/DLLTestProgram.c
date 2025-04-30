@@ -46,14 +46,12 @@ int main(int argc, char *argv[]) {
         3,      // minClusterSize
         2,      // startResolution
         1.1,    // density
-        2,      // fixedResolution
         -1,     // stopResolution
         1,      // minClusters
         1.0,    // minClusterDensity
         0,      // noDiagonals (false)
         1,      // useDensity (true)
-        0,      // useClusters (false)
-        0       // useFixedResolution (false)
+        0      // useClusters (false)
     );
 
     if (result == NULL) {
