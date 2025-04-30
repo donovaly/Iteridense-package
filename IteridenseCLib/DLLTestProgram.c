@@ -7,24 +7,24 @@
 #include "CompilationResult\include\IteridenseCLib.h"
 
 // Helper to print clusterTensor data (assuming 3D tensor)
-void print_clusterTensor(const CTensor* tensor) {
-    printf("clusterTensor ndims: %d\n", tensor->ndims);
-    printf("clusterTensor dims: ");
+void printTensor(const CTensor* tensor) {
+    printf("Tensor ndims: %d\n", tensor->ndims);
+    printf("Tensor dims: ");
     for (int i = 0; i < tensor->ndims; i++) {
         printf("%zu ", tensor->dims[i]);
     }
     printf("\n");
 
-    // For demonstration, assume data is double and print first 5 elements
-    double* data = (double*)tensor->data;
+    // assume data is double
+    int64_t* data = (int64_t*)tensor->data;
     size_t total_elements = 1;
     for (int i = 0; i < tensor->ndims; i++) {
         total_elements *= tensor->dims[i];
     }
 
-    printf("clusterTensor data (first 5 elements): ");
-    for (size_t i = 0; i < (total_elements < 5 ? total_elements : 5); i++) {
-        printf("%f ", data[i]);
+    printf("Tensor data: ");
+    for (size_t i = 0; i < total_elements; i++) {
+        printf("%d ", data[i]);
     }
     printf("\n");
 }
@@ -63,10 +63,8 @@ int main(int argc, char *argv[]) {
 
     printf("numOfClusters: %d\n", result->numOfClusters);
     printf("finalResolution: %d\n", result->finalResolution);
-
-    print_clusterTensor(&result->clusterTensor);
-
-    // You can similarly inspect other tensors if needed...
+    printTensor(&result->clusterTensor);
+    printTensor(&result->countTensor);
 
     // Free the allocated result
     int free_status = IteridenseFree(result);

@@ -30,18 +30,35 @@ function TestIteridenseClustering()
     println("numOfClusters: ", result.numOfClusters)
     println("finalResolution: ", result.finalResolution)
 
+    # Inspect clusterTensor
+    clusterTensorDims = Tuple(result.clusterTensor.dims[1:result.clusterTensor.ndims])
+    clusterTensorArray = unsafe_wrap(Array, Ptr{Int}(result.clusterTensor.data), clusterTensorDims)
+    println("clusterTensor dimensions: ", map(Int, clusterTensorDims))
+    #println("clusterTensor complete: ", clusterTensorArray)
+
     # Inspect countTensor
     countTensorDims = Tuple(result.countTensor.dims[1:result.countTensor.ndims])
-    countTensorArray = unsafe_wrap(Array, Ptr{Float64}(result.countTensor.data), countTensorDims)
-    #println("countTensor dimensions: ", map(Int, countTensorDims))
-    #println("countTensor data[1, 1, 1]: ", countTensorArray[1, 1, 1])
+    countTensorArray = unsafe_wrap(Array, Ptr{Int64}(result.countTensor.data), countTensorDims)
+    #println("countTensor dimensions: ", map(Int64, countTensorDims))
     #println("countTensor complete: ", countTensorArray)
 
     # inspect assignments
     assignmentsDims = Tuple(result.assignments.dims[1:result.assignments.ndims])
-    assignmentsArray = unsafe_wrap(Array, Ptr{Int32}(result.assignments.data), assignmentsDims)
-    println("assignments dimensions: ", map(Int, assignmentsDims))
+    assignmentsArray = unsafe_wrap(Array, Ptr{Int64}(result.assignments.data), assignmentsDims)
+    #println("assignments dimensions: ", map(Int64, assignmentsDims))
     println("assignments data: ", assignmentsArray)
+
+    # Inspect clusterDensities
+    clusterDensitiesDims = Tuple(result.clusterDensities.dims[1:result.clusterDensities.ndims])
+    clusterDensitiesArray = unsafe_wrap(Array, Ptr{Float64}(result.clusterDensities.data), clusterDensitiesDims)
+    #println("clusterDensities dimensions: ", map(Int64, clusterDensitiesDims))
+    #println("clusterDensities complete: ", clusterDensitiesArray)
+
+    # Inspect clusterSizes
+    clusterSizesDims = Tuple(result.clusterSizes.dims[1:result.clusterSizes.ndims])
+    clusterSizesArray = unsafe_wrap(Array, Ptr{Int64}(result.clusterSizes.data), clusterSizesDims)
+    #println("clusterSizes dimensions: ", map(Int64, clusterSizesDims))
+    #println("clusterSizes complete: ", clusterSizesArray)
 
     # free allocated memory
     IteridenseFree(resultPointer)

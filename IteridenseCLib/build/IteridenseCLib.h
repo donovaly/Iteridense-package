@@ -20,13 +20,13 @@ typedef struct {
 
 // C-compatible IteridenseResult struct
 typedef struct {
-    CTensor clusterTensor;
-    CTensor countTensor;
+    CTensor clusterTensor;    // of type int64_t
+    CTensor countTensor;      // of type int64_t
     int64_t numOfClusters;
     int64_t finalResolution;
-    CTensor assignments;
-    CTensor clusterDensities;
-    CTensor clusterSizes;
+    CTensor assignments;      // of type int64_t
+    CTensor clusterDensities; // of type double
+    CTensor clusterSizes;     // of type int64_t
 } IteridenseResultC;
 
 /**
