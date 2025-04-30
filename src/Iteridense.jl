@@ -347,7 +347,7 @@ function IteridenseLoop(dataMatrix, minClusterSize::Int, density, stopResolution
         resolution = size(clusterTensor, 1)
     end
 
-    assignments= zeros(Int32, totalCounts)
+    assignments = zeros(Int, totalCounts)
     
     return IteridenseResult(clusterTensor= clusterTensor, countTensor= countTensor,
                             numOfClusters= numClusters, finalResolution= resolution,
