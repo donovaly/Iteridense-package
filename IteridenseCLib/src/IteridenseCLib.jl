@@ -404,12 +404,16 @@ end
 
 #-------------------------------------------------------------------------------------------------
 # main function
-function Clustering(dataMatrix; minClusterSize::Int= 3, startResolution::Int= 2,
-                    density= 1.1, fixedResolution::Int= 2, stopResolution::Int= -1,
-                    minClusters::Int= 1, minClusterDensity= 1.0, noDiagonals= false,
-                    useDensity= true, useClusters= false,
-                    useFixedResolution= false)::IteridenseResultC
+function Clustering(dataMatrix; minClusterSize::Int= 3, startResolution::Int= 2, density= 1.1,
+                    stopResolution::Int= -1, minClusters::Int= 1, noDiagonals= false,
+                    minClusterDensity= 1.0, useDensity= true,
+                    useClusters= false)::IteridenseResultC
 
+    if startResolution == stopResolution
+        useFixedResolution = true
+    else
+        useFixedResolution = false
+    end
     if (!useDensity && !useClusters && !useFixedResolution)
         error("No information given on how to stop the clustering process")
     end
@@ -426,9 +430,6 @@ function Clustering(dataMatrix; minClusterSize::Int= 3, startResolution::Int= 2,
     end
     if density < 1
         density = 1.0
-    end
-    if fixedResolution < 2
-        fixedResolution = 2
     end
     if stopResolution > -1 && stopResolution < startResolution
         stopResolution = startResolution
@@ -472,11 +473,11 @@ function Clustering(dataMatrix; minClusterSize::Int= 3, startResolution::Int= 2,
         maxResolution = stopResolution + 1
     end
     if useFixedResolution
-        if fixedResolution > maxResolution
-            fixedResolution = maxResolution - 1
+        if startResolution > maxResolution
+            startResolution = maxResolution - 1
         end
-        resolution = fixedResolution
-        maxResolution = fixedResolution + 1
+        resolution = startResolution
+        maxResolution = startResolution + 1
     end
     if resolution > maxResolution
         @warn("Given resolution is greater than MaxResolution\n\
@@ -603,14 +604,12 @@ Base.@ccallable function IteridenseClustering(
     minClusterSize::Clonglong,
     startResolution::Clonglong,
     density::Cdouble,
-    fixedResolution::Clonglong,
     stopResolution::Clonglong,
     minClusters::Clonglong,
     minClusterDensity::Cdouble,
     noDiagonals::Clonglong,       # bool as int (0 or 1)
     useDensity::Clonglong,
-    useClusters::Clonglong,
-    useFixedResolution::Clonglong
+    useClusters::Clonglong
     )::Ptr{IteridenseResultC}
     
     # allocate memory for the uninitialized struct
@@ -627,14 +626,12 @@ Base.@ccallable function IteridenseClustering(
         minClusterSize = Int64(minClusterSize),
         startResolution = Int64(startResolution),
         density = Float64(density),
-        fixedResolution = Int64(fixedResolution),
         stopResolution = Int64(stopResolution),
         minClusters = Int64(minClusters),
         minClusterDensity = Float64(minClusterDensity),
         noDiagonals = noDiagonals != 0,
         useDensity = useDensity != 0,
-        useClusters = useClusters != 0,
-        useFixedResolution = useFixedResolution != 0
+        useClusters = useClusters != 0
     )
 
     # write result into allocated memory

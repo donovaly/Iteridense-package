@@ -38,14 +38,12 @@ typedef struct {
  * @param minClusterSize Minimum cluster size.
  * @param startResolution Starting resolution.
  * @param density Density parameter.
- * @param fixedResolution Fixed resolution.
  * @param stopResolution Stop resolution.
  * @param minClusters Minimum number of clusters.
  * @param minClusterDensity Minimum cluster density.
  * @param noDiagonals Boolean flag (0 or 1).
  * @param useDensity Boolean flag (0 or 1).
  * @param useClusters Boolean flag (0 or 1).
- * @param useFixedResolution Boolean flag (0 or 1).
  * 
  * @return Pointer to an IteridenseResultC struct allocated on the heap.
  *         Must be freed by calling IteridenseFree().
@@ -57,14 +55,12 @@ IteridenseResultC* IteridenseClustering(
     int64_t minClusterSize,
     int64_t startResolution,
     double density,
-    int64_t fixedResolution,
     int64_t stopResolution,
     int64_t minClusters,
     double minClusterDensity,
     int64_t noDiagonals,
     int64_t useDensity,
-    int64_t useClusters,
-    int64_t useFixedResolution
+    int64_t useClusters
 );
 
 /**
