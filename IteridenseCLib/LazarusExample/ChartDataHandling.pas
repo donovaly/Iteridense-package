@@ -30,6 +30,7 @@ type
     procedure CDLegendClickToolClick(Sender: TChartTool; Legend: TChartLegend);
     procedure CDAxisClickToolClick(Sender: TChartTool;
                                     AnAxis: TChartAxis; HitInfo: TChartAxisHitTests);
+    procedure CDTitleFootClickToolClick(Sender: TChartTool; Title: TChartTitle);
     function OpenHandling(InName: string; FileExt: string): string;
     function SaveHandling(InName: string; FileExt: string): string;
     procedure SaveAppearance(iniFile: string);
@@ -460,6 +461,21 @@ begin
 end;
 
 
+procedure TChartData.CDTitleFootClickToolClick(Sender: TChartTool;
+  Title: TChartTitle);
+var
+ editor : TChartTitleFootEditor;
+begin
+ editor:= TChartTitleFootEditor.Create(nil);
+ try
+  editor.Prepare(Title, 'Edit chart title');
+  editor.ShowModal;
+ finally
+  editor.Free;
+ end;
+end;
+
+
 // --------------------------------------------------------------
 function TChartData.FontStylesToString(FontStyles: TFontStyles): string;
 begin
@@ -500,7 +516,7 @@ try
  List:= TStringList.Create;
 
  Chart:= MainForm.DataC;
- List.Add('Chart SIXCH');
+ List.Add('Chart ' + Chart.Name);
 
  // Axes
  for i:= 0 to Chart.AxisList.Count-1 do

@@ -772,6 +772,7 @@ object MainForm: TMainForm
     end
     object TitleFootClickTool: TTitleFootClickTool
       Shift = [ssLeft, ssDouble]
+      OnClick = TitleFootClickToolClick
     end
     object AxisClickTool: TAxisClickTool
       Shift = [ssLeft, ssDouble]

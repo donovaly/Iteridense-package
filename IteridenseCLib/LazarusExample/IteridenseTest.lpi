@@ -197,7 +197,9 @@
       <Unit>
         <Filename Value="ChartEditing\ceaxisframe.pas"/>
         <IsPartOfProject Value="True"/>
+        <ComponentName Value="ChartAxisFrame"/>
         <HasResources Value="True"/>
+        <ResourceBaseClass Value="Frame"/>
         <UnitName Value="ceAxisFrame"/>
       </Unit>
       <Unit>

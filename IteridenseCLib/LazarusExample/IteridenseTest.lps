@@ -10,7 +10,7 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="2"/>
         <CursorPos X="14" Y="13"/>
-        <UsageCount Value="91"/>
+        <UsageCount Value="92"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -126,10 +126,10 @@
         <Filename Value="ChartDataHandling.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="58"/>
-        <CursorPos X="67" Y="76"/>
-        <FoldState Value=" T3id0{S2 pjMmB0d412 Pj3kf0A"/>
-        <UsageCount Value="26"/>
+        <TopLine Value="19"/>
+        <CursorPos X="15" Y="33"/>
+        <FoldState Value=" T3ie0{S2 pjMmB0d513 PoOlN0Z"/>
+        <UsageCount Value="28"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -150,7 +150,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="22"/>
+        <UsageCount Value="23"/>
       </Unit>
       <Unit>
         <Filename Value="ChartEditing\cebrushframe.pas"/>
@@ -162,7 +162,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="22"/>
+        <UsageCount Value="23"/>
       </Unit>
       <Unit>
         <Filename Value="ChartEditing\cefontframe.pas"/>
@@ -174,7 +174,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="22"/>
+        <UsageCount Value="23"/>
       </Unit>
       <Unit>
         <Filename Value="ChartEditing\celegenddlg.pas"/>
@@ -186,7 +186,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="22"/>
+        <UsageCount Value="23"/>
       </Unit>
       <Unit>
         <Filename Value="ChartEditing\cepenframe.pas"/>
@@ -198,7 +198,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="22"/>
+        <UsageCount Value="23"/>
       </Unit>
       <Unit>
         <Filename Value="ChartEditing\cepointerframe.pas"/>
@@ -210,7 +210,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="22"/>
+        <UsageCount Value="23"/>
       </Unit>
       <Unit>
         <Filename Value="ChartEditing\ceseriesdlg.pas"/>
@@ -222,7 +222,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="22"/>
+        <UsageCount Value="23"/>
       </Unit>
       <Unit>
         <Filename Value="ChartEditing\ceshapebrushpenmarginsframe.pas"/>
@@ -234,7 +234,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="22"/>
+        <UsageCount Value="23"/>
       </Unit>
       <Unit>
         <Filename Value="ChartEditing\cetitlefootdlg.pas"/>
@@ -245,7 +245,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="60"/>
         <CursorPos X="7" Y="74"/>
-        <UsageCount Value="22"/>
+        <UsageCount Value="23"/>
       </Unit>
       <Unit>
         <Filename Value="ChartEditing\ceutils.pas"/>
@@ -255,7 +255,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="22"/>
+        <UsageCount Value="23"/>
       </Unit>
       <Unit>
         <Filename Value="ChartEditing\ceaxisframe.pas"/>
@@ -264,13 +264,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="ceAxisFrame"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="14"/>
-        <CursorPos X="31" Y="30"/>
-        <UsageCount Value="20"/>
-        <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
+        <CursorPos X="40" Y="49"/>
+        <UsageCount Value="22"/>
       </Unit>
       <Unit>
         <Filename Value="IteridenseTestMain.pas"/>
@@ -278,10 +275,11 @@
         <ComponentName Value="MainForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <TopLine Value="143"/>
-        <CursorPos X="33" Y="505"/>
-        <FoldState Value=" T3kf0{3013 PjFjg0@"/>
-        <UsageCount Value="21"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="482"/>
+        <CursorPos X="15" Y="512"/>
+        <FoldState Value=" T3nG072 Pj8P0G"/>
+        <UsageCount Value="22"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -289,19 +287,7 @@
     <Debugger>
       <Backend Value="{0599E7CA-746F-4D8B-BD06-CEE8C2E1AC4F}"/>
     </Debugger>
-    <JumpHistory HistoryIndex="28">
-      <Position>
-        <Filename Value="ChartDataHandling.pas"/>
-        <Caret Line="51" Column="5" TopLine="28"/>
-      </Position>
-      <Position>
-        <Filename Value="ChartDataHandling.pas"/>
-        <Caret Line="50" Column="6" TopLine="32"/>
-      </Position>
-      <Position>
-        <Filename Value="ChartDataHandling.pas"/>
-        <Caret Line="48" Column="8" TopLine="36"/>
-      </Position>
+    <JumpHistory HistoryIndex="29">
       <Position>
         <Filename Value="ChartDataHandling.pas"/>
         <Caret Line="50" Column="8" TopLine="32"/>
@@ -387,24 +373,40 @@
         <Caret Line="13" Column="14"/>
       </Position>
       <Position>
-        <Filename Value="ChartEditing\ceaxisframe.pas"/>
-        <Caret Line="59" Column="39" TopLine="53"/>
+        <Filename Value="IteridenseTestMain.pas"/>
+        <Caret Line="270" Column="25" TopLine="170"/>
       </Position>
       <Position>
-        <Filename Value="ChartEditing\ceaxisframe.pas"/>
-        <Caret Line="32" Column="17" TopLine="14"/>
+        <Filename Value="IteridenseTestMain.pas"/>
+        <Caret Line="161" Column="39" TopLine="140"/>
       </Position>
       <Position>
-        <Filename Value="ChartEditing\ceaxisframe.pas"/>
-        <Caret Line="31" Column="31" TopLine="14"/>
+        <Filename Value="IteridenseTestMain.pas"/>
+        <Caret Line="212" Column="3" TopLine="195"/>
       </Position>
       <Position>
-        <Filename Value="ChartEditing\ceaxisframe.pas"/>
-        <Caret Line="32" Column="31" TopLine="14"/>
+        <Filename Value="ChartDataHandling.pas"/>
+        <Caret Line="64" Column="42" TopLine="58"/>
       </Position>
       <Position>
-        <Filename Value="ChartEditing\ceaxisframe.pas"/>
-        <Caret Line="30" Column="31" TopLine="14"/>
+        <Filename Value="ChartDataHandling.pas"/>
+        <Caret Line="726" TopLine="715"/>
+      </Position>
+      <Position>
+        <Filename Value="ChartDataHandling.pas"/>
+        <Caret Line="720" Column="36" TopLine="706"/>
+      </Position>
+      <Position>
+        <Filename Value="ChartDataHandling.pas"/>
+        <Caret Line="504" Column="18" TopLine="463"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseTestMain.pas"/>
+        <Caret Line="213" Column="29" TopLine="199"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseTestMain.pas"/>
+        <Caret Line="508" TopLine="479"/>
       </Position>
     </JumpHistory>
     <RunParams>

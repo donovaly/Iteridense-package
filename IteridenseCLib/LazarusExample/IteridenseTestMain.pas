@@ -136,6 +136,7 @@ type
     procedure LegendClickToolClick(ASender: TChartTool; ALegend: TChartLegend);
     procedure OpenBBClick(Sender: TObject);
     procedure FormDropFiles(Sender: TObject; const FileNames{%H-}: array of String);
+    procedure TitleFootClickToolClick(ASender: TChartTool; ATitle: TChartTitle);
     procedure UseDensityRBChange(Sender: TObject);
   private
   public
@@ -208,8 +209,8 @@ begin
   // load the current chart appearance settings
   // we load from the same folder than the program .exe
   iniFile:= ExtractFilePath(Application.ExeName) + AppearanceFile;
-  //if FileExists(iniFile) then
-  //  ChartData.LoadAppearance(iniFile)
+  if FileExists(iniFile) then
+    ChartData.LoadAppearance(iniFile);
 
   // load the Iteridense DLL
   LibHandle:= LoadLibrary(PChar(DLLName));
@@ -267,7 +268,7 @@ begin
   // save the current chart appearance settings
   // we write into the same folder than the program .exe
   iniFile:= ExtractFilePath(Application.ExeName) + AppearanceFile;
-  //TChartData.SaveAppearance(iniFile);
+  ChartData.SaveAppearance(iniFile);
 end;
 
 
@@ -503,6 +504,12 @@ procedure TMainForm.AxisClickToolClick(ASender: TChartTool; Axis: TChartAxis;
   AHitInfo: TChartAxisHitTests);
 begin
   ChartData.CDAxisClickToolClick(ASender, Axis, AHitInfo);
+end;
+
+procedure TMainForm.TitleFootClickToolClick(ASender: TChartTool;
+  ATitle: TChartTitle);
+begin
+  ChartData.CDTitleFootClickToolClick(ASender, ATitle);
 end;
 
 
