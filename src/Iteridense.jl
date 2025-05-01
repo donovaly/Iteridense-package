@@ -210,7 +210,8 @@ end
 
 #-------------------------------------------------------------------------------------------------
 # function that actually performs the clustering
-function InternalClustering(countTensor, resolution::Int, noDiagonals, ::Val{dimensions}) where dimensions
+function InternalClustering(countTensor, resolution::Int, noDiagonals,
+                            ::Val{dimensions}) where dimensions
     # first create a tensor to store later the information about the clusters
     clusterTensor = zeros(Int, ntuple(i -> resolution, Val(dimensions)))
 
