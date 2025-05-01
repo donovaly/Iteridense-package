@@ -209,8 +209,8 @@ end
 
 
 #-------------------------------------------------------------------------------------------------
-# function that performs the clustering
-function clustering(countTensor, resolution::Int, noDiagonals, ::Val{dimensions}) where dimensions
+# function that actually performs the clustering
+function InternalClustering(countTensor, resolution::Int, noDiagonals, ::Val{dimensions}) where dimensions
     # first create a tensor to store later the information about the clusters
     clusterTensor = zeros(Int, ntuple(i -> resolution, Val(dimensions)))
 
@@ -303,8 +303,8 @@ function IteridenseLoop(dataMatrix, minClusterSize::Int, density, stopResolution
         clusterTensor = nothing
         countTensor = CreateCountTensor(dataMatrix, resolution, minMatrix, maxMatrix,
                                         Val(dimensions))
-        numClusters, clusterTensor = clustering(countTensor, resolution, noDiagonals,
-                                                Val(dimensions))
+        numClusters, clusterTensor = InternalClustering(countTensor, resolution, noDiagonals,
+                                                        Val(dimensions))
         # clusters can only be analyzed if there is at least one
         if numClusters == 0
             resolution += 1
