@@ -123,9 +123,13 @@
       <Unit>
         <Filename Value="IteridenseTestUnit.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="MainF"/>
+        <ComponentName Value="MainForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+      </Unit>
+      <Unit>
+        <Filename Value="ChartDataHandling.pas"/>
+        <IsPartOfProject Value="True"/>
       </Unit>
     </Units>
   </ProjectOptions>

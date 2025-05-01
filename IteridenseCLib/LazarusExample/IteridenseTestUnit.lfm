@@ -1,4 +1,4 @@
-object MainF: TMainF
+object MainForm: TMainForm
   Left = 341
   Height = 664
   Top = 159
@@ -258,7 +258,7 @@ object MainF: TMainF
         Minors = <>
         Title.LabelFont.Orientation = 900
         Title.Visible = True
-        Title.Caption = 'Measurement Value [mmol/l]'
+        Title.Caption = 'Dimension 2'
         Title.LabelBrush.Style = bsClear
         Transformations = ChartAxisTransformValues
       end    
@@ -270,7 +270,7 @@ object MainF: TMainF
         Marks.Style = smsCustom
         Minors = <>
         Title.Visible = True
-        Title.Caption = 'Time [min]'
+        Title.Caption = 'Dimension 1'
         Title.LabelBrush.Style = bsClear
       end    
       item
@@ -284,7 +284,6 @@ object MainF: TMainF
         Title.Visible = True
         Title.Caption = 'Temperature  [°C]'
         Title.LabelBrush.Style = bsClear
-        Transformations = ChartAxisTransformTemp
       end>
     BackColor = clDefault
     Foot.Brush.Color = clBtnFace
@@ -299,6 +298,7 @@ object MainF: TMainF
     Title.Visible = True
     Toolset = ChartToolset
     ParentColor = True
+    PopupMenu = ContextChartPM
     object TopLine: TConstantLine
       Legend.Visible = False
       Active = False
@@ -720,12 +720,6 @@ object MainF: TMainF
     Width = 131
     Caption = 'Loaded Data CSV File'
   end
-  object ChartAxisTransformTemp: TChartAxisTransformations
-    Left = 880
-    Top = 264
-    object TempAutoScaleAxisTransform: TAutoScaleAxisTransform
-    end
-  end
   object ChartAxisTransformValues: TChartAxisTransformations
     Left = 880
     Top = 192
@@ -750,6 +744,8 @@ object MainF: TMainF
     end
     object DataPointHintTool: TDataPointHintTool
       GrabRadius = 5
+      OnHint = DataPointHintToolHint
+      OnHintPosition = DataPointHintToolHintPosition
     end
     object LegendClickTool: TLegendClickTool
       Shift = [ssLeft, ssDouble]
@@ -819,5 +815,20 @@ object MainF: TMainF
     )
     Left = 392
     Top = 80
+  end
+  object ContextChartPM: TPopupMenu
+    Left = 880
+    Top = 296
+    object AutoscaleMI: TMenuItem
+      Caption = 'Auto scale'
+      OnClick = AutoscaleMIClick
+    end
+    object Separator1MI: TMenuItem
+      Caption = '-'
+    end
+    object ChangeBackColorMI: TMenuItem
+      Caption = 'Change background color'
+      OnClick = ChangeBackColorMIClick
+    end
   end
 end

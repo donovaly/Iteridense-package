@@ -7,7 +7,7 @@ uses
   cthreads,
   {$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, TAChartLazarusPkg, lazcontrols, IteridenseTestUnit;
+  Forms, TAChartLazarusPkg, lazcontrols, IteridenseTestUnit, ChartDataHandling;
 
 {$R *.res}
 
@@ -15,7 +15,7 @@ begin
   RequireDerivedFormResource:= True;
   Application.Scaled:=True;
   Application.Initialize;
-  Application.CreateForm(TMainF, MainF);
+  Application.CreateForm(TMainForm, MainForm);
   Application.Run;
 end.
 
