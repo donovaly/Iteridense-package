@@ -438,6 +438,7 @@ begin
   ClusterResultSG.RowCount:= Length(clusterSizesArray) + 1; // +1 for header row
   for i:= 0 to High(clusterSizesArray) do
   begin
+    ClusterResultSG.Cells[0, i+1] := IntToStr(i+1);
     ClusterResultSG.Cells[1, i+1] := IntToStr(clusterSizesArray[i]);
     ClusterResultSG.Cells[2, i+1] := Format('%.3g', [clusterDensitiesArray[i]]);
   end;

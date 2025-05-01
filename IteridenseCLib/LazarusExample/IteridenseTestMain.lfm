@@ -675,21 +675,25 @@ object MainForm: TMainForm
         Height = 272
         Top = 72
         Width = 228
+        AutoEdit = False
         ColCount = 3
         Columns = <        
           item
+            Alignment = taCenter
+            Title.Alignment = taCenter
             Title.Caption = 'Cluster'
             Width = 50
           end        
           item
+            Alignment = taCenter
             Title.Alignment = taCenter
             Title.Caption = 'Size'
           end        
           item
+            Alignment = taCenter
             Title.Alignment = taCenter
             Title.Caption = 'Density'
           end>
-        Enabled = False
         FixedCols = 0
         RowCount = 1
         TabOrder = 1
