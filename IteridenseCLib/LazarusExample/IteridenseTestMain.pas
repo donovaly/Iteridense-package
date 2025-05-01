@@ -19,16 +19,16 @@ type
   // C-compatible tensor struct
   CTensor = record
     data : Pointer;         // void* data
-    ndims : cint64;         // int64_t ndims
-    dims : array[0..MAX_DIMENSIONS-1] of csize_t; // size_t dims[MAX_DIMENSIONS]
+    ndims : Int64;          // int64_t ndims
+    dims : array[0..MAX_DIMENSIONS-1] of csize_t;
   end;
 
   // C-compatible IteridenseResult struct
   IteridenseResultC = record
     clusterTensor : CTensor;
     countTensor : CTensor;
-    numOfClusters : cint64;
-    finalResolution : cint64;
+    numOfClusters : Int64;
+    finalResolution : Int64;
     assignments : CTensor;
     clusterDensities : CTensor;
     clusterSizes : CTensor;
@@ -58,8 +58,8 @@ type
   // returns 0 on success, -1 if ptr is nil
   TIteridenseFree = function(pointer: PIteridenseResultC): Integer; cdecl;
 
-  TIntArray = array of longint;
-  TDoubleArray = array of double;
+  TIntArray = array of Int64;
+  TDoubleArray = array of Double;
 
   { TMainForm }
 
@@ -304,11 +304,11 @@ begin
 end;
 
 
-// function to convert c-tensor to an array of longint
+// function to convert c-tensor to an array of Int64
 function TMainForm.TensorToIntArray(tensor: CTensor): TIntArray;
 var
   count, i: LongInt;
-  dataPointer: PLongint;
+  dataPointer: PInt64;
 begin
   // we have to manually count here because tensor.dims is MAX_DIMENSIONS
   // as defined but we need only the ones that are not zero
@@ -319,7 +319,7 @@ begin
   result:= [];
   SetLength(result, count);
 
-  dataPointer:= PLongint(tensor.data);
+  dataPointer:= PInt64(tensor.data);
   for i:= 0 to count - 1 do
     result[i]:= dataPointer[i];
 end;
@@ -355,7 +355,7 @@ var
   textLine : String;
   iteridenseResult : PIteridenseResultC;
   inputArray, clusterDensitiesArray : array of Double;
-  assignmentsArray, clusterSizesArray : array of Longint;
+  assignmentsArray, clusterSizesArray : array of Int64;
   nrows, ncols, minClusterSize, startResolution, stopResolution,
   minClusters, noDiagonals, useDensity, useClusters : cint64;
   density, minClusterDensity: cdouble;
@@ -417,21 +417,13 @@ begin
   clusterDensitiesArray:= TensorToDoubleArray(iteridenseResult^.clusterDensities);
   clusterSizesArray:= TensorToIntArray(iteridenseResult^.clusterSizes);
 
-  // calculate total number of elements (product of dims)
-  count:= 1;
-  for i:= 0 to iteridenseResult^.clusterTensor.ndims - 1 do
-    count:= count * Integer(iteridenseResult^.clusterTensor.dims[i]);
-  //if count < 3 then
-    //TextOutputM.Lines.Add('clusterTensor has less than 3 elements.');
-  // cast data pointer to PDouble
-  dataPointer := PDouble(iteridenseResult^.clusterTensor.data);
-
-  // output first 3 elements (or fewer if not enough)
-  for i:= 0 to min(2, count - 1) do
+  // output first 10 elements
+  textLine:= '';
+  for i:= 0 to 9 do
   begin
-    textLine:= Format('clusterTensor[%d] = %.6f', [i+1, dataPointer[i]]);
-    TextOutputM.Lines.Add(textLine);
+    textLine:= textLine + IntToStr(assignmentsArray[i]) + ' ';
   end;
+  TextOutputM.Lines.Add(textLine);
 
   FinalResolutionLE.Text:= IntToStr(iteridenseResult^.finalResolution);
   // fill the arrays to ClusterResultSG
