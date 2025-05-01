@@ -1,7 +1,7 @@
 object MainForm: TMainForm
-  Left = 341
+  Left = 331
   Height = 664
-  Top = 159
+  Top = 160
   Width = 1064
   AllowDropFiles = True
   Caption = 'Iteridense Clustering'
@@ -653,6 +653,48 @@ object MainForm: TMainForm
         TabOrder = 8
       end
     end
+    object IteridenseResultTS: TTabSheet
+      Caption = 'Iteridense Result'
+      ClientHeight = 360
+      ClientWidth = 272
+      object FinalResolutionLE: TLabeledEdit
+        Left = 32
+        Height = 27
+        Top = 24
+        Width = 69
+        EditLabel.Height = 19
+        EditLabel.Width = 93
+        EditLabel.Caption = 'final Resolution'
+        Enabled = False
+        LabelPosition = lpRight
+        LabelSpacing = 8
+        TabOrder = 0
+      end
+      object ClusterResultSG: TStringGrid
+        Left = 20
+        Height = 272
+        Top = 72
+        Width = 228
+        ColCount = 3
+        Columns = <        
+          item
+            Title.Caption = 'Cluster'
+            Width = 50
+          end        
+          item
+            Title.Alignment = taCenter
+            Title.Caption = 'Size'
+          end        
+          item
+            Title.Alignment = taCenter
+            Title.Caption = 'Density'
+          end>
+        Enabled = False
+        FixedCols = 0
+        RowCount = 1
+        TabOrder = 1
+      end
+    end
     object DBSCANTS: TTabSheet
       Caption = 'DBSCAN'
       ClientHeight = 360
@@ -718,6 +760,16 @@ object MainForm: TMainForm
     Top = 536
     Width = 131
     Caption = 'Loaded Data CSV File'
+  end
+  object TextOutputM: TMemo
+    Left = 459
+    Height = 243
+    Top = 8
+    Width = 186
+    Lines.Strings = (
+      'TextOutputM'
+    )
+    TabOrder = 6
   end
   object ChartAxisTransformValues: TChartAxisTransformations
     Left = 880

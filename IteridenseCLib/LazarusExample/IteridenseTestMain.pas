@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, Buttons,
-  EditBtn, ExtCtrls, ComCtrls, Spin, Menus, Math, CTypes,
+  EditBtn, ExtCtrls, ComCtrls, Spin, Menus, Grids, Math, CTypes,
   TATransformations, TATools, TAGraph, TASeries, TAChartAxis, TALegend, TATextElements,
   TATypes, TAChartUtils, SpinEx,
   FileInfo, StrUtils, Streamex, Generics.Collections, Types;
@@ -47,18 +47,20 @@ type
     minClusterSize: cint64;
     startResolution: cint64;
     density: cdouble;
-    fixedResolution: cint64;
     stopResolution: cint64;
     minClusters: cint64;
     minClusterDensity: cdouble;
     noDiagonals: cint64;       // int64_t (0 or 1)
     useDensity: cint64;
-    useClusters: cint64;
-    useFixedResolution: cint64
+    useClusters: cint64
     ): PIteridenseResultC; cdecl;
   // frees memory allocated by TIteridenseClustering
   // returns 0 on success, -1 if ptr is nil
   TIteridenseFree = function(pointer: PIteridenseResultC): Integer; cdecl;
+
+  TIntArray = array of longint;
+  TDoubleArray = array of double;
+
   { TMainForm }
 
   TMainForm = class(TForm)
@@ -67,6 +69,10 @@ type
     ChangeBackColorMI: TMenuItem;
     ChartAxisTransformDim1: TChartAxisTransformations;
     ContextChartPM: TPopupMenu;
+    IteridenseResultTS: TTabSheet;
+    FinalResolutionLE: TLabeledEdit;
+    ClusterResultSG: TStringGrid;
+    TextOutputM: TMemo;
     NoDiagonalsCB: TCheckBox;
     IteridenseBevelBottomB: TBevel;
     IteridenseBevelTopB: TBevel;
@@ -133,6 +139,8 @@ type
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure IteridenseBBClick(Sender: TObject);
+    function TensorToIntArray(tensor: CTensor): TIntArray;
+    function TensorToDoubleArray(tensor: CTensor): TDoubleArray;
     procedure LegendClickToolClick(ASender: TChartTool; ALegend: TChartLegend);
     procedure OpenBBClick(Sender: TObject);
     procedure FormDropFiles(Sender: TObject; const FileNames{%H-}: array of String);
@@ -155,7 +163,6 @@ var
   DropfileName : string = ''; // name of dropped CSV file
   InNameData : string = ''; // name of loaded data CSV file
   DataArray : Array of Array of double; // array that holds the data to be clustered
-  ClusteredDataArray : Array of Array of double; // array that holds the clustered data
   // filename to store appearance
   const AppearanceFile : string = 'Appearance-IteridenseTest.ini';
   // filename with default appearance
@@ -297,27 +304,71 @@ begin
 end;
 
 
+// function to convert c-tensor to an array of longint
+function TMainForm.TensorToIntArray(tensor: CTensor): TIntArray;
+var
+  count, i: LongInt;
+  dataPointer: PLongint;
+begin
+  // we have to manually count here because tensor.dims is MAX_DIMENSIONS
+  // as defined but we need only the ones that are not zero
+  count:= 1;
+  for i:= 0 to tensor.ndims - 1 do
+    count:= count * tensor.dims[i];
+
+  result:= [];
+  SetLength(result, count);
+
+  dataPointer:= PLongint(tensor.data);
+  for i:= 0 to count - 1 do
+    result[i]:= dataPointer[i];
+end;
+
+
+// function to convert c-tensor to an array of double
+function TMainForm.TensorToDoubleArray(tensor: CTensor): TDoubleArray;
+var
+  count, i: LongInt;
+  dataPointer: PDouble;
+begin
+  // we have to manually count here because tensor.dims is MAX_DIMENSIONS
+  // as defined but we need only the ones that are not zero
+  count:= 1;
+  for i:= 0 to tensor.ndims - 1 do
+    count:= count * tensor.dims[i];
+
+  result:= [];
+  SetLength(result, count);
+
+  dataPointer:= PDouble(tensor.data);
+  for i:= 0 to count - 1 do
+    result[i]:= dataPointer[i];
+end;
+
+
 procedure TMainForm.IteridenseBBClick(Sender: TObject);
 var
   dataPointer : PDouble;
-  counter, rows, columns, val, i, count : LongInt;
+  counter, rows, columns, val, i, count, idx,
+    numOfClusters, assignmentColumn : LongInt;
   randomNumber : Double;
   textLine : String;
   iteridenseResult : PIteridenseResultC;
-  inputArray : array of Double;
+  inputArray, clusterDensitiesArray : array of Double;
+  assignmentsArray, clusterSizesArray : array of Longint;
   nrows, ncols, minClusterSize, startResolution, stopResolution,
   minClusters, noDiagonals, useDensity, useClusters : cint64;
   density, minClusterDensity: cdouble;
+  Series : array of TLineSeries;
 begin
   // we must transform the DataArray to a contiguous 1D array in
   // column-major order to make it accessible for Julia
   nrows:= Length(DataArray);
-  // fixme: nrows = 3 because of assignments at loading
-  ncols:= Length(DataArray[1]) - 1;
+  ncols:= Length(DataArray[0]) - 1; // don't take the assignment column into account
   setlength(inputArray, nrows * ncols);
   counter:= 0;
-  for rows:= 0 to Length(DataArray)-1 do
-    for columns:= 0 to Length(DataArray[1])-1-1 do
+  for columns:= 0 to ncols-1 do
+    for rows:= 0 to nrows-1 do
       begin
         inputArray[counter]:= DataArray[rows, columns];
         inc(counter);
@@ -325,13 +376,14 @@ begin
 
   minClusterSize:= MinClusterSizeSE.Value;
   startResolution:= StartResolutionSE.Value;
+  density:= DensityFSE.Value;
   stopResolution:= StopResolutionSE.Value;
   minClusters:= MinClustersSE.Value;
+  minClusterDensity:= MinClusterDensityFSE.Value;
   noDiagonals:= NoDiagonalsCB.Checked.ToInteger;
   useDensity:= UseDensityRB.Checked.ToInteger;
   useClusters:= UseClustersRB.Checked.ToInteger;
-   {
-  DataArray
+
   iteridenseResult:= IteridenseClustering(
     @inputArray[0], // pointer to first element
     nrows,
@@ -352,12 +404,18 @@ begin
     exit;
   end;
 
-  if (iteridenseResult^.clusterTensor.data = nil)
-    or (iteridenseResult^.clusterTensor.ndims = 0) then
+  // fixme check case no cluster found
+  if (iteridenseResult^.assignments.data = nil)
+    or (iteridenseResult^.assignments.ndims = 0) then
   begin
-    //TextOutputM.Lines.Add('No clusterTensor data available.');
+    MessageDlg('Clustering failed, no assignments available', mtError, [mbOK], 0);
     exit;
   end;
+
+  // convert c-tensor to an array of longint
+  assignmentsArray:= TensorToIntArray(iteridenseResult^.assignments);
+  clusterDensitiesArray:= TensorToDoubleArray(iteridenseResult^.clusterDensities);
+  clusterSizesArray:= TensorToIntArray(iteridenseResult^.clusterSizes);
 
   // calculate total number of elements (product of dims)
   count:= 1;
@@ -372,13 +430,61 @@ begin
   for i:= 0 to min(2, count - 1) do
   begin
     textLine:= Format('clusterTensor[%d] = %.6f', [i+1, dataPointer[i]]);
-    //TextOutputM.Lines.Add(textLine);
+    TextOutputM.Lines.Add(textLine);
+  end;
+
+  FinalResolutionLE.Text:= IntToStr(iteridenseResult^.finalResolution);
+  // fill the arrays to ClusterResultSG
+  ClusterResultSG.RowCount:= Length(clusterSizesArray) + 1; // +1 for header row
+  for i:= 0 to High(clusterSizesArray) do
+  begin
+    ClusterResultSG.Cells[1, i+1] := IntToStr(clusterSizesArray[i]);
+    ClusterResultSG.Cells[2, i+1] := Format('%.3g', [clusterDensitiesArray[i]]);
+  end;
+
+  numOfClusters:= iteridenseResult^.numOfClusters;
+
+  // add assignmentsArray as column to DataArray
+  assignmentColumn:= length(DataArray[0]);
+  SetLength(DataArray, high(DataArray)+1, assignmentColumn+1);
+  for i:= 0 to high(DataArray) do
+    DataArray[i][assignmentColumn]:= assignmentsArray[i];
+
+  // plot the data
+  // first delete existing data
+  for i := DataC.SeriesCount - 1 downto 0 do
+  begin
+    DataC.Series[i].Free;
+  end;
+
+  // create a series for each cluster
+  SetLength(Series, numOfClusters+1);
+  for i:= 0 to numOfClusters do
+  begin
+    Series[i]:= TLineSeries.Create(DataC);
+    Series[i].ShowLines:= False; // points only
+    Series[i].Pointer.Visible:= true;
+    Series[i].Pointer.Brush.Color:= colorPalette[i]; // assign unique color for each cluster
+    Series[i].Pointer.Style:= psCircle; // circles for the points
+    Series[i].Title:= IntToStr(i);
+    DataC.AddSeries(Series[i]);
+  end;
+
+  // add data points to the correct series
+  assignmentColumn:= Length(DataArray[0]) - 1;
+  for i:= 0 to high(DataArray) do
+  begin
+    idx := round(DataArray[i, assignmentColumn]); // clusterID
+    Series[idx].AddXY(DataArray[i, 0], DataArray[i, 1]);
   end;
 
   // free the allocated struct
   if IteridenseFree(iteridenseResult) <> 0 then
     MessageDlg('Warning: failed to free iteridenseResult', mtError, [mbOK], 0);
-  }
+
+  // show the results
+  if MethodsPC.ActivePage = IteridenseTS then
+    MethodsPC.ActivePage:= IteridenseResultTS;
 end;
 
 
@@ -387,11 +493,14 @@ var
   DummyString, firstLine, secondLine : string;
   fileSuccess : Byte = 0;
   MousePointer : TPoint;
-  i, idx, clusterCount, newColumns : Integer;
-  Series : array of TLineSeries;
+  i, clusterCount, assignmentColumn : Integer;
+  Series : TLineSeries;
 begin
   MousePointer:= Mouse.CursorPos; // store mouse position
   DummyString:= '';
+  // assure the input tab is visible
+  if MethodsPC.ActivePage = IteridenseResultTS then
+    MethodsPC.ActivePage:= IteridenseTS;
 
   if DropfileName <> '' then // a file was dropped into the program
     fileSuccess:= ChartData.ReadData(DropfileName)
@@ -438,34 +547,26 @@ begin
   begin
     DataC.Series[i].Free;
   end;
-  clusterCount:= 3;
-  Randomize; // Initialize random number generator
-  // add a column with random numbers 0, 1 or 2
-  newColumns:= length(DataArray[0]) + 1;
-  SetLength(DataArray, high(DataArray), newColumns);
+
+  // add a column with zeros to DataArray to store there lates the assignments
+  assignmentColumn:= length(DataArray[0]);
+  SetLength(DataArray, high(DataArray)+1, assignmentColumn+1);
   for i:= 0 to high(DataArray) do
-    DataArray[i][newColumns-1]:= Random(clusterCount);
+    DataArray[i][assignmentColumn]:= 0;
 
+  // create a plot series
+  Series:= TLineSeries.Create(DataC);
+  Series.ShowLines:= False; // points only
+  Series.Pointer.Visible:= True;
+  Series.Pointer.Brush.Color:= colorPalette[0]; // assign unique color for each cluster
+  Series.Pointer.Style:= psCircle; // circles for the points
+  Series.Title:= '0';
+  DataC.AddSeries(Series);
 
-  // Create a series for each cluster
-  SetLength(Series, clusterCount);
-  for i:= 0 to clusterCount - 1 do
-  begin
-    Series[i]:= TLineSeries.Create(DataC);
-    Series[i].ShowLines:= False; // points only
-    Series[i].Pointer.Visible:= True;
-    Series[i].Pointer.Brush.Color:= colorPalette[i]; // assign unique color for each cluster
-    Series[i].Pointer.Style:= psCircle; // circles for the points
-    Series[i].Title:= IntToStr(i);
-    DataC.AddSeries(Series[i]);
-  end;
-
-  // Add data points to the correct series
+  // add data points to the series
+  // fixme: allow to select what column to plot
   for i:= 0 to high(DataArray) do
-  begin
-    idx := round(DataArray[i, 2]); // clusterID
-    Series[idx].AddXY(DataArray[i, 0], DataArray[i, 1]);
-  end;
+    Series.AddXY(DataArray[i, 0], DataArray[i, 1]);
 
   // finally enable the clustering button
   IteridenseBB.Enabled:= true;
