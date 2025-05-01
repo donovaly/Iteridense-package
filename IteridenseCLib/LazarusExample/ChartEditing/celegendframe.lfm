@@ -1,0 +1,574 @@
+object ChartLegendFrame: TChartLegendFrame
+  Left = 0
+  Height = 351
+  Top = 0
+  Width = 554
+  ClientHeight = 351
+  ClientWidth = 554
+  TabOrder = 0
+  DesignLeft = 1010
+  DesignTop = 289
+  object PanelTop: TPanel
+    Left = 0
+    Height = 23
+    Top = 0
+    Width = 554
+    Align = alTop
+    AutoSize = True
+    BorderSpacing.Bottom = 8
+    BevelOuter = bvNone
+    ClientHeight = 23
+    ClientWidth = 554
+    TabOrder = 0
+    object cbShow: TCheckBox
+      Left = 0
+      Height = 19
+      Top = 0
+      Width = 49
+      BorderSpacing.Bottom = 4
+      Caption = 'Show'
+      Checked = True
+      OnChange = cbShowChange
+      State = cbChecked
+      TabOrder = 0
+    end
+    object cbUseSideBar: TCheckBox
+      AnchorSideLeft.Control = cbShow
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = cbShow
+      AnchorSideRight.Side = asrBottom
+      Left = 65
+      Height = 19
+      Top = 0
+      Width = 87
+      Alignment = taLeftJustify
+      BorderSpacing.Left = 16
+      Caption = 'Outside axes'
+      Checked = True
+      OnChange = cbUseSideBarChange
+      State = cbChecked
+      TabOrder = 1
+    end
+  end
+  object ParamsPanel: TPanel
+    Left = 0
+    Height = 320
+    Top = 31
+    Width = 554
+    Align = alClient
+    AutoSize = True
+    BevelOuter = bvNone
+    ClientHeight = 320
+    ClientWidth = 554
+    TabOrder = 1
+    object gbBackground: TGroupBox
+      AnchorSideLeft.Control = gbAlignment
+      AnchorSideTop.Control = gbAlignment
+      AnchorSideTop.Side = asrBottom
+      AnchorSideBottom.Control = ParamsPanel
+      AnchorSideBottom.Side = asrBottom
+      Left = 8
+      Height = 83
+      Top = 237
+      Width = 140
+      Anchors = [akLeft, akBottom]
+      Caption = 'Background'
+      ClientHeight = 63
+      ClientWidth = 136
+      TabOrder = 2
+      object cbFilled: TCheckBox
+        AnchorSideLeft.Control = gbBackground
+        AnchorSideTop.Control = gbBackground
+        Left = 8
+        Height = 19
+        Top = 6
+        Width = 48
+        BorderSpacing.Left = 8
+        BorderSpacing.Top = 6
+        Caption = 'Filled'
+        OnChange = cbFilledChange
+        TabOrder = 0
+      end
+      object cbFillColor: TColorBox
+        AnchorSideLeft.Control = cbFilled
+        AnchorSideTop.Control = cbFilled
+        AnchorSideTop.Side = asrBottom
+        Left = 8
+        Height = 22
+        Top = 33
+        Width = 120
+        Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbPrettyNames, cbCustomColors]
+        BorderSpacing.Top = 8
+        BorderSpacing.Right = 8
+        BorderSpacing.Bottom = 8
+        ItemHeight = 16
+        OnChange = cbFillColorChange
+        TabOrder = 1
+      end
+    end
+    object gbBorder: TGroupBox
+      AnchorSideLeft.Control = gbAlignment
+      AnchorSideTop.Control = gbAlignment
+      AnchorSideTop.Side = asrBottom
+      AnchorSideBottom.Control = gbBackground
+      AnchorSideBottom.Side = asrBottom
+      Left = 8
+      Height = 113
+      Top = 120
+      Width = 288
+      BorderSpacing.Top = 8
+      Caption = 'Border'
+      ClientHeight = 93
+      ClientWidth = 284
+      TabOrder = 3
+      object cbShowBorder: TCheckBox
+        AnchorSideLeft.Control = gbBorder
+        AnchorSideTop.Control = gbBorder
+        Left = 8
+        Height = 19
+        Top = 6
+        Width = 54
+        BorderSpacing.Left = 8
+        BorderSpacing.Top = 6
+        Caption = 'Visible'
+        OnChange = cbShowBorderChange
+        TabOrder = 0
+      end
+      object cbBorderColor: TColorButton
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Side = asrBottom
+        Left = 240
+        Height = 25
+        Top = 47
+        Width = 32
+        Anchors = [akTop, akRight]
+        BorderWidth = 2
+        ButtonColorSize = 16
+        ButtonColor = clBlack
+        Margin = 2
+        OnColorChanged = cbBorderColorChange
+      end
+      object cbBorderStyle: TChartComboBox
+        AnchorSideLeft.Control = lblPenWidth
+        AnchorSideLeft.Side = asrBottom
+        Left = 56
+        Height = 22
+        Top = 33
+        Width = 168
+        PenPattern = '1|1'
+        PointerStyle = psNone
+        Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Left = 16
+        ItemHeight = 16
+        ItemIndex = 0
+        TabOrder = 1
+        OnChange = cbBorderStyleChange
+      end
+      object cbBorderWidth: TChartComboBox
+        AnchorSideLeft.Control = lblPenWidth
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = cbBorderStyle
+        AnchorSideTop.Side = asrBottom
+        Left = 56
+        Height = 22
+        Top = 63
+        Width = 168
+        Mode = ccmPenWidth
+        PenPattern = '1|1'
+        PointerStyle = psNone
+        Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Left = 16
+        BorderSpacing.Top = 8
+        ItemHeight = 16
+        ItemIndex = 0
+        TabOrder = 2
+        OnChange = cbBorderWidthChange
+      end
+      object lblPenWidth: TLabel
+        AnchorSideTop.Control = cbBorderWidth
+        AnchorSideTop.Side = asrCenter
+        Left = 8
+        Height = 15
+        Top = 67
+        Width = 32
+        Caption = 'Width'
+        ParentColor = False
+      end
+      object lblPenStyle: TLabel
+        AnchorSideTop.Control = cbBorderStyle
+        AnchorSideTop.Side = asrCenter
+        Left = 8
+        Height = 15
+        Top = 37
+        Width = 25
+        Caption = 'Style'
+        ParentColor = False
+      end
+    end
+    object gbFont: TGroupBox
+      AnchorSideLeft.Control = gbAlignment
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = gbAlignment
+      AnchorSideBottom.Control = gbAlignment
+      AnchorSideBottom.Side = asrBottom
+      Left = 316
+      Height = 112
+      Top = 0
+      Width = 222
+      Anchors = [akTop, akLeft, akBottom]
+      BorderSpacing.Left = 20
+      Caption = 'gbFont'
+      TabOrder = 1
+    end
+    object gbAlignment: TGroupBox
+      AnchorSideLeft.Control = ParamsPanel
+      AnchorSideTop.Control = ParamsPanel
+      AnchorSideBottom.Control = gbFont
+      AnchorSideBottom.Side = asrBottom
+      Left = 8
+      Height = 112
+      Top = 0
+      Width = 288
+      BorderSpacing.Left = 8
+      Caption = 'Position'
+      ChildSizing.LeftRightSpacing = 6
+      ChildSizing.TopBottomSpacing = 6
+      ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+      ChildSizing.EnlargeVertical = crsHomogenousChildResize
+      ChildSizing.ShrinkHorizontal = crsScaleChilds
+      ChildSizing.ShrinkVertical = crsScaleChilds
+      ChildSizing.Layout = cclLeftToRightThenTopToBottom
+      ChildSizing.ControlsPerLine = 3
+      ClientHeight = 92
+      ClientWidth = 284
+      TabOrder = 0
+      object rbTopLeft: TRadioButton
+        Left = 6
+        Height = 17
+        Top = 6
+        Width = 83
+        Caption = 'top/left'
+        OnClick = gbAlignmentClick
+        TabOrder = 0
+      end
+      object rbTopCenter: TRadioButton
+        Tag = 3
+        Left = 89
+        Height = 17
+        Top = 6
+        Width = 99
+        Caption = 'top/center'
+        OnClick = gbAlignmentClick
+        TabOrder = 1
+      end
+      object rbTopRight: TRadioButton
+        Tag = 5
+        Left = 188
+        Height = 17
+        Top = 6
+        Width = 90
+        Caption = 'top/right'
+        Checked = True
+        OnClick = gbAlignmentClick
+        TabOrder = 2
+        TabStop = True
+      end
+      object rbCenterLeft: TRadioButton
+        Tag = 1
+        Left = 6
+        Height = 46
+        Top = 23
+        Width = 83
+        Caption = 'center/left'
+        OnClick = gbAlignmentClick
+        TabOrder = 3
+      end
+      object Bevel1: TBevel
+        Tag = 999
+        Left = 89
+        Height = 46
+        Top = 23
+        Width = 99
+        Shape = bsSpacer
+      end
+      object rbCenterRight: TRadioButton
+        Tag = 6
+        Left = 188
+        Height = 46
+        Top = 23
+        Width = 90
+        Caption = 'center/right'
+        OnClick = gbAlignmentClick
+        TabOrder = 4
+      end
+      object rbBottomLeft: TRadioButton
+        Tag = 2
+        Left = 6
+        Height = 17
+        Top = 69
+        Width = 83
+        Caption = 'bottom/left'
+        OnClick = gbAlignmentClick
+        TabOrder = 5
+      end
+      object rbBottomCenter: TRadioButton
+        Tag = 4
+        Left = 89
+        Height = 17
+        Top = 69
+        Width = 99
+        Caption = 'bottom/center'
+        OnClick = gbAlignmentClick
+        TabOrder = 6
+      end
+      object rbBottomRight: TRadioButton
+        Tag = 7
+        Left = 188
+        Height = 17
+        Top = 69
+        Width = 90
+        Caption = 'bottom/right'
+        OnClick = gbAlignmentClick
+        TabOrder = 7
+      end
+    end
+    object gbMargins: TGroupBox
+      AnchorSideLeft.Control = ParamsPanel
+      AnchorSideTop.Control = gbBackground
+      AnchorSideRight.Control = gbAlignment
+      AnchorSideRight.Side = asrBottom
+      Left = 168
+      Height = 83
+      Top = 237
+      Width = 128
+      Anchors = [akTop, akRight]
+      Caption = 'Margins'
+      ClientHeight = 63
+      ClientWidth = 124
+      TabOrder = 4
+      object lblMarginX: TLabel
+        AnchorSideTop.Control = seMarginX
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = seMarginX
+        Left = 9
+        Height = 15
+        Top = 8
+        Width = 7
+        Anchors = [akTop, akRight]
+        BorderSpacing.Right = 8
+        Caption = 'X'
+        FocusControl = seMarginX
+        ParentColor = False
+      end
+      object seMarginX: TSpinEdit
+        AnchorSideTop.Control = gbMargins
+        AnchorSideRight.Side = asrBottom
+        Left = 24
+        Height = 23
+        Top = 4
+        Width = 80
+        Alignment = taRightJustify
+        Anchors = [akTop, akRight]
+        BorderSpacing.Top = 4
+        BorderSpacing.Right = 10
+        MaxValue = 1000
+        OnChange = seMarginXChange
+        TabOrder = 0
+        Value = 1
+      end
+      object lblMarginY: TLabel
+        AnchorSideTop.Control = seMarginY
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = seMarginY
+        Left = 9
+        Height = 15
+        Top = 37
+        Width = 7
+        Anchors = [akTop, akRight]
+        BorderSpacing.Right = 8
+        Caption = 'Y'
+        FocusControl = seMarginY
+        ParentColor = False
+      end
+      object seMarginY: TSpinEdit
+        AnchorSideTop.Control = seMarginX
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Side = asrBottom
+        Left = 24
+        Height = 23
+        Top = 33
+        Width = 80
+        Alignment = taRightJustify
+        Anchors = [akTop, akRight]
+        BorderSpacing.Top = 6
+        BorderSpacing.Right = 10
+        MaxValue = 1000
+        OnChange = seMarginYChange
+        TabOrder = 1
+        Value = 1
+      end
+    end
+    object gbItems: TGroupBox
+      AnchorSideLeft.Control = gbFont
+      AnchorSideTop.Control = gbBorder
+      Left = 316
+      Height = 179
+      Top = 120
+      Width = 222
+      Caption = 'Items'
+      ClientHeight = 159
+      ClientWidth = 218
+      TabOrder = 5
+      object cbInverted: TCheckBox
+        AnchorSideLeft.Control = gbItems
+        AnchorSideTop.Control = gbItems
+        Left = 8
+        Height = 19
+        Top = 6
+        Width = 63
+        BorderSpacing.Left = 8
+        BorderSpacing.Top = 6
+        Caption = 'Inverted'
+        OnChange = cbInvertedChange
+        TabOrder = 0
+      end
+      object seColumns: TSpinEdit
+        AnchorSideTop.Control = cbInverted
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = gbItems
+        AnchorSideRight.Side = asrBottom
+        Left = 114
+        Height = 23
+        Top = 33
+        Width = 96
+        Alignment = taRightJustify
+        Anchors = [akTop, akRight]
+        BorderSpacing.Top = 8
+        BorderSpacing.Right = 8
+        MaxValue = 1000
+        MinValue = 1
+        OnChange = seColumnsChange
+        TabOrder = 1
+        Value = 1
+      end
+      object lblColumns: TLabel
+        AnchorSideLeft.Control = cbInverted
+        AnchorSideTop.Control = seColumns
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = seColumns
+        Left = 8
+        Height = 15
+        Top = 37
+        Width = 98
+        Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Right = 8
+        Caption = 'Columns'
+        FocusControl = seColumns
+        ParentColor = False
+      end
+      object lblItemFillOrder: TLabel
+        AnchorSideLeft.Control = cbInverted
+        AnchorSideTop.Control = cbItemFillOrder
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = cbItemFillOrder
+        Left = 8
+        Height = 15
+        Top = 68
+        Width = 98
+        Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Right = 8
+        Caption = 'Item fill order'
+        ParentColor = False
+      end
+      object cbItemFillOrder: TComboBox
+        AnchorSideTop.Control = seColumns
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = gbItems
+        AnchorSideRight.Side = asrBottom
+        Left = 114
+        Height = 23
+        Top = 64
+        Width = 96
+        Anchors = [akTop, akRight]
+        BorderSpacing.Top = 8
+        BorderSpacing.Right = 8
+        ItemHeight = 15
+        ItemIndex = 0
+        Items.Strings = (
+          'by columns'
+          'by rows'
+        )
+        OnChange = cItemFillOrderChange
+        TabOrder = 2
+        Text = 'by columns'
+      end
+      object seSpacing: TSpinEdit
+        AnchorSideTop.Control = cbItemFillOrder
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = gbItems
+        AnchorSideRight.Side = asrBottom
+        Left = 114
+        Height = 23
+        Top = 95
+        Width = 96
+        Alignment = taRightJustify
+        Anchors = [akTop, akRight]
+        BorderSpacing.Top = 8
+        BorderSpacing.Right = 8
+        MaxValue = 1000
+        OnChange = seSpacingChange
+        TabOrder = 3
+        Value = 20
+      end
+      object lblSpacing: TLabel
+        AnchorSideLeft.Control = cbInverted
+        AnchorSideTop.Control = seSpacing
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = seSpacing
+        Left = 8
+        Height = 15
+        Top = 99
+        Width = 98
+        Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Right = 8
+        Caption = 'Spacing'
+        FocusControl = seSpacing
+        ParentColor = False
+      end
+      object seSymbolWidth: TSpinEdit
+        AnchorSideTop.Control = seSpacing
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = gbItems
+        AnchorSideRight.Side = asrBottom
+        Left = 114
+        Height = 23
+        Top = 126
+        Width = 96
+        Alignment = taRightJustify
+        Anchors = [akTop, akRight]
+        BorderSpacing.Top = 8
+        BorderSpacing.Right = 8
+        MaxValue = 1000
+        OnChange = seSymbolWidthChange
+        TabOrder = 4
+        Value = 20
+      end
+      object lblSymbolWidth: TLabel
+        AnchorSideLeft.Control = cbInverted
+        AnchorSideTop.Control = seSymbolWidth
+        AnchorSideTop.Side = asrCenter
+        AnchorSideRight.Control = seSymbolWidth
+        Left = 8
+        Height = 15
+        Top = 130
+        Width = 98
+        Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Right = 8
+        Caption = 'Symbol width'
+        FocusControl = seSymbolWidth
+        ParentColor = False
+      end
+    end
+  end
+end

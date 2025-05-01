@@ -7,6 +7,7 @@ object MainForm: TMainForm
   Caption = 'Iteridense Clustering'
   ClientHeight = 664
   ClientWidth = 1064
+  Color = clWindow
   DesignTimePPI = 110
   OnClose = FormClose
   OnCreate = FormCreate
@@ -285,10 +286,8 @@ object MainForm: TMainForm
         Title.Caption = 'Temperature  [°C]'
         Title.LabelBrush.Style = bsClear
       end>
-    BackColor = clDefault
     Foot.Brush.Color = clBtnFace
-    Legend.Alignment = laTopLeft
-    Legend.BackgroundBrush.Color = clSilver
+    Legend.BackgroundBrush.Color = clWindow
     Legend.UseSidebar = False
     Legend.Visible = True
     Title.Font.Height = -15
@@ -749,6 +748,7 @@ object MainForm: TMainForm
     end
     object LegendClickTool: TLegendClickTool
       Shift = [ssLeft, ssDouble]
+      OnClick = LegendClickToolClick
     end
     object ZoomDragTool: TZoomDragTool
       Shift = [ssLeft]
@@ -775,6 +775,7 @@ object MainForm: TMainForm
     end
     object AxisClickTool: TAxisClickTool
       Shift = [ssLeft, ssDouble]
+      OnClick = AxisClickToolClick
     end
     object LineDragTool: TDataPointDragTool
     end
@@ -818,7 +819,7 @@ object MainForm: TMainForm
   end
   object ContextChartPM: TPopupMenu
     Left = 880
-    Top = 296
+    Top = 320
     object AutoscaleMI: TMenuItem
       Caption = 'Auto scale'
       OnClick = AutoscaleMIClick
@@ -829,6 +830,12 @@ object MainForm: TMainForm
     object ChangeBackColorMI: TMenuItem
       Caption = 'Change background color'
       OnClick = ChangeBackColorMIClick
+    end
+  end
+  object ChartAxisTransformDim1: TChartAxisTransformations
+    Left = 880
+    Top = 248
+    object ValuesLinearTransform: TLinearAxisTransform
     end
   end
 end

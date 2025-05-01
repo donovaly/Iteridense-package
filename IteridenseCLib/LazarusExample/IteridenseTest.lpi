@@ -31,6 +31,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
+            <OtherUnitFiles Value="ChartEditing"/>
             <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <Parsing>
@@ -71,6 +72,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
+            <OtherUnitFiles Value="ChartEditing"/>
             <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <CodeGeneration>
@@ -121,15 +123,89 @@
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>
-        <Filename Value="IteridenseTestUnit.pas"/>
+        <Filename Value="ChartDataHandling.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="ChartEditing\ceaxisdlg.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="ChartAxisEditor"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="ceAxisDlg"/>
+      </Unit>
+      <Unit>
+        <Filename Value="ChartEditing\cebrushframe.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="ChartBrushFrame"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="ceBrushFrame"/>
+      </Unit>
+      <Unit>
+        <Filename Value="ChartEditing\cefontframe.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="ChartFontFrame"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="ceFontFrame"/>
+      </Unit>
+      <Unit>
+        <Filename Value="ChartEditing\celegenddlg.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="ChartLegendEditor"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="ceLegendDlg"/>
+      </Unit>
+      <Unit>
+        <Filename Value="ChartEditing\cepenframe.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="ChartPenFrame"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="cePenFrame"/>
+      </Unit>
+      <Unit>
+        <Filename Value="ChartEditing\cepointerframe.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="ChartPointerFrame"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="cePointerFrame"/>
+      </Unit>
+      <Unit>
+        <Filename Value="ChartEditing\ceseriesdlg.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="ChartSeriesEditor"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="ceSeriesDlg"/>
+      </Unit>
+      <Unit>
+        <Filename Value="ChartEditing\ceshapebrushpenmarginsframe.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="ChartShapeBrushPenMarginsFrame"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="ceShapeBrushPenMarginsFrame"/>
+      </Unit>
+      <Unit>
+        <Filename Value="ChartEditing\cetitlefootdlg.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="ChartTitleFootEditor"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="ceTitleFootDlg"/>
+      </Unit>
+      <Unit>
+        <Filename Value="ChartEditing\ceutils.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ceUtils"/>
+      </Unit>
+      <Unit>
+        <Filename Value="ChartEditing\ceaxisframe.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <UnitName Value="ceAxisFrame"/>
+      </Unit>
+      <Unit>
+        <Filename Value="IteridenseTestMain.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="MainForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit>
-      <Unit>
-        <Filename Value="ChartDataHandling.pas"/>
-        <IsPartOfProject Value="True"/>
       </Unit>
     </Units>
   </ProjectOptions>
@@ -141,6 +217,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
+      <OtherUnitFiles Value="ChartEditing"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Linking>

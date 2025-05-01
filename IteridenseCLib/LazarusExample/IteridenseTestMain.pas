@@ -1,4 +1,4 @@
-unit IteridenseTestUnit;
+unit IteridenseTestMain;
 
 {$mode objfpc}{$H+}{$R+}{$Q+}
 
@@ -65,6 +65,7 @@ type
     AutoscaleMI: TMenuItem;
     AxisClickTool: TAxisClickTool;
     ChangeBackColorMI: TMenuItem;
+    ChartAxisTransformDim1: TChartAxisTransformations;
     ContextChartPM: TPopupMenu;
     NoDiagonalsCB: TCheckBox;
     IteridenseBevelBottomB: TBevel;
@@ -118,9 +119,12 @@ type
     KMeansTS: TTabSheet;
     TitleFootClickTool: TTitleFootClickTool;
     ValuesAutoScaleAxisTransform: TAutoScaleAxisTransform;
+    ValuesLinearTransform: TLinearAxisTransform;
     ZoomDragTool: TZoomDragTool;
     ZoomMouseWheelTool: TZoomMouseWheelTool;
     procedure AutoscaleMIClick(Sender: TObject);
+    procedure AxisClickToolClick(ASender: TChartTool; Axis: TChartAxis;
+      AHitInfo: TChartAxisHitTests);
     procedure ChangeBackColorMIClick(Sender: TObject);
     procedure DataPointHintToolHint(ATool: TDataPointHintTool;
       const APoint: TPoint; var AHint: String);
@@ -129,6 +133,7 @@ type
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure IteridenseBBClick(Sender: TObject);
+    procedure LegendClickToolClick(ASender: TChartTool; ALegend: TChartLegend);
     procedure OpenBBClick(Sender: TObject);
     procedure FormDropFiles(Sender: TObject; const FileNames{%H-}: array of String);
     procedure UseDensityRBChange(Sender: TObject);
@@ -154,12 +159,6 @@ var
   const AppearanceFile : string = 'Appearance-IteridenseTest.ini';
   // filename with default appearance
   const AppearanceDefault : string = 'Appearance-IteridenseTest.default';
-  // a palette with distinguishable colors
-  colorPalette: array[0..2] of TColor = (
-    $7F7F7F,      // RGB(127,127,127)
-    $00FF7F,     // RGB(0,127,255)
-    $7F007F      // RGB(127,127,127)
-  );
 
 implementation
 
@@ -269,31 +268,6 @@ begin
   // we write into the same folder than the program .exe
   iniFile:= ExtractFilePath(Application.ExeName) + AppearanceFile;
   //TChartData.SaveAppearance(iniFile);
-end;
-
-
-procedure TMainForm.DataPointHintToolHint(ATool: TDataPointHintTool;
-  const APoint: TPoint; var AHint: String);
-begin
-  ChartData.CDDataPointHintToolHint(ATool, APoint, AHint);
-end;
-
-
-procedure TMainForm.AutoscaleMIClick(Sender: TObject);
-begin
-  ChartData.CDAutoscaleMIClick(Sender);
-end;
-
-procedure TMainForm.ChangeBackColorMIClick(Sender: TObject);
-begin
-  ChartData.CDChangeBackColorMIClick(Sender);
-end;
-
-
-procedure TMainForm.DataPointHintToolHintPosition(ATool: TDataPointHintTool;
-  var APoint: TPoint);
-begin
-  ChartData.CDDataPointHintToolHintPosition(ATool, APoint);
 end;
 
 
@@ -477,9 +451,11 @@ begin
   for i:= 0 to clusterCount - 1 do
   begin
     Series[i]:= TLineSeries.Create(DataC);
-    Series[i].ShowLines:= False; // Points only
+    Series[i].ShowLines:= False; // points only
     Series[i].Pointer.Visible:= True;
-    Series[i].Pointer.Brush.Color:= colorPalette[i]; // Assign a unique color for each cluster
+    Series[i].Pointer.Brush.Color:= colorPalette[i]; // assign unique color for each cluster
+    Series[i].Pointer.Style:= psCircle; // circles for the points
+    Series[i].Title:= IntToStr(i);
     DataC.AddSeries(Series[i]);
   end;
 
@@ -495,8 +471,39 @@ begin
 end;
 
 
+procedure TMainForm.DataPointHintToolHint(ATool: TDataPointHintTool;
+  const APoint: TPoint; var AHint: String);
+begin
+  ChartData.CDDataPointHintToolHint(ATool, APoint, AHint);
+end;
 
+procedure TMainForm.DataPointHintToolHintPosition(ATool: TDataPointHintTool;
+  var APoint: TPoint);
+begin
+  ChartData.CDDataPointHintToolHintPosition(ATool, APoint);
+end;
 
+procedure TMainForm.AutoscaleMIClick(Sender: TObject);
+begin
+  ChartData.CDAutoscaleMIClick(Sender);
+end;
+
+procedure TMainForm.ChangeBackColorMIClick(Sender: TObject);
+begin
+  ChartData.CDChangeBackColorMIClick(Sender);
+end;
+
+procedure TMainForm.LegendClickToolClick(ASender: TChartTool;
+  ALegend: TChartLegend);
+begin
+  ChartData.CDLegendClickToolClick(ASender, ALegend);
+end;
+
+procedure TMainForm.AxisClickToolClick(ASender: TChartTool; Axis: TChartAxis;
+  AHitInfo: TChartAxisHitTests);
+begin
+  ChartData.CDAxisClickToolClick(ASender, Axis, AHitInfo);
+end;
 
 
 end.

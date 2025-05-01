@@ -7,7 +7,10 @@ uses
   cthreads,
   {$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, TAChartLazarusPkg, lazcontrols, IteridenseTestUnit, ChartDataHandling;
+  Forms, TAChartLazarusPkg, lazcontrols, IteridenseTestMain, ChartDataHandling,
+  ceAxisDlg, ceBrushFrame, ceFontFrame, ceLegendDlg, cePenFrame, cePointerFrame,
+  ceSeriesDlg, ceShapeBrushPenMarginsFrame, ceTitleFootDlg, ceUtils,
+  ceAxisFrame;
 
 {$R *.res}
 

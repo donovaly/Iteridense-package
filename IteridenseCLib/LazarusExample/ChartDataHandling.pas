@@ -10,7 +10,7 @@ uses
   TATransformations, TATools, TAGraph, TASeries, TAChartAxis, TALegend, TATextElements,
   TATypes, TAChartUtils, SpinEx,
   FileInfo, StrUtils, Streamex, Generics.Collections,
-  IteridenseTestUnit;
+  IteridenseTestMain;
 
 type
   TChartData = class
@@ -27,6 +27,9 @@ type
     procedure CDDataPointHintToolHintPosition(ATool: TDataPointHintTool; var APoint: TPoint);
     procedure CDAutoscaleMIClick(Sender: TObject);
     procedure CDChangeBackColorMIClick(Sender: TObject);
+    procedure CDLegendClickToolClick(Sender: TChartTool; Legend: TChartLegend);
+    procedure CDAxisClickToolClick(Sender: TChartTool;
+                                    AnAxis: TChartAxis; HitInfo: TChartAxisHitTests);
     function OpenHandling(InName: string; FileExt: string): string;
     function SaveHandling(InName: string; FileExt: string): string;
     procedure SaveAppearance(iniFile: string);
@@ -46,14 +49,31 @@ var
   // filename with default appearance
   const AppearanceDefault : string = 'Appearance-IteridenseTest.default';
   // a palette with distinguishable colors
-  colorPalette: array[0..2] of TColor = (
-    $7F7F7F,      // RGB(127,127,127)
-    $00FF7F,     // RGB(0,127,255)
-    $7F007F      // RGB(127,127,127)
+  colorPalette: array[0..15] of TColor = (
+    $ED9464, // RGB(100, 149, 237)
+    $109FFF, // RGB(255, 159, 18)
+    $38C88E, // RGB(142, 200, 58)
+    $3531FF, // RGB(255, 49, 53)
+    $F981FF, // RGB(255, 129, 249)
+    $6C63FF, // RGB(255, 108, 99)
+    $FF9555, // RGB(255, 149, 255)
+    $A09FFF, // RGB(255, 159, 168)
+    $2DECFF, // RGB(255, 236, 45)
+    $FFEA4A, // RGB(74, 238, 255)
+    $2121FF, // RGB(255, 33, 37)
+    $F39EB1, // RGB(177, 158, 243)
+    $6BDBF9, // RGB(249, 219, 98)
+    $D662FF, // RGB(255, 98, 215)
+    $009FFF, // RGB(255, 159, 0)
+    $43FFFF  // RGB(255, 255, 67)
   );
 
 
 implementation
+
+uses
+  // ChartEditing units
+  ceTitleFootDlg, ceLegendDlg, ceSeriesDlg, ceAxisDlg, ceAxisFrame;
 
 constructor TChartData.create;
 begin
@@ -394,6 +414,53 @@ begin
    MainForm.DataC.BackColor:= MainForm.ColorDialog.Color;
 end;
 
+
+procedure TChartData.CDLegendClickToolClick(Sender: TChartTool;
+  Legend: TChartLegend);
+var
+ editor : TChartLegendEditor;
+begin
+ editor:= TChartLegendEditor.Create(nil);
+ try
+  editor.Prepare(Legend, 'Edit chart legend');
+  editor.ShowModal;
+ finally
+  editor.Free;
+ end;
+end;
+
+
+procedure TChartData.CDAxisClickToolClick(Sender: TChartTool;
+  AnAxis: TChartAxis; HitInfo: TChartAxisHitTests);
+var
+  page : TChartAxisEditorPage;
+  editor : TChartAxisEditor;
+begin
+ Unused(Sender);
+ if (ahtTitle in HitInfo) then
+  page:= aepTitle
+ else if (ahtLabels in HitInfo) then
+  page:= aepLabels
+ else if (ahtLine in HitInfo) then
+  page:= aepLine
+ else if (ahtGrid in HitInfo) then
+  page:= aepGrid
+ else
+  exit;
+ editor:= TChartAxisEditor.Create(nil);
+ try
+  editor.Prepare(AnAxis, 'Edit chart axis "%s"');
+  editor.Page:= page;
+  editor.ShowModal; // shows the dialog
+  // Info: calling the dialog triggers ZoomDragToolAfterMouseUp
+  // keep that in mind
+ finally
+  editor.Free;
+ end;
+end;
+
+
+// --------------------------------------------------------------
 function TChartData.FontStylesToString(FontStyles: TFontStyles): string;
 begin
   result := '';
