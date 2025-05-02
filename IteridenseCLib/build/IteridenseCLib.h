@@ -18,15 +18,21 @@ typedef struct {
     size_t dims[MAX_DIMENSIONS]; // sizes of each dimension, padded with zeros
 } CTensor;
 
+// C-compatible vector (1D tensor) struct
+typedef struct {
+    void* data;                  // pointer to vector data buffer
+    size_t length;               // length of vector
+} CArray;
+
 // C-compatible IteridenseResult struct
 typedef struct {
     CTensor clusterTensor;    // of type int64_t
     CTensor countTensor;      // of type int64_t
     int64_t numOfClusters;
     int64_t finalResolution;
-    CTensor assignments;      // of type int64_t
-    CTensor clusterDensities; // of type double
-    CTensor clusterSizes;     // of type int64_t
+    CArray assignments;      // of type int64_t
+    CArray clusterDensities; // of type double
+    CArray clusterSizes;     // of type int64_t
 } IteridenseResultC;
 
 /**

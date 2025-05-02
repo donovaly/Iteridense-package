@@ -28,46 +28,38 @@ function TestIteridenseClustering()
     println("numOfClusters: ", result.numOfClusters)
     println("finalResolution: ", result.finalResolution)
 
-    # Inspect clusterTensor
+    # inspect clusterTensor
     clusterTensorDims = Tuple(result.clusterTensor.dims[1:result.clusterTensor.ndims])
-    clusterTensorArray = unsafe_wrap(Array, Ptr{Int}(result.clusterTensor.data), clusterTensorDims)
+    clusterTensorArray = unsafe_wrap(Array, Ptr{Int64}(result.clusterTensor.data), clusterTensorDims)
     println("clusterTensor dimensions: ", map(Int, clusterTensorDims))
     #println("clusterTensor complete: ", clusterTensorArray)
 
-    # Inspect countTensor
+    # inspect countTensor
     countTensorDims = Tuple(result.countTensor.dims[1:result.countTensor.ndims])
     countTensorArray = unsafe_wrap(Array, Ptr{Int64}(result.countTensor.data), countTensorDims)
     #println("countTensor dimensions: ", map(Int64, countTensorDims))
-    #println("countTensor complete: ", countTensorArray)
+    println("countTensor complete: ", countTensorArray)
 
     # inspect assignments
-    assignmentsDims = Tuple(result.assignments.dims[1:result.assignments.ndims])
-    assignmentsArray = unsafe_wrap(Array, Ptr{Int64}(result.assignments.data), assignmentsDims)
-    #println("assignments dimensions: ", map(Int64, assignmentsDims))
-    println("assignments data: ", assignmentsArray)
+    assignments = unsafe_wrap(Array, Ptr{Int64}(result.assignments.data),
+                                result.assignments.length)
+    println("assignments: ", assignments)
 
-    # Inspect clusterDensities
-    clusterDensitiesDims = Tuple(result.clusterDensities.dims[1:result.clusterDensities.ndims])
-    clusterDensitiesArray = unsafe_wrap(Array, Ptr{Float64}(result.clusterDensities.data), clusterDensitiesDims)
-    #println("clusterDensities dimensions: ", map(Int64, clusterDensitiesDims))
-    #println("clusterDensities complete: ", clusterDensitiesArray)
+    # inspect clusterDensities
+    clusterDensities = unsafe_wrap(Array, Ptr{Float64}(result.clusterDensities.data),
+                                    result.clusterDensities.length)
+    println("clusterDensities: ", clusterDensities)
 
-    # Inspect clusterSizes
-    clusterSizesDims = Tuple(result.clusterSizes.dims[1:result.clusterSizes.ndims])
-    clusterSizesArray = unsafe_wrap(Array, Ptr{Int64}(result.clusterSizes.data), clusterSizesDims)
-    #println("clusterSizes dimensions: ", map(Int64, clusterSizesDims))
-    #println("clusterSizes complete: ", clusterSizesArray)
+    # inspect clusterSizes
+    clusterSizes = unsafe_wrap(Array, Ptr{Int64}(result.clusterSizes.data),
+                                result.clusterSizes.length)
+    println("clusterSizes: ", clusterSizes)
 
     # free allocated memory
     IteridenseFree(resultPointer)
-
-    return countTensorArray
 end
 
-# Run multiple times to trigger precompilation and test stability
-tensor = nothing
+# run multiple times to trigger precompilation and test stability
 for i in 1:5
-    global tensor = TestIteridenseClustering()
+    TestIteridenseClustering()
 end
-
-println("countTensor: $tensor")

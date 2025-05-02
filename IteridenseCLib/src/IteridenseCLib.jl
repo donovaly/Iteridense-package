@@ -241,8 +241,8 @@ end
 function AnalyzeClusters(clusterTensor, countTensor, numClusters::Int64, resolution::Int,
                             totalCounts::Int)
     numOfCells = length(countTensor)
-    clusterDensities = zeros(Float64, 1, numClusters)
-    clusterSizes = zeros(Int64, 1, numClusters)
+    clusterDensities = zeros(Float64, numClusters)
+    clusterSizes = zeros(Int64, numClusters)
     for cluster in 1:numClusters
         cellCounter = 0
         # first sum values of the cluster cells
@@ -378,6 +378,7 @@ function AssignPoints(dataMatrix, clusterTensor, resolution::Int, minMatrix, max
 end
 
 
+#-------------------------------------------------------------------------------------------------
 # for C we must fix the dimensions to a maximal value
 # 256 dimensions should be sufficient
 const MAX_DIMENSIONS = 256
@@ -389,6 +390,12 @@ struct CTensor
     dims::NTuple{MAX_DIMENSIONS, Csize_t} # sizes of each dimension, padded with zeros
 end
 
+# C-compatible struct to be used for a vector (1D tensor)
+struct CArray
+    data::Ptr{Cvoid}       # pointer to data buffer
+    length::Csize_t        # number of elements 
+end
+
 
 #-------------------------------------------------------------------------------------------------
 # C-compatible IteridenseResult struct
@@ -397,9 +404,9 @@ struct IteridenseResultC
     countTensor::CTensor
     numOfClusters::Clonglong
     finalResolution::Clonglong
-    assignments::CTensor
-    clusterDensities::CTensor
-    clusterSizes::CTensor
+    assignments::CArray
+    clusterDensities::CArray
+    clusterSizes::CArray
 end
 
 
@@ -504,8 +511,8 @@ function Clustering(dataMatrix; minClusterSize::Int= 3, startResolution::Int= 2,
         println("The clustering detected no clusters")
         return IteridenseResultC(ArrayToCTensor([]), ArrayToCTensor([]), Clonglong(0),
                                     Clonglong(LoopResult.finalResolution),
-                                    ArrayToCTensor(zeros(Int, totalCounts)),
-                                    ArrayToCTensor([]), ArrayToCTensor([]) )
+                                    ArrayToCArrayInt(zeros(Int, totalCounts)),
+                                    ArrayToCArrayFloat([]), ArrayToCArrayInt([]) )
     else
         # run a single loop with a higher fixed resolution
         secondResolution = LoopResult.finalResolution + 1
@@ -524,9 +531,9 @@ function Clustering(dataMatrix; minClusterSize::Int= 3, startResolution::Int= 2,
                                 ArrayToCTensor(LoopResult.countTensor),
                                 Clonglong(LoopResult.numOfClusters),
                                 Clonglong(LoopResult.finalResolution),
-                                ArrayToCTensor(assignments),
-                                ArrayToCTensor(LoopResult.clusterDensities),
-                                ArrayToCTensor(LoopResult.clusterSizes) )
+                                ArrayToCArrayInt(assignments),
+                                ArrayToCArrayFloat(LoopResult.clusterDensities),
+                                ArrayToCArrayInt(LoopResult.clusterSizes) )
 
     # if the number of clusters did change between the 2 runs, return the assignment according
     # to the first clustering result
@@ -563,13 +570,11 @@ function Clustering(dataMatrix; minClusterSize::Int= 3, startResolution::Int= 2,
     # we have to count the zero clusters too
     clusterCounts = zeros(Int, LoopResult.numOfClusters + 1)
     for num in assignmentsResult
-        #println("num: $(num)")
-        #println("num: $(num)")
         clusterCounts[num+1] += 1
     end
     # cut off the zero clusters
     clusterCounts = clusterCounts[2:end]
-    clusterSizes = reshape(clusterCounts, 1, :)
+    clusterSizes = reshape(clusterCounts, :)
     # For the clusterDensities it is not straigh-forward since there is no clear resolution
     # and tensors to be taken. We therefore simply take the mean of the 2.
     clusterDensities = (LoopResult.clusterDensities .+
@@ -580,19 +585,41 @@ function Clustering(dataMatrix; minClusterSize::Int= 3, startResolution::Int= 2,
                                 ArrayToCTensor(LoopResult.countTensor),
                                 Clonglong(LoopResult.numOfClusters),
                                 Clonglong(LoopResult.finalResolution),
-                                ArrayToCTensor(assignmentsResult),
-                                ArrayToCTensor(clusterDensities),
-                                ArrayToCTensor(clusterSizes) )
+                                ArrayToCArrayInt(assignmentsResult),
+                                ArrayToCArrayFloat(clusterDensities),
+                                ArrayToCArrayInt(clusterSizes) )
 end
 
 
 #-------------------------------------------------------------------------------------------------
-# function to convert a Julia array to a C-compatible CTensor struct
-function ArrayToCTensor(anArray::AbstractArray)
+# helper to allocate and copy a Julia array to an allocated C buffer
+function AllocateAndCopy(anArray::AbstractArray{dataType}) where dataType
+    arrayLength = length(anArray)
+    buffer = Libc.malloc(arrayLength * sizeof(dataType))
+    if buffer == C_NULL
+        error("allocation failed!")
+    end
+    unsafe_copyto!(Ptr{dataType}(buffer), pointer(anArray), arrayLength)
+    return buffer
+end
+
+# convert Julia array to CTensor struct with allocated data buffer
+function ArrayToCTensor(anArray::AbstractArray{Int64})
     numDimensions = ndims(anArray)
     # pad with zeros if numDimensions < MAX_DIMENSIONS
     dimensions = ntuple(i -> i <= numDimensions ? size(anArray, i) : 0, MAX_DIMENSIONS)
-    return CTensor(pointer(anArray), Clonglong(numDimensions), dimensions)
+    dataPointer = AllocateAndCopy(anArray)
+    return CTensor(dataPointer, Clonglong(numDimensions), dimensions)
+end
+
+# convert Julia array to CArray struct with allocated data buffer
+function ArrayToCArrayInt(anArray::AbstractVector{Int64})
+    dataPointer = AllocateAndCopy(anArray)
+    return CArray(dataPointer, Csize_t(length(anArray)))
+end
+function ArrayToCArrayFloat(anArray::AbstractVector{Float64})
+    dataPointer = AllocateAndCopy(anArray)
+    return CArray(dataPointer, Csize_t(length(anArray)))
 end
 
 
@@ -647,6 +674,25 @@ end
 Base.@ccallable function IteridenseFree(resultPointer::Ptr{IteridenseResultC})::Cint
     if resultPointer == C_NULL
         return -1
+    end
+    # read the struct to get pointers
+    result = unsafe_load(resultPointer)
+    # free tensor data buffer
+    if result.clusterTensor.data != C_NULL
+        Libc.free(result.clusterTensor.data)
+    end
+    if result.countTensor.data != C_NULL
+        Libc.free(result.countTensor.data)
+    end
+    # free array data buffer
+    if result.assignments.data != C_NULL
+        Libc.free(result.assignments.data)
+    end
+    if result.clusterDensities.data != C_NULL
+        Libc.free(result.clusterDensities.data)
+    end
+    if result.clusterSizes.data != C_NULL
+        Libc.free(result.clusterSizes.data)
     end
     free(resultPointer)
     return 0
