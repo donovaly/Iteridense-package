@@ -480,9 +480,6 @@ begin
   if IteridenseFree(iteridenseResult) <> 0 then
     MessageDlg('Warning: failed to free iteridenseResult', mtError, [mbOK], 0);
 
-  // show the results
-  if MethodsPC.ActivePage = IteridenseTS then
-    MethodsPC.ActivePage:= IteridenseResultTS;
 end;
 
 

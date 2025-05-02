@@ -168,7 +168,7 @@ Legend.MarginY 4
 Legend.Spacing 4
 Legend.SymbolWidth 20
 Legend.UseSidebar 0
-Legend.BackgroundBrush.Color clWhite
+Legend.BackgroundBrush.Color clWindow
 Legend.BackgroundBrush.Style bsSolid
 Legend.Font.Color clDefault
 Legend.Font.Name default

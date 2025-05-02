@@ -634,45 +634,6 @@ try
  List.Add('Legend.Frame.Visible ' + BoolToStr(Chart.Legend.Frame.Visible));
  List.Add('Legend.Frame.Width ' + IntToStr(Chart.Legend.Frame.Width));
 
- // Series
- for i:= 0 to Chart.SeriesCount-5 do // omit the TConstantLines
- begin
-  Series:= (Chart.Series[i]) as TLineSeries;
-  List.Add('LineSeries ' + Series.Name);
-  // we don't store the Title since this is set via the .def file
-  // also don't show the Active state for the same reason
-
-  // Legend
-  List.Add('Legend.Visible ' + BoolToStr(Series.Legend.Visible));
-  WriteStr(tempStr, Series.Legend.Multiplicity);
-  List.Add('Legend.Multiplicity ' + tempStr);
-  // Marks
-  WriteStr(tempStr, Series.Marks.Style);
-  List.Add('Marks.Style ' + tempStr);
-  List.Add('Marks.Format ' + Series.Marks.Format);
-  List.Add('Marks.LabelBrush.Color ' + ColorToString(Series.Marks.LabelBrush.Color));
-  List.Add('Marks.LabelFont.Color ' + ColorToString(Series.Marks.LabelFont.Color));
-  List.Add('Marks.Visible ' + BoolToStr(Series.Marks.Visible));
-  // Lines
-  List.Add('ShowLines ' + BoolToStr(Series.ShowLines));
-  List.Add('SeriesColor ' + ColorToString(Series.SeriesColor));
-  WriteStr(tempStr, Series.LinePen.Style);
-  List.Add('LinePen.Style ' + tempStr);
-  List.Add('LinePen.Width ' + IntToStr(Series.LinePen.Width));
-  // Points
-  List.Add('ShowPoints ' + BoolToStr(Series.ShowPoints));
-  List.Add('Pointer.Brush.Color ' + ColorToString(Series.Pointer.Brush.Color));
-  WriteStr(tempStr, Series.Pointer.Brush.Style);
-  List.Add('Pointer.Brush.Style ' + tempStr);
-  List.Add('Pointer.HorizSize ' + IntToStr(Series.Pointer.HorizSize));
-  List.Add('Pointer.Pen.Color ' + ColorToString(Series.Pointer.Pen.Color));
-  WriteStr(tempStr, Series.Pointer.Pen.Style);
-  List.Add('Pointer.Pen.Style ' + tempStr);
-  List.Add('Pointer.Pen.Width ' + IntToStr(Series.Pointer.Pen.Width));
-  WriteStr(tempStr, Series.Pointer.Style);
-  List.Add('Pointer.Style ' + tempStr);
- end;
-
  // Title
  // purposely don't store the title text since this can cause issues
  // when another user starts the program for another measurement
