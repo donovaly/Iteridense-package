@@ -765,16 +765,6 @@ object MainForm: TMainForm
     Width = 131
     Caption = 'Loaded Data CSV File'
   end
-  object TextOutputM: TMemo
-    Left = 459
-    Height = 243
-    Top = 8
-    Width = 186
-    Lines.Strings = (
-      'TextOutputM'
-    )
-    TabOrder = 6
-  end
   object ChartAxisTransformValues: TChartAxisTransformations
     Left = 880
     Top = 192

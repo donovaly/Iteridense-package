@@ -18,9 +18,15 @@ type
 
   // C-compatible tensor struct
   CTensor = record
-    data : Pointer;         // void* data
-    ndims : Int64;          // int64_t ndims
-    dims : array[0..MAX_DIMENSIONS-1] of csize_t;
+    data: Pointer;         // void* data
+    ndims: Int64;          // int64_t ndims
+    dims: array[0..MAX_DIMENSIONS-1] of csize_t;
+  end;
+
+  // C-compatible array struct
+  CArray = record
+    data: Pointer;         // void* data
+    length: csize_t;
   end;
 
   // C-compatible IteridenseResult struct
@@ -29,9 +35,9 @@ type
     countTensor : CTensor;
     numOfClusters : Int64;
     finalResolution : Int64;
-    assignments : CTensor;
-    clusterDensities : CTensor;
-    clusterSizes : CTensor;
+    assignments : CArray;
+    clusterDensities : CArray;
+    clusterSizes : CArray;
   end;
   PIteridenseResultC = ^IteridenseResultC;
 
@@ -72,7 +78,6 @@ type
     IteridenseResultTS: TTabSheet;
     FinalResolutionLE: TLabeledEdit;
     ClusterResultSG: TStringGrid;
-    TextOutputM: TMemo;
     NoDiagonalsCB: TCheckBox;
     IteridenseBevelBottomB: TBevel;
     IteridenseBevelTopB: TBevel;
@@ -139,8 +144,9 @@ type
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure IteridenseBBClick(Sender: TObject);
-    function TensorToIntArray(tensor: CTensor): TIntArray;
-    function TensorToDoubleArray(tensor: CTensor): TDoubleArray;
+    function CArrayToTIntArray(cArray: CArray): TIntArray;
+    function CArrayToTDoubleArray(cArray: CArray): TDoubleArray;
+    function CTensorToTDoubleArray(tensor: CTensor): TDoubleArray;
     procedure LegendClickToolClick(ASender: TChartTool; ALegend: TChartLegend);
     procedure OpenBBClick(Sender: TObject);
     procedure FormDropFiles(Sender: TObject; const FileNames{%H-}: array of String);
@@ -304,42 +310,46 @@ begin
 end;
 
 
-// function to convert c-tensor to an array of Int64
-function TMainForm.TensorToIntArray(tensor: CTensor): TIntArray;
+// function to convert a c-array to an array of Int64
+function TMainForm.CArrayToTIntArray(cArray: CArray): TIntArray;
 var
   count, i: LongInt;
-  dataPointer: PInt64;
+  arrayPointer: PInt64;
 begin
-  // we have to manually count here because tensor.dims is MAX_DIMENSIONS
-  // as defined but we need only the ones that are not zero
-  count:= 1;
-  for i:= 0 to tensor.ndims - 1 do
-    count:= count * tensor.dims[i];
-
   result:= [];
-  SetLength(result, count);
+  Setlength(result, cArray.length);
+  arrayPointer:= PInt64(cArray.data);
+  for i:= 0 to High(result) do
+    result[i]:= arrayPointer[i];
+end;
 
-  dataPointer:= PInt64(tensor.data);
-  for i:= 0 to count - 1 do
-    result[i]:= dataPointer[i];
+// function to convert a c-array to an array of Double
+function TMainForm.CArrayToTDoubleArray(cArray: CArray): TDoubleArray;
+var
+  count, i: LongInt;
+  arrayPointer: PDouble;
+begin
+  result:= [];
+  Setlength(result, cArray.length);
+  arrayPointer:= PDouble(cArray.data);
+  for i:= 0 to High(result) do
+    result[i]:= arrayPointer[i];
 end;
 
 
-// function to convert c-tensor to an array of double
-function TMainForm.TensorToDoubleArray(tensor: CTensor): TDoubleArray;
+// function to convert a c-tensor to an array of Double
+function TMainForm.CTensorToTDoubleArray(tensor: CTensor): TDoubleArray;
 var
   count, i: LongInt;
   dataPointer: PDouble;
 begin
-  // we have to manually count here because tensor.dims is MAX_DIMENSIONS
+  // we have to manually count because tensor.dims is MAX_DIMENSIONS
   // as defined but we need only the ones that are not zero
   count:= 1;
   for i:= 0 to tensor.ndims - 1 do
     count:= count * tensor.dims[i];
-
   result:= [];
   SetLength(result, count);
-
   dataPointer:= PDouble(tensor.data);
   for i:= 0 to count - 1 do
     result[i]:= dataPointer[i];
@@ -354,8 +364,9 @@ var
   randomNumber : Double;
   textLine : String;
   iteridenseResult : PIteridenseResultC;
-  inputArray, clusterDensitiesArray : array of Double;
-  assignmentsArray, clusterSizesArray : array of Int64;
+  inputArray : array of Double;
+  assignmentsArray, clusterSizesArray : TIntArray;
+  clusterDensitiesArray : TDoubleArray;
   nrows, ncols, minClusterSize, startResolution, stopResolution,
   minClusters, noDiagonals, useDensity, useClusters : cint64;
   density, minClusterDensity: cdouble;
@@ -365,7 +376,7 @@ begin
   // column-major order to make it accessible for Julia
   nrows:= Length(DataArray);
   ncols:= Length(DataArray[0]) - 1; // don't take the assignment column into account
-  setlength(inputArray, nrows * ncols);
+  SetLength(inputArray, nrows * ncols);
   counter:= 0;
   for columns:= 0 to ncols-1 do
     for rows:= 0 to nrows-1 do
@@ -398,6 +409,7 @@ begin
     useDensity,
     useClusters
   );
+
   if iteridenseResult = nil then
   begin
     MessageDlg('Failed to create iteridenseResult', mtError, [mbOK], 0);
@@ -406,28 +418,21 @@ begin
 
   // fixme check case no cluster found
   if (iteridenseResult^.assignments.data = nil)
-    or (iteridenseResult^.assignments.ndims = 0) then
+    or (iteridenseResult^.assignments.length = 0) then
   begin
     MessageDlg('Clustering failed, no assignments available', mtError, [mbOK], 0);
     exit;
   end;
 
-  // convert c-tensor to an array of longint
-  assignmentsArray:= TensorToIntArray(iteridenseResult^.assignments);
-  clusterDensitiesArray:= TensorToDoubleArray(iteridenseResult^.clusterDensities);
-  clusterSizesArray:= TensorToIntArray(iteridenseResult^.clusterSizes);
-
-  // output first 10 elements
-  textLine:= '';
-  for i:= 0 to 9 do
-  begin
-    textLine:= textLine + IntToStr(assignmentsArray[i]) + ' ';
-  end;
-  TextOutputM.Lines.Add(textLine);
+  // convert c-arrays to Pascal arrays
+  assignmentsArray:= CArrayToTIntArray(iteridenseResult^.assignments);
+  clusterDensitiesArray:= CArrayToTDoubleArray(iteridenseResult^.clusterDensities);
+  clusterSizesArray:= CArrayToTIntArray(iteridenseResult^.clusterSizes);
 
   FinalResolutionLE.Text:= IntToStr(iteridenseResult^.finalResolution);
   // fill the arrays to ClusterResultSG
   ClusterResultSG.RowCount:= Length(clusterSizesArray) + 1; // +1 for header row
+  i:= Length(clusterSizesArray);
   for i:= 0 to High(clusterSizesArray) do
   begin
     ClusterResultSG.Cells[0, i+1] := IntToStr(i+1);
@@ -438,9 +443,8 @@ begin
   numOfClusters:= iteridenseResult^.numOfClusters;
 
   // add assignmentsArray as column to DataArray
-  assignmentColumn:= length(DataArray[0]);
-  SetLength(DataArray, high(DataArray)+1, assignmentColumn+1);
-  for i:= 0 to high(DataArray) do
+  assignmentColumn:= length(DataArray[0])-1;
+  for i:= 0 to High(DataArray) do
     DataArray[i][assignmentColumn]:= assignmentsArray[i];
 
   // plot the data
@@ -470,6 +474,7 @@ begin
     idx := round(DataArray[i, assignmentColumn]); // clusterID
     Series[idx].AddXY(DataArray[i, 0], DataArray[i, 1]);
   end;
+
 
   // free the allocated struct
   if IteridenseFree(iteridenseResult) <> 0 then
