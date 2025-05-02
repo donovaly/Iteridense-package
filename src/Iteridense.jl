@@ -244,8 +244,8 @@ end
 function AnalyzeClusters(clusterTensor, countTensor, numClusters::Int, resolution::Int,
                             totalCounts::Int)
     numOfCells = length(countTensor)
-    clusterDensities = zeros(1, numClusters)
-    clusterSizes = zeros(Int, 1, numClusters)
+    clusterDensities = zeros(numClusters)
+    clusterSizes = zeros(Int, numClusters)
     for cluster in 1:numClusters
         cellCounter = 0
         # first sum values of the cluster cells
@@ -546,7 +546,7 @@ function Clustering(dataMatrix; minClusterSize::Int= 3, startResolution::Int= 2,
     end
     # cut off the zero clusters
     clusterCounts = clusterCounts[2:end]
-    clusterSizes = reshape(clusterCounts, 1, :)
+    clusterSizes = reshape(clusterCounts, :)
     # For the clusterDensities it is not straigh-forward since there is no clear resolution
     # and tensors to be taken. We therefore simply take the mean of the 2.
     clusterDensities = (LoopResult.clusterDensities .+
