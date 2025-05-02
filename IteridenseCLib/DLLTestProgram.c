@@ -7,9 +7,9 @@
 #include "CompilationResult\include\IteridenseCLib.h"
 
 // Helper to print clusterTensor data (assuming 3D tensor)
-void printTensor(const CTensor* tensor) {
-    printf("Tensor ndims: %d\n", tensor->ndims);
-    printf("Tensor dims: ");
+void printTensor(const CTensor* tensor, const char* name) {
+    printf("%s ndims: %d\n", name, tensor->ndims);
+    printf("%s dims: ", name);
     for (int i = 0; i < tensor->ndims; i++) {
         printf("%zu ", tensor->dims[i]);
     }
@@ -22,7 +22,7 @@ void printTensor(const CTensor* tensor) {
         total_elements *= tensor->dims[i];
     }
 
-    printf("Tensor data: ");
+    printf("%s data: ", name);
     for (size_t i = 0; i < total_elements; i++) {
         printf("%d ", data[i]);
     }
@@ -61,8 +61,8 @@ int main(int argc, char *argv[]) {
 
     printf("numOfClusters: %d\n", result->numOfClusters);
     printf("finalResolution: %d\n", result->finalResolution);
-    printTensor(&result->clusterTensor);
-    printTensor(&result->countTensor);
+    printTensor(&result->clusterTensor, "clusterTensor");
+    printTensor(&result->countTensor, "countTensor");
 
     // Free the allocated result
     int free_status = IteridenseFree(result);
