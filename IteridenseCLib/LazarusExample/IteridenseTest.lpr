@@ -9,8 +9,8 @@ uses
   Interfaces, // this includes the LCL widgetset
   Forms, TAChartLazarusPkg, lazcontrols, IteridenseTestMain, ChartDataHandling,
   ceAxisDlg, ceBrushFrame, ceFontFrame, ceLegendDlg, cePenFrame, cePointerFrame,
-  ceSeriesDlg, ceShapeBrushPenMarginsFrame, ceTitleFootDlg, ceUtils,
-  ceAxisFrame;
+  ceSeriesDlg, ceShapeBrushPenMarginsFrame, ceTitleFootDlg, ceUtils, ceAxisFrame,
+  AboutForm;
 
 {$R *.res}
 
@@ -19,6 +19,7 @@ begin
   Application.Scaled:=True;
   Application.Initialize;
   Application.CreateForm(TMainForm, MainForm);
+  Application.CreateForm(TAboutFormF, AboutFormF);
   Application.Run;
 end.
 

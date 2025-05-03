@@ -1,28 +1,31 @@
 object MainForm: TMainForm
   Left = 360
-  Height = 629
+  Height = 600
   Top = 155
   Width = 1064
   AllowDropFiles = True
   Caption = 'Iteridense Clustering'
-  ClientHeight = 629
+  ClientHeight = 600
   ClientWidth = 1064
   Color = clWindow
   DesignTimePPI = 110
+  Menu = MainMenu
   OnClose = FormClose
   OnCreate = FormCreate
   OnDropFiles = FormDropFiles
   LCLVersion = '3.8.0.0'
-  object IteridenseBB: TBitBtn
-    AnchorSideTop.Side = asrCenter
-    AnchorSideBottom.Control = Owner
+  object ClusteringBB: TBitBtn
+    AnchorSideLeft.Control = MethodsPC
+    AnchorSideLeft.Side = asrCenter
+    AnchorSideTop.Control = MethodsPC
+    AnchorSideTop.Side = asrBottom
     AnchorSideBottom.Side = asrBottom
-    Left = 64
-    Height = 52
+    Left = 84
+    Height = 50
     Hint = 'Click to start the Iteridense clustering'
-    Top = 496
-    Width = 184
-    BorderSpacing.Left = 16
+    Top = 488
+    Width = 160
+    BorderSpacing.Top = 16
     Caption = 'Clustering'
     Enabled = False
     Glyph.Data = {
@@ -239,7 +242,7 @@ object MainForm: TMainForm
       FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
       FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00
     }
-    OnClick = IteridenseBBClick
+    OnClick = ClusteringBBClick
     ParentShowHint = False
     ShowHint = True
     TabOrder = 0
@@ -248,8 +251,8 @@ object MainForm: TMainForm
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Side = asrBottom
     Left = 328
-    Height = 512
-    Top = 24
+    Height = 538
+    Top = 0
     Width = 719
     AxisList = <    
       item
@@ -298,35 +301,17 @@ object MainForm: TMainForm
     Toolset = ChartToolset
     ParentColor = True
     PopupMenu = ContextChartPM
-    object TopLine: TConstantLine
-      Legend.Visible = False
-      Active = False
-    end
-    object BottomLine: TConstantLine
-      Legend.Visible = False
-      Active = False
-    end
-    object LeftLine: TConstantLine
-      Legend.Visible = False
-      Active = False
-      LineStyle = lsVertical
-    end
-    object RightLine: TConstantLine
-      Legend.Visible = False
-      Active = False
-      LineStyle = lsVertical
-    end
   end
-  object OpenBB: TBitBtn
+  object OpenCsvBB: TBitBtn
+    AnchorSideLeft.Control = MethodsPC
     AnchorSideTop.Side = asrCenter
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
-    Left = 72
-    Height = 52
+    Left = 24
+    Height = 29
     Hint = 'to open a CSV file that contains data'
-    Top = 24
-    Width = 184
-    BorderSpacing.Left = 16
+    Top = 32
+    Width = 160
     Caption = 'Open CSV Data File'
     Glyph.Data = {
       36040000424D3604000000000000360000002800000010000000100000000100
@@ -364,22 +349,24 @@ object MainForm: TMainForm
       FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
       FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00
     }
-    OnClick = OpenBBClick
+    OnClick = OpenCsvBBClick
     ParentShowHint = False
     ShowHint = True
     TabOrder = 2
   end
-  object SaveBB: TBitBtn
+  object SavePlotBB: TBitBtn
+    AnchorSideTop.Control = OpenCsvBB
     AnchorSideTop.Side = asrCenter
-    AnchorSideBottom.Control = Owner
+    AnchorSideRight.Control = MethodsPC
+    AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Side = asrBottom
-    Left = 64
-    Height = 52
-    Hint = 'Save date with clustering result as CSV'
-    Top = 560
-    Width = 184
-    BorderSpacing.Left = 16
-    Caption = 'Save Result as CSV'
+    Left = 192
+    Height = 29
+    Hint = 'to save plot as SVG'
+    Top = 32
+    Width = 112
+    Anchors = [akTop, akRight]
+    Caption = 'Save Plot'
     Enabled = False
     Glyph.Data = {
       36040000424D3604000000000000360000002800000010000000100000000100
@@ -417,6 +404,7 @@ object MainForm: TMainForm
       64FFFFA262FFFFA060FFE8E7E7FFE8E7E7FFE8E7E7FFE8E7E7FFE8E7E7FFE8E7
       E7FFE8E7E7FFE8E7E7FFFF954EFFFF944CE1FF964B22FFFFFF00
     }
+    OnClick = SavePlotBBClick
     ParentShowHint = False
     ShowHint = True
     TabOrder = 3
@@ -424,7 +412,7 @@ object MainForm: TMainForm
   object MethodsPC: TPageControl
     Left = 24
     Height = 392
-    Top = 88
+    Top = 80
     Width = 280
     ActivePage = IteridenseTS
     TabIndex = 0
@@ -578,7 +566,7 @@ object MainForm: TMainForm
         MaxValue = 1000000
         MinValue = 1
         TabOrder = 5
-        Value = 1
+        Value = 2
       end
       object Label6: TLabel
         AnchorSideLeft.Control = MinClusterSizeSE
@@ -659,10 +647,14 @@ object MainForm: TMainForm
       ClientHeight = 360
       ClientWidth = 272
       object FinalResolutionLE: TLabeledEdit
-        Left = 32
+        AnchorSideLeft.Control = ClusterResultSG
+        AnchorSideBottom.Control = ClusterResultSG
+        Left = 22
         Height = 27
-        Top = 24
+        Top = 21
         Width = 69
+        Anchors = [akLeft, akBottom]
+        BorderSpacing.Bottom = 16
         EditLabel.Height = 19
         EditLabel.Width = 93
         EditLabel.Caption = 'final Resolution'
@@ -672,9 +664,11 @@ object MainForm: TMainForm
         TabOrder = 0
       end
       object ClusterResultSG: TStringGrid
-        Left = 20
+        AnchorSideLeft.Control = IteridenseResultTS
+        AnchorSideLeft.Side = asrCenter
+        Left = 22
         Height = 272
-        Top = 72
+        Top = 64
         Width = 228
         AutoEdit = False
         ColCount = 3
@@ -683,17 +677,19 @@ object MainForm: TMainForm
             Alignment = taCenter
             Title.Alignment = taCenter
             Title.Caption = 'Cluster'
-            Width = 50
+            Width = 52
           end        
           item
             Alignment = taCenter
             Title.Alignment = taCenter
             Title.Caption = 'Size'
+            Width = 76
           end        
           item
             Alignment = taCenter
             Title.Alignment = taCenter
             Title.Caption = 'Density'
+            Width = 96
           end>
         FixedCols = 0
         RowCount = 1
@@ -742,15 +738,17 @@ object MainForm: TMainForm
   object LoadedDataFileM: TMemo
     AnchorSideLeft.Control = DataC
     AnchorSideLeft.Side = asrCenter
+    AnchorSideTop.Control = DataC
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Side = asrBottom
     Left = 597
     Height = 27
     Hint = 'No data file loaded'
-    Top = 560
+    Top = 554
     Width = 180
     Alignment = taCenter
-    Anchors = [akLeft]
+    BorderSpacing.Top = 16
     Lines.Strings = (
       'None'
     )
@@ -766,7 +764,7 @@ object MainForm: TMainForm
     AnchorSideBottom.Side = asrCenter
     Left = 785
     Height = 19
-    Top = 563
+    Top = 557
     Width = 131
     Anchors = [akLeft, akBottom]
     BorderSpacing.Left = 8
@@ -891,6 +889,43 @@ object MainForm: TMainForm
     Left = 880
     Top = 248
     object ValuesLinearTransform: TLinearAxisTransform
+    end
+  end
+  object MainMenu: TMainMenu
+    Left = 424
+    Top = 280
+    object FileMI: TMenuItem
+      Caption = 'File'
+      object OpenCsvMI: TMenuItem
+        Caption = 'Open CSV Data File'
+        ShortCut = 16463
+        OnClick = OpenCsvBBClick
+      end
+      object SaveCsvMI: TMenuItem
+        Caption = 'Save Result as CSV'
+        Enabled = False
+        ShortCut = 49235
+      end
+    end
+    object SaveMI: TMenuItem
+      Caption = 'Save'
+      object SavePlotMI: TMenuItem
+        Caption = 'Save Plot as SVG'
+        Enabled = False
+        ShortCut = 16467
+        OnClick = SavePlotBBClick
+      end
+    end
+    object MiscellaneousMI: TMenuItem
+      Caption = 'Miscellaneous'
+      object AboutMI: TMenuItem
+        Caption = 'About'
+        OnClick = AboutMIClick
+      end
+      object ResetChartAppearanceMI: TMenuItem
+        Caption = 'Reset Chart Appearance'
+        OnClick = ResetChartAppearanceMIClick
+      end
     end
   end
 end

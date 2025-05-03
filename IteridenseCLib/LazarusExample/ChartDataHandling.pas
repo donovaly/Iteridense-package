@@ -5,11 +5,11 @@ unit ChartDataHandling;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, Buttons,
-  EditBtn, ExtCtrls, ComCtrls, Spin, Math, CTypes,
-  TATransformations, TATools, TAGraph, TASeries, TAChartAxis, TALegend, TATextElements,
-  TATypes, TAChartUtils, SpinEx,
-  FileInfo, StrUtils, Streamex, Generics.Collections,
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls,
+  Buttons, EditBtn, ExtCtrls, ComCtrls, Spin, Math, CTypes,
+  SpinEx, FileInfo, StrUtils, Streamex, Generics.Collections,
+  TATools, TAGraph, TASeries, TAChartAxis, TALegend, TATextElements,
+  TATypes, TAChartUtils, TADrawerSVG,
   IteridenseTestMain;
 
 type
@@ -33,6 +33,7 @@ type
     procedure CDTitleFootClickToolClick(Sender: TChartTool; Title: TChartTitle);
     function OpenHandling(InName: string; FileExt: string): string;
     function SaveHandling(InName: string; FileExt: string): string;
+    function CDSavePlotBBClick(Sender: TObject; ChartName: string): Boolean;
     procedure SaveAppearance(iniFile: string);
     procedure LoadAppearance(iniFile: string);
 
@@ -248,6 +249,11 @@ begin
   begin
     MainForm.SaveDialog.Filter:= 'Table (*.csv)|*.csv';
     MainForm.SaveDialog.Title:= 'Save data as';
+  end
+  else if FileExt = '.svg' then
+  begin
+    MainForm.SaveDialog.Filter:= 'Vector graphics (*.svg)|*.svg';
+    MainForm.SaveDialog.Title:= 'Save plot as';
   end;
   // clear filename if the extension does not fit
   if (MainForm.SaveDialog.FileName <> '')
@@ -267,8 +273,7 @@ begin
 
     if FileExists(OutNameTemp) then
     begin
-      if FileExt = '.csv' then
-        DialogText:= 'Do you want to overwrite the existing file';
+      DialogText:= 'Do you want to overwrite the existing file';
 
       with CreateMessageDialog
         (DialogText + LineEnding
@@ -303,6 +308,27 @@ begin
     if FileExists(InName) and (MainForm.SaveDialog.FileName = InName) then
       result:= 'canceled';
   end;
+
+end;
+
+
+function TChartData.CDSavePlotBBClick(Sender: TObject; ChartName: string): Boolean;
+var
+ OutNameHelp, ScreenOutName : string;
+begin
+  Result:= false;
+  // propose a file name
+  OutNameHelp:= MainForm.LoadedDataFileM.Text + '-clustered-'
+                + MainForm.MethodsPC.ActivePage.Caption;
+  ScreenOutName:= SaveHandling(OutNameHelp, '.svg'); // opens file dialog
+
+  if ScreenOutName <> '' then
+  begin
+    (MainForm.FindComponent(ChartName) as TChart).SaveToSVGFile(ScreenOutName);
+    Result:= true;
+  end
+  else
+    Result:= false;
 
 end;
 

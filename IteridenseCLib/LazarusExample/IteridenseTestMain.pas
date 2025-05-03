@@ -6,10 +6,11 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, Buttons,
-  EditBtn, ExtCtrls, ComCtrls, Spin, Menus, Grids, Math, CTypes,
-  TATransformations, TATools, TAGraph, TASeries, TAChartAxis, TALegend, TATextElements,
-  TATypes, TAChartUtils, SpinEx,
-  FileInfo, StrUtils, Streamex, Generics.Collections, Types;
+  EditBtn, ExtCtrls, ComCtrls, Spin, Menus, Grids, Math, CTypes, SpinEx,
+  FileInfo, StrUtils, Streamex, Generics.Collections, Types,
+  TATransformations, TATools, TAGraph, TASeries, TAChartAxis, TALegend,
+  TATextElements, TATypes,
+  AboutForm;
 
 const
   MAX_DIMENSIONS = 256;
@@ -70,17 +71,26 @@ type
   { TMainForm }
 
   TMainForm = class(TForm)
+    AboutMI: TMenuItem;
     AutoscaleMI: TMenuItem;
     AxisClickTool: TAxisClickTool;
     ChangeBackColorMI: TMenuItem;
     ChartAxisTransformDim1: TChartAxisTransformations;
     ContextChartPM: TPopupMenu;
+    FileMI: TMenuItem;
     IteridenseResultTS: TTabSheet;
     FinalResolutionLE: TLabeledEdit;
     ClusterResultSG: TStringGrid;
+    OpenCsvMI: TMenuItem;
+    MainMenu: TMainMenu;
+    SaveMI: TMenuItem;
+    SavePlotMI: TMenuItem;
+    MiscellaneousMI: TMenuItem;
     NoDiagonalsCB: TCheckBox;
     IteridenseBevelBottomB: TBevel;
     IteridenseBevelTopB: TBevel;
+    ResetChartAppearanceMI: TMenuItem;
+    SaveCsvMI: TMenuItem;
     Separator1MI: TMenuItem;
     UseDensityRB: TRadioButton;
     UseClustersRB: TRadioButton;
@@ -94,10 +104,6 @@ type
     StartResolutionSE: TSpinEdit;
     MinClusterSizeSE: TSpinEdit;
     StopResolutionSE: TSpinEdit;
-    TopLine: TConstantLine;
-    BottomLine: TConstantLine;
-    LeftLine: TConstantLine;
-    RightLine: TConstantLine;
     ChartAxisTransformValues: TChartAxisTransformations;
     ChartToolset: TChartToolset;
     ColorDialog: TColorDialog;
@@ -111,14 +117,14 @@ type
     FloatSpinEdit4: TFloatSpinEdit;
     FloatSpinEdit5: TFloatSpinEdit;
     FloatSpinEdit6: TFloatSpinEdit;
-    IteridenseBB: TBitBtn;
+    ClusteringBB: TBitBtn;
     LoadedActionFileL: TLabel;
     LoadedDataFileM: TMemo;
-    OpenBB: TBitBtn;
+    OpenCsvBB: TBitBtn;
     LegendClickTool: TLegendClickTool;
     LineDragTool: TDataPointDragTool;
     MethodsPC: TPageControl;
-    SaveBB: TBitBtn;
+    SavePlotBB: TBitBtn;
     OpenDialog: TOpenDialog;
     PanDragTool: TPanDragTool;
     PanMouseWheelTool: TPanMouseWheelTool;
@@ -133,6 +139,7 @@ type
     ValuesLinearTransform: TLinearAxisTransform;
     ZoomDragTool: TZoomDragTool;
     ZoomMouseWheelTool: TZoomMouseWheelTool;
+    procedure AboutMIClick(Sender: TObject);
     procedure AutoscaleMIClick(Sender: TObject);
     procedure AxisClickToolClick(ASender: TChartTool; Axis: TChartAxis;
       AHitInfo: TChartAxisHitTests);
@@ -143,13 +150,15 @@ type
       var APoint: TPoint);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
-    procedure IteridenseBBClick(Sender: TObject);
+    procedure ClusteringBBClick(Sender: TObject);
     function CArrayToTIntArray(cArray: CArray): TIntArray;
     function CArrayToTDoubleArray(cArray: CArray): TDoubleArray;
     function CTensorToTDoubleArray(tensor: CTensor): TDoubleArray;
     procedure LegendClickToolClick(ASender: TChartTool; ALegend: TChartLegend);
-    procedure OpenBBClick(Sender: TObject);
+    procedure OpenCsvBBClick(Sender: TObject);
     procedure FormDropFiles(Sender: TObject; const FileNames{%H-}: array of String);
+    procedure ResetChartAppearanceMIClick(Sender: TObject);
+    procedure SavePlotBBClick(Sender: TObject);
     procedure TitleFootClickToolClick(ASender: TChartTool; ATitle: TChartTitle);
     procedure UseDensityRBChange(Sender: TObject);
   private
@@ -208,16 +217,9 @@ begin
   DataC.Prepare;
 
   // setup the chart
-  TopLine.Position:= Infinity;
-  BottomLine.Position:= -Infinity;
-  LeftLine.Position:= -Infinity;
-  RightLine.Position:= Infinity;
   // due to a bug in TAChart the preset title size is not taken on
   // high-DPI screens, therefore explicitly set it on start
   DataC.Title.Font.Size:= 11;
-  // make the bars' DatapointDragtool react only on the bars, not the data points
-  LineDragTool.AffectedSeries:= Format('%d;%d;%d;%d',
-   [TopLine.Index, BottomLine.Index, LeftLine.Index, RightLine.Index]);
 
   // load the current chart appearance settings
   // we load from the same folder than the program .exe
@@ -290,8 +292,32 @@ const
   FileNames: array of String);
 begin
   DropfileName:= FileNames[0];
-  OpenBBClick(Sender);
+  OpenCsvBBClick(Sender);
   DropfileName:= '';
+end;
+
+
+procedure TMainForm.ResetChartAppearanceMIClick(Sender: TObject);
+var
+  defaultFile : string;
+  MousePointer : TPoint;
+begin
+  defaultFile:= ExtractFilePath(Application.ExeName) + AppearanceDefault;
+  if not FileExists(defaultFile) then
+  begin
+    MousePointer:= Mouse.CursorPos; // store mouse position
+    MessageDlgPos('The file "' + AppearanceDefault
+                  + '" is not in the same folder as this program.'
+                  + LineEnding + 'The appearance cannot be reset.',
+                  mtError, [mbOK], 0 , MousePointer.X, MousePointer.Y);
+    exit;
+  end;
+  ChartData.LoadAppearance(defaultFile);
+end;
+
+procedure TMainForm.SavePlotBBClick(Sender: TObject);
+begin
+  ChartData.CDSavePlotBBClick(Sender, MainForm.DataC.Name);
 end;
 
 
@@ -356,7 +382,7 @@ begin
 end;
 
 
-procedure TMainForm.IteridenseBBClick(Sender: TObject);
+procedure TMainForm.ClusteringBBClick(Sender: TObject);
 var
   dataPointer : PDouble;
   counter, rows, columns, val, i, count, idx,
@@ -475,15 +501,19 @@ begin
     Series[idx].AddXY(DataArray[i, 0], DataArray[i, 1]);
   end;
 
-
   // free the allocated struct
   if IteridenseFree(iteridenseResult) <> 0 then
     MessageDlg('Warning: failed to free iteridenseResult', mtError, [mbOK], 0);
 
+  // enable saving
+  SaveCsvMI.Enabled:= true;
+  SavePlotBB.Enabled:= true;
+  SavePlotMI.Enabled:= true;
+
 end;
 
 
-procedure TMainForm.OpenBBClick(Sender: TObject);
+procedure TMainForm.OpenCsvBBClick(Sender: TObject);
 var
   DummyString, firstLine, secondLine : string;
   fileSuccess : Byte = 0;
@@ -531,9 +561,6 @@ begin
     SetLength(DummyString, Length(DummyString) - 4);
     LoadedDataFileM.Color:= clActiveCaption;
     LoadedDataFileM.Text:= DummyString;
-
-    // disable saving, will be re-enabled by GererateCommand
-    SaveBB.Enabled:= False;
   end; // else if fileSuccess
 
   // plot the data
@@ -563,8 +590,11 @@ begin
   for i:= 0 to high(DataArray) do
     Series.AddXY(DataArray[i, 0], DataArray[i, 1]);
 
-  // finally enable the clustering button
-  IteridenseBB.Enabled:= true;
+  // enable clustering, disable saving
+  ClusteringBB.Enabled:= true;
+  SaveCsvMI.Enabled:= false;
+  SavePlotBB.Enabled:= false;
+  SavePlotMI.Enabled:= false;
 end;
 
 
@@ -583,6 +613,19 @@ end;
 procedure TMainForm.AutoscaleMIClick(Sender: TObject);
 begin
   ChartData.CDAutoscaleMIClick(Sender);
+end;
+
+procedure TMainForm.AboutMIClick(Sender: TObject);
+begin
+ with AboutFormF do
+ begin
+  // set version number
+  NameL.Caption:= Application.Title + ' version ';
+  VersionNumberL.Caption:= Version;
+  Caption:= Application.Title;
+  // open the dialog
+  ShowModal;
+ end;
 end;
 
 procedure TMainForm.ChangeBackColorMIClick(Sender: TObject);
