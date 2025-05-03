@@ -593,7 +593,8 @@ end
 
 #-------------------------------------------------------------------------------------------------
 # helper to allocate and copy a Julia array to an allocated C buffer
-function AllocateAndCopy(anArray::AbstractArray{dataType}) where dataType
+# as it will be called more often, it is worth to @inline it
+@inline function AllocateAndCopy(anArray::AbstractArray{dataType}) where dataType
     arrayLength = length(anArray)
     buffer = Libc.malloc(arrayLength * sizeof(dataType))
     if buffer == C_NULL
@@ -641,13 +642,15 @@ Base.@ccallable function IteridenseClustering(
     )::Ptr{IteridenseResultC}
     
     # allocate memory for the uninitialized struct
-    resultPointer = Ptr{IteridenseResultC}(malloc(sizeof(IteridenseResultC)))
+    resultPointer = Ptr{IteridenseResultC}(Libc.malloc(sizeof(IteridenseResultC)))
     if resultPointer == C_NULL
         return C_NULL
     end
     # wrap the raw pointer into a Julia Array without copying
     # Julia arrays are column-major, so shape is (nrows, ncols)
-    data = unsafe_wrap(Array, dataMatrix, (nrows, ncols))
+    # NOTE: own= false is crucial since Julia must not own the memory to assure that is is not
+    #  free'd by Julia's garbage collector. The owner is the C-caller.
+    data = unsafe_wrap(Array, dataMatrix, (nrows, ncols); own= false)
 
     # perform the clustering
     result = Clustering(data;
@@ -694,7 +697,7 @@ Base.@ccallable function IteridenseFree(resultPointer::Ptr{IteridenseResultC})::
     if result.clusterSizes.data != C_NULL
         Libc.free(result.clusterSizes.data)
     end
-    free(resultPointer)
+    Libc.free(resultPointer)
     return 0
 end
 
