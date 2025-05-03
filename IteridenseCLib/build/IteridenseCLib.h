@@ -18,10 +18,10 @@ typedef struct {
     size_t dims[MAX_DIMENSIONS]; // sizes of each dimension, padded with zeros
 } CTensor;
 
-// C-compatible vector (1D tensor) struct
+// C-compatible array (1D tensor) struct
 typedef struct {
-    void* data;                  // pointer to vector data buffer
-    size_t length;               // length of vector
+    void* data;                  // pointer to array data buffer
+    size_t length;               // length of array
 } CArray;
 
 // C-compatible IteridenseResult struct
