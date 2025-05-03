@@ -646,7 +646,7 @@ Base.@ccallable function IteridenseClustering(
     if resultPointer == C_NULL
         return C_NULL
     end
-    # wrap the raw pointer into a Julia Array without copying
+    # wrap the raw pointer into a Julia Array without copying the data
     # Julia arrays are column-major, so shape is (nrows, ncols)
     # NOTE: own= false is crucial since Julia must not own the memory to assure that is is not
     #  free'd by Julia's garbage collector. The owner is the C-caller.
