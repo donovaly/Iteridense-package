@@ -509,10 +509,13 @@ function Clustering(dataMatrix; minClusterSize::Int= 3, startResolution::Int= 2,
     if LoopResult.numOfClusters == 0
         printstyled("Information: "; bold=true, color=:blue)
         println("The clustering detected no clusters")
-        return IteridenseResultC(ArrayToCTensor([]), ArrayToCTensor([]), Clonglong(0),
+        return IteridenseResultC(ArrayToCTensor(Int64[]),
+                                    ArrayToCTensor(Int64[]),
+                                    Clonglong(0),
                                     Clonglong(LoopResult.finalResolution),
                                     ArrayToCArrayInt(zeros(Int, totalCounts)),
-                                    ArrayToCArrayFloat([]), ArrayToCArrayInt([]) )
+                                    ArrayToCArrayFloat(Float64[]),
+                                    ArrayToCArrayInt(Int64[]) )
     else
         # run a single loop with a higher fixed resolution
         secondResolution = LoopResult.finalResolution + 1
