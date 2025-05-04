@@ -34,6 +34,7 @@ type
     function OpenHandling(InName: string; FileExt: string): string;
     function SaveHandling(InName: string; FileExt: string): string;
     function CDSavePlotBBClick(Sender: TObject; ChartName: string): Boolean;
+    procedure CDSaveCsvMIClick(Sender: TObject);
     procedure SaveAppearance(iniFile: string);
     procedure LoadAppearance(iniFile: string);
 
@@ -84,7 +85,6 @@ end;
 
 function TChartData.ReadData(InName: string): Byte;
 var
-  columnSeparator : char;
   firstLine, secondLine, textLine : string;
   OpenFileStream : TFileStream;
   LineReader : TStreamReader;
@@ -112,6 +112,7 @@ begin
 
   // read the first header line to get the data names and the column separator
   LineReader.ReadLine(firstLine);
+  DataHeader:= firstLine; // store the header for later usage
   // read second line to check for column separator
   LineReader.ReadLine(secondLine);
   inc(rowCounter);
@@ -123,37 +124,37 @@ begin
     if (secondLine[i] = ',') or (secondLine[i] = ' ') or (secondLine[i] = #9)
       or (secondLine[i] = ';') or (secondLine[i] = '|') then
     begin
-      columnSeparator:= secondLine[i];
+      DataColumnSeparator:= secondLine[i];
       break;
     end
   end;
-  // if there are the same number of columnSeparator in first and second line we found the separator
-  // otherwise we have to parse the second line
-  if firstLine.CountChar(columnSeparator) <> secondLine.CountChar(columnSeparator) then
+  // if there are the same number of DataColumnSeparator in first and second line
+  // we found the separator, otherwise we have to parse the second line
+  if firstLine.CountChar(DataColumnSeparator) <> secondLine.CountChar(DataColumnSeparator) then
   begin
     for i:= 1 to Length(firstLine) do
     begin
       if (firstLine[i] = ',') or (firstLine[i] = ' ') or (firstLine[i] = #9)
         or (secondLine[i] = ';') or (secondLine[i] = '|') then
       begin
-        columnSeparator:= firstLine[i];
+        DataColumnSeparator:= firstLine[i];
         break;
       end
     end;
   end;
   // if still not found, we issue an  error and stop
-  if firstLine.CountChar(columnSeparator) <> secondLine.CountChar(columnSeparator) then
+  if firstLine.CountChar(DataColumnSeparator) <> secondLine.CountChar(DataColumnSeparator) then
   begin
     MessageDlg('The column separator of the data file could not be determined', mtError, [mbOK], 0);
     exit;
   end;
 
   // set the chart axis titles according to the header
-  StringArray:= firstLine.Split(columnSeparator);
+  StringArray:= firstLine.Split(DataColumnSeparator);
   MainForm.DataC.AxisList[0].Title.Caption:= StringArray[0];
   MainForm.DataC.AxisList[1].Title.Caption:= StringArray[1];
   // secondLine is the first row of the StringArray
-  StringArray:= secondLine.Split(columnSeparator);
+  StringArray:= secondLine.Split(DataColumnSeparator);
  try
   List:= specialize TList<TStringArray>.Create;
   List.Add(StringArray);
@@ -161,7 +162,7 @@ begin
   while not LineReader.Eof do
   begin
     LineReader.ReadLine(textLine);
-    StringArray:= textLine.Split(columnSeparator);
+    StringArray:= textLine.Split(DataColumnSeparator);
     List.Add(StringArray);
     inc(rowCounter);
   end;
@@ -248,7 +249,7 @@ begin
   if FileExt = '.csv' then
   begin
     MainForm.SaveDialog.Filter:= 'Table (*.csv)|*.csv';
-    MainForm.SaveDialog.Title:= 'Save data as';
+    MainForm.SaveDialog.Title:= 'Save clustered data as';
   end
   else if FileExt = '.svg' then
   begin
@@ -305,8 +306,7 @@ begin
   end
   else // the user canceled the dialog
   begin
-    if FileExists(InName) and (MainForm.SaveDialog.FileName = InName) then
-      result:= 'canceled';
+    result:= 'canceled';
   end;
 
 end;
@@ -329,6 +329,83 @@ begin
   end
   else
     Result:= false;
+
+end;
+
+
+procedure TChartData.CDSaveCsvMIClick(Sender: TObject);
+var
+ textLine, CSVOutName, OutNameHelp : string;
+ SaveFileStream : TFileStream;
+ i, k : integer;
+ MousePointer : TPoint;
+ lineBytes: TBytes;
+begin
+  MousePointer:= Mouse.CursorPos; // store mouse position
+
+  // propose a name
+  OutNameHelp:= MainForm.LoadedDataFileM.Text + '-clustered-'
+                + MainForm.MethodsPC.ActivePage.Caption;
+  CSVOutName:= ChartData.SaveHandling(OutNameHelp, '.csv'); // opens file dialog
+  if CSVOutName <> '' then
+  begin
+    if FileExists(CSVOutName) then
+    begin
+      try
+        SaveFileStream:= TFileStream.Create(CSVOutName, fmOpenReadWrite);
+      except
+        on EFOpenError do
+        begin
+          MessageDlgPos('CSV file is used by another program and cannot be opened.',
+                   mtError, [mbOK], 0, MousePointer.X, MousePointer.Y);
+          exit;
+        end;
+      end;
+      // delete its content
+      SaveFileStream.Size:= 0;
+    end
+    else
+    begin
+      try
+        SaveFileStream:= TFileStream.Create(CSVOutName, fmCreate);
+      except
+        on EFOpenError do
+        begin
+          MessageDlgPos('CSV file could not be created.' + LineEnding +
+                   'Probably you don''t have write access to the specified folder.',
+                   mtError, [mbOK], 0, MousePointer.X, MousePointer.Y);
+          exit;
+        end;
+      end;
+    end;
+  end; // end if CSVOutName <> ''
+
+  try
+    // write the header and add there the column 'cluster'
+    // as it might have Unicode characters, output as Unicode
+    textLine:= DataHeader + DataColumnSeparator + 'cluster' + LineEnding;
+    lineBytes:= BytesOf(UTF8Encode(textLine));
+    SaveFileStream.WriteBuffer(lineBytes[0], Length(lineBytes));
+    // write the data
+    for i:= 0 to High(DataArray) do
+    begin
+      textLine:= '';
+      for k:= 0 to High(DataArray[i]) do
+      begin
+        textLine := textLine + FloatToStr(DataArray[i][k]);
+        if k < High(DataArray[i]) then
+          textLine:= textLine + DataColumnSeparator;
+      end;
+      textLine:= textLine + LineEnding;
+      lineBytes:= BytesOf(UTF8Encode(textLine));
+      SaveFileStream.WriteBuffer(lineBytes[0], Length(lineBytes));
+    end;
+    // final line break
+    SaveFileStream.Write(LineEnding, Length(LineEnding));
+
+  finally
+    SaveFileStream.Free;
+  end;
 
 end;
 

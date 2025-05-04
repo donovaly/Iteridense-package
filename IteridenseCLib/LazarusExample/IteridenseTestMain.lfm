@@ -905,6 +905,7 @@ object MainForm: TMainForm
         Caption = 'Save Result as CSV'
         Enabled = False
         ShortCut = 49235
+        OnClick = SaveCsvMIClick
       end
     end
     object SaveMI: TMenuItem

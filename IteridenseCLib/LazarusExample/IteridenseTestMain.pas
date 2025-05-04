@@ -158,6 +158,7 @@ type
     procedure OpenCsvBBClick(Sender: TObject);
     procedure FormDropFiles(Sender: TObject; const FileNames{%H-}: array of String);
     procedure ResetChartAppearanceMIClick(Sender: TObject);
+    procedure SaveCsvMIClick(Sender: TObject);
     procedure SavePlotBBClick(Sender: TObject);
     procedure TitleFootClickToolClick(ASender: TChartTool; ATitle: TChartTitle);
     procedure UseDensityRBChange(Sender: TObject);
@@ -178,6 +179,8 @@ var
   DropfileName : string = ''; // name of dropped CSV file
   InNameData : string = ''; // name of loaded data CSV file
   DataArray : Array of Array of double; // array that holds the data to be clustered
+  DataHeader : string; // header line of InNameData
+  DataColumnSeparator : Char; // column separator of the CSV file
   // filename to store appearance
   const AppearanceFile : string = 'Appearance-IteridenseTest.ini';
   // filename with default appearance
@@ -314,6 +317,13 @@ begin
   end;
   ChartData.LoadAppearance(defaultFile);
 end;
+
+
+procedure TMainForm.SaveCsvMIClick(Sender: TObject);
+begin
+  ChartData.CDSaveCsvMIClick(Sender);
+end;
+
 
 procedure TMainForm.SavePlotBBClick(Sender: TObject);
 begin
@@ -534,6 +544,7 @@ begin
     DummyString:= ChartData.OpenHandling('', '.csv');
     if DummyString = '' then
       exit; // user aborted the loading
+    // read the content into DataHeader and DataArray
     fileSuccess:= ChartData.ReadData(DummyString);
   end;
 
