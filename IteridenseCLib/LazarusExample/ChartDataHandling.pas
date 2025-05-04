@@ -93,7 +93,7 @@ var
   StringArray : TStringArray;
   MousePointer : TPoint;
   List : specialize TList<TStringArray>;
-  i, k, m, columns : Int64;
+  i, k, m, columns, columnCounter : Int64;
 begin
   result:= 0; // initialized as failed
   MousePointer:= Mouse.CursorPos; // store mouse position
@@ -187,7 +187,7 @@ begin
       DataTextColumnsIndices[i]:= 0;
 
     // convert the string list to an array of double
-    DataTextColumnsNumber:= 0;
+    columnCounter:= 0;
     SetLength(DataArray, List.Count, columns);
     for i:= 0 to List.Count-1 do
     begin
@@ -208,22 +208,22 @@ begin
             end;
             // set value to zero just to have a value
             DataArray[i][k]:= 0.0;
-            inc(DataTextColumnsNumber);
+            inc(columnCounter);
            end;
         end;
     end;
     if result = 2 then
     begin
       // setup DataTextColumns
-      SetLength(DataTextColumns, List.Count, DataTextColumnsNumber);
-      DataTextColumnsNumber:= 0;
+      SetLength(DataTextColumns, List.Count, columnCounter);
+      columnCounter:= 0;
       for k:= 0 to columns-1 do
       begin
         if DataTextColumnsIndices[k] = 1 then
         begin
           for i:= 0 to List.Count-1 do
-            DataTextColumns[i][DataTextColumnsNumber]:= List[i][k];
-          inc(DataTextColumnsNumber);
+            DataTextColumns[i][columnCounter]:= List[i][k];
+          inc(columnCounter);
         end;
       end;
     end;

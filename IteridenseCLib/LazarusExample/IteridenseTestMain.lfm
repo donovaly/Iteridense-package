@@ -22,7 +22,7 @@ object MainForm: TMainForm
     AnchorSideBottom.Side = asrBottom
     Left = 84
     Height = 50
-    Hint = 'Click to start the Iteridense clustering'
+    Hint = 'click to start the Iteridense clustering'
     Top = 488
     Width = 160
     BorderSpacing.Top = 16
@@ -797,6 +797,7 @@ object MainForm: TMainForm
       AutoDropDown = True
       BorderSpacing.Top = 12
       ItemHeight = 20
+      OnItemChange = DataSelectionCCBItemChange
       ParentShowHint = False
       ShowHint = True
       TabOrder = 0

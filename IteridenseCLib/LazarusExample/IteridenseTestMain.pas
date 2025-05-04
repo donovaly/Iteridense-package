@@ -154,6 +154,7 @@ type
       const APoint: TPoint; var AHint: String);
     procedure DataPointHintToolHintPosition(ATool: TDataPointHintTool;
       var APoint: TPoint);
+    procedure DataSelectionCCBItemChange(Sender: TObject; AIndex: Integer);
     procedure FlipBClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
@@ -191,7 +192,6 @@ var
   DataColumnSeparator : Char; // column separator of the CSV file
   DataTextColumns : array of array of String; // to store text columns
   DataTextColumnsIndices : array of Int64; // to store the index of the text columns
-  DataTextColumnsNumber : Int64; // number of text columns
   // filename to store appearance
   const AppearanceFile : string = 'Appearance-IteridenseTest.ini';
   // filename with default appearance
@@ -419,27 +419,37 @@ var
     numOfClusters, assignmentColumn : Int64;
   iteridenseResult : PIteridenseResultC;
   inputArray : array of Double;
+  dimensionIndices : array of Int64;
   assignmentsArray, clusterSizesArray : TIntArray;
   clusterDensitiesArray : TDoubleArray;
-  nrows, ncols, minClusterSize, startResolution, stopResolution,
+  rows, columns, minClusterSize, startResolution, stopResolution,
   minClusters, noDiagonals, useDensity, useClusters : cint64;
   density, minClusterDensity: cdouble;
   Series : array of TLineSeries;
 begin
   // we must transform the DataArray to a contiguous 1D array in
   // column-major order to make it accessible for Julia
-  nrows:= Length(DataArray);
-  ncols:= Length(DataArray[0]) - 1; // don't take the assignment column into account
-  // subtract the number of text columns
-  ncols:= ncols - DataTextColumnsNumber;
-  SetLength(inputArray, nrows * ncols);
-  counter:= 0;
-  for column:= 0 to ncols-1 do
+  rows:= Length(DataArray);
+  // determine the number of dimensions to be clustered from the combobox
+  columns:= 0;
+  SetLength(dimensionIndices, DataSelectionCCB.Items.Count);
+  for i:= 0 to DataSelectionCCB.Items.Count-1 do
   begin
-    // omit the text columns
-    if DataTextColumnsIndices[column] = 0 then
+    if (DataSelectionCCB.Checked[i]) then
     begin
-      for row:= 0 to nrows-1 do
+      dimensionIndices[i]:= 1;
+      inc(columns);
+    end;
+  end;
+
+  SetLength(inputArray, rows * columns);
+  counter:= 0;
+  for column:= 0 to Length(DataArray[0])-1-1 do // -1 to not take the assignment column into account
+  begin
+    // omit the text columns and only use selected dimensions
+    if (DataTextColumnsIndices[column] = 0) and (dimensionIndices[column] = 1) then
+    begin
+      for row:= 0 to rows-1 do
         begin
           inputArray[counter]:= DataArray[row, column];
           inc(counter);
@@ -458,8 +468,8 @@ begin
 
   iteridenseResult:= IteridenseClustering(
     @inputArray[0], // pointer to first element
-    nrows,
-    ncols,
+    rows,
+    columns,
     minClusterSize,
     startResolution,
     density,
@@ -667,6 +677,25 @@ procedure TMainForm.DataPointHintToolHintPosition(ATool: TDataPointHintTool;
   var APoint: TPoint);
 begin
   ChartData.CDDataPointHintToolHintPosition(ATool, APoint);
+end;
+
+procedure TMainForm.DataSelectionCCBItemChange(Sender: TObject; AIndex: Integer);
+var
+  i : Int64;
+begin
+  // check if there is at least one selected dimension
+  for i:= 0 to MainForm.DataSelectionCCB.Items.Count-1 do
+  begin
+    if (MainForm.DataSelectionCCB.Checked[i]) then
+    begin
+      MainForm.ClusteringBB.Enabled:= true;
+      MainForm.ClusteringBB.Hint:= 'click to start the Iteridense clustering';
+      exit;
+    end;
+  end;
+  // no dimension, thus disable clustering
+  MainForm.ClusteringBB.Enabled:= false;
+  MainForm.ClusteringBB.Hint:= 'no dimensions selected to be clustered';
 end;
 
 procedure TMainForm.PlotSelectionCCBItemChange(Sender: TObject; AIndex: Integer);
