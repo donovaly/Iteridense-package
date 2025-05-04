@@ -48,9 +48,9 @@ DataPlot= Plots.scatter(dataMatrix[:, 1], dataMatrix[:, 2],
 end
 
 # Iteridense clustering
-ρ = 3.0
+ρ = 10
 # perform the clustering
-IteridenseResult = Iteridense.Clustering(dataMatrix, density= ρ);
+IteridenseResult = Iteridense.Clustering(dataMatrix, density= ρ, minClusterSize= 20);
 # list the different clustering results
 IteridenseResult.numOfClusters
 IteridenseResult.finalResolution

@@ -365,21 +365,25 @@ end;
 
 function TChartData.CDSavePlotBBClick(Sender: TObject; ChartName: string): Boolean;
 var
- OutNameHelp, ScreenOutName : string;
+ OutNameHelp, ScreenOutName, tempString : string;
 begin
-  Result:= false;
+  result:= false;
   // propose a file name
-  OutNameHelp:= MainForm.LoadedDataFileM.Text + '-clustered-'
-                + MainForm.MethodsPC.ActivePage.Caption;
+  OutNameHelp:= MainForm.LoadedDataFileM.Text;
+  if UsedClusteringMethod <> none then
+  begin
+    Str(UsedClusteringMethod, tempString);
+    OutNameHelp:= OutNameHelp + '-clustered-' + tempString;
+  end;
   ScreenOutName:= SaveHandling(OutNameHelp, '.svg'); // opens file dialog
 
   if ScreenOutName <> '' then
   begin
     (MainForm.FindComponent(ChartName) as TChart).SaveToSVGFile(ScreenOutName);
-    Result:= true;
+    result:= true;
   end
   else
-    Result:= false;
+    result:= false;
 
 end;
 
@@ -522,12 +526,11 @@ begin
     // first delete
     for i := MainForm.DataC.SeriesCount - 1 downto 0 do
       MainForm.DataC.Series[i].Free;
-    MainForm.DataC.AxisList[1].Title.Caption:= 'Dimension 1';
-    MainForm.DataC.AxisList[0].Title.Caption:= 'Dimension 2';
+    // set the chart axis titles according to the header
+    StringArray:= DataHeader.Split(DataColumnSeparator);
+    MainForm.DataC.AxisList[1].Title.Caption:= StringArray[dim1];
     MainForm.FlipB.Enabled:= false;
-  end;
-  if dim2 > -1 then
-  begin
+
     // create a plot series
     numOfClusters:= MainForm.ClusterResultSG.RowCount; // header row is like for the '0' cluster
     SetLength(Series, numOfClusters);
@@ -547,13 +550,22 @@ begin
     for i:= 0 to high(DataArray) do
     begin
       clusterNumber:= round(DataArray[i, assignmentColumn]);
-      Series[clusterNumber].AddXY(DataArray[i, dim1], DataArray[i, dim2]);
+      if dim2 > -1 then
+      begin
+        Series[clusterNumber].AddXY(DataArray[i, dim1], DataArray[i, dim2]);
+        MainForm.DataC.AxisList[0].Title.Caption:= StringArray[dim2];
+      end
+      else
+      begin
+        Series[clusterNumber].AddXY(DataArray[i, dim1], 0.0);
+        MainForm.DataC.AxisList[0].Title.Caption:= '';
+      end;
     end;
-
-    // set the chart axis titles according to the header
-    StringArray:= DataHeader.Split(DataColumnSeparator);
-    MainForm.DataC.AxisList[1].Title.Caption:= StringArray[dim1];
-    MainForm.DataC.AxisList[0].Title.Caption:= StringArray[dim2];
+  end
+  else
+  begin
+    MainForm.DataC.AxisList[1].Title.Caption:= 'Dimension 1';
+    MainForm.DataC.AxisList[0].Title.Caption:= 'Dimension 2';
   end;
 end;
 

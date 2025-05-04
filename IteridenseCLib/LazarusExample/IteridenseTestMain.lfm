@@ -20,7 +20,7 @@ object MainForm: TMainForm
     AnchorSideTop.Control = MethodsPC
     AnchorSideTop.Side = asrBottom
     AnchorSideBottom.Side = asrBottom
-    Left = 84
+    Left = 60
     Height = 50
     Hint = 'click to start the Iteridense clustering'
     Top = 488
@@ -307,7 +307,7 @@ object MainForm: TMainForm
     AnchorSideTop.Side = asrCenter
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
-    Left = 24
+    Left = 0
     Height = 29
     Hint = 'to open a CSV file that contains data'
     Top = 32
@@ -360,7 +360,7 @@ object MainForm: TMainForm
     AnchorSideRight.Control = MethodsPC
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Side = asrBottom
-    Left = 192
+    Left = 168
     Height = 29
     Hint = 'to save plot as SVG'
     Top = 32
@@ -410,16 +410,19 @@ object MainForm: TMainForm
     TabOrder = 3
   end
   object MethodsPC: TPageControl
-    Left = 24
+    Left = 0
     Height = 392
     Top = 80
     Width = 280
     ActivePage = IteridenseTS
+    BorderSpacing.Left = 12
+    MultiLine = True
     TabIndex = 0
     TabOrder = 4
+    Options = [nboMultiLine]
     object IteridenseTS: TTabSheet
       Caption = 'Iteridense'
-      ClientHeight = 360
+      ClientHeight = 336
       ClientWidth = 272
       object DensityFSE: TFloatSpinEdit
         AnchorSideLeft.Control = IteridenseTS
@@ -427,7 +430,7 @@ object MainForm: TMainForm
         AnchorSideTop.Side = asrBottom
         Left = 16
         Height = 27
-        Top = 47
+        Top = 31
         Width = 70
         BorderSpacing.Left = 16
         BorderSpacing.Top = 8
@@ -443,7 +446,7 @@ object MainForm: TMainForm
         AnchorSideTop.Side = asrBottom
         Left = 16
         Height = 27
-        Top = 293
+        Top = 271
         Width = 70
         BorderSpacing.Top = 8
         Increment = 0.1
@@ -458,7 +461,7 @@ object MainForm: TMainForm
         AnchorSideTop.Side = asrBottom
         Left = 16
         Height = 27
-        Top = 223
+        Top = 201
         Width = 70
         BorderSpacing.Top = 12
         MaxValue = 1000000
@@ -471,7 +474,7 @@ object MainForm: TMainForm
         AnchorSideTop.Control = IteridenseBevelTopB
         Left = 16
         Height = 27
-        Top = 170
+        Top = 148
         Width = 70
         BorderSpacing.Top = 12
         MaxValue = 1000000
@@ -485,7 +488,7 @@ object MainForm: TMainForm
         AnchorSideTop.Side = asrBottom
         Left = 16
         Height = 27
-        Top = 258
+        Top = 236
         Width = 70
         BorderSpacing.Top = 8
         MaxValue = 1000000
@@ -500,7 +503,7 @@ object MainForm: TMainForm
         AnchorSideTop.Side = asrCenter
         Left = 94
         Height = 19
-        Top = 51
+        Top = 35
         Width = 46
         BorderSpacing.Left = 8
         Caption = 'Density'
@@ -512,7 +515,7 @@ object MainForm: TMainForm
         AnchorSideTop.Side = asrCenter
         Left = 94
         Height = 19
-        Top = 297
+        Top = 275
         Width = 73
         BorderSpacing.Left = 8
         Caption = 'min Density'
@@ -524,7 +527,7 @@ object MainForm: TMainForm
         AnchorSideTop.Side = asrCenter
         Left = 94
         Height = 19
-        Top = 174
+        Top = 152
         Width = 97
         BorderSpacing.Left = 8
         Caption = 'min Cluster Size'
@@ -536,7 +539,7 @@ object MainForm: TMainForm
         AnchorSideTop.Side = asrCenter
         Left = 94
         Height = 19
-        Top = 227
+        Top = 205
         Width = 96
         BorderSpacing.Left = 8
         Caption = 'start Resolution'
@@ -548,7 +551,7 @@ object MainForm: TMainForm
         AnchorSideTop.Side = asrCenter
         Left = 94
         Height = 19
-        Top = 262
+        Top = 240
         Width = 95
         BorderSpacing.Left = 8
         Caption = 'stop Resolution'
@@ -559,7 +562,7 @@ object MainForm: TMainForm
         AnchorSideTop.Side = asrBottom
         Left = 16
         Height = 27
-        Top = 119
+        Top = 97
         Width = 70
         BorderSpacing.Top = 8
         Enabled = False
@@ -575,15 +578,17 @@ object MainForm: TMainForm
         AnchorSideTop.Side = asrCenter
         Left = 94
         Height = 19
-        Top = 123
+        Top = 101
         Width = 146
         BorderSpacing.Left = 8
         Caption = 'min Number of Clusters'
       end
       object UseDensityRB: TRadioButton
+        AnchorSideLeft.Control = DensityFSE
+        AnchorSideTop.Control = IteridenseTS
         Left = 16
         Height = 23
-        Top = 16
+        Top = 0
         Width = 91
         Caption = 'use Density'
         Checked = True
@@ -592,10 +597,14 @@ object MainForm: TMainForm
         OnChange = UseDensityRBChange
       end
       object UseClustersRB: TRadioButton
+        AnchorSideLeft.Control = DensityFSE
+        AnchorSideTop.Control = DensityFSE
+        AnchorSideTop.Side = asrBottom
         Left = 16
         Height = 23
-        Top = 88
+        Top = 66
         Width = 164
+        BorderSpacing.Top = 8
         Caption = 'use Number of Clusters'
         TabOrder = 6
       end
@@ -607,7 +616,7 @@ object MainForm: TMainForm
         AnchorSideRight.Side = asrBottom
         Left = 8
         Height = 2
-        Top = 209
+        Top = 187
         Width = 256
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Left = 8
@@ -622,7 +631,7 @@ object MainForm: TMainForm
         AnchorSideRight.Side = asrBottom
         Left = 8
         Height = 2
-        Top = 158
+        Top = 136
         Width = 256
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Left = 8
@@ -635,7 +644,7 @@ object MainForm: TMainForm
         AnchorSideTop.Side = asrBottom
         Left = 16
         Height = 23
-        Top = 328
+        Top = 306
         Width = 126
         BorderSpacing.Top = 8
         Caption = 'no Diagonal Cells'
@@ -644,7 +653,7 @@ object MainForm: TMainForm
     end
     object IteridenseResultTS: TTabSheet
       Caption = 'Iteridense Result'
-      ClientHeight = 360
+      ClientHeight = 336
       ClientWidth = 272
       object FinalResolutionLE: TLabeledEdit
         AnchorSideLeft.Control = ClusterResultSG
@@ -698,7 +707,7 @@ object MainForm: TMainForm
     end
     object DBSCANTS: TTabSheet
       Caption = 'DBSCAN'
-      ClientHeight = 360
+      ClientHeight = 336
       ClientWidth = 272
       object FloatSpinEdit3: TFloatSpinEdit
         Left = 24
@@ -717,7 +726,7 @@ object MainForm: TMainForm
     end
     object KMeansTS: TTabSheet
       Caption = 'K-Means'
-      ClientHeight = 360
+      ClientHeight = 336
       ClientWidth = 272
       object FloatSpinEdit5: TFloatSpinEdit
         Left = 24
@@ -775,7 +784,7 @@ object MainForm: TMainForm
     AnchorSideLeft.Control = MethodsPC
     AnchorSideTop.Control = ClusteringBB
     AnchorSideTop.Side = asrBottom
-    Left = 24
+    Left = 0
     Height = 112
     Top = 554
     Width = 384

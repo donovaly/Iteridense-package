@@ -65,6 +65,7 @@ type
   // returns 0 on success, -1 if ptr is nil
   TIteridenseFree = function(pointer: PIteridenseResultC): Integer; cdecl;
 
+  ClusterMethods = (Ideridense, DBCAN, KMeans, none);
   TIntArray = array of Int64;
   TDoubleArray = array of Double;
 
@@ -192,6 +193,7 @@ var
   DataColumnSeparator : Char; // column separator of the CSV file
   DataTextColumns : array of array of String; // to store text columns
   DataTextColumnsIndices : array of Int64; // to store the index of the text columns
+  UsedClusteringMethod : ClusterMethods = none;
   // filename to store appearance
   const AppearanceFile : string = 'Appearance-IteridenseTest.ini';
   // filename with default appearance
@@ -485,7 +487,6 @@ begin
     exit;
   end;
 
-  // fixme check case no cluster found
   if (iteridenseResult^.assignments.data = nil)
     or (iteridenseResult^.assignments.length = 0) then
   begin
@@ -517,6 +518,12 @@ begin
   // plot the data
   ChartData.CDPlotSelectionCCBItemChange(Sender);
 
+  // save the used clustering method
+  if MainForm.MethodsPC.ActivePage.Caption = 'Iteridense Result' then
+    UsedClusteringMethod:= ClusterMethods(1)
+  else
+    UsedClusteringMethod:= ClusterMethods(MainForm.MethodsPC.ActivePage.TabIndex);
+
   // free the allocated struct
   if IteridenseFree(iteridenseResult) <> 0 then
     MessageDlg('Warning: failed to free iteridenseResult', mtError, [mbOK], 0);
@@ -525,7 +532,6 @@ begin
   SaveCsvMI.Enabled:= true;
   SavePlotBB.Enabled:= true;
   SavePlotMI.Enabled:= true;
-
 end;
 
 
@@ -587,11 +593,6 @@ begin
     LoadedDataFileM.Text:= DummyString;
   end; // else if fileSuccess
 
-  // plot the data
-  // first delete existing data
-  for i:= DataC.SeriesCount - 1 downto 0 do
-    DataC.Series[i].Free;
-
   // add a column with zeros to DataArray to store there later the assignments
   assignmentColumn:= length(DataArray[0]);
   SetLength(DataArray, high(DataArray)+1, assignmentColumn+1);
@@ -600,43 +601,17 @@ begin
   // we must also adapt DataTextColumnsIndices accordingly
   Setlength(DataTextColumnsIndices, assignmentColumn+1);
 
-  // create a plot series
-  Series:= TLineSeries.Create(DataC);
-  Series.ShowLines:= False; // points only
-  Series.Pointer.Visible:= True;
-  Series.Pointer.Brush.Color:= colorPalette[0];
-  Series.Pointer.Style:= psCircle; // circles for the points
-  Series.Title:= '0';
-  DataC.AddSeries(Series);
+  // plot the data
+  ChartData.CDPlotSelectionCCBItemChange(Sender);
 
-  // add data points of the first 2 dimensions to the series
-  count:= 0;
-  dim1:= -1; dim2:= -1;
-  for i:= 0 to PlotSelectionCCB.Items.Count-1 do
-  begin
-    if (PlotSelectionCCB.Checked[i]) and (count = 0) then
-    begin
-      dim1:= i;
-      inc(count);
-    end
-    else if (PlotSelectionCCB.Checked[i]) and (count = 1) then
-    begin
-      dim2:= i;
-      break;
-    end;
-  end;
-  // add data to plot when there are at least 2 usable dimensions
-  if dim2 > -1 then
-  begin
-    for i:= 0 to high(DataArray) do
-      Series.AddXY(DataArray[i, dim1], DataArray[i, dim2]);
-    // enable clustering, disable saving
-    ClusteringBB.Enabled:= true;
-    FlipB.Enabled:= true;
-    SaveCsvMI.Enabled:= false;
-    SavePlotBB.Enabled:= false;
-    SavePlotMI.Enabled:= false;
-  end;
+  // enable/disable opbjects
+  ClusteringBB.Enabled:= true;
+  FlipB.Enabled:= true;
+  SaveCsvMI.Enabled:= false;
+  SavePlotBB.Enabled:= true;
+  SavePlotMI.Enabled:= true;
+  // reset method
+  UsedClusteringMethod:= ClusterMethods.none;
 end;
 
 
