@@ -23,7 +23,7 @@ type
     function StringToFontStyles(s: string): TFontStyles;
     function ReadData(InName: string): Byte;
     procedure FlipBClick(Sender: TObject);
-    procedure CDPlotSelectionCCBItemChange(Sender: TObject; AIndex: Integer);
+    procedure CDPlotSelectionCCBItemChange(Sender: TObject);
     procedure CDDataPointHintToolHint(ATool: TDataPointHintTool; const APoint: TPoint;
                                     var AHint: String);
     procedure CDDataPointHintToolHintPosition(ATool: TDataPointHintTool; var APoint: TPoint);
@@ -493,10 +493,10 @@ begin
 end;
 
 
-procedure TChartData.CDPlotSelectionCCBItemChange(Sender: TObject; AIndex: Integer);
+procedure TChartData.CDPlotSelectionCCBItemChange(Sender: TObject);
 var
-  i, count, dim1, dim2 : Int64;
-  Series : TLineSeries;
+  i, count, dim1, dim2, numOfClusters, assignmentColumn, clusterNumber : Int64;
+  Series : array of TLineSeries;
   StringArray : TStringArray;
 begin
   // replot using the first 2 selected dimensions
@@ -519,6 +519,7 @@ begin
   // if there is only one, we delte the series anyway to sho that something happened
   if dim1 > -1 then
   begin
+    // first delete
     for i := MainForm.DataC.SeriesCount - 1 downto 0 do
       MainForm.DataC.Series[i].Free;
     MainForm.DataC.AxisList[1].Title.Caption:= 'Dimension 1';
@@ -528,21 +529,27 @@ begin
   if dim2 > -1 then
   begin
     // create a plot series
-    Series:= TLineSeries.Create(MainForm.DataC);
-    Series.ShowLines:= False; // points only
-    Series.Pointer.Visible:= True;
-    Series.Pointer.Brush.Color:= colorPalette[0]; // assign unique color for each cluster
-    Series.Pointer.Style:= psCircle; // circles for the points
-    Series.Title:= '0';
-    MainForm.DataC.AddSeries(Series);
+    numOfClusters:= MainForm.ClusterResultSG.RowCount; // header row is like for the '0' cluster
+    SetLength(Series, numOfClusters);
+    for i:= 0 to numOfClusters-1 do
+    begin
+      Series[i]:= TLineSeries.Create(MainForm.DataC);
+      Series[i].ShowLines:= False; // points only
+      Series[i].Pointer.Visible:= true;
+      Series[i].Pointer.Brush.Color:= colorPalette[i]; // assign unique color for each cluster
+      Series[i].Pointer.Style:= psCircle; // circles for the points
+      Series[i].Title:= IntToStr(i);
+      MainForm.DataC.AddSeries(Series[i]);
+    end;
+
+    // add data points to the according cluster number series
+    assignmentColumn:= Length(DataArray[0]) - 1;
     for i:= 0 to high(DataArray) do
-      Series.AddXY(DataArray[i, dim1], DataArray[i, dim2]);
-    // enable clustering, disable saving
-    MainForm.ClusteringBB.Enabled:= true;
-    MainForm.FlipB.Enabled:= true;
-    MainForm.SaveCsvMI.Enabled:= false;
-    MainForm.SavePlotBB.Enabled:= false;
-    MainForm.SavePlotMI.Enabled:= false;
+    begin
+      clusterNumber:= round(DataArray[i, assignmentColumn]);
+      Series[clusterNumber].AddXY(DataArray[i, dim1], DataArray[i, dim2]);
+    end;
+
     // set the chart axis titles according to the header
     StringArray:= DataHeader.Split(DataColumnSeparator);
     MainForm.DataC.AxisList[1].Title.Caption:= StringArray[dim1];

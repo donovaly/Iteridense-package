@@ -10,17 +10,17 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="2"/>
         <CursorPos Y="24"/>
-        <UsageCount Value="176"/>
+        <UsageCount Value="182"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="ChartDataHandling.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="203"/>
-        <CursorPos X="28" Y="226"/>
-        <FoldState Value=" T3mS0b212 pkeo50d5 pjBkP0C3 plHlg0#Kk"/>
-        <UsageCount Value="111"/>
+        <TopLine Value="520"/>
+        <CursorPos X="56" Y="545"/>
+        <FoldState Value=" T3nU0?2 pjDlA0M6"/>
+        <UsageCount Value="117"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -33,7 +33,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="106"/>
+        <UsageCount Value="112"/>
       </Unit>
       <Unit>
         <Filename Value="ChartEditing\cebrushframe.pas"/>
@@ -45,7 +45,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="106"/>
+        <UsageCount Value="112"/>
       </Unit>
       <Unit>
         <Filename Value="ChartEditing\cefontframe.pas"/>
@@ -57,7 +57,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="106"/>
+        <UsageCount Value="112"/>
       </Unit>
       <Unit>
         <Filename Value="ChartEditing\celegenddlg.pas"/>
@@ -69,7 +69,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="106"/>
+        <UsageCount Value="112"/>
       </Unit>
       <Unit>
         <Filename Value="ChartEditing\cepenframe.pas"/>
@@ -81,7 +81,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="106"/>
+        <UsageCount Value="112"/>
       </Unit>
       <Unit>
         <Filename Value="ChartEditing\cepointerframe.pas"/>
@@ -93,7 +93,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="106"/>
+        <UsageCount Value="112"/>
       </Unit>
       <Unit>
         <Filename Value="ChartEditing\ceseriesdlg.pas"/>
@@ -105,7 +105,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="106"/>
+        <UsageCount Value="112"/>
       </Unit>
       <Unit>
         <Filename Value="ChartEditing\ceshapebrushpenmarginsframe.pas"/>
@@ -117,7 +117,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="106"/>
+        <UsageCount Value="112"/>
       </Unit>
       <Unit>
         <Filename Value="ChartEditing\cetitlefootdlg.pas"/>
@@ -128,7 +128,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="60"/>
         <CursorPos X="7" Y="74"/>
-        <UsageCount Value="106"/>
+        <UsageCount Value="112"/>
       </Unit>
       <Unit>
         <Filename Value="ChartEditing\ceutils.pas"/>
@@ -138,7 +138,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="106"/>
+        <UsageCount Value="112"/>
       </Unit>
       <Unit>
         <Filename Value="ChartEditing\ceaxisframe.pas"/>
@@ -150,7 +150,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="14"/>
         <CursorPos X="40" Y="49"/>
-        <UsageCount Value="105"/>
+        <UsageCount Value="111"/>
       </Unit>
       <Unit>
         <Filename Value="IteridenseTestMain.pas"/>
@@ -159,10 +159,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="175"/>
-        <CursorPos X="37" Y="179"/>
-        <FoldState Value=" T3lZ0(9 piblH0F011 pjKnF04123 PLiB03"/>
-        <UsageCount Value="106"/>
+        <TopLine Value="507"/>
+        <CursorPos X="19" Y="421"/>
+        <FoldState Value=" T3nT0G2342316 Pjcqd0G"/>
+        <UsageCount Value="112"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -175,7 +175,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="19"/>
         <CursorPos X="37" Y="26"/>
-        <UsageCount Value="49"/>
+        <UsageCount Value="55"/>
       </Unit>
       <Unit>
         <Filename Value="IteridenseTestUnit.pas"/>
@@ -186,7 +186,7 @@
         <EditorIndex Value="-1"/>
         <CursorPos X="24"/>
         <FoldState Value=" T3me0D016 PjPiN0a"/>
-        <UsageCount Value="45"/>
+        <UsageCount Value="44"/>
       </Unit>
       <Unit>
         <Filename Value="IteridenseTest.pas"/>
@@ -196,26 +196,26 @@
         <UnitName Value="IteridenseTestUnit"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="30"/>
-        <UsageCount Value="44"/>
+        <UsageCount Value="43"/>
       </Unit>
       <Unit>
         <Filename Value="JuliaDLLConnection.pas"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="5" Y="28"/>
-        <UsageCount Value="12"/>
+        <UsageCount Value="11"/>
       </Unit>
       <Unit>
         <Filename Value="DLL-Test\juliadllconnection.pas"/>
         <UnitName Value="JuliaDLLConnection"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="71" Y="8"/>
-        <UsageCount Value="6"/>
+        <UsageCount Value="5"/>
       </Unit>
       <Unit>
         <Filename Value="mylib.h"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="33" Y="2"/>
-        <UsageCount Value="7"/>
+        <UsageCount Value="6"/>
         <DefaultSyntaxHighlighter Value="C++"/>
       </Unit>
       <Unit>
@@ -224,31 +224,31 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="263"/>
         <CursorPos X="46" Y="281"/>
-        <UsageCount Value="6"/>
+        <UsageCount Value="5"/>
       </Unit>
       <Unit>
         <Filename Value="julia_init.h"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="6"/>
+        <UsageCount Value="5"/>
         <DefaultSyntaxHighlighter Value="C++"/>
       </Unit>
       <Unit>
         <Filename Value="julia_init.pas"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="27" Y="40"/>
-        <UsageCount Value="7"/>
+        <UsageCount Value="6"/>
       </Unit>
       <Unit>
         <Filename Value="C:\lazarus\fpc\3.2.2\source\rtl\inc\ctypes.pp"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="6"/>
+        <UsageCount Value="5"/>
       </Unit>
       <Unit>
         <Filename Value="C:\lazarus\fpc\3.2.2\source\rtl\objpas\sysutils\syshelph.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="87"/>
         <CursorPos X="23" Y="103"/>
-        <UsageCount Value="8"/>
+        <UsageCount Value="7"/>
       </Unit>
       <Unit>
         <Filename Value="C:\lazarus\fpc\3.2.2\source\packages\rtl-generics\src\generics.collections.pas"/>
@@ -256,14 +256,14 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="1363"/>
         <CursorPos Y="1381"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
       </Unit>
       <Unit>
         <Filename Value="clustertestcharthandling1.pas"/>
         <UnitName Value="ClusterTestChartHandling1"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="28" Y="5"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit>
       <Unit>
         <Filename Value="ClusterTestChartHandling.pas"/>
@@ -271,20 +271,20 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="54"/>
         <CursorPos X="21" Y="308"/>
-        <UsageCount Value="12"/>
+        <UsageCount Value="11"/>
       </Unit>
       <Unit>
         <Filename Value="IteridenseTest-ChartHandling.pas"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="33"/>
-        <UsageCount Value="1"/>
+        <UsageCount Value="0"/>
       </Unit>
       <Unit>
         <Filename Value="IteridenseTestChartHandling.pas"/>
         <UnitName Value="ChartDataHandling"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="23"/>
-        <UsageCount Value="11"/>
+        <UsageCount Value="10"/>
       </Unit>
       <Unit>
         <Filename Value="C:\lazarus\components\tachart\tachartaxis.pas"/>
@@ -292,7 +292,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="1276"/>
         <CursorPos Y="1294"/>
-        <UsageCount Value="3"/>
+        <UsageCount Value="2"/>
       </Unit>
       <Unit>
         <Filename Value="C:\lazarus\fpc\3.2.2\source\rtl\objpas\types.pp"/>
@@ -300,14 +300,14 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="28"/>
         <CursorPos X="11" Y="43"/>
-        <UsageCount Value="2"/>
+        <UsageCount Value="1"/>
       </Unit>
       <Unit>
         <Filename Value="C:\lazarus\lcl\include\brush.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="19"/>
         <CursorPos Y="38"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
       </Unit>
       <Unit>
         <Filename Value="C:\lazarus\components\tachart\tasources.pas"/>
@@ -315,14 +315,14 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="577"/>
         <CursorPos Y="595"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
       </Unit>
       <Unit>
         <Filename Value="C:\lazarus\lcl\include\spinedit.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="156"/>
         <CursorPos Y="175"/>
-        <UsageCount Value="6"/>
+        <UsageCount Value="5"/>
       </Unit>
       <Unit>
         <Filename Value="C:\lazarus\lcl\grids.pas"/>
@@ -330,35 +330,35 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="11396"/>
         <CursorPos Y="11414"/>
-        <UsageCount Value="6"/>
+        <UsageCount Value="5"/>
       </Unit>
       <Unit>
         <Filename Value="C:\lazarus\fpc\3.2.2\source\rtl\win\syswinh.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="32"/>
         <CursorPos X="26" Y="49"/>
-        <UsageCount Value="7"/>
+        <UsageCount Value="6"/>
       </Unit>
       <Unit>
         <Filename Value="C:\lazarus\fpc\3.2.2\source\packages\fcl-base\src\streamex.pp"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="265"/>
         <CursorPos X="41" Y="282"/>
-        <UsageCount Value="8"/>
+        <UsageCount Value="7"/>
       </Unit>
       <Unit>
         <Filename Value="C:\lazarus\lcl\interfaces\win32\win32listsl.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="151"/>
         <CursorPos Y="171"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
       </Unit>
       <Unit>
         <Filename Value="C:\lazarus\fpc\3.2.2\source\rtl\objpas\objpas.pp"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="480"/>
         <CursorPos X="8" Y="35"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit>
     </Units>
     <Debugger>
@@ -366,124 +366,124 @@
     </Debugger>
     <JumpHistory HistoryIndex="29">
       <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
-        <Caret Line="440" TopLine="426"/>
+        <Filename Value="ChartDataHandling.pas"/>
+        <Caret Line="456" Column="34" TopLine="428"/>
+      </Position>
+      <Position>
+        <Filename Value="ChartDataHandling.pas"/>
+        <Caret Line="460" Column="54" TopLine="432"/>
+      </Position>
+      <Position>
+        <Filename Value="ChartDataHandling.pas"/>
+        <Caret Line="466" Column="30" TopLine="438"/>
+      </Position>
+      <Position>
+        <Filename Value="ChartDataHandling.pas"/>
+        <Caret Line="548" Column="32" TopLine="520"/>
+      </Position>
+      <Position>
+        <Filename Value="ChartDataHandling.pas"/>
+        <Caret Line="549" Column="49" TopLine="521"/>
+      </Position>
+      <Position>
+        <Filename Value="ChartDataHandling.pas"/>
+        <Caret Line="188" Column="51" TopLine="171"/>
+      </Position>
+      <Position>
+        <Filename Value="ChartDataHandling.pas"/>
+        <Caret Line="189" Column="40" TopLine="171"/>
+      </Position>
+      <Position>
+        <Filename Value="ChartDataHandling.pas"/>
+        <Caret Line="40" Column="74" TopLine="33"/>
+      </Position>
+      <Position>
+        <Filename Value="ChartDataHandling.pas"/>
+        <Caret Line="188" Column="51" TopLine="166"/>
+      </Position>
+      <Position>
+        <Filename Value="ChartDataHandling.pas"/>
+        <Caret Line="189" Column="40" TopLine="166"/>
+      </Position>
+      <Position>
+        <Filename Value="ChartDataHandling.pas"/>
+        <Caret Line="190" Column="32" TopLine="166"/>
+      </Position>
+      <Position>
+        <Filename Value="ChartDataHandling.pas"/>
+        <Caret Line="191" Column="16" TopLine="166"/>
       </Position>
       <Position>
         <Filename Value="IteridenseTestMain.pas"/>
-        <Caret Line="442" TopLine="426"/>
+        <Caret Line="434" Column="26" TopLine="423"/>
       </Position>
       <Position>
         <Filename Value="IteridenseTestMain.pas"/>
-        <Caret Line="440" TopLine="426"/>
+        <Caret Line="499" Column="19" TopLine="480"/>
+      </Position>
+      <Position>
+        <Filename Value="ChartDataHandling.pas"/>
+        <Caret Line="201" Column="17" TopLine="176"/>
+      </Position>
+      <Position>
+        <Filename Value="ChartDataHandling.pas"/>
+        <Caret Line="228" Column="19" TopLine="200"/>
       </Position>
       <Position>
         <Filename Value="IteridenseTestMain.pas"/>
-        <Caret Line="442" TopLine="426"/>
+        <Caret Line="506" Column="39" TopLine="491"/>
+      </Position>
+      <Position>
+        <Filename Value="ChartDataHandling.pas"/>
+        <Caret Line="535" Column="46" TopLine="513"/>
+      </Position>
+      <Position>
+        <Filename Value="ChartDataHandling.pas"/>
+        <Caret Line="57" Column="15" TopLine="39"/>
       </Position>
       <Position>
         <Filename Value="IteridenseTestMain.pas"/>
-        <Caret Line="444" TopLine="426"/>
+        <Caret Line="540" Column="48" TopLine="522"/>
       </Position>
       <Position>
         <Filename Value="IteridenseTestMain.pas"/>
-        <Caret Line="440" TopLine="426"/>
+        <Caret Line="636" Column="48" TopLine="617"/>
+      </Position>
+      <Position>
+        <Filename Value="ChartDataHandling.pas"/>
+        <Caret Line="496" Column="50" TopLine="385"/>
+      </Position>
+      <Position>
+        <Filename Value="ChartDataHandling.pas"/>
+        <Caret Line="26" Column="43" TopLine="8"/>
       </Position>
       <Position>
         <Filename Value="IteridenseTestMain.pas"/>
-        <Caret Line="449" TopLine="435"/>
+        <Caret Line="522" Column="41" TopLine="503"/>
       </Position>
       <Position>
         <Filename Value="IteridenseTestMain.pas"/>
-        <Caret Line="450" TopLine="435"/>
+        <Caret Line="680" Column="48" TopLine="626"/>
       </Position>
       <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
-        <Caret Line="451" TopLine="435"/>
+        <Filename Value="ChartDataHandling.pas"/>
+        <Caret Line="498" Column="38" TopLine="288"/>
       </Position>
       <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
-        <Caret Line="454" TopLine="435"/>
+        <Filename Value="ChartDataHandling.pas"/>
+        <Caret Line="532" Column="30" TopLine="514"/>
       </Position>
       <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
-        <Caret Line="451" TopLine="435"/>
+        <Filename Value="ChartDataHandling.pas"/>
+        <Caret Line="499" Column="33" TopLine="286"/>
       </Position>
       <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
-        <Caret Line="454" TopLine="435"/>
+        <Filename Value="ChartDataHandling.pas"/>
+        <Caret Line="498" Column="71" TopLine="364"/>
       </Position>
       <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
-        <Caret Line="456" TopLine="438"/>
-      </Position>
-      <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
-        <Caret Line="458" TopLine="438"/>
-      </Position>
-      <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
-        <Caret Line="454" TopLine="438"/>
-      </Position>
-      <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
-        <Caret Line="451" Column="77" TopLine="432"/>
-      </Position>
-      <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
-        <Caret Line="449" TopLine="432"/>
-      </Position>
-      <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
-        <Caret Line="450" TopLine="432"/>
-      </Position>
-      <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
-        <Caret Line="454" TopLine="432"/>
-      </Position>
-      <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
-        <Caret Line="451" TopLine="432"/>
-      </Position>
-      <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
-        <Caret Line="454" TopLine="432"/>
-      </Position>
-      <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
-        <Caret Line="456" TopLine="432"/>
-      </Position>
-      <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
-        <Caret Line="454" TopLine="432"/>
-      </Position>
-      <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
-        <Caret Line="451" TopLine="432"/>
-      </Position>
-      <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
-        <Caret Line="454" TopLine="432"/>
-      </Position>
-      <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
-        <Caret Line="456" TopLine="432"/>
-      </Position>
-      <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
-        <Caret Line="454" TopLine="432"/>
-      </Position>
-      <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
-        <Caret Line="456" TopLine="432"/>
-      </Position>
-      <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
-        <Caret Line="454" TopLine="432"/>
-      </Position>
-      <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
-        <Caret Line="451" TopLine="432"/>
+        <Filename Value="ChartDataHandling.pas"/>
+        <Caret Line="534" Column="27" TopLine="520"/>
       </Position>
     </JumpHistory>
     <RunParams>
@@ -505,21 +505,70 @@
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="IteridenseTestMain.pas"/>
-        <Line Value="459"/>
+        <Line Value="457"/>
       </Item>
       <Item>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="IteridenseTestMain.pas"/>
-        <Line Value="450"/>
+        <Line Value="448"/>
       </Item>
       <Item>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="IteridenseTestMain.pas"/>
-        <Line Value="446"/>
+        <Line Value="444"/>
+      </Item>
+      <Item>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="ChartDataHandling.pas"/>
+        <Line Value="212"/>
+      </Item>
+      <Item>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="ChartDataHandling.pas"/>
+        <Line Value="194"/>
+      </Item>
+      <Item>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="IteridenseTestMain.pas"/>
+        <Line Value="513"/>
+      </Item>
+      <Item>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="ChartDataHandling.pas"/>
+        <Line Value="442"/>
+      </Item>
+      <Item>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="IteridenseTestMain.pas"/>
+        <Line Value="488"/>
+      </Item>
+      <Item>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="IteridenseTestMain.pas"/>
+        <Line Value="520"/>
+      </Item>
+      <Item>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="ChartDataHandling.pas"/>
+        <Line Value="545"/>
       </Item>
     </BreakPoints>
     <Watches>

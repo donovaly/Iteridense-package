@@ -415,8 +415,7 @@ end;
 procedure TMainForm.ClusteringBBClick(Sender: TObject);
 var
   dataPointer : PDouble;
-  counter, row, column, i, clusterNumber,
-    numOfClusters, assignmentColumn : Int64;
+  counter, row, column, i, assignmentColumn : Int64;
   iteridenseResult : PIteridenseResultC;
   inputArray : array of Double;
   dimensionIndices : array of Int64;
@@ -425,7 +424,6 @@ var
   rows, columns, minClusterSize, startResolution, stopResolution,
   minClusters, noDiagonals, useDensity, useClusters : cint64;
   density, minClusterDensity: cdouble;
-  Series : array of TLineSeries;
 begin
   // we must transform the DataArray to a contiguous 1D array in
   // column-major order to make it accessible for Julia
@@ -511,40 +509,13 @@ begin
     ClusterResultSG.Cells[2, i+1] := Format('%.3g', [clusterDensitiesArray[i]]);
   end;
 
-  numOfClusters:= iteridenseResult^.numOfClusters;
-
   // add assignmentsArray as column to DataArray
   assignmentColumn:= length(DataArray[0])-1;
   for i:= 0 to High(DataArray) do
     DataArray[i][assignmentColumn]:= assignmentsArray[i];
 
   // plot the data
-  // first delete existing data
-  for i:= DataC.SeriesCount - 1 downto 0 do
-  begin
-    DataC.Series[i].Free;
-  end;
-
-  // create a series for each cluster
-  SetLength(Series, numOfClusters+1);
-  for i:= 0 to numOfClusters do
-  begin
-    Series[i]:= TLineSeries.Create(DataC);
-    Series[i].ShowLines:= False; // points only
-    Series[i].Pointer.Visible:= true;
-    Series[i].Pointer.Brush.Color:= colorPalette[i]; // assign unique color for each cluster
-    Series[i].Pointer.Style:= psCircle; // circles for the points
-    Series[i].Title:= IntToStr(i);
-    DataC.AddSeries(Series[i]);
-  end;
-
-  // add data points to the correct series
-  assignmentColumn:= Length(DataArray[0]) - 1;
-  for i:= 0 to high(DataArray) do
-  begin
-    clusterNumber:= round(DataArray[i, assignmentColumn]);
-    Series[clusterNumber].AddXY(DataArray[i, 0], DataArray[i, 1]);
-  end;
+  ChartData.CDPlotSelectionCCBItemChange(Sender);
 
   // free the allocated struct
   if IteridenseFree(iteridenseResult) <> 0 then
@@ -633,7 +604,7 @@ begin
   Series:= TLineSeries.Create(DataC);
   Series.ShowLines:= False; // points only
   Series.Pointer.Visible:= True;
-  Series.Pointer.Brush.Color:= colorPalette[0]; // assign unique color for each cluster
+  Series.Pointer.Brush.Color:= colorPalette[0];
   Series.Pointer.Style:= psCircle; // circles for the points
   Series.Title:= '0';
   DataC.AddSeries(Series);
@@ -702,7 +673,7 @@ end;
 
 procedure TMainForm.PlotSelectionCCBItemChange(Sender: TObject; AIndex: Integer);
 begin
-  ChartData.CDPlotSelectionCCBItemChange(Sender, AIndex);
+  ChartData.CDPlotSelectionCCBItemChange(Sender);
 end;
 
 procedure TMainForm.AutoscaleMIClick(Sender: TObject);
