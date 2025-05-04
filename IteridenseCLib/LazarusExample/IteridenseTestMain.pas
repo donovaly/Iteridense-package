@@ -6,8 +6,8 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, Buttons,
-  EditBtn, ExtCtrls, ComCtrls, Spin, Menus, Grids, Math, CTypes, SpinEx,
-  FileInfo, StrUtils, Streamex, Generics.Collections, Types,
+  EditBtn, ExtCtrls, ComCtrls, Spin, Menus, Grids, ComboEx, Math, CTypes,
+  SpinEx, FileInfo, StrUtils, Streamex, Generics.Collections, Types,
   TATransformations, TATools, TAGraph, TASeries, TAChartAxis, TALegend,
   TATextElements, TATypes,
   AboutForm;
@@ -76,11 +76,16 @@ type
     AxisClickTool: TAxisClickTool;
     ChangeBackColorMI: TMenuItem;
     ChartAxisTransformDim1: TChartAxisTransformations;
+    PlotSelectionCCB: TCheckComboBox;
+    DataSelectionCCB: TCheckComboBox;
     ContextChartPM: TPopupMenu;
     FileMI: TMenuItem;
+    DimensionSelectionGB: TGroupBox;
     IteridenseResultTS: TTabSheet;
     FinalResolutionLE: TLabeledEdit;
     ClusterResultSG: TStringGrid;
+    DataSelectionL: TLabel;
+    PlotSelectionL: TLabel;
     OpenCsvMI: TMenuItem;
     MainMenu: TMainMenu;
     SaveMI: TMenuItem;
@@ -181,6 +186,7 @@ var
   DataArray : Array of Array of double; // array that holds the data to be clustered
   DataHeader : string; // header line of InNameData
   DataColumnSeparator : Char; // column separator of the CSV file
+  DataTextColumns : array of array of String; // to store non-number columns
   // filename to store appearance
   const AppearanceFile : string = 'Appearance-IteridenseTest.ini';
   // filename with default appearance
@@ -538,13 +544,20 @@ begin
     MethodsPC.ActivePage:= IteridenseTS;
 
   if DropfileName <> '' then // a file was dropped into the program
+  begin
+    // empty the selection boxes
+    MainForm.PlotSelectionCCB.Items.Clear;
+    MainForm.DataSelectionCCB.Items.Clear;
+    // read the content into DataHeader and DataArray
     fileSuccess:= ChartData.ReadData(DropfileName)
+  end
   else
   begin
     DummyString:= ChartData.OpenHandling('', '.csv');
     if DummyString = '' then
       exit; // user aborted the loading
-    // read the content into DataHeader and DataArray
+    MainForm.PlotSelectionCCB.Items.Clear;
+    MainForm.DataSelectionCCB.Items.Clear;
     fileSuccess:= ChartData.ReadData(DummyString);
   end;
 

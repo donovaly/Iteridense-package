@@ -89,10 +89,11 @@ var
   OpenFileStream : TFileStream;
   LineReader : TStreamReader;
   StringArray : TStringArray;
-  rowCounter : integer = 0;
+  rowCounter, columnCounter : integer;
   MousePointer : TPoint;
   List : specialize TList<TStringArray>;
-  i, j, columns : integer;
+  textColumns : array of Byte;
+  i, k, m, columns : integer;
 begin
   result:= 0; // initialized as failed
   MousePointer:= Mouse.CursorPos; // store mouse position
@@ -115,7 +116,7 @@ begin
   DataHeader:= firstLine; // store the header for later usage
   // read second line to check for column separator
   LineReader.ReadLine(secondLine);
-  inc(rowCounter);
+  rowCounter:= 1;
   // we assume the second line is the first one with data, therefore we
   // parse the second line for the first character that is a potential column separator
   // we detect for these possible separators: ',', ';', #9, '|', ' '
@@ -153,43 +154,91 @@ begin
   StringArray:= firstLine.Split(DataColumnSeparator);
   MainForm.DataC.AxisList[0].Title.Caption:= StringArray[0];
   MainForm.DataC.AxisList[1].Title.Caption:= StringArray[1];
+  // fill the CheckComboBoxes
+  for i:= 0 to High(StringArray) do
+  begin
+    MainForm.DataSelectionCCB.AddItem(StringArray[i], cbChecked);
+    // select only the first 2 for the plot as we don't allow 3D plots
+    if i < 2 then
+      MainForm.PlotSelectionCCB.AddItem(StringArray[i], cbChecked)
+    else
+      MainForm.PlotSelectionCCB.AddItem(StringArray[i], cbUnchecked);
+  end;
+  // set the first item to be displayed
+  MainForm.DataSelectionCCB.ItemIndex:= 0;
+  MainForm.PlotSelectionCCB.ItemIndex:= 0;
+
   // secondLine is the first row of the StringArray
   StringArray:= secondLine.Split(DataColumnSeparator);
- try
-  List:= specialize TList<TStringArray>.Create;
-  List.Add(StringArray);
-  // read file until end
-  while not LineReader.Eof do
-  begin
-    LineReader.ReadLine(textLine);
-    StringArray:= textLine.Split(DataColumnSeparator);
+  try
+    List:= specialize TList<TStringArray>.Create;
     List.Add(StringArray);
-    inc(rowCounter);
+    // read file until end
+    while not LineReader.Eof do
+    begin
+      LineReader.ReadLine(textLine);
+      StringArray:= textLine.Split(DataColumnSeparator);
+      List.Add(StringArray);
+      inc(rowCounter);
+    end;
+
+    // setup textColumnsList
+    columns:= length(StringArray);
+    Setlength(textColumns, columns);
+    for i:= 0 to High(textColumns) do
+      textColumns[i]:= 0;
+
+    // convert the string list to an array of double
+    SetLength(DataArray, rowCounter, columns);
+    for i:= 0 to List.Count-1 do
+      for k:= 0 to columns-1 do
+        begin
+          if not TryStrToFloat(List[i][k], DataArray[i][k]) then
+          begin
+            if textColumns[k] = 0 then
+            begin
+              result:= 2; // means error, but known error
+              // uncheck this column for the clustering
+              MainForm.PlotSelectionCCB.Checked[k]:= false;
+              MainForm.PlotSelectionCCB.ItemEnabled[k]:= false;
+              MainForm.DataSelectionCCB.Checked[k]:= false;
+              MainForm.DataSelectionCCB.ItemEnabled[k]:= false;
+              // store current column to be able to later save it untouched
+              textColumns[k]:= 1;
+            end;
+            // set value to zero just to have a value
+            DataArray[i][k]:= 0.0;
+           end;
+        end;
+  finally
+    List.Free;
   end;
 
-  // convert the string array to an array of double
-  columns:= length(StringArray);
-  setlength(DataArray, rowCounter, columns);
-  for i:= 0 to List.Count-1 do
-    for j:= 0 to columns-1 do
+  if result = 2 then
+  begin
+    // count the number of text columns and setup DataTextColumns
+    columnCounter:= 0;
+    for i:= 0 to High(textColumns) do
+      columnCounter:= columnCounter + textColumns[i];
+    SetLength(DataTextColumns, List.Count, columnCounter+1);
+    columnCounter:= 0;
+    for k:= 0 to columns-1 do
+    begin
+      if textColumns[k] = 1 then
       begin
-        if not TryStrToFloat(List[i][j], DataArray[i][j]) then
-        begin
-          MessageDlg('The value in column ' + IntToStr(j+1) + ' of line ' + IntToStr(i+1)
-            + ' of the CSV file could not be converted to a number', mtError, [mbOK], 0);
-          result:= 2; // means error, but known error
-          exit;
-        end;
+        for i:= 0 to List.Count-1 do
+          DataTextColumns[i][columnCounter]:= List[i][k];
+        inc(columnCounter);
       end;
- finally
-   List.Free;
- end;
+    end;
+  end;
 
-  Result:= 1; // no errors
+  if result = 0 then
+    result:= 1; // no errors
 
  finally
-  LineReader.Free;
-  OpenFileStream.Free;
+   LineReader.Free;
+   OpenFileStream.Free;
  end;
 
 end;
