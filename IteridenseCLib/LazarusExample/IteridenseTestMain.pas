@@ -74,6 +74,7 @@ type
     AboutMI: TMenuItem;
     AutoscaleMI: TMenuItem;
     AxisClickTool: TAxisClickTool;
+    FlipB: TButton;
     ChangeBackColorMI: TMenuItem;
     ChartAxisTransformDim1: TChartAxisTransformations;
     PlotSelectionCCB: TCheckComboBox;
@@ -153,6 +154,7 @@ type
       const APoint: TPoint; var AHint: String);
     procedure DataPointHintToolHintPosition(ATool: TDataPointHintTool;
       var APoint: TPoint);
+    procedure FlipBClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure ClusteringBBClick(Sender: TObject);
@@ -162,6 +164,7 @@ type
     procedure LegendClickToolClick(ASender: TChartTool; ALegend: TChartLegend);
     procedure OpenCsvBBClick(Sender: TObject);
     procedure FormDropFiles(Sender: TObject; const FileNames{%H-}: array of String);
+    procedure PlotSelectionCCBItemChange(Sender: TObject; AIndex: Integer);
     procedure ResetChartAppearanceMIClick(Sender: TObject);
     procedure SaveCsvMIClick(Sender: TObject);
     procedure SavePlotBBClick(Sender: TObject);
@@ -327,6 +330,12 @@ begin
     exit;
   end;
   ChartData.LoadAppearance(defaultFile);
+end;
+
+
+procedure TMainForm.FlipBClick(Sender: TObject);
+begin
+  ChartData.FlipBClick(Sender);
 end;
 
 
@@ -501,7 +510,7 @@ begin
 
   // plot the data
   // first delete existing data
-  for i := DataC.SeriesCount - 1 downto 0 do
+  for i:= DataC.SeriesCount - 1 downto 0 do
   begin
     DataC.Series[i].Free;
   end;
@@ -599,10 +608,8 @@ begin
 
   // plot the data
   // first delete existing data
-  for i := DataC.SeriesCount - 1 downto 0 do
-  begin
+  for i:= DataC.SeriesCount - 1 downto 0 do
     DataC.Series[i].Free;
-  end;
 
   // add a column with zeros to DataArray to store there later the assignments
   assignmentColumn:= length(DataArray[0]);
@@ -636,12 +643,13 @@ begin
     end;
   end;
   // add data to plot when there are at least 2 usable dimensions
-  if dim2 >-1 then
+  if dim2 > -1 then
   begin
     for i:= 0 to high(DataArray) do
       Series.AddXY(DataArray[i, dim1], DataArray[i, dim2]);
     // enable clustering, disable saving
     ClusteringBB.Enabled:= true;
+    FlipB.Enabled:= true;
     SaveCsvMI.Enabled:= false;
     SavePlotBB.Enabled:= false;
     SavePlotMI.Enabled:= false;
@@ -659,6 +667,11 @@ procedure TMainForm.DataPointHintToolHintPosition(ATool: TDataPointHintTool;
   var APoint: TPoint);
 begin
   ChartData.CDDataPointHintToolHintPosition(ATool, APoint);
+end;
+
+procedure TMainForm.PlotSelectionCCBItemChange(Sender: TObject; AIndex: Integer);
+begin
+  ChartData.CDPlotSelectionCCBItemChange(Sender, AIndex);
 end;
 
 procedure TMainForm.AutoscaleMIClick(Sender: TObject);

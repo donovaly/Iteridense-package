@@ -791,11 +791,14 @@ object MainForm: TMainForm
       AnchorSideTop.Side = asrBottom
       Left = 16
       Height = 26
+      Hint = 'all selected dimensions will be'#13#10'taken into account for clustering'
       Top = 46
       Width = 176
       AutoDropDown = True
       BorderSpacing.Top = 12
       ItemHeight = 20
+      ParentShowHint = False
+      ShowHint = True
       TabOrder = 0
     end
     object DataSelectionL: TLabel
@@ -813,12 +816,14 @@ object MainForm: TMainForm
       AnchorSideTop.Control = DimensionSelectionGB
       Left = 16
       Height = 26
+      Hint = 'the first 2 selected dimensions will be plotted'
       Top = 8
       Width = 176
       AutoDropDown = True
       BorderSpacing.Left = 16
       BorderSpacing.Top = 8
       ItemHeight = 20
+      OnItemChange = PlotSelectionCCBItemChange
       ParentShowHint = False
       ShowHint = True
       TabOrder = 1
@@ -834,6 +839,24 @@ object MainForm: TMainForm
       Width = 116
       BorderSpacing.Left = 8
       Caption = 'Dimensions to plot'
+    end
+    object FlipB: TButton
+      AnchorSideLeft.Control = PlotSelectionL
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = PlotSelectionCCB
+      AnchorSideTop.Side = asrCenter
+      Left = 324
+      Height = 26
+      Hint = 'flips the dimensions in the plot'
+      Top = 8
+      Width = 48
+      BorderSpacing.Left = 8
+      Caption = 'Flip'
+      Enabled = False
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 2
+      OnClick = FlipBClick
     end
   end
   object ChartAxisTransformValues: TChartAxisTransformations

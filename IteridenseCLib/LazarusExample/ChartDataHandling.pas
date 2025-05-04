@@ -22,6 +22,8 @@ type
     function FontStylesToString(FontStyles: TFontStyles): string;
     function StringToFontStyles(s: string): TFontStyles;
     function ReadData(InName: string): Byte;
+    procedure FlipBClick(Sender: TObject);
+    procedure CDPlotSelectionCCBItemChange(Sender: TObject; AIndex: Integer);
     procedure CDDataPointHintToolHint(ATool: TDataPointHintTool; const APoint: TPoint;
                                     var AHint: String);
     procedure CDDataPointHintToolHintPosition(ATool: TDataPointHintTool; var APoint: TPoint);
@@ -437,6 +439,7 @@ begin
       count:= 0;
       for k:= 0 to High(DataArray[i]) do
       begin
+        // we take care of the text columns
         if DataTextColumnsIndices[k] = 0 then
           textLine := textLine + FloatToStr(DataArray[i][k])
         else
@@ -458,6 +461,89 @@ begin
     SaveFileStream.Free;
   end;
 
+end;
+
+
+procedure TChartData.FlipBClick(Sender: TObject);
+var
+  series, i : Int64;
+  lineSeries : TLineSeries;
+  tempValue : Double;
+  tempString : String;
+begin
+  // change for all series x and y
+  for series:= 0 to MainForm.DataC.Series.Count-1 do
+  begin
+    lineSeries:= MainForm.DataC.Series[series] as TLineSeries;
+    for i:= 0 to lineSeries.Count-1 do
+    begin
+      tempValue:= lineSeries.XValue[i];
+      lineSeries.XValue[i]:= lineSeries.YValue[i];
+      lineSeries.YValue[i]:= tempValue;
+    end;
+  end;
+  // flip axis decription
+  tempString:= MainForm.DataC.AxisList[0].Title.Caption;
+  MainForm.DataC.AxisList[0].Title.Caption:= MainForm.DataC.AxisList[1].Title.Caption;
+  MainForm.DataC.AxisList[1].Title.Caption:= tempString;
+end;
+
+
+procedure TChartData.CDPlotSelectionCCBItemChange(Sender: TObject; AIndex: Integer);
+var
+  i, count, dim1, dim2 : Int64;
+  Series : TLineSeries;
+  StringArray : TStringArray;
+begin
+  // replot using the first 2 selected dimensions
+  count:= 0;
+  dim1:= -1; dim2:= -1;
+  for i:= 0 to MainForm.PlotSelectionCCB.Items.Count-1 do
+  begin
+    if (MainForm.PlotSelectionCCB.Checked[i]) and (count = 0) then
+    begin
+      dim1:= i;
+      inc(count);
+    end
+    else if (MainForm.PlotSelectionCCB.Checked[i]) and (count = 1) then
+    begin
+      dim2:= i;
+      break;
+    end;
+  end;
+  // add data to plot when there are at least 2 usable dimensions
+  // if there is only one, we delte the series anyway to sho that something happened
+  if dim1 > -1 then
+  begin
+    for i := MainForm.DataC.SeriesCount - 1 downto 0 do
+      MainForm.DataC.Series[i].Free;
+    MainForm.DataC.AxisList[0].Title.Caption:= 'Dimension 1';
+    MainForm.DataC.AxisList[1].Title.Caption:= 'Dimension 2';
+    MainForm.FlipB.Enabled:= false;
+  end;
+  if dim2 > -1 then
+  begin
+    // create a plot series
+    Series:= TLineSeries.Create(MainForm.DataC);
+    Series.ShowLines:= False; // points only
+    Series.Pointer.Visible:= True;
+    Series.Pointer.Brush.Color:= colorPalette[0]; // assign unique color for each cluster
+    Series.Pointer.Style:= psCircle; // circles for the points
+    Series.Title:= '0';
+    MainForm.DataC.AddSeries(Series);
+    for i:= 0 to high(DataArray) do
+      Series.AddXY(DataArray[i, dim1], DataArray[i, dim2]);
+    // enable clustering, disable saving
+    MainForm.ClusteringBB.Enabled:= true;
+    MainForm.FlipB.Enabled:= true;
+    MainForm.SaveCsvMI.Enabled:= false;
+    MainForm.SavePlotBB.Enabled:= false;
+    MainForm.SavePlotMI.Enabled:= false;
+    // set the chart axis titles according to the header
+    StringArray:= DataHeader.Split(DataColumnSeparator);
+    MainForm.DataC.AxisList[0].Title.Caption:= StringArray[dim1];
+    MainForm.DataC.AxisList[1].Title.Caption:= StringArray[dim2];
+  end;
 end;
 
 
