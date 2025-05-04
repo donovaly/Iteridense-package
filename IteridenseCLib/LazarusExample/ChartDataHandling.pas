@@ -151,8 +151,10 @@ begin
 
   // set the chart axis titles according to the header
   StringArray:= firstLine.Split(DataColumnSeparator);
-  MainForm.DataC.AxisList[0].Title.Caption:= StringArray[0];
-  MainForm.DataC.AxisList[1].Title.Caption:= StringArray[1];
+  columns:= length(StringArray);
+  // AxisList[1] is x-axis (bottom)
+  MainForm.DataC.AxisList[1].Title.Caption:= StringArray[0];
+  MainForm.DataC.AxisList[0].Title.Caption:= StringArray[1];
   // fill the CheckComboBoxes
   for i:= 0 to High(StringArray) do
   begin
@@ -177,14 +179,17 @@ begin
     begin
       LineReader.ReadLine(textLine);
       StringArray:= textLine.Split(DataColumnSeparator);
-      List.Add(StringArray);
+      // often the last lines of files are empty, contain whitespace etc. therefore we only
+      // read if a line contains the same number of column separators as the header line
+      if length(StringArray) = columns then
+        List.Add(StringArray);
     end;
 
     // setup DataTextColumnsIndices
-    columns:= length(StringArray);
     Setlength(DataTextColumnsIndices, columns);
-    for i:= 0 to High(DataTextColumnsIndices) do
-      DataTextColumnsIndices[i]:= 0;
+    // reset all indices
+    FillChar(DataTextColumnsIndices[0],
+             Length(DataTextColumnsIndices) * SizeOf(DataTextColumnsIndices[0]), 0);
 
     // convert the string list to an array of double
     columnCounter:= 0;
@@ -454,8 +459,6 @@ begin
       lineBytes:= BytesOf(UTF8Encode(textLine));
       SaveFileStream.WriteBuffer(lineBytes[0], Length(lineBytes));
     end;
-    // final line break
-    SaveFileStream.Write(LineEnding, Length(LineEnding));
 
   finally
     SaveFileStream.Free;
@@ -517,8 +520,8 @@ begin
   begin
     for i := MainForm.DataC.SeriesCount - 1 downto 0 do
       MainForm.DataC.Series[i].Free;
-    MainForm.DataC.AxisList[0].Title.Caption:= 'Dimension 1';
-    MainForm.DataC.AxisList[1].Title.Caption:= 'Dimension 2';
+    MainForm.DataC.AxisList[1].Title.Caption:= 'Dimension 1';
+    MainForm.DataC.AxisList[0].Title.Caption:= 'Dimension 2';
     MainForm.FlipB.Enabled:= false;
   end;
   if dim2 > -1 then
@@ -541,8 +544,8 @@ begin
     MainForm.SavePlotMI.Enabled:= false;
     // set the chart axis titles according to the header
     StringArray:= DataHeader.Split(DataColumnSeparator);
-    MainForm.DataC.AxisList[0].Title.Caption:= StringArray[dim1];
-    MainForm.DataC.AxisList[1].Title.Caption:= StringArray[dim2];
+    MainForm.DataC.AxisList[1].Title.Caption:= StringArray[dim1];
+    MainForm.DataC.AxisList[0].Title.Caption:= StringArray[dim2];
   end;
 end;
 
@@ -592,46 +595,41 @@ end;
 procedure TChartData.CDDataPointHintToolHintPosition(
  ATool: TDataPointHintTool; var APoint: TPoint);
 var
- series : TLineSeries;
- x, y, HintWidth, HintHeight : Integer;
- rect : TRect;
- HintWindow : THintWindow;
- HintText : string = '';
- SeriesName : string;
+  series : TLineSeries;
+  x, y, HintWidth, HintHeight : Integer;
+  rect : TRect;
+  HintWindow : THintWindow;
+  HintText : string = '';
+  SeriesName : string;
 // moves the hint text above the cursor and center it horizontally to cursor
 begin
- series:= ATool.Series as TLineSeries;
- SeriesName:= ATool.Series.Name;
- // get image coordinates of the point
- x:= MainForm{%H-}.DataC.XGraphToImage(series.ListSource[ATool.PointIndex]^.X);
- // all series except of SIXTempValues are connected to the left axis
- if SeriesName <> 'SIXTempValues' then
+  series:= ATool.Series as TLineSeries;
+  SeriesName:= ATool.Series.Name;
+  // get image coordinates of the point
+  x:= MainForm{%H-}.DataC.XGraphToImage(series.ListSource[ATool.PointIndex]^.X);
+  // all series except of SIXTempValues are connected to the left axis
   y:= MainForm{%H-}.DataC.YGraphToImage(
        MainForm.DataC.AxisList[0].GetTransform.AxisToGraph(
-        series.ListSource[ATool.PointIndex]^.Y))
- else
-  y:= MainForm{%H-}.DataC.YGraphToImage(
-       MainForm.DataC.AxisList[2].GetTransform.AxisToGraph(
         series.ListSource[ATool.PointIndex]^.Y));
 
- // get hint text - just call the event handler of OnHint
- MainForm.DataPointHintToolHint(ATool, APoint, HintText);
+  // get hint text - just call the event handler of OnHint
+  MainForm.DataPointHintToolHint(ATool, APoint, HintText);
 
- HintWindow:= THintWindow.Create(nil);
- try
-  rect:= HintWindow.CalcHintRect(MainForm.DataC.Width, HintText, nil);
-  HintWidth:= rect.Right - rect.Left;  // hint window width
-  HintHeight:= rect.Bottom - rect.Top; // hint window height
- finally
-  HintWindow.Free;
- end;
+  HintWindow:= THintWindow.Create(nil);
+  try
+    rect:= HintWindow.CalcHintRect(MainForm.DataC.Width, HintText, nil);
+    HintWidth:= rect.Right - rect.Left;  // hint window width
+    HintHeight:= rect.Bottom - rect.Top; // hint window height
+  finally
+    HintWindow.Free;
+  end;
 
- // center hint horizontally relative to data point
- APoint.x:= x - HintWidth div 2;
- // move hint 10 pixels above the "High" data point
- APoint.y:= y - HintHeight - 10;
- // hint coordinates are relative to screen
- APoint:= MainForm.DataC.ClientToScreen(APoint);
+  // center hint horizontally relative to data point
+  APoint.x:= x - HintWidth div 2;
+  // move hint 10 pixels above the "High" data point
+  APoint.y:= y - HintHeight - 10;
+  // hint coordinates are relative to screen
+  APoint:= MainForm.DataC.ClientToScreen(APoint);
 end;
 
 
