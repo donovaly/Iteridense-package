@@ -837,8 +837,8 @@ object MainForm: TMainForm
     end
   end
   object ChartAxisTransformValues: TChartAxisTransformations
-    Left = 880
-    Top = 192
+    Left = 888
+    Top = 144
     object ValuesAutoScaleAxisTransform: TAutoScaleAxisTransform
     end
   end
@@ -853,8 +853,8 @@ object MainForm: TMainForm
     Top = 208
   end
   object ChartToolset: TChartToolset
-    Left = 880
-    Top = 120
+    Left = 888
+    Top = 80
     object DataPointCrosshairTool: TDataPointCrosshairTool
       GrabRadius = 10
     end
@@ -936,8 +936,8 @@ object MainForm: TMainForm
     Top = 80
   end
   object ContextChartPM: TPopupMenu
-    Left = 880
-    Top = 312
+    Left = 888
+    Top = 280
     object AutoscaleMI: TMenuItem
       Caption = 'Auto scale'
       OnClick = AutoscaleMIClick
@@ -951,8 +951,8 @@ object MainForm: TMainForm
     end
   end
   object ChartAxisTransformDim1: TChartAxisTransformations
-    Left = 880
-    Top = 248
+    Left = 888
+    Top = 208
     object ValuesLinearTransform: TLinearAxisTransform
     end
   end

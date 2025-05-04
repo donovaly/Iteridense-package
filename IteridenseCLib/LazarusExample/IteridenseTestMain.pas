@@ -186,7 +186,9 @@ var
   DataArray : Array of Array of double; // array that holds the data to be clustered
   DataHeader : string; // header line of InNameData
   DataColumnSeparator : Char; // column separator of the CSV file
-  DataTextColumns : array of array of String; // to store non-number columns
+  DataTextColumns : array of array of String; // to store text columns
+  DataTextColumnsIndices : array of Int64; // to store the index of the text columns
+  DataTextColumnsNumber : Int64; // number of text columns
   // filename to store appearance
   const AppearanceFile : string = 'Appearance-IteridenseTest.ini';
   // filename with default appearance
@@ -204,7 +206,6 @@ procedure TMainForm.FormCreate(Sender: TObject);
 var
   iniFile : string;
   FileVerInfo: TFileVersionInfo;
-  i : integer;
   args: array[0..1] of PAnsiChar;
 begin
   try
@@ -270,6 +271,7 @@ begin
   else
   begin
     MessageDlg('DLL could not be loaded', mtError, [mbOK], 0);
+    exit;
   end;
 
   // initialize Julia runtime
@@ -285,9 +287,12 @@ var
   iniFile : string;
 begin
   // shutdown Julia runtime with exit code 0 (success)
-  ShutdownJulia(0);
-  // unload the DLL
-  FreeLibrary(LibHandle);
+  // and unload the DLL
+  if LibHandle <> 0 then
+  begin
+    ShutdownJulia(0);
+    FreeLibrary(LibHandle);
+  end;
 
   // save the current chart appearance settings
   // we write into the same folder than the program .exe
@@ -355,7 +360,7 @@ end;
 // function to convert a c-array to an array of Int64
 function TMainForm.CArrayToTIntArray(cArray: CArray): TIntArray;
 var
-  count, i: LongInt;
+  count, i: Int64;
   arrayPointer: PInt64;
 begin
   result:= [];
@@ -368,7 +373,7 @@ end;
 // function to convert a c-array to an array of Double
 function TMainForm.CArrayToTDoubleArray(cArray: CArray): TDoubleArray;
 var
-  count, i: LongInt;
+  count, i: Int64;
   arrayPointer: PDouble;
 begin
   result:= [];
@@ -382,7 +387,7 @@ end;
 // function to convert a c-tensor to an array of Double
 function TMainForm.CTensorToTDoubleArray(tensor: CTensor): TDoubleArray;
 var
-  count, i: LongInt;
+  count, i: Int64;
   dataPointer: PDouble;
 begin
   // we have to manually count because tensor.dims is MAX_DIMENSIONS
@@ -401,10 +406,8 @@ end;
 procedure TMainForm.ClusteringBBClick(Sender: TObject);
 var
   dataPointer : PDouble;
-  counter, rows, columns, val, i, count, idx,
-    numOfClusters, assignmentColumn : LongInt;
-  randomNumber : Double;
-  textLine : String;
+  counter, row, column, i, clusterNumber,
+    numOfClusters, assignmentColumn : Int64;
   iteridenseResult : PIteridenseResultC;
   inputArray : array of Double;
   assignmentsArray, clusterSizesArray : TIntArray;
@@ -418,15 +421,22 @@ begin
   // column-major order to make it accessible for Julia
   nrows:= Length(DataArray);
   ncols:= Length(DataArray[0]) - 1; // don't take the assignment column into account
+  // subtract the number of text columns
+  ncols:= ncols - DataTextColumnsNumber;
   SetLength(inputArray, nrows * ncols);
   counter:= 0;
-  for columns:= 0 to ncols-1 do
-    for rows:= 0 to nrows-1 do
-      begin
-        inputArray[counter]:= DataArray[rows, columns];
-        inc(counter);
-      end;
-
+  for column:= 0 to ncols-1 do
+  begin
+    // omit the text columns
+    if DataTextColumnsIndices[column] = 0 then
+    begin
+      for row:= 0 to nrows-1 do
+        begin
+          inputArray[counter]:= DataArray[row, column];
+          inc(counter);
+        end;
+    end;
+  end;
   minClusterSize:= MinClusterSizeSE.Value;
   startResolution:= StartResolutionSE.Value;
   density:= DensityFSE.Value;
@@ -513,8 +523,8 @@ begin
   assignmentColumn:= Length(DataArray[0]) - 1;
   for i:= 0 to high(DataArray) do
   begin
-    idx := round(DataArray[i, assignmentColumn]); // clusterID
-    Series[idx].AddXY(DataArray[i, 0], DataArray[i, 1]);
+    clusterNumber:= round(DataArray[i, assignmentColumn]);
+    Series[clusterNumber].AddXY(DataArray[i, 0], DataArray[i, 1]);
   end;
 
   // free the allocated struct
@@ -534,7 +544,7 @@ var
   DummyString, firstLine, secondLine : string;
   fileSuccess : Byte = 0;
   MousePointer : TPoint;
-  i, clusterCount, assignmentColumn : Integer;
+  i, clusterCount, assignmentColumn, count, dim1, dim2 : Integer;
   Series : TLineSeries;
 begin
   MousePointer:= Mouse.CursorPos; // store mouse position
@@ -574,7 +584,7 @@ begin
       InNameData:= DropfileName
     else
       InNameData:= OpenDialog.FileName;
-    SaveDialog.FileName:= ''; // will be re-set in TChartData.SaveHandling()
+    SaveDialog.FileName:= ''; // will be re-set in ChartData.SaveHandling()
     // show the full path as tooltip
     if DropfileName <> '' then
       LoadedDataFileM.Hint:= DropfileName
@@ -594,7 +604,7 @@ begin
     DataC.Series[i].Free;
   end;
 
-  // add a column with zeros to DataArray to store there lates the assignments
+  // add a column with zeros to DataArray to store there later the assignments
   assignmentColumn:= length(DataArray[0]);
   SetLength(DataArray, high(DataArray)+1, assignmentColumn+1);
   for i:= 0 to high(DataArray) do
@@ -609,16 +619,33 @@ begin
   Series.Title:= '0';
   DataC.AddSeries(Series);
 
-  // add data points to the series
-  // fixme: allow to select what column to plot
-  for i:= 0 to high(DataArray) do
-    Series.AddXY(DataArray[i, 0], DataArray[i, 1]);
-
-  // enable clustering, disable saving
-  ClusteringBB.Enabled:= true;
-  SaveCsvMI.Enabled:= false;
-  SavePlotBB.Enabled:= false;
-  SavePlotMI.Enabled:= false;
+  // add data points of the first 2 dimensions to the series
+  count:= 0;
+  dim1:= -1; dim2:= -1;
+  for i:= 0 to PlotSelectionCCB.Items.Count-1 do
+  begin
+    if (PlotSelectionCCB.Checked[i]) and (count = 0) then
+    begin
+      dim1:= i;
+      inc(count);
+    end
+    else if (PlotSelectionCCB.Checked[i]) and (count = 1) then
+    begin
+      dim2:= i;
+      break;
+    end;
+  end;
+  // add data to plot when there are at least 2 usable dimensions
+  if dim2 >-1 then
+  begin
+    for i:= 0 to high(DataArray) do
+      Series.AddXY(DataArray[i, dim1], DataArray[i, dim2]);
+    // enable clustering, disable saving
+    ClusteringBB.Enabled:= true;
+    SaveCsvMI.Enabled:= false;
+    SavePlotBB.Enabled:= false;
+    SavePlotMI.Enabled:= false;
+  end;
 end;
 
 

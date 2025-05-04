@@ -89,11 +89,9 @@ var
   OpenFileStream : TFileStream;
   LineReader : TStreamReader;
   StringArray : TStringArray;
-  rowCounter, columnCounter : integer;
   MousePointer : TPoint;
   List : specialize TList<TStringArray>;
-  textColumns : array of Byte;
-  i, k, m, columns : integer;
+  i, k, m, columns : Int64;
 begin
   result:= 0; // initialized as failed
   MousePointer:= Mouse.CursorPos; // store mouse position
@@ -116,7 +114,6 @@ begin
   DataHeader:= firstLine; // store the header for later usage
   // read second line to check for column separator
   LineReader.ReadLine(secondLine);
-  rowCounter:= 1;
   // we assume the second line is the first one with data, therefore we
   // parse the second line for the first character that is a potential column separator
   // we detect for these possible separators: ',', ';', #9, '|', ' '
@@ -179,23 +176,24 @@ begin
       LineReader.ReadLine(textLine);
       StringArray:= textLine.Split(DataColumnSeparator);
       List.Add(StringArray);
-      inc(rowCounter);
     end;
 
-    // setup textColumnsList
+    // setup DataTextColumnsIndices
     columns:= length(StringArray);
-    Setlength(textColumns, columns);
-    for i:= 0 to High(textColumns) do
-      textColumns[i]:= 0;
+    Setlength(DataTextColumnsIndices, columns);
+    for i:= 0 to High(DataTextColumnsIndices) do
+      DataTextColumnsIndices[i]:= 0;
 
     // convert the string list to an array of double
-    SetLength(DataArray, rowCounter, columns);
+    DataTextColumnsNumber:= 0;
+    SetLength(DataArray, List.Count, columns);
     for i:= 0 to List.Count-1 do
+    begin
       for k:= 0 to columns-1 do
         begin
           if not TryStrToFloat(List[i][k], DataArray[i][k]) then
           begin
-            if textColumns[k] = 0 then
+            if DataTextColumnsIndices[k] = 0 then
             begin
               result:= 2; // means error, but known error
               // uncheck this column for the clustering
@@ -204,37 +202,34 @@ begin
               MainForm.DataSelectionCCB.Checked[k]:= false;
               MainForm.DataSelectionCCB.ItemEnabled[k]:= false;
               // store current column to be able to later save it untouched
-              textColumns[k]:= 1;
+              DataTextColumnsIndices[k]:= 1;
             end;
             // set value to zero just to have a value
             DataArray[i][k]:= 0.0;
+            inc(DataTextColumnsNumber);
            end;
         end;
+    end;
+    if result = 2 then
+    begin
+      // setup DataTextColumns
+      SetLength(DataTextColumns, List.Count, DataTextColumnsNumber);
+      DataTextColumnsNumber:= 0;
+      for k:= 0 to columns-1 do
+      begin
+        if DataTextColumnsIndices[k] = 1 then
+        begin
+          for i:= 0 to List.Count-1 do
+            DataTextColumns[i][DataTextColumnsNumber]:= List[i][k];
+          inc(DataTextColumnsNumber);
+        end;
+      end;
+    end;
   finally
     List.Free;
   end;
 
-  if result = 2 then
-  begin
-    // count the number of text columns and setup DataTextColumns
-    columnCounter:= 0;
-    for i:= 0 to High(textColumns) do
-      columnCounter:= columnCounter + textColumns[i];
-    SetLength(DataTextColumns, List.Count, columnCounter+1);
-    columnCounter:= 0;
-    for k:= 0 to columns-1 do
-    begin
-      if textColumns[k] = 1 then
-      begin
-        for i:= 0 to List.Count-1 do
-          DataTextColumns[i][columnCounter]:= List[i][k];
-        inc(columnCounter);
-      end;
-    end;
-  end;
-
-  if result = 0 then
-    result:= 1; // no errors
+  result:= 1; // no errors
 
  finally
    LineReader.Free;
@@ -386,7 +381,7 @@ procedure TChartData.CDSaveCsvMIClick(Sender: TObject);
 var
  textLine, CSVOutName, OutNameHelp : string;
  SaveFileStream : TFileStream;
- i, k : integer;
+ i, k, count : Int64;
  MousePointer : TPoint;
  lineBytes: TBytes;
 begin
@@ -430,7 +425,7 @@ begin
   end; // end if CSVOutName <> ''
 
   try
-    // write the header and add there the column 'cluster'
+    // write the header line and add there the column 'cluster'
     // as it might have Unicode characters, output as Unicode
     textLine:= DataHeader + DataColumnSeparator + 'cluster' + LineEnding;
     lineBytes:= BytesOf(UTF8Encode(textLine));
@@ -439,9 +434,16 @@ begin
     for i:= 0 to High(DataArray) do
     begin
       textLine:= '';
+      count:= 0;
       for k:= 0 to High(DataArray[i]) do
       begin
-        textLine := textLine + FloatToStr(DataArray[i][k]);
+        if DataTextColumnsIndices[k] = 0 then
+          textLine := textLine + FloatToStr(DataArray[i][k])
+        else
+        begin
+          textLine := textLine + DataTextColumns[i][count];
+          inc(count);
+        end;
         if k < High(DataArray[i]) then
           textLine:= textLine + DataColumnSeparator;
       end;
