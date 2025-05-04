@@ -20,10 +20,10 @@ object MainForm: TMainForm
     AnchorSideTop.Control = MethodsPC
     AnchorSideTop.Side = asrBottom
     AnchorSideBottom.Side = asrBottom
-    Left = 60
+    Left = 84
     Height = 50
     Hint = 'click to start the Iteridense clustering'
-    Top = 488
+    Top = 477
     Width = 160
     BorderSpacing.Top = 16
     Caption = 'Clustering'
@@ -248,12 +248,16 @@ object MainForm: TMainForm
     TabOrder = 0
   end
   object DataC: TChart
+    AnchorSideLeft.Control = MethodsPC
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Side = asrBottom
     Left = 328
     Height = 538
     Top = 0
-    Width = 719
+    Width = 736
     AxisList = <    
       item
         Marks.Format = '%0:.4g'
@@ -299,19 +303,22 @@ object MainForm: TMainForm
     )
     Title.Visible = True
     Toolset = ChartToolset
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Left = 24
     ParentColor = True
     PopupMenu = ContextChartPM
   end
   object OpenCsvBB: TBitBtn
     AnchorSideLeft.Control = MethodsPC
-    AnchorSideTop.Side = asrCenter
+    AnchorSideTop.Control = Owner
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
-    Left = 0
+    Left = 24
     Height = 29
     Hint = 'to open a CSV file that contains data'
-    Top = 32
+    Top = 24
     Width = 160
+    BorderSpacing.Top = 24
     Caption = 'Open CSV Data File'
     Glyph.Data = {
       36040000424D3604000000000000360000002800000010000000100000000100
@@ -360,10 +367,10 @@ object MainForm: TMainForm
     AnchorSideRight.Control = MethodsPC
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Side = asrBottom
-    Left = 168
+    Left = 192
     Height = 29
     Hint = 'to save plot as SVG'
-    Top = 32
+    Top = 24
     Width = 112
     Anchors = [akTop, akRight]
     Caption = 'Save Plot'
@@ -410,12 +417,16 @@ object MainForm: TMainForm
     TabOrder = 3
   end
   object MethodsPC: TPageControl
-    Left = 0
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = OpenCsvBB
+    AnchorSideTop.Side = asrBottom
+    Left = 24
     Height = 392
-    Top = 80
+    Top = 69
     Width = 280
     ActivePage = IteridenseTS
-    BorderSpacing.Left = 12
+    BorderSpacing.Left = 24
+    BorderSpacing.Top = 16
     MultiLine = True
     TabIndex = 0
     TabOrder = 4
@@ -657,12 +668,13 @@ object MainForm: TMainForm
       ClientWidth = 272
       object FinalResolutionLE: TLabeledEdit
         AnchorSideLeft.Control = ClusterResultSG
+        AnchorSideTop.Control = IteridenseResultTS
         AnchorSideBottom.Control = ClusterResultSG
         Left = 22
         Height = 27
-        Top = 21
+        Top = 16
         Width = 69
-        Anchors = [akLeft, akBottom]
+        BorderSpacing.Top = 16
         BorderSpacing.Bottom = 16
         EditLabel.Height = 19
         EditLabel.Width = 93
@@ -675,11 +687,17 @@ object MainForm: TMainForm
       object ClusterResultSG: TStringGrid
         AnchorSideLeft.Control = IteridenseResultTS
         AnchorSideLeft.Side = asrCenter
+        AnchorSideTop.Control = FinalResolutionLE
+        AnchorSideTop.Side = asrBottom
+        AnchorSideBottom.Control = IteridenseResultTS
+        AnchorSideBottom.Side = asrBottom
         Left = 22
-        Height = 272
-        Top = 64
+        Height = 261
+        Top = 59
         Width = 228
+        Anchors = [akTop, akLeft, akBottom]
         AutoEdit = False
+        BorderSpacing.Bottom = 16
         ColCount = 3
         Columns = <        
           item
@@ -751,7 +769,7 @@ object MainForm: TMainForm
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Side = asrBottom
-    Left = 597
+    Left = 606
     Height = 27
     Hint = 'No data file loaded'
     Top = 554
@@ -771,7 +789,7 @@ object MainForm: TMainForm
     AnchorSideLeft.Side = asrBottom
     AnchorSideBottom.Control = LoadedDataFileM
     AnchorSideBottom.Side = asrCenter
-    Left = 785
+    Left = 794
     Height = 19
     Top = 557
     Width = 131
@@ -784,9 +802,9 @@ object MainForm: TMainForm
     AnchorSideLeft.Control = MethodsPC
     AnchorSideTop.Control = ClusteringBB
     AnchorSideTop.Side = asrBottom
-    Left = 0
+    Left = 24
     Height = 112
-    Top = 554
+    Top = 543
     Width = 384
     BorderSpacing.Top = 16
     Caption = 'Selection of Dimensions'
