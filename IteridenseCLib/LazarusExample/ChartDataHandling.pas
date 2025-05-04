@@ -437,6 +437,7 @@ begin
     textLine:= DataHeader + DataColumnSeparator + 'cluster' + LineEnding;
     lineBytes:= BytesOf(UTF8Encode(textLine));
     SaveFileStream.WriteBuffer(lineBytes[0], Length(lineBytes));
+
     // write the data
     for i:= 0 to High(DataArray) do
     begin

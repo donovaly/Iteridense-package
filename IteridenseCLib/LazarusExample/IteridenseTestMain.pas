@@ -626,6 +626,8 @@ begin
   SetLength(DataArray, high(DataArray)+1, assignmentColumn+1);
   for i:= 0 to high(DataArray) do
     DataArray[i][assignmentColumn]:= 0;
+  // we must also adapt DataTextColumnsIndices accordingly
+  Setlength(DataTextColumnsIndices, assignmentColumn+1);
 
   // create a plot series
   Series:= TLineSeries.Create(DataC);
