@@ -448,7 +448,10 @@ begin
 end;
 
 
-// function to convert a c-array to an array of Int64
+// Note: the following 2 functions CArrayToTIntArray and CArrayToTDoubleArray
+// cannot be merged as of FreePascal 3.2 since single generic functions are not yet supported.
+// As they are supported in Delphi, this might be supported with future Freepascal versions.
+// function to convert a C-array to an array of Int64
 function TMainForm.CArrayToTIntArray(cArray: CArray): TIntArray;
 var
   count, i: Int64;
@@ -461,7 +464,7 @@ begin
     result[i]:= arrayPointer[i];
 end;
 
-// function to convert a c-array to an array of Double
+// function to convert a C-array to an array of Double
 function TMainForm.CArrayToTDoubleArray(cArray: CArray): TDoubleArray;
 var
   count, i: Int64;
@@ -475,7 +478,7 @@ begin
 end;
 
 
-// function to convert a c-tensor to an array of Double
+// function to convert a C-tensor to an array of Double
 function TMainForm.CTensorToTDoubleArray(tensor: CTensor): TDoubleArray;
 var
   count, i: Int64;
