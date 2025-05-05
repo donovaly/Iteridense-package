@@ -50,6 +50,15 @@ type
   end;
   PDBSCANResultC = ^DBSCANResultC;
 
+  // C-compatible KMeansResult struct
+  KMeansResultC = record
+    numOfClusters : Int64;
+    assignments : CArray;
+    clusterSizes : CArray;
+    clusterCenters : CTensor;
+  end;
+  PKMeansResultC = ^KMeansResultC;
+
   TInitJulia = procedure(argc: Integer; argv: PPAnsiChar); cdecl;
   TShutdownJulia = procedure(retcode: Integer); cdecl;
   // allocates and computes the IteridenseResult
@@ -72,10 +81,8 @@ type
   // frees memory allocated by TIteridenseClustering
   // returns 0 on success, -1 if ptr is nil
   TIteridenseFree = function(pointer: PIteridenseResultC): Integer; cdecl;
-  // allocates and computes the IteridenseResult
-  // returns a pointer to a heap-allocated IteridenseResultC
-  // caller must free with IteridenseFree
-  // returns nil on failure
+
+  // like for IteridenseResult
   TDBSCANClustering = function(
     const dataMatrix: PDouble; // const double* dataMatrix
     nrows, ncols: cint64;      // int64_t
@@ -83,9 +90,19 @@ type
     minNeighbors: cint64;
     minClusterSize: cint64
     ): PDBSCANResultC; cdecl;
-  // frees memory allocated by TIteridenseClustering
-  // returns 0 on success, -1 if ptr is nil
+  // frees memory allocated by TDBSCANClustering
   TDBSCANFree = function(pointer: PDBSCANResultC): Integer; cdecl;
+
+  // like for IteridenseResult
+  TKMeansClustering = function(
+    const dataMatrix: PDouble; // const double* dataMatrix
+    nrows, ncols: cint64;      // int64_t
+    radius: cdouble;
+    minNeighbors: cint64;
+    minClusterSize: cint64
+    ): PKMeansResultC; cdecl;
+  // frees memory allocated by TKMeansClustering
+  TKMeansFree = function(pointer: PKMeansResultC): Integer; cdecl;
 
   ClusterMethods = (Ideridense, DBSCAN, KMeans, none);
   TIntArray = array of Int64;
@@ -101,6 +118,11 @@ type
     ChangeBackColorMI: TMenuItem;
     ChartAxisTransformDim1: TChartAxisTransformations;
     DBSCANBevelB: TBevel;
+    KMeansBevelB: TBevel;
+    MaxIterationsL: TLabel;
+    MaxIterationsSE: TSpinEdit;
+    NumberClustersL: TLabel;
+    NumberClustersSE: TSpinEdit;
     RadiusEpsFSEL: TLabel;
     MinClusterSizeDBscanL: TLabel;
     MinNeighborsL: TLabel;
@@ -127,6 +149,8 @@ type
     SaveCsvMI: TMenuItem;
     Separator1MI: TMenuItem;
     MinNeighborsSE: TSpinEdit;
+    ToleranceL: TLabel;
+    ToleranceSE: TSpinEdit;
     UseDensityRB: TRadioButton;
     UseClustersRB: TRadioButton;
     DensityL: TLabel;
@@ -212,6 +236,8 @@ var
   IteridenseFree : TIteridenseFree;
   DBSCANClustering : TDBSCANClustering;
   DBSCANFree : TDBSCANFree;
+  KMeansClustering : TKMeansClustering;
+  KMeansFree : TKMeansFree;
   InitJulia : TInitJulia;
   ShutdownJulia : TShutdownJulia;
   DropfileName : string = ''; // name of dropped CSV file
@@ -311,6 +337,19 @@ begin
     if not Assigned(DBSCANFree) then
     begin
       MessageDlg('The function "DBSCANFree" is not found in the DLL', mtError, [mbOK], 0);
+      FreeLibrary(LibHandle);
+    end;
+    // now K-means
+    KMeansClustering:= TKMeansClustering(GetProcAddress(LibHandle, 'KMeansClustering'));
+    if not Assigned(KMeansClustering) then
+    begin
+      MessageDlg('The function "KMeansClustering" is not found in the DLL', mtError, [mbOK], 0);
+      FreeLibrary(LibHandle);
+    end;
+    KMeansFree:= TKMeansFree(GetProcAddress(LibHandle, 'KMeansFree'));
+    if not Assigned(KMeansFree) then
+    begin
+      MessageDlg('The function "KMeansFree" is not found in the DLL', mtError, [mbOK], 0);
       FreeLibrary(LibHandle);
     end;
   end
@@ -469,7 +508,8 @@ var
   minClusters, noDiagonals, useDensity, useClusters : cint64;
   density, minClusterDensity: cdouble;
 begin
-  assignmentsArray:= [];
+  // initialization
+  SetLength(assignmentsArray, Length(DataArray));
   // we must transform the DataArray to a contiguous 1D array in
   // column-major order to make it accessible for Julia
   rows:= Length(DataArray);
@@ -763,7 +803,9 @@ begin
  if MethodsPC.ActivePage.Caption = 'Clustering Result' then
    ClusteringBB.Enabled:= false
  else
-   ClusteringBB.Enabled:= true;
+   // only enable if data was loaded
+   if Length(DataArray) > 0 then
+     ClusteringBB.Enabled:= true;
 end;
 
 procedure TMainForm.AxisClickToolClick(ASender: TChartTool; Axis: TChartAxis;
