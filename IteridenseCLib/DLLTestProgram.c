@@ -7,44 +7,34 @@
 #include "CompilationResult\include\IteridenseCLib.h"
 
 // Helper to print clusterTensor data (assuming 3D tensor)
-void printTensorInt(const CTensor* tensor, const char* name) {
+typedef enum {
+    TYPE_INT64,
+    TYPE_DOUBLE
+} DataType;
+
+void printTensor(const CTensor* tensor, const char* name, DataType type) {
     printf("%s ndims: %d\n", name, tensor->ndims);
     printf("%s dims: ", name);
-    for (int i = 0; i < tensor->ndims; i++) {
-        printf("%zu ", tensor->dims[i]);
-    }
-    printf("\n");
-
-    int64_t* data = (int64_t*)tensor->data;
     size_t total_elements = 1;
     for (int i = 0; i < tensor->ndims; i++) {
-        total_elements *= tensor->dims[i];
-    }
-
-    printf("%s data: ", name);
-    for (size_t i = 0; i < total_elements; i++) {
-        printf("%d ", data[i]);
-    }
-    printf("\n");
-}
-
-void printTensorDouble(const CTensor* tensor, const char* name) {
-    printf("%s ndims: %d\n", name, tensor->ndims);
-    printf("%s dims: ", name);
-    for (int i = 0; i < tensor->ndims; i++) {
         printf("%zu ", tensor->dims[i]);
+        total_elements *= tensor->dims[i];
     }
     printf("\n");
 
-    double* data = (double*)tensor->data;
-    size_t total_elements = 1;
-    for (int i = 0; i < tensor->ndims; i++) {
-        total_elements *= tensor->dims[i];
-    }
-
     printf("%s data: ", name);
-    for (size_t i = 0; i < total_elements; i++) {
-        printf("%f ", data[i]);
+    if (type == TYPE_INT64) {
+        int64_t* data = (int64_t*)tensor->data;
+        for (size_t i = 0; i < total_elements; i++) {
+            printf("%ld ", data[i]);
+        }
+    } else if (type == TYPE_DOUBLE) {
+        double* data = (double*)tensor->data;
+        for (size_t i = 0; i < total_elements; i++) {
+            printf("%f ", data[i]);
+        }
+    } else {
+        printf("Unsupported data type");
     }
     printf("\n");
 }
@@ -81,8 +71,8 @@ int main(int argc, char *argv[]) {
 
     printf("numOfClusters: %d\n", resultIteridense->numOfClusters);
     printf("finalResolution: %d\n", resultIteridense->finalResolution);
-    printTensorInt(&resultIteridense->clusterTensor, "clusterTensor");
-    printTensorInt(&resultIteridense->countTensor, "countTensor");
+    printTensor(&resultIteridense->clusterTensor, "clusterTensor", TYPE_INT64);
+    printTensor(&resultIteridense->countTensor, "countTensor", TYPE_INT64);
 
     // Free the allocated resultIteridense
     int free_statusIteridense = IteridenseFree(resultIteridense);
@@ -131,7 +121,7 @@ int main(int argc, char *argv[]) {
     }
 
     printf("K-means numOfClusters: %d\n", resultKMeans->numOfClusters);
-    printTensorDouble(&resultKMeans->clusterCenters, "clusterCenters");
+    printTensor(&resultKMeans->clusterCenters, "clusterCenters", TYPE_DOUBLE);
 
     // Free the allocated resultKMeans
     int free_statusKMeans = KMeansFree(resultKMeans);
