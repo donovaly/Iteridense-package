@@ -940,7 +940,7 @@ object MainForm: TMainForm
             Alignment = taCenter
             Title.Alignment = taCenter
             Title.Caption = 'Size'
-            Width = 76
+            Width = 62
           end        
           item
             Alignment = taCenter
@@ -951,6 +951,11 @@ object MainForm: TMainForm
         FixedCols = 0
         RowCount = 1
         TabOrder = 1
+        ColWidths = (
+          52
+          62
+          96
+        )
       end
     end
   end

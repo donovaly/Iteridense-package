@@ -360,8 +360,8 @@ begin
   end;
 
   // initialize Julia runtime
-  args[0] := PAnsiChar(AnsiString('MyProgram'));
-  args[1] := nil;
+  args[0]:= PAnsiChar(AnsiString('MyProgram'));
+  args[1]:= nil;
   InitJulia(1, @args[0]);
 
 end;
@@ -497,15 +497,17 @@ end;
 procedure TMainForm.ClusteringBBClick(Sender: TObject);
 var
   dataPointer : PDouble;
-  counter, row, column, i, assignmentColumn : Int64;
+  counter, row, column, i, k, assignmentColumn, nrows, ncols : Int64;
   iteridenseResult : PIteridenseResultC;
   DBSCANResult : PDBSCANResultC;
   kMeansResult : PKMeansResultC;
   inputArray : array of Double;
   dimensionIndices : array of Int64;
   assignmentsArray, clusterSizesArray : TIntArray;
-  clusterDensitiesArray : TDoubleArray;
+  clusterDensitiesArray, clusterCentersArray : TDoubleArray;
+  kMeansClusterCenters : array of array of Double;
   rows, columns : cint64;
+  tempString : String;
 begin
   // initialization
   SetLength(assignmentsArray, Length(DataArray));
@@ -577,11 +579,12 @@ begin
     // fill the arrays to ClusterResultSG
     ClusterResultSG.RowCount:= Length(clusterSizesArray) + 1; // +1 for header row
     i:= Length(clusterSizesArray);
+    ClusterResultSG.Columns.Items[2].Title.Caption:= 'Density';
     for i:= 0 to High(clusterSizesArray) do
     begin
-      ClusterResultSG.Cells[0, i+1] := IntToStr(i+1);
-      ClusterResultSG.Cells[1, i+1] := IntToStr(clusterSizesArray[i]);
-      ClusterResultSG.Cells[2, i+1] := Format('%.3g', [clusterDensitiesArray[i]]);
+      ClusterResultSG.Cells[0, i+1]:= IntToStr(i+1);
+      ClusterResultSG.Cells[1, i+1]:= IntToStr(clusterSizesArray[i]);
+      ClusterResultSG.Cells[2, i+1]:= Format('%.2f', [clusterDensitiesArray[i]]);
     end;
     // free the allocated struct
     if IteridenseFree(iteridenseResult) <> 0 then
@@ -615,11 +618,12 @@ begin
     // fill the arrays to ClusterResultSG
     ClusterResultSG.RowCount:= Length(clusterSizesArray) + 1; // +1 for header row
     i:= Length(clusterSizesArray);
+    ClusterResultSG.Columns.Items[2].Title.Caption:= '';
     for i:= 0 to High(clusterSizesArray) do
     begin
-      ClusterResultSG.Cells[0, i+1] := IntToStr(i+1);
-      ClusterResultSG.Cells[1, i+1] := IntToStr(clusterSizesArray[i]);
-      ClusterResultSG.Cells[2, i+1] := '-';
+      ClusterResultSG.Cells[0, i+1]:= IntToStr(i+1);
+      ClusterResultSG.Cells[1, i+1]:= IntToStr(clusterSizesArray[i]);
+      ClusterResultSG.Cells[2, i+1]:= '';
     end;
     // free the allocated struct
     if DBSCANFree(DBSCANResult) <> 0 then
@@ -650,14 +654,39 @@ begin
     // convert c-arrays to Pascal arrays
     assignmentsArray:= CArrayToTIntArray(kMeansResult^.assignments);
     clusterSizesArray:= CArrayToTIntArray(kMeansResult^.clusterSizes);
+    clusterCentersArray:= CTensorToTDoubleArray(kMeansResult^.clusterCenters);
+    // for convert clusterSizesArray to a matrix
+    nrows:= kMeansResult^.clusterCenters.dims[0];
+    ncols:= kMeansResult^.clusterCenters.dims[1];
+    SetLength(kMeansClusterCenters, nrows, ncols);
+    counter:= 0;
+    // the output is column-major
+    for columns:= 0 to ncols-1 do
+      for rows:= 0 to nrows-1 do
+        begin
+          kMeansClusterCenters[rows, columns]:= Trunc(clusterCentersArray[counter]);
+          inc(counter);
+        end;
     // fill the arrays to ClusterResultSG
     ClusterResultSG.RowCount:= Length(clusterSizesArray) + 1; // +1 for header row
     i:= Length(clusterSizesArray);
+    ClusterResultSG.Columns.Items[2].Title.Caption:= 'Cluster centers';
     for i:= 0 to High(clusterSizesArray) do
     begin
-      ClusterResultSG.Cells[0, i+1] := IntToStr(i+1);
-      ClusterResultSG.Cells[1, i+1] := IntToStr(clusterSizesArray[i]);
-      //ClusterResultSG.Cells[2, i+1] := Format('%.3g', [clusterDensitiesArray[i]]);
+      ClusterResultSG.Cells[0, i+1]:= IntToStr(i+1);
+      ClusterResultSG.Cells[1, i+1]:= IntToStr(clusterSizesArray[i]);
+      tempString:= '';
+      for k:= 0 to High(kMeansClusterCenters[0]) do
+      begin
+        if k = 0 then
+          tempString:= tempString + '(';
+        tempString:= tempString + Format('%.2f', [kMeansClusterCenters[i][k]]);
+        if k < High(kMeansClusterCenters[0]) then
+          tempString:= tempString + ', ';
+        if k = High(kMeansClusterCenters[0]) then
+          tempString:= tempString + ')';
+      end;
+      ClusterResultSG.Cells[2, i+1]:= tempString;
     end;
     // free the allocated struct
     if KMeansFree(kMeansResult) <> 0 then

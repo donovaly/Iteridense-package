@@ -455,10 +455,10 @@ begin
       begin
         // we take care of the text columns
         if DataTextColumnsIndices[k] = 0 then
-          textLine := textLine + FloatToStr(DataArray[i][k])
+          textLine:= textLine + FloatToStr(DataArray[i][k])
         else
         begin
-          textLine := textLine + DataTextColumns[i][count];
+          textLine:= textLine + DataTextColumns[i][count];
           inc(count);
         end;
         if k < High(DataArray[i]) then
@@ -528,7 +528,7 @@ begin
   if dim1 > -1 then
   begin
     // first delete
-    for i := MainForm.DataC.SeriesCount - 1 downto 0 do
+    for i:= MainForm.DataC.SeriesCount - 1 downto 0 do
       MainForm.DataC.Series[i].Free;
     // set the chart axis titles according to the header
     StringArray:= DataHeader.Split(DataColumnSeparator);
@@ -741,7 +741,7 @@ end;
 // --------------------------------------------------------------
 function TChartData.FontStylesToString(FontStyles: TFontStyles): string;
 begin
-  result := '';
+  result:= '';
   if fsBold in FontStyles then
    result:= result + IntToStr(Ord(fsBold)) + ',';
   if fsItalic in FontStyles then
