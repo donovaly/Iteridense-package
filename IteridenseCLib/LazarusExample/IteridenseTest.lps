@@ -17,8 +17,8 @@
         <Filename Value="ChartDataHandling.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="387"/>
-        <CursorPos X="47" Y="393"/>
+        <TopLine Value="356"/>
+        <CursorPos X="100" Y="358"/>
         <FoldState Value=" T3s50M2 pjNkB0c2 PFiA0L"/>
         <UsageCount Value="130"/>
         <Loaded Value="True"/>
@@ -159,9 +159,9 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="567"/>
-        <CursorPos Y="592"/>
-        <FoldState Value=" T4606 TMiB23 TCKC41 T7j9E{Q T3oT0G21611 pkOpK0421412 Pi7ib0E"/>
+        <TopLine Value="578"/>
+        <CursorPos X="47" Y="604"/>
+        <FoldState Value=" T4606 TMiB23 TCKC41 T7j9E{Q T3oT0G216231412 Pk1rE0{"/>
         <UsageCount Value="125"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -300,7 +300,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="28"/>
         <CursorPos X="11" Y="43"/>
-        <UsageCount Value="0"/>
+        <UsageCount Value="10"/>
       </Unit>
       <Unit>
         <Filename Value="C:\lazarus\lcl\include\brush.inc"/>
@@ -367,90 +367,6 @@
     <JumpHistory HistoryIndex="29">
       <Position>
         <Filename Value="IteridenseTestMain.pas"/>
-        <Caret Line="605" TopLine="594"/>
-      </Position>
-      <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
-        <Caret Line="607" TopLine="598"/>
-      </Position>
-      <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
-        <Caret Line="608" TopLine="600"/>
-      </Position>
-      <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
-        <Caret Line="607" TopLine="598"/>
-      </Position>
-      <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
-        <Caret Line="609" TopLine="602"/>
-      </Position>
-      <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
-        <Caret Line="608" TopLine="600"/>
-      </Position>
-      <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
-        <Caret Line="607" TopLine="598"/>
-      </Position>
-      <Position>
-        <Filename Value="ChartDataHandling.pas"/>
-        <Caret Line="373" Column="47" TopLine="355"/>
-      </Position>
-      <Position>
-        <Filename Value="ChartDataHandling.pas"/>
-        <Caret Line="403" Column="41" TopLine="386"/>
-      </Position>
-      <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
-        <Caret Line="511" Column="15" TopLine="490"/>
-      </Position>
-      <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
-        <Caret Line="565" TopLine="543"/>
-      </Position>
-      <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
-        <Caret Line="88" Column="5" TopLine="70"/>
-      </Position>
-      <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
-        <Caret Line="87" Column="27" TopLine="67"/>
-      </Position>
-      <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
-        <Caret Line="730" Column="32" TopLine="654"/>
-      </Position>
-      <Position>
-        <Filename Value="ChartDataHandling.pas"/>
-        <Caret Line="393" Column="47" TopLine="387"/>
-      </Position>
-      <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
-        <Caret Line="217" Column="13" TopLine="90"/>
-      </Position>
-      <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
-        <Caret Line="729" Column="2" TopLine="544"/>
-      </Position>
-      <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
-        <Caret Line="528" Column="21" TopLine="527"/>
-      </Position>
-      <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
-        <Caret Line="467" Column="35" TopLine="428"/>
-      </Position>
-      <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
-        <Caret Line="531" Column="55" TopLine="515"/>
-      </Position>
-      <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
-        <Caret Line="532" Column="36" TopLine="512"/>
-      </Position>
-      <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
         <Caret Line="44" Column="3" TopLine="28"/>
       </Position>
       <Position>
@@ -484,6 +400,90 @@
       <Position>
         <Filename Value="IteridenseTestMain.pas"/>
         <Caret Line="580" Column="14" TopLine="554"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseTestMain.pas"/>
+        <Caret Line="90" Column="39" TopLine="71"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseTestMain.pas"/>
+        <Caret Line="103" Column="11" TopLine="74"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseTestMain.pas"/>
+        <Caret Line="105" Column="25" TopLine="76"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseTestMain.pas"/>
+        <Caret Line="107" Column="25" TopLine="78"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseTestMain.pas"/>
+        <Caret Line="167" Column="11" TopLine="139"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseTestMain.pas"/>
+        <Caret Line="90" Column="17" TopLine="62"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseTestMain.pas"/>
+        <Caret Line="224" Column="40" TopLine="195"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseTestMain.pas"/>
+        <Caret Line="606" Column="40" TopLine="578"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseTestMain.pas"/>
+        <Caret Line="691" Column="40" TopLine="663"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseTestMain.pas"/>
+        <Caret Line="90" Column="17" TopLine="72"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseTestMain.pas"/>
+        <Caret Line="224" Column="40" TopLine="195"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseTestMain.pas"/>
+        <Caret Line="606" Column="40" TopLine="578"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseTestMain.pas"/>
+        <Caret Line="691" Column="40" TopLine="663"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseTestMain.pas"/>
+        <Caret Line="224" Column="23" TopLine="96"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseTestMain.pas"/>
+        <Caret Line="606" Column="23" TopLine="578"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseTestMain.pas"/>
+        <Caret Line="691" Column="23" TopLine="663"/>
+      </Position>
+      <Position>
+        <Filename Value="ChartDataHandling.pas"/>
+        <Caret Line="373" Column="26" TopLine="355"/>
+      </Position>
+      <Position>
+        <Filename Value="ChartDataHandling.pas"/>
+        <Caret Line="375" Column="29" TopLine="355"/>
+      </Position>
+      <Position>
+        <Filename Value="ChartDataHandling.pas"/>
+        <Caret Line="403" Column="26" TopLine="374"/>
+      </Position>
+      <Position>
+        <Filename Value="ChartDataHandling.pas"/>
+        <Caret Line="405" Column="29" TopLine="376"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseTestMain.pas"/>
+        <Caret Line="224" Column="23" TopLine="206"/>
       </Position>
     </JumpHistory>
     <RunParams>

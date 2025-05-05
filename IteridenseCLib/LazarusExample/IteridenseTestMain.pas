@@ -87,7 +87,7 @@ type
   // returns 0 on success, -1 if ptr is nil
   TDBSCANFree = function(pointer: PDBSCANResultC): Integer; cdecl;
 
-  ClusterMethods = (Ideridense, DBCAN, KMeans, none);
+  ClusterMethods = (Ideridense, DBSCAN, KMeans, none);
   TIntArray = array of Int64;
   TDoubleArray = array of Double;
 
