@@ -390,7 +390,7 @@ end;
 
 procedure TChartData.CDSaveCsvMIClick(Sender: TObject);
 var
- textLine, CSVOutName, OutNameHelp : string;
+ textLine, CSVOutName, OutNameHelp, tempString : string;
  SaveFileStream : TFileStream;
  i, k, count : Int64;
  MousePointer : TPoint;
@@ -398,9 +398,13 @@ var
 begin
   MousePointer:= Mouse.CursorPos; // store mouse position
 
-  // propose a name
-  OutNameHelp:= MainForm.LoadedDataFileM.Text + '-clustered-'
-                + MainForm.MethodsPC.ActivePage.Caption;
+  // propose a file name
+  OutNameHelp:= MainForm.LoadedDataFileM.Text;
+  if UsedClusteringMethod <> none then
+  begin
+    Str(UsedClusteringMethod, tempString);
+    OutNameHelp:= OutNameHelp + '-clustered-' + tempString;
+  end;
   CSVOutName:= ChartData.SaveHandling(OutNameHelp, '.csv'); // opens file dialog
   if CSVOutName <> '' then
   begin

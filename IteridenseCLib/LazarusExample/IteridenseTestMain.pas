@@ -42,6 +42,14 @@ type
   end;
   PIteridenseResultC = ^IteridenseResultC;
 
+  // C-compatible DBSCANResult struct
+  DBSCANResultC = record
+    numOfClusters : Int64;
+    assignments : CArray;
+    clusterSizes : CArray;
+  end;
+  PDBSCANResultC = ^DBSCANResultC;
+
   TInitJulia = procedure(argc: Integer; argv: PPAnsiChar); cdecl;
   TShutdownJulia = procedure(retcode: Integer); cdecl;
   // allocates and computes the IteridenseResult
@@ -64,6 +72,20 @@ type
   // frees memory allocated by TIteridenseClustering
   // returns 0 on success, -1 if ptr is nil
   TIteridenseFree = function(pointer: PIteridenseResultC): Integer; cdecl;
+  // allocates and computes the IteridenseResult
+  // returns a pointer to a heap-allocated IteridenseResultC
+  // caller must free with IteridenseFree
+  // returns nil on failure
+  TDBSCANClustering = function(
+    const dataMatrix: PDouble; // const double* dataMatrix
+    nrows, ncols: cint64;      // int64_t
+    radius: cdouble;
+    minNeighbors: cint64;
+    minClusterSize: cint64
+    ): PDBSCANResultC; cdecl;
+  // frees memory allocated by TIteridenseClustering
+  // returns 0 on success, -1 if ptr is nil
+  TDBSCANFree = function(pointer: PDBSCANResultC): Integer; cdecl;
 
   ClusterMethods = (Ideridense, DBCAN, KMeans, none);
   TIntArray = array of Int64;
@@ -78,12 +100,17 @@ type
     FlipB: TButton;
     ChangeBackColorMI: TMenuItem;
     ChartAxisTransformDim1: TChartAxisTransformations;
+    DBSCANBevelB: TBevel;
+    RadiusEpsFSEL: TLabel;
+    MinClusterSizeDBscanL: TLabel;
+    MinNeighborsL: TLabel;
+    MinClusterSizeDBscanSE: TSpinEdit;
     PlotSelectionCCB: TCheckComboBox;
     DataSelectionCCB: TCheckComboBox;
     ContextChartPM: TPopupMenu;
     FileMI: TMenuItem;
     DimensionSelectionGB: TGroupBox;
-    IteridenseResultTS: TTabSheet;
+    ClusterResultTS: TTabSheet;
     FinalResolutionLE: TLabeledEdit;
     ClusterResultSG: TStringGrid;
     DataSelectionL: TLabel;
@@ -99,17 +126,18 @@ type
     ResetChartAppearanceMI: TMenuItem;
     SaveCsvMI: TMenuItem;
     Separator1MI: TMenuItem;
+    MinNeighborsSE: TSpinEdit;
     UseDensityRB: TRadioButton;
     UseClustersRB: TRadioButton;
-    Label1: TLabel;
-    Label2: TLabel;
-    Label3: TLabel;
-    Label4: TLabel;
-    Label5: TLabel;
-    Label6: TLabel;
+    DensityL: TLabel;
+    MinClusterDensityL: TLabel;
+    MinClusterSizeIterIdenseL: TLabel;
+    StartResolutionL: TLabel;
+    StopResolutionL: TLabel;
+    MinClustersL: TLabel;
     MinClustersSE: TSpinEdit;
     StartResolutionSE: TSpinEdit;
-    MinClusterSizeSE: TSpinEdit;
+    MinClusterSizeIterIdenseSE: TSpinEdit;
     StopResolutionSE: TSpinEdit;
     ChartAxisTransformValues: TChartAxisTransformations;
     ChartToolset: TChartToolset;
@@ -120,10 +148,7 @@ type
     DataPointMarksClickTool: TDataPointMarksClickTool;
     DensityFSE: TFloatSpinEdit;
     MinClusterDensityFSE: TFloatSpinEdit;
-    FloatSpinEdit3: TFloatSpinEdit;
-    FloatSpinEdit4: TFloatSpinEdit;
-    FloatSpinEdit5: TFloatSpinEdit;
-    FloatSpinEdit6: TFloatSpinEdit;
+    RadiusEpsFSE: TFloatSpinEdit;
     ClusteringBB: TBitBtn;
     LoadedActionFileL: TLabel;
     LoadedDataFileM: TMemo;
@@ -164,6 +189,7 @@ type
     function CArrayToTDoubleArray(cArray: CArray): TDoubleArray;
     function CTensorToTDoubleArray(tensor: CTensor): TDoubleArray;
     procedure LegendClickToolClick(ASender: TChartTool; ALegend: TChartLegend);
+    procedure MethodsPCChange(Sender: TObject);
     procedure OpenCsvBBClick(Sender: TObject);
     procedure FormDropFiles(Sender: TObject; const FileNames{%H-}: array of String);
     procedure PlotSelectionCCBItemChange(Sender: TObject; AIndex: Integer);
@@ -184,6 +210,8 @@ var
   LibHandle : THandle;
   IteridenseClustering : TIteridenseClustering;
   IteridenseFree : TIteridenseFree;
+  DBSCANClustering : TDBSCANClustering;
+  DBSCANFree : TDBSCANFree;
   InitJulia : TInitJulia;
   ShutdownJulia : TShutdownJulia;
   DropfileName : string = ''; // name of dropped CSV file
@@ -270,6 +298,19 @@ begin
     if not Assigned(IteridenseFree) then
     begin
       MessageDlg('The function "IteridenseFree" is not found in the DLL', mtError, [mbOK], 0);
+      FreeLibrary(LibHandle);
+    end;
+    // now DBSCAN
+    DBSCANClustering:= TDBSCANClustering(GetProcAddress(LibHandle, 'DBSCANClustering'));
+    if not Assigned(DBSCANClustering) then
+    begin
+      MessageDlg('The function "DBSCANClustering" is not found in the DLL', mtError, [mbOK], 0);
+      FreeLibrary(LibHandle);
+    end;
+    DBSCANFree:= TDBSCANFree(GetProcAddress(LibHandle, 'DBSCANFree'));
+    if not Assigned(DBSCANFree) then
+    begin
+      MessageDlg('The function "DBSCANFree" is not found in the DLL', mtError, [mbOK], 0);
       FreeLibrary(LibHandle);
     end;
   end
@@ -419,6 +460,7 @@ var
   dataPointer : PDouble;
   counter, row, column, i, assignmentColumn : Int64;
   iteridenseResult : PIteridenseResultC;
+  DBSCANResult : PDBSCANResultC;
   inputArray : array of Double;
   dimensionIndices : array of Int64;
   assignmentsArray, clusterSizesArray : TIntArray;
@@ -427,6 +469,7 @@ var
   minClusters, noDiagonals, useDensity, useClusters : cint64;
   density, minClusterDensity: cdouble;
 begin
+  assignmentsArray:= [];
   // we must transform the DataArray to a contiguous 1D array in
   // column-major order to make it accessible for Julia
   rows:= Length(DataArray);
@@ -456,7 +499,7 @@ begin
         end;
     end;
   end;
-  minClusterSize:= MinClusterSizeSE.Value;
+  //minClusterSize:= MinClusterSizeIterIdenseSE.Value;
   startResolution:= StartResolutionSE.Value;
   density:= DensityFSE.Value;
   stopResolution:= StopResolutionSE.Value;
@@ -466,48 +509,89 @@ begin
   useDensity:= UseDensityRB.Checked.ToInteger;
   useClusters:= UseClustersRB.Checked.ToInteger;
 
-  iteridenseResult:= IteridenseClustering(
-    @inputArray[0], // pointer to first element
-    rows,
-    columns,
-    minClusterSize,
-    startResolution,
-    density,
-    stopResolution,
-    minClusters,
-    minClusterDensity,
-    noDiagonals,
-    useDensity,
-    useClusters
-  );
-
-  if iteridenseResult = nil then
+  // we execute the clustering according to the currently open methods tab
+  if MethodsPC.ActivePage.Caption = 'Iteridense' then
   begin
-    MessageDlg('Failed to create iteridenseResult', mtError, [mbOK], 0);
-    exit;
-  end;
+    iteridenseResult:= IteridenseClustering(
+      @inputArray[0], // pointer to first element
+      rows,
+      columns,
+      MinClusterSizeIterIdenseSE.Value,
+      startResolution,
+      density,
+      stopResolution,
+      minClusters,
+      minClusterDensity,
+      noDiagonals,
+      useDensity,
+      useClusters );
+    // test if there is a result
+    if iteridenseResult = nil then
+    begin
+      MessageDlg('Failed to create iteridenseResult', mtError, [mbOK], 0);
+      exit;
+    end;
+    if (iteridenseResult^.assignments.data = nil)
+      or (iteridenseResult^.assignments.length = 0) then
+    begin
+      MessageDlg('Clustering failed, no assignments available', mtError, [mbOK], 0);
+      exit;
+    end;
+    // convert c-arrays to Pascal arrays
+    assignmentsArray:= CArrayToTIntArray(iteridenseResult^.assignments);
+    clusterDensitiesArray:= CArrayToTDoubleArray(iteridenseResult^.clusterDensities);
+    clusterSizesArray:= CArrayToTIntArray(iteridenseResult^.clusterSizes);
 
-  if (iteridenseResult^.assignments.data = nil)
-    or (iteridenseResult^.assignments.length = 0) then
+    FinalResolutionLE.Text:= IntToStr(iteridenseResult^.finalResolution);
+    // fill the arrays to ClusterResultSG
+    ClusterResultSG.RowCount:= Length(clusterSizesArray) + 1; // +1 for header row
+    i:= Length(clusterSizesArray);
+    for i:= 0 to High(clusterSizesArray) do
+    begin
+      ClusterResultSG.Cells[0, i+1] := IntToStr(i+1);
+      ClusterResultSG.Cells[1, i+1] := IntToStr(clusterSizesArray[i]);
+      ClusterResultSG.Cells[2, i+1] := Format('%.3g', [clusterDensitiesArray[i]]);
+    end;
+    // free the allocated struct
+    if IteridenseFree(iteridenseResult) <> 0 then
+      MessageDlg('Warning: failed to free iteridenseResult', mtError, [mbOK], 0);
+  end
+  else if MethodsPC.ActivePage.Caption = 'DBSCAN' then
   begin
-    MessageDlg('Clustering failed, no assignments available', mtError, [mbOK], 0);
-    exit;
-  end;
-
-  // convert c-arrays to Pascal arrays
-  assignmentsArray:= CArrayToTIntArray(iteridenseResult^.assignments);
-  clusterDensitiesArray:= CArrayToTDoubleArray(iteridenseResult^.clusterDensities);
-  clusterSizesArray:= CArrayToTIntArray(iteridenseResult^.clusterSizes);
-
-  FinalResolutionLE.Text:= IntToStr(iteridenseResult^.finalResolution);
-  // fill the arrays to ClusterResultSG
-  ClusterResultSG.RowCount:= Length(clusterSizesArray) + 1; // +1 for header row
-  i:= Length(clusterSizesArray);
-  for i:= 0 to High(clusterSizesArray) do
-  begin
-    ClusterResultSG.Cells[0, i+1] := IntToStr(i+1);
-    ClusterResultSG.Cells[1, i+1] := IntToStr(clusterSizesArray[i]);
-    ClusterResultSG.Cells[2, i+1] := Format('%.3g', [clusterDensitiesArray[i]]);
+    DBSCANResult:= DBSCANClustering(
+      @inputArray[0], // pointer to first element
+      rows,
+      columns,
+      RadiusEpsFSE.Value,
+      MinNeighborsSE.Value,
+      MinClusterSizeDBscanSE.Value );
+    // test if there is a result
+    if DBSCANResult = nil then
+    begin
+      MessageDlg('Failed to create DBSCANResult', mtError, [mbOK], 0);
+      exit;
+    end;
+    if (DBSCANResult^.assignments.data = nil)
+      or (DBSCANResult^.assignments.length = 0) then
+    begin
+      MessageDlg('Clustering failed, no assignments available', mtError, [mbOK], 0);
+      exit;
+    end;
+    // convert c-arrays to Pascal arrays
+    assignmentsArray:= CArrayToTIntArray(DBSCANResult^.assignments);
+    clusterSizesArray:= CArrayToTIntArray(DBSCANResult^.clusterSizes);
+    // fill the arrays to ClusterResultSG
+    ClusterResultSG.RowCount:= Length(clusterSizesArray) + 1; // +1 for header row
+    i:= Length(clusterSizesArray);
+    for i:= 0 to High(clusterSizesArray) do
+    begin
+      ClusterResultSG.Cells[0, i+1] := IntToStr(i+1);
+      ClusterResultSG.Cells[1, i+1] := IntToStr(clusterSizesArray[i]);
+      ClusterResultSG.Cells[2, i+1] := '-';
+    end;
+    // free the allocated struct
+    if DBSCANFree(DBSCANResult) <> 0 then
+      MessageDlg('Warning: failed to free iteridenseResult', mtError, [mbOK], 0);
   end;
 
   // add assignmentsArray as column to DataArray
@@ -519,14 +603,7 @@ begin
   ChartData.CDPlotSelectionCCBItemChange(Sender);
 
   // save the used clustering method
-  if MainForm.MethodsPC.ActivePage.Caption = 'Iteridense Result' then
-    UsedClusteringMethod:= ClusterMethods(1)
-  else
-    UsedClusteringMethod:= ClusterMethods(MainForm.MethodsPC.ActivePage.TabIndex);
-
-  // free the allocated struct
-  if IteridenseFree(iteridenseResult) <> 0 then
-    MessageDlg('Warning: failed to free iteridenseResult', mtError, [mbOK], 0);
+  UsedClusteringMethod:= ClusterMethods(MainForm.MethodsPC.ActivePage.TabIndex);
 
   // enable saving
   SaveCsvMI.Enabled:= true;
@@ -546,7 +623,7 @@ begin
   MousePointer:= Mouse.CursorPos; // store mouse position
   DummyString:= '';
   // assure the input tab is visible
-  if MethodsPC.ActivePage = IteridenseResultTS then
+  if MethodsPC.ActivePage = ClusterResultTS then
     MethodsPC.ActivePage:= IteridenseTS;
 
   if DropfileName <> '' then // a file was dropped into the program
@@ -678,6 +755,15 @@ procedure TMainForm.LegendClickToolClick(ASender: TChartTool;
   ALegend: TChartLegend);
 begin
   ChartData.CDLegendClickToolClick(ASender, ALegend);
+end;
+
+procedure TMainForm.MethodsPCChange(Sender: TObject);
+begin
+  // disable Clustering button when the results tab is active
+ if MethodsPC.ActivePage.Caption = 'Clustering Result' then
+   ClusteringBB.Enabled:= false
+ else
+   ClusteringBB.Enabled:= true;
 end;
 
 procedure TMainForm.AxisClickToolClick(ASender: TChartTool; Axis: TChartAxis;
