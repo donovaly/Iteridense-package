@@ -53,35 +53,35 @@ typedef struct {
 /**
  * Perform Iteridense clustering on a data matrix.
  * 
- * @param dataMatrix Pointer to double array (column-major) of size nrows x ncols.
- * @param nrows Number of rows in dataMatrix.
- * @param ncols Number of columns in dataMatrix.
- * @param minClusterSize Minimum cluster size.
- * @param startResolution Starting resolution.
- * @param density Density parameter.
- * @param stopResolution Stop resolution.
- * @param minClusters Minimum number of clusters.
- * @param minClusterDensity Minimum cluster density.
- * @param noDiagonals Boolean flag (0 or 1).
- * @param useDensity Boolean flag (0 or 1).
- * @param useClusters Boolean flag (0 or 1).
+ * @param dataMatrix Pointer to double array (column-major) of size nrows x ncols
+ * @param nrows Number of rows in dataMatrix
+ * @param ncols Number of columns in dataMatrix
+ * @param density Density parameter
+ * @param minClusters Minimum number of clusters
+ * @param minClusterSize Minimum cluster size
+ * @param startResolution Starting resolution
+ * @param stopResolution Stop resolution
+ * @param minClusterDensity Minimum cluster density
+ * @param useClusters Boolean flag (0 or 1)
+ * @param useDensity Boolean flag (0 or 1)
+ * @param noDiagonals Boolean flag (0 or 1)
  * 
- * @return Pointer to an IteridenseResultC struct allocated on the heap.
- *         Must be freed by calling IteridenseFree().
+ * @return Pointer to an IteridenseResultC struct allocated on the heap
+ *         Must be freed by calling IteridenseFree()
  */
 IteridenseResultC* IteridenseClustering(
     const double* dataMatrix,
     size_t nrows,
     size_t ncols,
+    double density,
+    int64_t minClusters,
     int64_t minClusterSize,
     int64_t startResolution,
-    double density,
     int64_t stopResolution,
-    int64_t minClusters,
     double minClusterDensity,
-    int64_t noDiagonals,
     int64_t useDensity,
-    int64_t useClusters
+    int64_t useClusters,
+    int64_t noDiagonals
 );
 
 /**

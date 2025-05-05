@@ -53,15 +53,15 @@ int main(int argc, char *argv[]) {
         dataMatrix,
         nrows,
         ncols,
+        1.1,    // density
+        1,      // minClusters
         3,      // minClusterSize
         2,      // startResolution
-        1.1,    // density
         -1,     // stopResolution
-        1,      // minClusters
         1.0,    // minClusterDensity
-        0,      // noDiagonals (false)
         1,      // useDensity (true)
-        0      // useClusters (false)
+        0,      // useClusters (false)
+        0       // noDiagonals (false)
     );
 
     if (resultIteridense == NULL) {

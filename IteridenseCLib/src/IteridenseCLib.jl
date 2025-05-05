@@ -414,10 +414,16 @@ end
 
 #-------------------------------------------------------------------------------------------------
 # main function
-function PerformClustering(dataMatrix; minClusterSize::Int= 3, startResolution::Int64= 2,
-                    density= 1.1, stopResolution::Int64= -1, minClusters::Int64= 1,
-                    noDiagonals= false, minClusterDensity::Float64= 1.0, useDensity= true,
-                    useClusters= false)::IteridenseResultC
+function PerformClustering(dataMatrix;
+            density= 1.1,
+            minClusters::Int64= 1,
+            minClusterSize::Int= 3,
+            startResolution::Int64= 2,
+            stopResolution::Int64= -1,
+            minClusterDensity::Float64= 1.0,
+            useDensity= true,
+            useClusters= false,
+            noDiagonals= false )::IteridenseResultC
 
     if startResolution == stopResolution
         useFixedResolution = true
@@ -634,16 +640,15 @@ Base.@ccallable function IteridenseClustering(
     dataMatrix::Ptr{Float64},
     nrows::Clonglong,
     ncols::Clonglong,
+    density::Cdouble,
+    minClusters::Clonglong,
     minClusterSize::Clonglong,
     startResolution::Clonglong,
-    density::Cdouble,
     stopResolution::Clonglong,
-    minClusters::Clonglong,
     minClusterDensity::Cdouble,
-    noDiagonals::Clonglong,       # bool as int (0 or 1)
-    useDensity::Clonglong,
-    useClusters::Clonglong
-    )::Ptr{IteridenseResultC}
+    useDensity::Clonglong,      # bool as int (0 or 1)
+    useClusters::Clonglong,
+    noDiagonals::Clonglong )::Ptr{IteridenseResultC}
     
     # allocate memory for the uninitialized struct
     resultPointer = Ptr{IteridenseResultC}(Libc.malloc(sizeof(IteridenseResultC)))
@@ -658,15 +663,15 @@ Base.@ccallable function IteridenseClustering(
 
     # perform the clustering
     result = PerformClustering(data;
+        density = Float64(density),
+        minClusters = Int64(minClusters),
         minClusterSize = Int64(minClusterSize),
         startResolution = Int64(startResolution),
-        density = Float64(density),
         stopResolution = Int64(stopResolution),
-        minClusters = Int64(minClusters),
         minClusterDensity = Float64(minClusterDensity),
-        noDiagonals = noDiagonals != 0,
         useDensity = useDensity != 0,
-        useClusters = useClusters != 0
+        useClusters = useClusters != 0,
+        noDiagonals = noDiagonals != 0
     )
 
     # write result into allocated memory

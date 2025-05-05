@@ -66,17 +66,17 @@ type
   // caller must free with IteridenseFree
   // returns nil on failure
   TIteridenseClustering = function(
-    const dataMatrix: PDouble; // const double* dataMatrix
-    nrows, ncols: cint64;      // int64_t
+    const dataMatrix: PDouble;  // const double* dataMatrix
+    nrows, ncols: cint64;       // int64_t
+    density: cdouble;
+    minClusters: cint64;
     minClusterSize: cint64;
     startResolution: cint64;
-    density: cdouble;
     stopResolution: cint64;
-    minClusters: cint64;
     minClusterDensity: cdouble;
-    noDiagonals: cint64;       // int64_t (0 or 1)
-    useDensity: cint64;
-    useClusters: cint64
+    useDensity: cint64;         // int64_t (0 or 1)
+    useClusters: cint64;
+    noDiagonals: cint64
     ): PIteridenseResultC; cdecl;
   // frees memory allocated by TIteridenseClustering
   // returns 0 on success, -1 if ptr is nil
@@ -552,15 +552,15 @@ begin
       @inputArray[0], // pointer to first element
       rows,
       columns,
+      DensityFSE.Value,
+      MinClustersSE.Value,
       MinClusterSizeIterIdenseSE.Value,
       StartResolutionSE.Value,
-      DensityFSE.Value,
       StopResolutionSE.Value,
-      MinClustersSE.Value,
       MinClusterDensityFSE.Value,
-      NoDiagonalsCB.Checked.ToInteger,
       UseDensityRB.Checked.ToInteger,
-      UseClustersRB.Checked.ToInteger );
+      UseClustersRB.Checked.ToInteger,
+      NoDiagonalsCB.Checked.ToInteger );
     // test if there is a result
     if iteridenseResult = nil then
     begin

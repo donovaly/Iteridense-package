@@ -8,15 +8,15 @@ function TestIteridenseClustering()
 
     resultPointer = IteridenseClustering(
         pointer(dataMatrix), 3, 2,
-        3,    # minClusterSize
-        2,    # startResolution
-        1.1,  # density
-        -1,   # stopResolution
-        1,    # minClusters
-        1.0,  # minClusterDensity
-        0,    # noDiagonals (false)
-        1,    # useDensity (true)
-        0    # useClusters (false)
+        1.1, # density
+        1,   # minClusters
+        3,   # minClusterSize
+        2,   # startResolution
+        -1,  # stopResolution
+        1.0, # minClusterDensity
+        1,   # useDensity (true)
+        0,   # useClusters (false)
+        0    # noDiagonals (false)
     )
     if resultPointer == C_NULL
         error("Failed to allocate IteridenseResultC")
@@ -110,8 +110,8 @@ function TestKMeansClustering()
 
     resultPointer = KMeansClustering(
         pointer(dataMatrix), 3, 2,
-        2,    # numOfClusters
-        1,    # maxIter
+        2,   # numOfClusters
+        1,   # maxIter
         1e-4 # tolerance
      )
     if resultPointer == C_NULL
