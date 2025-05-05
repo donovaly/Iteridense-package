@@ -118,6 +118,7 @@ type
     ChangeBackColorMI: TMenuItem;
     ChartAxisTransformDim1: TChartAxisTransformations;
     DBSCANBevelB: TBevel;
+    ToleranceFSX: TFloatSpinEditEx;
     KMeansBevelB: TBevel;
     MaxIterationsL: TLabel;
     MaxIterationsSE: TSpinEdit;
@@ -150,7 +151,6 @@ type
     Separator1MI: TMenuItem;
     MinNeighborsSE: TSpinEdit;
     ToleranceL: TLabel;
-    ToleranceFSE: TFloatSpinEdit;
     UseDensityRB: TRadioButton;
     UseClustersRB: TRadioButton;
     DensityL: TLabel;
@@ -639,7 +639,7 @@ begin
       columns,
       NumberClustersSE.Value,
       MaxIterationsSE.Value,
-      ToleranceFSE.Value );
+      ToleranceFSX.Value );
     // test if there is a result
     if kMeansResult = nil then
     begin
