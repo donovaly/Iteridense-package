@@ -9,7 +9,8 @@ module IteridenseCLib
 using Base.Libc, Clustering
 
 export  IteridenseClustering, IteridenseFree,
-        DBSCANClustering, DBSCANFree
+        DBSCANClustering, DBSCANFree,
+        KMeansClustering, KMeansFree
 
 
 #-------------------------------------------------------------------------------------------------
@@ -616,6 +617,13 @@ function ArrayToCTensor(anArray::AbstractArray{Int64})
     dataPointer = AllocateAndCopy(anArray)
     return CTensor(dataPointer, Clonglong(numDimensions), dimensions)
 end
+function ArrayToCTensorFloat(anArray::AbstractArray{Float64})
+    numDimensions = ndims(anArray)
+    # pad with zeros if numDimensions < MAX_DIMENSIONS
+    dimensions = ntuple(i -> i <= numDimensions ? size(anArray, i) : 0, MAX_DIMENSIONS)
+    dataPointer = AllocateAndCopy(anArray)
+    return CTensor(dataPointer, Clonglong(numDimensions), dimensions)
+end
 
 # convert Julia array to CArray struct with allocated data buffer
 function ArrayToCArrayInt(anArray::AbstractVector{Int64})
@@ -738,7 +746,8 @@ Base.@ccallable function DBSCANClustering(
     data = unsafe_wrap(Array, dataMatrix, (nrows, ncols); own= false)
 
     # perform the clustering
-    result = Clustering.dbscan(data', radius,
+    result = Clustering.dbscan(data',
+                                radius,
                                 min_neighbors= minNeighbors,
                                 min_cluster_size= minClusterSize)
     assign = zeros(Int64, 0)
@@ -759,8 +768,88 @@ end
 
 
 #-------------------------------------------------------------------------------------------------
-# function to free the memory allocated by IteridenseClustering
+# function to free the memory allocated by DBSCANClustering
 Base.@ccallable function DBSCANFree(resultPointer::Ptr{DBSCANResultC})::Cint
+    if resultPointer == C_NULL
+        return -1
+    end
+    # read the struct to get pointers
+    result = unsafe_load(resultPointer)
+    # free array data buffer
+    if result.assignments.data != C_NULL
+        Libc.free(result.assignments.data)
+    end
+    if result.clusterSizes.data != C_NULL
+        Libc.free(result.clusterSizes.data)
+    end
+    Libc.free(resultPointer)
+    return 0
+end
+
+
+#-------------------------------------------------------------------------------------------------
+# C-compatible DBSCANResult struct
+struct KMeansResultC
+    numOfClusters::Clonglong
+    assignments::CArray
+    clusterSizes::CArray
+    clusterCenters::CTensor
+end
+
+
+#-------------------------------------------------------------------------------------------------
+# the C wrapper function for Clustering.kmeans
+Base.@ccallable function KMeansClustering(
+    dataMatrix::Ptr{Float64},
+    nrows::Clonglong,
+    ncols::Clonglong,
+    numOfClusters::Clonglong,
+    maxIter::Clonglong,
+    tolerance::Cdouble,
+    )::Ptr{KMeansResultC}
+    
+    # allocate memory for the uninitialized struct
+    resultPointer = Ptr{KMeansResultC}(Libc.malloc(sizeof(KMeansResultC)))
+    if resultPointer == C_NULL
+        return C_NULL
+    end
+    # wrap the raw pointer into a Julia Array without copying the data
+    # Julia arrays are column-major, so shape is (nrows, ncols)
+    # NOTE: own= false is crucial since Julia must not own the memory to assure that is is not
+    #  free'd by Julia's garbage collector. The owner is the C-caller.
+    data = unsafe_wrap(Array, dataMatrix, (nrows, ncols); own= false)
+
+    # perform the clustering
+    result = Clustering.kmeans(data',
+                                numOfClusters,
+                                maxiter= maxIter,
+                                tol= tolerance,
+                                # display is not exported as we don't need process messages
+                                display= :none
+                                )
+    assign = zeros(Int64, 0)
+    clusterCenters = zeros(Float64, 0)
+    assign = Clustering.assignments(result)
+    clusterCounts = zeros(Int64, 0)
+    clusterCounts = Clustering.counts(result)
+    clusterCenters = result.centers
+    numOfClusters::Int64 = length(clusterCounts)
+
+    output = KMeansResultC(Clonglong(numOfClusters),
+                            ArrayToCArrayInt(assign),
+                            ArrayToCArrayInt(clusterCounts),
+                            ArrayToCTensorFloat(clusterCenters) )
+
+    # write output into allocated memory
+    unsafe_store!(resultPointer, output)
+
+    return resultPointer
+end
+
+
+#-------------------------------------------------------------------------------------------------
+# function to free the memory allocated by KMeansClustering
+Base.@ccallable function KMeansFree(resultPointer::Ptr{KMeansResultC})::Cint
     if resultPointer == C_NULL
         return -1
     end

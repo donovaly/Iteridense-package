@@ -42,8 +42,16 @@ typedef struct {
     CArray clusterSizes;     // of type int64_t
 } DBSCANResultC;
 
+// C-compatible KMeansResultC struct
+typedef struct {
+    int64_t numOfClusters;
+    CArray assignments;      // of type int64_t
+    CArray clusterSizes;     // of type int64_t
+    CTensor clusterCenters;  // of type double
+} KMeansResultC;
+
 /**
- * Perform clustering on a data matrix.
+ * Perform Iteridense clustering on a data matrix.
  * 
  * @param dataMatrix Pointer to double array (column-major) of size nrows x ncols.
  * @param nrows Number of rows in dataMatrix.
@@ -77,25 +85,25 @@ IteridenseResultC* IteridenseClustering(
 );
 
 /**
- * Free the memory allocated by IteridenseClustering.
+ * Free the memory allocated by IteridenseClustering
  * 
- * @param pointer Pointer returned by IteridenseClustering.
- * @return 0 on success, -1 if pointer is NULL.
+ * @param pointer Pointer returned by IteridenseClustering
+ * @return 0 on success, -1 if pointer is NULL
  */
 int IteridenseFree(IteridenseResultC* pointer);
 
 /**
- * Perform clustering on a data matrix.
+ * Perform DBSCAN clustering on a data matrix
  * 
- * @param dataMatrix Pointer to double array (column-major) of size nrows x ncols.
- * @param nrows Number of rows in dataMatrix.
- * @param ncols Number of columns in dataMatrix.
+ * @param dataMatrix Pointer to double array (column-major) of size nrows x ncols
+ * @param nrows Number of rows in dataMatrix
+ * @param ncols Number of columns in dataMatrix
  * @param radius Neighborhood radius; points within this distance are considered neighbors
  * @param minNeighbors Minimal number of neighbors required to assign a point to a cluster "core"
- * @param minClusterSize Minimum cluster size.
+ * @param minClusterSize Minimum cluster size
  * 
- * @return Pointer to an IteridenseResultC struct allocated on the heap.
- *         Must be freed by calling DBSCANFree().
+ * @return Pointer to an DBSCANResultC struct allocated on the heap
+ *         Must be freed by calling DBSCANFree()
  */
 DBSCANResultC* DBSCANClustering(
     const double* dataMatrix,
@@ -107,12 +115,43 @@ DBSCANResultC* DBSCANClustering(
 );
 
 /**
- * Free the memory allocated by DBSCANClustering.
+ * Free the memory allocated by DBSCANClustering
  * 
- * @param pointer Pointer returned by DBSCANClustering.
- * @return 0 on success, -1 if pointer is NULL.
+ * @param pointer Pointer returned by DBSCANClustering
+ * @return 0 on success, -1 if pointer is NULL
  */
 int DBSCANFree(DBSCANResultC* pointer);
+
+/**
+ * Perform K-means clustering on a data matrix
+ * 
+ * @param dataMatrix Pointer to double array (column-major) of size nrows x ncols
+ * @param nrows Number of rows in dataMatrix
+ * @param ncols Number of columns in dataMatrix
+ * @param numOfClusters Number of desired clusters
+ * @param maxIter Maximal iterations to find a solution
+ * @param tolerance Maximal tolerance of changes between two iterations to decide if a
+ *                  solution converged
+ * 
+ * @return Pointer to an KMeansResultC struct allocated on the heap
+ *         Must be freed by calling DBSCANFree()
+ */
+KMeansResultC* KMeansClustering(
+    const double* dataMatrix,
+    size_t nrows,
+    size_t ncols,
+    int64_t numOfClusters,
+    int64_t maxIter,
+    double tolerance
+);
+
+/**
+ * Free the memory allocated by KMeansClustering
+ * 
+ * @param pointer Pointer returned by KMeansClustering
+ * @return 0 on success, -1 if pointer is NULL
+ */
+int KMeansFree(KMeansResultC* pointer);
 
 #ifdef __cplusplus
 }
