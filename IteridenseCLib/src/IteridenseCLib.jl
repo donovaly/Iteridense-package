@@ -6,9 +6,10 @@ The `Iteridense` package provides functions used for the Iteridense clustering a
 """
 module IteridenseCLib
 
-using Base.Libc
+using Base.Libc, Clustering
 
-export  IteridenseClustering, IteridenseFree
+export  IteridenseClustering, IteridenseFree,
+        DBSCANClustering, DBSCANFree
 
 
 #-------------------------------------------------------------------------------------------------
@@ -412,7 +413,7 @@ end
 
 #-------------------------------------------------------------------------------------------------
 # main function
-function Clustering(dataMatrix; minClusterSize::Int= 3, startResolution::Int= 2, density= 1.1,
+function PerformClustering(dataMatrix; minClusterSize::Int= 3, startResolution::Int= 2, density= 1.1,
                     stopResolution::Int= -1, minClusters::Int= 1, noDiagonals= false,
                     minClusterDensity= 1.0, useDensity= true,
                     useClusters= false)::IteridenseResultC
@@ -656,7 +657,7 @@ Base.@ccallable function IteridenseClustering(
     data = unsafe_wrap(Array, dataMatrix, (nrows, ncols); own= false)
 
     # perform the clustering
-    result = Clustering(data;
+    result = PerformClustering(data;
         minClusterSize = Int64(minClusterSize),
         startResolution = Int64(startResolution),
         density = Float64(density),
@@ -696,6 +697,78 @@ Base.@ccallable function IteridenseFree(resultPointer::Ptr{IteridenseResultC})::
     end
     if result.clusterDensities.data != C_NULL
         Libc.free(result.clusterDensities.data)
+    end
+    if result.clusterSizes.data != C_NULL
+        Libc.free(result.clusterSizes.data)
+    end
+    Libc.free(resultPointer)
+    return 0
+end
+
+
+#-------------------------------------------------------------------------------------------------
+# C-compatible DBSCANResult struct
+struct DBSCANResultC
+    numOfClusters::Clonglong
+    assignments::CArray
+    clusterSizes::CArray
+end
+
+
+#-------------------------------------------------------------------------------------------------
+# the C wrapper function for Clustering.dbscan
+Base.@ccallable function DBSCANClustering(
+    dataMatrix::Ptr{Float64},
+    nrows::Clonglong,
+    ncols::Clonglong,
+    radius::Cdouble,
+    minNeighbors::Clonglong,
+    minClusterSize::Clonglong,
+    )::Ptr{DBSCANResultC}
+    
+    # allocate memory for the uninitialized struct
+    resultPointer = Ptr{DBSCANResultC}(Libc.malloc(sizeof(DBSCANResultC)))
+    if resultPointer == C_NULL
+        return C_NULL
+    end
+    # wrap the raw pointer into a Julia Array without copying the data
+    # Julia arrays are column-major, so shape is (nrows, ncols)
+    # NOTE: own= false is crucial since Julia must not own the memory to assure that is is not
+    #  free'd by Julia's garbage collector. The owner is the C-caller.
+    data = unsafe_wrap(Array, dataMatrix, (nrows, ncols); own= false)
+
+    # perform the clustering
+    result = Clustering.dbscan(data', radius,
+                                min_neighbors= minNeighbors,
+                                min_cluster_size= minClusterSize)
+    assign = zeros(Int64, 0)
+    assign = Clustering.assignments(result)
+    clusterCounts = zeros(Int64, 0)
+    clusterCounts = Clustering.counts(result)
+    numOfClusters::Int64 = length(clusterCounts)
+
+    output = DBSCANResultC(Clonglong(numOfClusters),
+                            ArrayToCArrayInt(assign),
+                            ArrayToCArrayInt(clusterCounts) )
+
+    # write output into allocated memory
+    unsafe_store!(resultPointer, output)
+
+    return resultPointer
+end
+
+
+#-------------------------------------------------------------------------------------------------
+# function to free the memory allocated by IteridenseClustering
+Base.@ccallable function DBSCANFree(resultPointer::Ptr{DBSCANResultC})::Cint
+    if resultPointer == C_NULL
+        return -1
+    end
+    # read the struct to get pointers
+    result = unsafe_load(resultPointer)
+    # free array data buffer
+    if result.assignments.data != C_NULL
+        Libc.free(result.assignments.data)
     end
     if result.clusterSizes.data != C_NULL
         Libc.free(result.clusterSizes.data)

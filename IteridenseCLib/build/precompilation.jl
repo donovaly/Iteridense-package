@@ -63,3 +63,42 @@ end
 for i in 1:5
     TestIteridenseClustering()
 end
+
+function TestDBSCNClustering()
+    # a 3x2 Float64 matrix as test
+    dataMatrix = Float64.([[19, 23, 57] [42, 39, 34]])
+
+    resultPointer = DBSCANClustering(
+        pointer(dataMatrix), 3, 2,
+        8.0, # radius
+        1,   # numOfClusters
+        2    # minClusterSize
+    )
+    if resultPointer == C_NULL
+        error("Failed to allocate DBSCANResultC")
+    end
+
+    # load the struct
+    result = unsafe_load(resultPointer)
+
+    println("numOfClusters: ", result.numOfClusters)
+
+    # inspect assignments
+    assignments = unsafe_wrap(Array, Ptr{Int64}(result.assignments.data),
+                                result.assignments.length)
+    println("assignments: ", assignments)
+
+    # inspect clusterSizes
+    clusterSizes = unsafe_wrap(Array, Ptr{Int64}(result.clusterSizes.data),
+                                result.clusterSizes.length)
+    println("clusterSizes: ", clusterSizes)
+
+    # free allocated memory
+    DBSCANFree(resultPointer)
+end
+
+# run multiple times to trigger precompilation and test stability
+for i in 1:5
+    TestDBSCNClustering()
+end
+

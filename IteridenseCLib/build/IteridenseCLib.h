@@ -35,6 +35,13 @@ typedef struct {
     CArray clusterSizes;     // of type int64_t
 } IteridenseResultC;
 
+// C-compatible DBSCANResult struct
+typedef struct {
+    int64_t numOfClusters;
+    CArray assignments;      // of type int64_t
+    CArray clusterSizes;     // of type int64_t
+} DBSCANResultC;
+
 /**
  * Perform clustering on a data matrix.
  * 
@@ -76,6 +83,36 @@ IteridenseResultC* IteridenseClustering(
  * @return 0 on success, -1 if pointer is NULL.
  */
 int IteridenseFree(IteridenseResultC* pointer);
+
+/**
+ * Perform clustering on a data matrix.
+ * 
+ * @param dataMatrix Pointer to double array (column-major) of size nrows x ncols.
+ * @param nrows Number of rows in dataMatrix.
+ * @param ncols Number of columns in dataMatrix.
+ * @param radius Neighborhood radius; points within this distance are considered neighbors
+ * @param minNeighbors Minimal number of neighbors required to assign a point to a cluster "core"
+ * @param minClusterSize Minimum cluster size.
+ * 
+ * @return Pointer to an IteridenseResultC struct allocated on the heap.
+ *         Must be freed by calling DBSCANFree().
+ */
+DBSCANResultC* DBSCANClustering(
+    const double* dataMatrix,
+    size_t nrows,
+    size_t ncols,
+    double radius,
+    int64_t minNeighbors,
+    int64_t minClusterSize
+);
+
+/**
+ * Free the memory allocated by DBSCANClustering.
+ * 
+ * @param pointer Pointer returned by DBSCANClustering.
+ * @return 0 on success, -1 if pointer is NULL.
+ */
+int DBSCANFree(DBSCANResultC* pointer);
 
 #ifdef __cplusplus
 }
