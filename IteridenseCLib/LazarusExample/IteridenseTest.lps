@@ -8,7 +8,7 @@
       <Unit>
         <Filename Value="IteridenseTest.lpr"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="3"/>
         <CursorPos X="11" Y="15"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -17,9 +17,9 @@
         <Filename Value="ChartDataHandling.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="77"/>
-        <CursorPos X="20" Y="95"/>
-        <FoldState Value=" T3s50M012 piYl9091k"/>
+        <TopLine Value="82"/>
+        <CursorPos X="16" Y="19"/>
+        <FoldState Value=" T4606 T3j10{(2 pjPnK0M1 pigjR0M[I4NkB0c6]IZk907]RkflB0#K~"/>
         <UsageCount Value="147"/>
         <Loaded Value="True"/>
       </Unit>
@@ -159,8 +159,8 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="238"/>
-        <CursorPos X="11" Y="793"/>
+        <TopLine Value="261"/>
+        <CursorPos X="42" Y="52"/>
         <FoldState Value=" T4606 TCKC44 PKXI T7jQE{X T3n50{M9 pibm30F1 pldmH0(B PiNkX0h"/>
         <UsageCount Value="142"/>
         <Loaded Value="True"/>
@@ -172,10 +172,12 @@
         <ComponentName Value="AboutFormF"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="-1"/>
+        <EditorIndex Value="2"/>
         <TopLine Value="19"/>
-        <CursorPos X="37" Y="26"/>
+        <CursorPos X="66" Y="25"/>
         <UsageCount Value="85"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="IteridenseTestUnit.pas"/>
