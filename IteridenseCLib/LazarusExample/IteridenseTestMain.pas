@@ -578,7 +578,6 @@ begin
     FinalResolutionLE.Text:= IntToStr(iteridenseResult^.finalResolution);
     // fill the arrays to ClusterResultSG
     ClusterResultSG.RowCount:= Length(clusterSizesArray) + 1; // +1 for header row
-    i:= Length(clusterSizesArray);
     ClusterResultSG.Columns.Items[2].Title.Caption:= 'Density';
     for i:= 0 to High(clusterSizesArray) do
     begin
@@ -617,8 +616,7 @@ begin
     clusterSizesArray:= CArrayToTIntArray(DBSCANResult^.clusterSizes);
     // fill the arrays to ClusterResultSG
     ClusterResultSG.RowCount:= Length(clusterSizesArray) + 1; // +1 for header row
-    i:= Length(clusterSizesArray);
-    ClusterResultSG.Columns.Items[2].Title.Caption:= '';
+     ClusterResultSG.Columns.Items[2].Title.Caption:= '';
     for i:= 0 to High(clusterSizesArray) do
     begin
       ClusterResultSG.Cells[0, i+1]:= IntToStr(i+1);
@@ -656,21 +654,20 @@ begin
     clusterSizesArray:= CArrayToTIntArray(kMeansResult^.clusterSizes);
     clusterCentersArray:= CTensorToTDoubleArray(kMeansResult^.clusterCenters);
     // for convert clusterSizesArray to a matrix
-    nrows:= kMeansResult^.clusterCenters.dims[0];
-    ncols:= kMeansResult^.clusterCenters.dims[1];
+    nrows:= kMeansResult^.clusterCenters.dims[1];
+    ncols:= kMeansResult^.clusterCenters.dims[0];
     SetLength(kMeansClusterCenters, nrows, ncols);
     counter:= 0;
     // the output is column-major
     for columns:= 0 to ncols-1 do
       for rows:= 0 to nrows-1 do
         begin
-          kMeansClusterCenters[rows, columns]:= Trunc(clusterCentersArray[counter]);
+          kMeansClusterCenters[rows, columns]:= clusterCentersArray[counter];
           inc(counter);
         end;
     // fill the arrays to ClusterResultSG
     ClusterResultSG.RowCount:= Length(clusterSizesArray) + 1; // +1 for header row
-    i:= Length(clusterSizesArray);
-    ClusterResultSG.Columns.Items[2].Title.Caption:= 'Cluster centers';
+    ClusterResultSG.Columns.Items[2].Title.Caption:= 'Cluster center';
     for i:= 0 to High(clusterSizesArray) do
     begin
       ClusterResultSG.Cells[0, i+1]:= IntToStr(i+1);
