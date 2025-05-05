@@ -679,6 +679,8 @@ object MainForm: TMainForm
         BorderSpacing.Left = 16
         BorderSpacing.Top = 16
         Increment = 0.1
+        MaxValue = 1000000
+        MinValue = 1E-6
         ParentShowHint = False
         ShowHint = True
         TabOrder = 0
