@@ -15,7 +15,7 @@ export  IteridenseClustering, IteridenseFree,
 
 #-------------------------------------------------------------------------------------------------
 # function to merge and to renumber clusters
-function mergeRenumberClusters!(clusterTensor; currentNumber::Int, newNumber::Int)
+function mergeRenumberClusters!(clusterTensor; currentNumber::Int64, newNumber::Int64)
     for k in eachindex(clusterTensor)
         if clusterTensor[k] == currentNumber
             clusterTensor[k] = newNumber
@@ -26,7 +26,7 @@ end
 
 #-------------------------------------------------------------------------------------------------
 # function to get valid neighbors for a given index and dimension
-function getNeighbors!(maxIdxRange, dim::Int, CheckIdxTuple, neighborIndices, noDiagonals,
+function getNeighbors!(maxIdxRange, dim::Int64, CheckIdxTuple, neighborIndices, noDiagonals,
                         ::Val{dimensions}) where dimensions
     # get the index of the current dimension
     idx = CheckIdxTuple[dim]
@@ -135,14 +135,14 @@ function checkNeighbors(clusterTensor, currentIdx, numClusters::Int64, maxIdxRan
         clusterTensor[currentIdx...] = numClusters
     end
     # assure we return the currently highest cluster number
-    numClusters = Int(maximum(clusterTensor))
+    numClusters = Int64(maximum(clusterTensor))
     return numClusters, clusterTensor
 end
 
 
 #-------------------------------------------------------------------------------------------------
 # function determine the number of points within the cells
-function CreateCountTensor(dataMatrix, resolution::Int, minMatrix::Vector, maxMatrix::Vector,
+function CreateCountTensor(dataMatrix, resolution::Int64, minMatrix::Vector, maxMatrix::Vector,
                             ::Val{dimensions}) where dimensions
     if !(length(minMatrix) == length(maxMatrix) == size(dataMatrix, 2) == dimensions)
         error("Dimensions mismatch")
@@ -159,7 +159,7 @@ function CreateCountTensor(dataMatrix, resolution::Int, minMatrix::Vector, maxMa
     for k in axes(dataMatrix, 1)
         # Julia swaps in matrices x and y, thus reverse to use the coordinate system of the plot
         # due to precision issues, we subtract a small value from the values
-        coordMatrix = ntuple(i -> trunc(Int, (dataMatrix[k, dimensions-i+1] - smallValue -
+        coordMatrix = ntuple(i -> trunc(Int64, (dataMatrix[k, dimensions-i+1] - smallValue -
                                                 minMatrix[dimensions-i+1]) /
                                             sizeMatrix[dimensions-i+1]) + 1, Val(dimensions))
         countTensor[coordMatrix...] += 1
@@ -209,7 +209,7 @@ end
 
 #-------------------------------------------------------------------------------------------------
 # function that actually performs the clustering
-function InternalClustering(countTensor, resolution::Int, noDiagonals,
+function InternalClustering(countTensor, resolution::Int64, noDiagonals,
                             ::Val{dimensions}) where dimensions
     # first create a tensor to store later the information about the clusters
     clusterTensor = zeros(Int64, ntuple(i -> resolution, Val(dimensions)))
@@ -240,8 +240,8 @@ end
 
 #-------------------------------------------------------------------------------------------------
 # function to analyze the density of the found clusters
-function AnalyzeClusters(clusterTensor, countTensor, numClusters::Int64, resolution::Int,
-                            totalCounts::Int)
+function AnalyzeClusters(clusterTensor, countTensor, numClusters::Int64, resolution::Int64,
+                            totalCounts::Int64)
     numOfCells = length(countTensor)
     clusterDensities = zeros(Float64, numClusters)
     clusterSizes = zeros(Int64, numClusters)
@@ -284,11 +284,11 @@ end
 
 #-------------------------------------------------------------------------------------------------
 # function to perform the Iteridense algorithm loop
-function IteridenseLoop(dataMatrix, minClusterSize::Int, density, stopResolution::Int,
-                        minClusters::Int, minClusterDensity, noDiagonals,
-                        useDensity, useClusters, useFixedResolution,
-                        resolution::Int64, maxResolution::Int, minMatrix, maxMatrix,
-                        totalCounts::Int, ::Val{dimensions}) where dimensions
+function IteridenseLoop(dataMatrix, minClusterSize::Int64, density::Float64,
+                        stopResolution::Int64, minClusters::Int64, minClusterDensity,
+                        noDiagonals, useDensity, useClusters, useFixedResolution,
+                        resolution::Int64, maxResolution::Int64, minMatrix, maxMatrix,
+                        totalCounts::Int64, ::Val{dimensions}) where dimensions
     # initializations
     countTensor = Array{Any}(undef)
     clusterTensor = Array{Any}(undef)
@@ -358,8 +358,8 @@ end
 
 #-------------------------------------------------------------------------------------------------
 # function to assign data points to clusters
-function AssignPoints(dataMatrix, clusterTensor, resolution::Int, minMatrix, maxMatrix,
-                        totalCounts::Int, ::Val{dimensions}) where dimensions
+function AssignPoints(dataMatrix, clusterTensor, resolution::Int64, minMatrix, maxMatrix,
+                        totalCounts::Int64, ::Val{dimensions}) where dimensions
     # at first calculate the cell size for every dimension
     sizeMatrix = zeros(dimensions)
     for i in 1:dimensions
@@ -414,9 +414,9 @@ end
 
 #-------------------------------------------------------------------------------------------------
 # main function
-function PerformClustering(dataMatrix; minClusterSize::Int= 3, startResolution::Int= 2, density= 1.1,
-                    stopResolution::Int= -1, minClusters::Int= 1, noDiagonals= false,
-                    minClusterDensity= 1.0, useDensity= true,
+function PerformClustering(dataMatrix; minClusterSize::Int= 3, startResolution::Int64= 2,
+                    density= 1.1, stopResolution::Int64= -1, minClusters::Int64= 1,
+                    noDiagonals= false, minClusterDensity::Float64= 1.0, useDensity= true,
                     useClusters= false)::IteridenseResultC
 
     if startResolution == stopResolution
@@ -511,13 +511,13 @@ function PerformClustering(dataMatrix; minClusterSize::Int= 3, startResolution::
     if LoopResult.numOfClusters == 0
         printstyled("Information: "; bold=true, color=:blue)
         println("The clustering detected no clusters")
-        return IteridenseResultC(ArrayToCTensor(Int64[]),
-                                    ArrayToCTensor(Int64[]),
+        return IteridenseResultC(ArrayToCTensor(Int64[], Int64),
+                                    ArrayToCTensor(Int64[], Int64),
                                     Clonglong(0),
                                     Clonglong(LoopResult.finalResolution),
-                                    ArrayToCArrayInt(zeros(Int, totalCounts)),
-                                    ArrayToCArrayFloat(Float64[]),
-                                    ArrayToCArrayInt(Int64[]) )
+                                    ArrayToCArray(zeros(Int, totalCounts), Int64),
+                                    ArrayToCArray(Float64[], Float64),
+                                    ArrayToCArray(Int64[], Int64) )
     else
         # run a single loop with a higher fixed resolution
         secondResolution = LoopResult.finalResolution + 1
@@ -532,13 +532,13 @@ function PerformClustering(dataMatrix; minClusterSize::Int= 3, startResolution::
                                 LoopResult.finalResolution, minMatrix, maxMatrix,
                                 totalCounts, Val(dimensions))
 
-    intermediateResult = IteridenseResultC(ArrayToCTensor(LoopResult.clusterTensor),
-                                ArrayToCTensor(LoopResult.countTensor),
+    intermediateResult = IteridenseResultC(ArrayToCTensor(LoopResult.clusterTensor, Int64),
+                                ArrayToCTensor(LoopResult.countTensor, Int64),
                                 Clonglong(LoopResult.numOfClusters),
                                 Clonglong(LoopResult.finalResolution),
-                                ArrayToCArrayInt(assignments),
-                                ArrayToCArrayFloat(LoopResult.clusterDensities),
-                                ArrayToCArrayInt(LoopResult.clusterSizes) )
+                                ArrayToCArray(assignments, Int64),
+                                ArrayToCArray(LoopResult.clusterDensities, Float64),
+                                ArrayToCArray(LoopResult.clusterSizes, Int64) )
 
     # if the number of clusters did change between the 2 runs, return the assignment according
     # to the first clustering result
@@ -586,13 +586,13 @@ function PerformClustering(dataMatrix; minClusterSize::Int= 3, startResolution::
                         LoopResultSecond.clusterDensities) ./ 2
 
     # for the final result we output the tensors and resolution of the first result
-    return IteridenseResultC(ArrayToCTensor(LoopResult.clusterTensor),
-                                ArrayToCTensor(LoopResult.countTensor),
+    return IteridenseResultC(ArrayToCTensor(LoopResult.clusterTensor, Int64),
+                                ArrayToCTensor(LoopResult.countTensor, Int64),
                                 Clonglong(LoopResult.numOfClusters),
                                 Clonglong(LoopResult.finalResolution),
-                                ArrayToCArrayInt(assignmentsResult),
-                                ArrayToCArrayFloat(clusterDensities),
-                                ArrayToCArrayInt(clusterSizes) )
+                                ArrayToCArray(assignmentsResult, Int64),
+                                ArrayToCArray(clusterDensities, Float64),
+                                ArrayToCArray(clusterSizes, Int64) )
 end
 
 
@@ -610,29 +610,21 @@ end
 end
 
 # convert Julia array to CTensor struct with allocated data buffer
-function ArrayToCTensor(anArray::AbstractArray{Int64})
-    numDimensions = ndims(anArray)
+function ArrayToCTensor(anArray, ::Type{dataType}) where dataType
+    # first convert the array explicitely to the give data type 
+    convertedArray = convert(Array{dataType}, anArray)
+    numDimensions = ndims(convertedArray)
     # pad with zeros if numDimensions < MAX_DIMENSIONS
-    dimensions = ntuple(i -> i <= numDimensions ? size(anArray, i) : 0, MAX_DIMENSIONS)
-    dataPointer = AllocateAndCopy(anArray)
-    return CTensor(dataPointer, Clonglong(numDimensions), dimensions)
-end
-function ArrayToCTensorFloat(anArray::AbstractArray{Float64})
-    numDimensions = ndims(anArray)
-    # pad with zeros if numDimensions < MAX_DIMENSIONS
-    dimensions = ntuple(i -> i <= numDimensions ? size(anArray, i) : 0, MAX_DIMENSIONS)
-    dataPointer = AllocateAndCopy(anArray)
+    dimensions = ntuple(i -> i <= numDimensions ? size(convertedArray, i) : 0, MAX_DIMENSIONS)
+    dataPointer = AllocateAndCopy(convertedArray)
     return CTensor(dataPointer, Clonglong(numDimensions), dimensions)
 end
 
 # convert Julia array to CArray struct with allocated data buffer
-function ArrayToCArrayInt(anArray::AbstractVector{Int64})
-    dataPointer = AllocateAndCopy(anArray)
-    return CArray(dataPointer, Csize_t(length(anArray)))
-end
-function ArrayToCArrayFloat(anArray::AbstractVector{Float64})
-    dataPointer = AllocateAndCopy(anArray)
-    return CArray(dataPointer, Csize_t(length(anArray)))
+function ArrayToCArray(aVector, ::Type{dataType}) where dataType
+    convertedVector = convert(Vector{dataType}, aVector)
+    dataPointer = AllocateAndCopy(convertedVector)
+    return CArray(dataPointer, Csize_t(length(convertedVector)))
 end
 
 
@@ -757,8 +749,8 @@ Base.@ccallable function DBSCANClustering(
     numOfClusters::Int64 = length(clusterCounts)
 
     output = DBSCANResultC(Clonglong(numOfClusters),
-                            ArrayToCArrayInt(assign),
-                            ArrayToCArrayInt(clusterCounts) )
+                            ArrayToCArray(assign, Int64),
+                            ArrayToCArray(clusterCounts, Int64) )
 
     # write output into allocated memory
     unsafe_store!(resultPointer, output)
@@ -836,9 +828,9 @@ Base.@ccallable function KMeansClustering(
     numOfClusters::Int64 = length(clusterCounts)
 
     output = KMeansResultC(Clonglong(numOfClusters),
-                            ArrayToCArrayInt(assign),
-                            ArrayToCArrayInt(clusterCounts),
-                            ArrayToCTensorFloat(clusterCenters) )
+                            ArrayToCArray(assign, Int64),
+                            ArrayToCArray(clusterCounts, Int64),
+                            ArrayToCTensor(clusterCenters, Float64) )
 
     # write output into allocated memory
     unsafe_store!(resultPointer, output)
