@@ -94,6 +94,30 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
+    // Call KMeansClustering
+    KMeansResultC* resultKMeans = KMeansClustering(
+        dataMatrix,
+        nrows,
+        ncols,
+        2,    // numOfClusters
+        1,    // maxIter
+        1e-4  // tolerance
+    );
+
+    if (resultKMeans == NULL) {
+        fprintf(stderr, "KMeansClustering failed: returned NULL\n");
+        return EXIT_FAILURE;
+    }
+
+    printf("K-means numOfClusters: %d\n", resultKMeans->numOfClusters);
+
+    // Free the allocated resultKMeans
+    int free_statusKMeans = KMeansFree(resultKMeans);
+    if (free_statusKMeans != 0) {
+        fprintf(stderr, "KMeansFree failed\n");
+        return EXIT_FAILURE;
+    }
+
     printf("Test completed successfully.\n");
     shutdown_julia(0);
     return EXIT_SUCCESS;
