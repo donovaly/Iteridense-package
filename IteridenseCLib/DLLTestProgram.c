@@ -7,7 +7,7 @@
 #include "CompilationResult\include\IteridenseCLib.h"
 
 // Helper to print clusterTensor data (assuming 3D tensor)
-void printTensor(const CTensor* tensor, const char* name) {
+void printTensorInt(const CTensor* tensor, const char* name) {
     printf("%s ndims: %d\n", name, tensor->ndims);
     printf("%s dims: ", name);
     for (int i = 0; i < tensor->ndims; i++) {
@@ -24,6 +24,27 @@ void printTensor(const CTensor* tensor, const char* name) {
     printf("%s data: ", name);
     for (size_t i = 0; i < total_elements; i++) {
         printf("%d ", data[i]);
+    }
+    printf("\n");
+}
+
+void printTensorDouble(const CTensor* tensor, const char* name) {
+    printf("%s ndims: %d\n", name, tensor->ndims);
+    printf("%s dims: ", name);
+    for (int i = 0; i < tensor->ndims; i++) {
+        printf("%zu ", tensor->dims[i]);
+    }
+    printf("\n");
+
+    double* data = (double*)tensor->data;
+    size_t total_elements = 1;
+    for (int i = 0; i < tensor->ndims; i++) {
+        total_elements *= tensor->dims[i];
+    }
+
+    printf("%s data: ", name);
+    for (size_t i = 0; i < total_elements; i++) {
+        printf("%f ", data[i]);
     }
     printf("\n");
 }
@@ -60,8 +81,8 @@ int main(int argc, char *argv[]) {
 
     printf("numOfClusters: %d\n", resultIteridense->numOfClusters);
     printf("finalResolution: %d\n", resultIteridense->finalResolution);
-    printTensor(&resultIteridense->clusterTensor, "clusterTensor");
-    printTensor(&resultIteridense->countTensor, "countTensor");
+    printTensorInt(&resultIteridense->clusterTensor, "clusterTensor");
+    printTensorInt(&resultIteridense->countTensor, "countTensor");
 
     // Free the allocated resultIteridense
     int free_statusIteridense = IteridenseFree(resultIteridense);
@@ -110,6 +131,7 @@ int main(int argc, char *argv[]) {
     }
 
     printf("K-means numOfClusters: %d\n", resultKMeans->numOfClusters);
+    printTensorDouble(&resultKMeans->clusterCenters, "clusterCenters");
 
     // Free the allocated resultKMeans
     int free_statusKMeans = KMeansFree(resultKMeans);
