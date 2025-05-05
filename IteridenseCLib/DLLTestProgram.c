@@ -15,7 +15,6 @@ void printTensor(const CTensor* tensor, const char* name) {
     }
     printf("\n");
 
-    // assume data is double
     int64_t* data = (int64_t*)tensor->data;
     size_t total_elements = 1;
     for (int i = 0; i < tensor->ndims; i++) {
@@ -39,7 +38,7 @@ int main(int argc, char *argv[]) {
     size_t ncols = 2;
 
     // Call IteridenseClustering
-    IteridenseResultC* result = IteridenseClustering(
+    IteridenseResultC* resultIteridense = IteridenseClustering(
         dataMatrix,
         nrows,
         ncols,
@@ -54,20 +53,44 @@ int main(int argc, char *argv[]) {
         0      // useClusters (false)
     );
 
-    if (result == NULL) {
+    if (resultIteridense == NULL) {
         fprintf(stderr, "IteridenseClustering failed: returned NULL\n");
         return EXIT_FAILURE;
     }
 
-    printf("numOfClusters: %d\n", result->numOfClusters);
-    printf("finalResolution: %d\n", result->finalResolution);
-    printTensor(&result->clusterTensor, "clusterTensor");
-    printTensor(&result->countTensor, "countTensor");
+    printf("numOfClusters: %d\n", resultIteridense->numOfClusters);
+    printf("finalResolution: %d\n", resultIteridense->finalResolution);
+    printTensor(&resultIteridense->clusterTensor, "clusterTensor");
+    printTensor(&resultIteridense->countTensor, "countTensor");
 
-    // Free the allocated result
-    int free_status = IteridenseFree(result);
-    if (free_status != 0) {
+    // Free the allocated resultIteridense
+    int free_statusIteridense = IteridenseFree(resultIteridense);
+    if (free_statusIteridense != 0) {
         fprintf(stderr, "IteridenseFree failed\n");
+        return EXIT_FAILURE;
+    }
+
+    // Call DBSCANClustering
+    DBSCANResultC* resultDBSCAN = DBSCANClustering(
+        dataMatrix,
+        nrows,
+        ncols,
+        8.0,    // radius
+        1,      // minNeighbors
+        1       // minClusterSize
+    );
+
+    if (resultDBSCAN == NULL) {
+        fprintf(stderr, "DBSCANClustering failed: returned NULL\n");
+        return EXIT_FAILURE;
+    }
+
+    printf("DBSCAN numOfClusters: %d\n", resultDBSCAN->numOfClusters);
+
+    // Free the allocated resultDBSCAN
+    int free_statusDBSCAN = DBSCANFree(resultDBSCAN);
+    if (free_statusDBSCAN != 0) {
+        fprintf(stderr, "DBSCANFree failed\n");
         return EXIT_FAILURE;
     }
 
