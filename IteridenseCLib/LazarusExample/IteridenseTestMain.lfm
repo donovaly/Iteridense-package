@@ -803,7 +803,6 @@ object MainForm: TMainForm
         Width = 70
         BorderSpacing.Left = 16
         BorderSpacing.Top = 16
-        Enabled = False
         MaxValue = 1000000
         MinValue = 1
         TabOrder = 0
@@ -850,7 +849,7 @@ object MainForm: TMainForm
         ParentShowHint = False
         ShowHint = True
         TabOrder = 1
-        Value = 3
+        Value = 20
       end
       object MaxIterationsL: TLabel
         AnchorSideLeft.Control = MaxIterationsSE
@@ -864,7 +863,17 @@ object MainForm: TMainForm
         BorderSpacing.Left = 8
         Caption = 'max Iterations'
       end
-      object ToleranceSE: TSpinEdit
+      object ToleranceL: TLabel
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Side = asrCenter
+        Left = 94
+        Height = 19
+        Top = 110
+        Width = 140
+        BorderSpacing.Left = 8
+        Caption = 'Tolerance for Iterations'
+      end
+      object ToleranceFSE: TFloatSpinEdit
         AnchorSideLeft.Control = NumberClustersSE
         AnchorSideTop.Control = MaxIterationsSE
         AnchorSideTop.Side = asrBottom
@@ -874,24 +883,13 @@ object MainForm: TMainForm
         Top = 106
         Width = 70
         BorderSpacing.Top = 12
-        MaxValue = 1000000
-        MinValue = 2
+        Increment = 0.0001
+        MaxValue = 1
+        MinValue = 1E-10
         ParentShowHint = False
         ShowHint = True
         TabOrder = 2
-        Value = 100
-      end
-      object ToleranceL: TLabel
-        AnchorSideLeft.Control = ToleranceSE
-        AnchorSideLeft.Side = asrBottom
-        AnchorSideTop.Control = ToleranceSE
-        AnchorSideTop.Side = asrCenter
-        Left = 94
-        Height = 19
-        Top = 110
-        Width = 140
-        BorderSpacing.Left = 8
-        Caption = 'Tolerance for Iterations'
+        Value = 1
       end
     end
     object ClusterResultTS: TTabSheet

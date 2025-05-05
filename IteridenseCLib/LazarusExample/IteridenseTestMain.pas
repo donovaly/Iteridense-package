@@ -85,7 +85,7 @@ type
   // like for IteridenseResult
   TDBSCANClustering = function(
     const dataMatrix: PDouble; // const double* dataMatrix
-    nrows, ncols: cint64;      // int64_t
+    nrows, ncols: cint64;
     radius: cdouble;
     minNeighbors: cint64;
     minClusterSize: cint64
@@ -96,10 +96,10 @@ type
   // like for IteridenseResult
   TKMeansClustering = function(
     const dataMatrix: PDouble; // const double* dataMatrix
-    nrows, ncols: cint64;      // int64_t
-    radius: cdouble;
-    minNeighbors: cint64;
-    minClusterSize: cint64
+    nrows, ncols: cint64;
+    numOfClusters: cint64;
+    maxIter: cint64;
+    tolerance: cdouble
     ): PKMeansResultC; cdecl;
   // frees memory allocated by TKMeansClustering
   TKMeansFree = function(pointer: PKMeansResultC): Integer; cdecl;
@@ -150,7 +150,7 @@ type
     Separator1MI: TMenuItem;
     MinNeighborsSE: TSpinEdit;
     ToleranceL: TLabel;
-    ToleranceSE: TSpinEdit;
+    ToleranceFSE: TFloatSpinEdit;
     UseDensityRB: TRadioButton;
     UseClustersRB: TRadioButton;
     DensityL: TLabel;
@@ -500,13 +500,12 @@ var
   counter, row, column, i, assignmentColumn : Int64;
   iteridenseResult : PIteridenseResultC;
   DBSCANResult : PDBSCANResultC;
+  kMeansResult : PKMeansResultC;
   inputArray : array of Double;
   dimensionIndices : array of Int64;
   assignmentsArray, clusterSizesArray : TIntArray;
   clusterDensitiesArray : TDoubleArray;
-  rows, columns, minClusterSize, startResolution, stopResolution,
-  minClusters, noDiagonals, useDensity, useClusters : cint64;
-  density, minClusterDensity: cdouble;
+  rows, columns : cint64;
 begin
   // initialization
   SetLength(assignmentsArray, Length(DataArray));
@@ -539,17 +538,9 @@ begin
         end;
     end;
   end;
-  //minClusterSize:= MinClusterSizeIterIdenseSE.Value;
-  startResolution:= StartResolutionSE.Value;
-  density:= DensityFSE.Value;
-  stopResolution:= StopResolutionSE.Value;
-  minClusters:= MinClustersSE.Value;
-  minClusterDensity:= MinClusterDensityFSE.Value;
-  noDiagonals:= NoDiagonalsCB.Checked.ToInteger;
-  useDensity:= UseDensityRB.Checked.ToInteger;
-  useClusters:= UseClustersRB.Checked.ToInteger;
 
   // we execute the clustering according to the currently open methods tab
+  // Iteridense
   if MethodsPC.ActivePage.Caption = 'Iteridense' then
   begin
     iteridenseResult:= IteridenseClustering(
@@ -557,14 +548,14 @@ begin
       rows,
       columns,
       MinClusterSizeIterIdenseSE.Value,
-      startResolution,
-      density,
-      stopResolution,
-      minClusters,
-      minClusterDensity,
-      noDiagonals,
-      useDensity,
-      useClusters );
+      StartResolutionSE.Value,
+      DensityFSE.Value,
+      StopResolutionSE.Value,
+      MinClustersSE.Value,
+      MinClusterDensityFSE.Value,
+      NoDiagonalsCB.Checked.ToInteger,
+      UseDensityRB.Checked.ToInteger,
+      UseClustersRB.Checked.ToInteger );
     // test if there is a result
     if iteridenseResult = nil then
     begin
@@ -596,6 +587,7 @@ begin
     if IteridenseFree(iteridenseResult) <> 0 then
       MessageDlg('Warning: failed to free iteridenseResult', mtError, [mbOK], 0);
   end
+  // DBSCAN
   else if MethodsPC.ActivePage.Caption = 'DBSCAN' then
   begin
     DBSCANResult:= DBSCANClustering(
@@ -631,7 +623,45 @@ begin
     end;
     // free the allocated struct
     if DBSCANFree(DBSCANResult) <> 0 then
-      MessageDlg('Warning: failed to free iteridenseResult', mtError, [mbOK], 0);
+      MessageDlg('Warning: failed to free DBSCANResult', mtError, [mbOK], 0);
+  end
+  // K-Means
+  else if MethodsPC.ActivePage.Caption = 'K-Means' then
+  begin
+    kMeansResult:= KMeansClustering(
+      @inputArray[0], // pointer to first element
+      rows,
+      columns,
+      NumberClustersSE.Value,
+      MaxIterationsSE.Value,
+      ToleranceFSE.Value );
+    // test if there is a result
+    if kMeansResult = nil then
+    begin
+      MessageDlg('Failed to create kMeansResult', mtError, [mbOK], 0);
+      exit;
+    end;
+    if (kMeansResult^.assignments.data = nil)
+      or (kMeansResult^.assignments.length = 0) then
+    begin
+      MessageDlg('Clustering failed, no assignments available', mtError, [mbOK], 0);
+      exit;
+    end;
+    // convert c-arrays to Pascal arrays
+    assignmentsArray:= CArrayToTIntArray(kMeansResult^.assignments);
+    clusterSizesArray:= CArrayToTIntArray(kMeansResult^.clusterSizes);
+    // fill the arrays to ClusterResultSG
+    ClusterResultSG.RowCount:= Length(clusterSizesArray) + 1; // +1 for header row
+    i:= Length(clusterSizesArray);
+    for i:= 0 to High(clusterSizesArray) do
+    begin
+      ClusterResultSG.Cells[0, i+1] := IntToStr(i+1);
+      ClusterResultSG.Cells[1, i+1] := IntToStr(clusterSizesArray[i]);
+      //ClusterResultSG.Cells[2, i+1] := Format('%.3g', [clusterDensitiesArray[i]]);
+    end;
+    // free the allocated struct
+    if KMeansFree(kMeansResult) <> 0 then
+      MessageDlg('Warning: failed to free kMeansResult', mtError, [mbOK], 0);
   end;
 
   // add assignmentsArray as column to DataArray
