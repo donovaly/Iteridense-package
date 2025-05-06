@@ -9,7 +9,7 @@
         <Filename Value="IteridenseClustering.lpr"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="3"/>
-        <CursorPos X="42" Y="10"/>
+        <CursorPos Y="21"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit>
@@ -17,10 +17,10 @@
         <Filename Value="ChartDataHandling.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="72"/>
-        <CursorPos X="75" Y="764"/>
+        <TopLine Value="81"/>
+        <CursorPos Y="390"/>
         <FoldState Value=" T3j00{(2 pjPnK0M1 pigjR]9]I7ja0d5]96kK0C3 plHlg0#K{"/>
-        <UsageCount Value="160"/>
+        <UsageCount Value="163"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -33,7 +33,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="155"/>
+        <UsageCount Value="158"/>
       </Unit>
       <Unit>
         <Filename Value="ChartEditing\cebrushframe.pas"/>
@@ -45,7 +45,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="155"/>
+        <UsageCount Value="158"/>
       </Unit>
       <Unit>
         <Filename Value="ChartEditing\cefontframe.pas"/>
@@ -57,7 +57,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="155"/>
+        <UsageCount Value="158"/>
       </Unit>
       <Unit>
         <Filename Value="ChartEditing\celegenddlg.pas"/>
@@ -69,7 +69,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="155"/>
+        <UsageCount Value="158"/>
       </Unit>
       <Unit>
         <Filename Value="ChartEditing\cepenframe.pas"/>
@@ -81,7 +81,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="155"/>
+        <UsageCount Value="158"/>
       </Unit>
       <Unit>
         <Filename Value="ChartEditing\cepointerframe.pas"/>
@@ -93,7 +93,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="155"/>
+        <UsageCount Value="158"/>
       </Unit>
       <Unit>
         <Filename Value="ChartEditing\ceseriesdlg.pas"/>
@@ -105,7 +105,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="155"/>
+        <UsageCount Value="158"/>
       </Unit>
       <Unit>
         <Filename Value="ChartEditing\ceshapebrushpenmarginsframe.pas"/>
@@ -117,7 +117,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="155"/>
+        <UsageCount Value="158"/>
       </Unit>
       <Unit>
         <Filename Value="ChartEditing\cetitlefootdlg.pas"/>
@@ -127,7 +127,7 @@
         <UnitName Value="ceTitleFootDlg"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="55" Y="12"/>
-        <UsageCount Value="155"/>
+        <UsageCount Value="158"/>
       </Unit>
       <Unit>
         <Filename Value="ChartEditing\ceutils.pas"/>
@@ -137,7 +137,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="155"/>
+        <UsageCount Value="158"/>
       </Unit>
       <Unit>
         <Filename Value="ChartEditing\ceaxisframe.pas"/>
@@ -148,7 +148,7 @@
         <UnitName Value="ceAxisFrame"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="27" Y="13"/>
-        <UsageCount Value="154"/>
+        <UsageCount Value="157"/>
       </Unit>
       <Unit>
         <Filename Value="IteridenseClusteringMain.pas"/>
@@ -157,10 +157,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="4"/>
-        <CursorPos X="30" Y="11"/>
-        <FoldState Value=" TCKC44 PKXI TMrX03 T7jQE{d T3nE0{O9 pidm70F1 plcmG0&apos;8]IYl3036 Pdi70e"/>
-        <UsageCount Value="155"/>
+        <TopLine Value="246"/>
+        <CursorPos Y="272"/>
+        <FoldState Value=" TCKC44 PKXI TMsO03 T7jQE{d T3nE0{w9 pidmf0F1 plcmG0&apos;8]IYl3036 Pdi70I"/>
+        <UsageCount Value="158"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -173,7 +173,7 @@
         <EditorIndex Value="2"/>
         <TopLine Value="18"/>
         <CursorPos X="104" Y="48"/>
-        <UsageCount Value="98"/>
+        <UsageCount Value="101"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -400,15 +400,7 @@
     <Debugger>
       <Backend Value="{0599E7CA-746F-4D8B-BD06-CEE8C2E1AC4F}"/>
     </Debugger>
-    <JumpHistory HistoryIndex="24">
-      <Position>
-        <Filename Value="IteridenseClusteringMain.pas"/>
-        <Caret Line="451" Column="14" TopLine="380"/>
-      </Position>
-      <Position>
-        <Filename Value="IteridenseClusteringMain.pas"/>
-        <Caret Line="457" Column="14" TopLine="409"/>
-      </Position>
+    <JumpHistory HistoryIndex="29">
       <Position>
         <Filename Value="IteridenseClusteringMain.pas"/>
         <Caret Line="800" Column="12" TopLine="772"/>
@@ -500,6 +492,34 @@
       <Position>
         <Filename Value="IteridenseClusteringMain.pas"/>
         <Caret Line="4" Column="37"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseClusteringMain.pas"/>
+        <Caret Line="379" Column="16" TopLine="359"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseClusteringMain.pas"/>
+        <Caret Line="380" Column="16" TopLine="359"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseClusteringMain.pas"/>
+        <Caret Line="382" Column="16" TopLine="359"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseClusteringMain.pas"/>
+        <Caret Line="269" Column="30" TopLine="250"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseClusteringMain.pas"/>
+        <Caret Line="273" Column="31" TopLine="250"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseClustering.lpr"/>
+        <Caret Line="21" Column="28"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseClusteringMain.pas"/>
+        <Caret Line="279" Column="29" TopLine="262"/>
       </Position>
     </JumpHistory>
     <RunParams>

@@ -273,8 +273,10 @@ uses
 procedure TMainForm.FormCreate(Sender: TObject);
 var
   iniFile : string;
-  FileVerInfo: TFileVersionInfo;
-  args: array[0..1] of PAnsiChar;
+  FileVerInfo : TFileVersionInfo;
+  args : array[0..1] of PAnsiChar;
+  errorDialog : TForm;
+  DLLLoadingError : Boolean;
 begin
   try
     FileVerInfo:= TFileVersionInfo.Create(nil);
@@ -308,6 +310,7 @@ begin
     ChartData.LoadAppearance(iniFile);
 
   // load the Iteridense DLL
+  DLLLoadingError:= false;
   LibHandle:= LoadLibrary(PChar(DLLName));
   if LibHandle <> 0 then
   begin
@@ -315,59 +318,90 @@ begin
     InitJulia:= TInitJulia(GetProcAddress(LibHandle, 'init_julia'));
     if not Assigned(InitJulia) then
     begin
-      MessageDlg('The function "init_julia" is not found in the DLL', mtError, [mbOK], 0);
+      errorDialog:= CreateMessageDialog('The function "init_julia" is not found in the DLL',
+                                        mtError, [mbOK]);
       FreeLibrary(LibHandle);
+      DLLLoadingError:= true;
     end;
     ShutdownJulia:= TShutdownJulia(GetProcAddress(LibHandle, 'shutdown_julia'));
     if not Assigned(ShutdownJulia) then
     begin
-      MessageDlg('The function "shutdown_julia" is not found in the DLL', mtError, [mbOK], 0);
+      errorDialog:= CreateMessageDialog('The function "shutdown_julia" is not found in the DLL',
+                                        mtError, [mbOK]);
       FreeLibrary(LibHandle);
+      DLLLoadingError:= true;
     end;
     // testing the struct functions
     IteridenseClustering:= TIteridenseClustering(GetProcAddress(LibHandle, 'IteridenseClustering'));
     if not Assigned(IteridenseClustering) then
     begin
-      MessageDlg('The function "IteridenseClustering" is not found in the DLL', mtError, [mbOK], 0);
+      errorDialog:= CreateMessageDialog(
+                      'The function "IteridenseClustering" is not found in the DLL',
+                      mtError, [mbOK]);
       FreeLibrary(LibHandle);
+      DLLLoadingError:= true;
     end;
     IteridenseFree:= TIteridenseFree(GetProcAddress(LibHandle, 'IteridenseFree'));
     if not Assigned(IteridenseFree) then
     begin
-      MessageDlg('The function "IteridenseFree" is not found in the DLL', mtError, [mbOK], 0);
+      errorDialog:= CreateMessageDialog('The function "IteridenseFree" is not found in the DLL',
+                                        mtError, [mbOK]);
       FreeLibrary(LibHandle);
+      DLLLoadingError:= true;
     end;
     // now DBSCAN
     DBSCANClustering:= TDBSCANClustering(GetProcAddress(LibHandle, 'DBSCANClustering'));
     if not Assigned(DBSCANClustering) then
     begin
-      MessageDlg('The function "DBSCANClustering" is not found in the DLL', mtError, [mbOK], 0);
+      errorDialog:= CreateMessageDialog('The function "DBSCANClustering" is not found in the DLL',
+                                        mtError, [mbOK]);
       FreeLibrary(LibHandle);
+      DLLLoadingError:= true;
     end;
     DBSCANFree:= TDBSCANFree(GetProcAddress(LibHandle, 'DBSCANFree'));
     if not Assigned(DBSCANFree) then
     begin
-      MessageDlg('The function "DBSCANFree" is not found in the DLL', mtError, [mbOK], 0);
+      errorDialog:= CreateMessageDialog('The function "DBSCANFree" is not found in the DLL',
+                                        mtError, [mbOK]);
       FreeLibrary(LibHandle);
+      DLLLoadingError:= true;
     end;
     // now K-means
     KMeansClustering:= TKMeansClustering(GetProcAddress(LibHandle, 'KMeansClustering'));
     if not Assigned(KMeansClustering) then
     begin
-      MessageDlg('The function "KMeansClustering" is not found in the DLL', mtError, [mbOK], 0);
+      errorDialog:= CreateMessageDialog('The function "KMeansClustering" is not found in the DLL',
+                                        mtError, [mbOK]);
       FreeLibrary(LibHandle);
+      DLLLoadingError:= true;
     end;
     KMeansFree:= TKMeansFree(GetProcAddress(LibHandle, 'KMeansFree'));
     if not Assigned(KMeansFree) then
     begin
-      MessageDlg('The function "KMeansFree" is not found in the DLL', mtError, [mbOK], 0);
+      errorDialog:= CreateMessageDialog('The function "KMeansFree" is not found in the DLL',
+                                        mtError, [mbOK]);
       FreeLibrary(LibHandle);
+      DLLLoadingError:= true;
     end;
   end
   else
   begin
-    MessageDlg('DLL could not be loaded', mtError, [mbOK], 0);
-    exit;
+    errorDialog:= CreateMessageDialog('IteridenseClustering could be started because'
+                  + LineEnding
+                  + 'the DLL "IteridenseCLib.dll" could not be loaded', mtError, [mbOK]);
+    DLLLoadingError:= true;
+  end;
+
+  if DLLLoadingError then
+  begin
+    try
+      errorDialog.Position:= poScreenCenter;
+      errorDialog.FormStyle:= fsStayOnTop;   // to keep it above other windows
+      errorDialog.ShowModal;
+    finally
+      errorDialog.Free;
+    end;
+    Application.Terminate;
   end;
 
   // initialize Julia runtime
