@@ -114,6 +114,7 @@ type
     AboutMI: TMenuItem;
     AutoscaleMI: TMenuItem;
     AxisClickTool: TAxisClickTool;
+    RadiusTB: TTrackBar;
     FlipB: TButton;
     ChangeBackColorMI: TMenuItem;
     ChartAxisTransformDim1: TChartAxisTransformations;
@@ -151,6 +152,7 @@ type
     Separator1MI: TMenuItem;
     MinNeighborsSE: TSpinEdit;
     ToleranceL: TLabel;
+    DensityTB: TTrackBar;
     UseDensityRB: TRadioButton;
     UseClustersRB: TRadioButton;
     DensityL: TLabel;
@@ -172,7 +174,7 @@ type
     DataPointMarksClickTool: TDataPointMarksClickTool;
     DensityFSE: TFloatSpinEdit;
     MinClusterDensityFSE: TFloatSpinEdit;
-    RadiusEpsFSE: TFloatSpinEdit;
+    RadiusFSE: TFloatSpinEdit;
     ClusteringBB: TBitBtn;
     LoadedActionFileL: TLabel;
     LoadedDataFileM: TMemo;
@@ -205,6 +207,8 @@ type
     procedure DataPointHintToolHintPosition(ATool: TDataPointHintTool;
       var APoint: TPoint);
     procedure DataSelectionCCBItemChange(Sender: TObject; AIndex: Integer);
+    procedure DensityFSEEnter(Sender: TObject);
+    procedure DensityTBChange(Sender: TObject);
     procedure FlipBClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
@@ -217,6 +221,8 @@ type
     procedure OpenCsvBBClick(Sender: TObject);
     procedure FormDropFiles(Sender: TObject; const FileNames{%H-}: array of String);
     procedure PlotSelectionCCBItemChange(Sender: TObject; AIndex: Integer);
+    procedure RadiusFSEEnter(Sender: TObject);
+    procedure RadiusTBChange(Sender: TObject);
     procedure ResetChartAppearanceMIClick(Sender: TObject);
     procedure SaveCsvMIClick(Sender: TObject);
     procedure SavePlotBBClick(Sender: TObject);
@@ -248,6 +254,8 @@ var
   DataTextColumns : array of array of String; // to store text columns
   DataTextColumnsIndices : array of Int64; // to store the index of the text columns
   UsedClusteringMethod : ClusterMethods = none;
+  SliderPosition : Integer; // to know in what direction a slider was moved
+  SliderIncrement : Double; // to store the slider increment
   KMeansClusterCenters : Array of Array of double; // store the K-means cluster center coordinates
   // filename to store appearance
   const AppearanceFile : string = 'Appearance-IteridenseTest.ini';
@@ -282,9 +290,11 @@ begin
   // stores initial values with trailing LineEnding
   LoadedDataFileM.Text:= 'None';
 
-  // initialize chart transformation before we can draw in chart, otherwise there
-  // would be an error when sensor data is load before chart is shown first time
+  // initialize chart transformation
   DataC.Prepare;
+
+  // initialize SliderPosition
+  SliderPosition:= 1;
 
   // setup the chart
   // due to a bug in TAChart the preset title size is not taken on
@@ -439,11 +449,13 @@ begin
   if UseDensityRB.Checked then
   begin
     DensityFSE.Enabled:= true;
+    DensityTB.Enabled:= true;
     MinClustersSE.Enabled:= false;
   end
   else
   begin
     DensityFSE.Enabled:= false;
+    DensityTB.Enabled:= false;
     MinClustersSE.Enabled:= true;
   end;
 end;
@@ -599,7 +611,7 @@ begin
       @inputArray[0], // pointer to first element
       rows,
       columns,
-      RadiusEpsFSE.Value,
+      RadiusFSE.Value,
       MinNeighborsSE.Value,
       MinClusterSizeDBscanSE.Value );
     // test if there is a result
@@ -786,6 +798,8 @@ begin
   SaveCsvMI.Enabled:= false;
   SavePlotBB.Enabled:= true;
   SavePlotMI.Enabled:= true;
+  DensityTB.Enabled:= true;
+  RadiusTB.Enabled:= true;
   // reset method
   UsedClusteringMethod:= ClusterMethods.none;
 end;
@@ -820,6 +834,63 @@ begin
   // no dimension, thus disable clustering
   MainForm.ClusteringBB.Enabled:= false;
   MainForm.ClusteringBB.Hint:= 'no dimensions selected to be clustered';
+end;
+
+procedure TMainForm.DensityFSEEnter(Sender: TObject);
+begin
+  // reset the slider position
+  // as this triggers DensityTBChange, set SliderIncrement to zero
+  SliderIncrement:= 0;
+  DensityTB.Position:= 1;
+end;
+
+procedure TMainForm.DensityTBChange(Sender: TObject);
+var
+  sign : Integer;
+begin
+  // the idea is to trunc(density), divide it by 10 and map this to the slider as increment
+  // and perform a clustering on every slider movement
+
+  // at first determine the movement direction by setting the sign of increment
+  sign:= DensityTB.Position - SliderPosition;
+  // only set new increment if previous position was 1
+  if (sign > 0) and (DensityTB.Position = 2) then
+    SliderIncrement:= Trunc(DensityFSE.Value) / 10;
+
+  DensityFSE.Value:= DensityFSE.Value + sign * SliderIncrement;
+  // cluster only if there was actually a change (not on e.g. slider resets)
+  if SliderIncrement > 0 then
+    ClusteringBBClick(Sender);
+  // save new position
+  SliderPosition:= DensityTB.Position;
+end;
+
+procedure TMainForm.RadiusFSEEnter(Sender: TObject);
+begin
+  // reset the slider position
+  // as this triggers DensityTBChange, set SliderIncrement to zero
+  SliderIncrement:= 0;
+  RadiusTB.Position:= 1;
+end;
+
+procedure TMainForm.RadiusTBChange(Sender: TObject);
+var
+  sign : Integer;
+begin
+  // the idea is to trunc(density), divide it by 10 and map this to the slider as increment
+  // and perform a clustering on every slider movement
+
+  // at first determine the movement direction by setting the sign of increment
+  sign:= RadiusTB.Position - SliderPosition;
+  // only set new increment if previous position was 1
+  if (sign > 0) and (RadiusTB.Position = 2) then
+    SliderIncrement:= Trunc(RadiusFSE.Value) / 10;
+  RadiusFSE.Value:= RadiusFSE.Value + sign * SliderIncrement;
+  // cluster only if there was actually a change (not on e.g. slider resets)
+  if SliderIncrement > 0 then
+    ClusteringBBClick(Sender);
+  // save new position
+  SliderPosition:= RadiusTB.Position;
 end;
 
 procedure TMainForm.PlotSelectionCCBItemChange(Sender: TObject; AIndex: Integer);
@@ -865,6 +936,10 @@ begin
    // only enable if data was loaded
    if Length(DataArray) > 0 then
      ClusteringBB.Enabled:= true;
+ // reset sliders
+ SliderIncrement:= 0;
+ DensityTB.Position:= 1;
+ RadiusTB.Position:= 1 ;
 end;
 
 procedure TMainForm.AxisClickToolClick(ASender: TChartTool; Axis: TChartAxis;
