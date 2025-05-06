@@ -167,7 +167,7 @@ begin
   for i:= 0 to High(StringArray) do
   begin
     // in case there is a leading space, remove it
-    if StringArray[i][1] = ' ' then
+    if (High(StringArray[i]) > 0) and (StringArray[i][1] = ' ') then
       StringArray[i]:= Trim(StringArray[i]);
     MainForm.DataSelectionCCB.AddItem(StringArray[i], cbChecked);
     MainForm.PlotSelectionCCB.AddItem(StringArray[i], cbChecked);
@@ -621,6 +621,17 @@ begin
   begin
     MainForm.DataC.AxisList[1].Title.Caption:= 'Dimension 1';
     MainForm.DataC.AxisList[0].Title.Caption:= 'Dimension 2';
+  end;
+
+  // display the first enabled and checked item in PlotSelectionCCB
+  for i:= 0 to MainForm.PlotSelectionCCB.Items.Count-1 do
+  begin
+    if (MainForm.PlotSelectionCCB.ItemEnabled[i])
+     and (MainForm.PlotSelectionCCB.Checked[i]) then
+    begin
+      MainForm.PlotSelectionCCB.ItemIndex:= i;
+      break;
+    end;
   end;
 
 end;

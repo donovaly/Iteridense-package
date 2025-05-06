@@ -834,15 +834,6 @@ begin
     if (PlotSelectionCCB.ItemEnabled[i] = true) and (counter < 2) then
       inc(counter);
   end;
-  // disply the first enabled and checked item in PlotSelectionCCB
-  for i:= 0 to PlotSelectionCCB.Items.Count-1 do
-  begin
-    if (PlotSelectionCCB.ItemEnabled[i]) and (PlotSelectionCCB.Checked[i]) then
-    begin
-      MainForm.PlotSelectionCCB.ItemIndex:= i;
-      break;
-    end;
-  end;
 
   // enable/disable objects
   ClusteringBB.Enabled:= true;
@@ -873,19 +864,29 @@ procedure TMainForm.DataSelectionCCBItemChange(Sender: TObject; AIndex: Integer)
 var
   i : Int64;
 begin
-  // check if there is at least one selected dimension
+  // display the first enabled and checked item in DataSelectionCCB
   for i:= 0 to MainForm.DataSelectionCCB.Items.Count-1 do
   begin
-    if (MainForm.DataSelectionCCB.Checked[i]) then
+    if (DataSelectionCCB.ItemEnabled[i])
+     and (DataSelectionCCB.Checked[i]) then
     begin
-      MainForm.ClusteringBB.Enabled:= true;
-      MainForm.ClusteringBB.Hint:= 'click to start the Iteridense clustering';
+      DataSelectionCCB.ItemIndex:= i;
+      break;
+    end;
+  end;
+  // check if there is at least one selected dimension
+  for i:= 0 to DataSelectionCCB.Items.Count-1 do
+  begin
+    if (DataSelectionCCB.Checked[i]) then
+    begin
+      ClusteringBB.Enabled:= true;
+      ClusteringBB.Hint:= 'click to start the Iteridense clustering';
       exit;
     end;
   end;
   // no dimension, thus disable clustering
-  MainForm.ClusteringBB.Enabled:= false;
-  MainForm.ClusteringBB.Hint:= 'no dimensions selected to be clustered';
+  ClusteringBB.Enabled:= false;
+  ClusteringBB.Hint:= 'no dimensions selected to be clustered';
 end;
 
 procedure TMainForm.DensityFSEEnter(Sender: TObject);
