@@ -58,7 +58,7 @@ If you want to compile the program:
 2. Open the file *IteridenseClustering.lpi* in Lazarus.
 3. Build the Lazarus project or run it.
 
-## Structure of the repository
+# Structure of the repository
 
 The folder **[src](https://github.com/donovaly/Iteridense-package/tree/main/src)** contains the Julia module *[Iteridense.jl](https://github.com/donovaly/Iteridense-package/blob/main/src/Iteridense.jl)*.
 
