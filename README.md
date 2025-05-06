@@ -36,7 +36,7 @@ For a brief description and discussion of the Iteridense clustering algorithm, s
 
 ## Usage
 
-1. Download the latest release
+1. Download the [latest release](https://github.com/donovaly/Iteridense-package/releases) of the *IteridenseClustering.zip*
 2. Extract the ZIP and there in the folder *bin* start the *IteridenseClustering.exe* (no installation or admin permissions are required)
 3. In the program click the button to open a CSV data file
 4. Perform the clustering as you wish
@@ -51,8 +51,9 @@ For a brief description and discussion of the Iteridense clustering algorithm, s
 ## Compilation
 
 1. Install the **[Lazarus IDE](https://en.wikipedia.org/wiki/Lazarus_(software))**
-2. Open the file *IteridenseClustering.lpi* in Lazarus.
-3. Build the Lazarus project or run it.
+2. Get the latest [source code release](https://github.com/donovaly/Iteridense-package/releases)
+3. Open the file *IteridenseClustering.lpi* in Lazarus
+4. Build the Lazarus project
 
 # Structure of the repository
 
