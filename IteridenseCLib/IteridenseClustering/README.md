@@ -2,7 +2,7 @@
 
 ## Usage
 
-1. Download the latest release [from GitHub](https://github.com/donovaly/Iteridense-package/tree/main)
+1. Download the latest release of the *IteridenseClustering.zip* [from GitHub](https://github.com/donovaly/Iteridense-package/releases)
 2. Extract the ZIP and there in the folder *bin* start the *IteridenseClustering.exe* (no installation or admin permissions are required)
 3. In the program click the button to open a CSV data file
 4. Perform the clustering as you wish
@@ -17,6 +17,6 @@
 ## Compilation
 
 1. Install the **[Lazarus IDE](https://en.wikipedia.org/wiki/Lazarus_(software))**
-2. Get the source code [from GitHub](https://github.com/donovaly/Iteridense-package/tree/main)
+2. Get the source code as ZIP [from GitHub](https://github.com/donovaly/Iteridense-package/releases)
 3. Open the file *IteridenseClustering.lpi* in Lazarus.
 3. Build the Lazarus project or run it.
