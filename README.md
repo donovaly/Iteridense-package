@@ -1,13 +1,17 @@
-# Iteridense - a simple iterative grid- and density-based clustering algorithm
+# Julia and Lazarus package for the Iteridense clustering algorithm
 
 # Description
 
 This repository provides two things:
 
-* A brief description and discussion of the Iteridense clustering algorithm, see [this PDF](https://codeberg.org/donovaly/Iteridense/raw/branch/main/Paper/Iteridense-clustering.pdf).
-* A reference implementation of the algorithm to use it directly on data of your choice.
+* a package for the programming Julia
+* a standalone, fully featured program *IteridenseTest* written in Lazarus
 
-# How to do use the reference implementation
+Both allow you to cluster any data using the clustering algorithms *Iteridense*, *DBSCAN and *k-Means*.
+
+For a brief description and discussion of the Iteridense clustering algorithm, see [this PDF](https://codeberg.org/Soloof/Iteridense/raw/branch/main/Paper/Iteridense-clustering.pdf).
+
+# How to do use the Julia reference implementation
 
 1. Install the scientific programming language [Julia](https://en.wikipedia.org/wiki/Julia_(programming_language))
 2. Install the program [VS Code](https://en.wikipedia.org/wiki/Visual_Studio_Code) (under Linux's AUR it is called *Code - OSS*)
@@ -28,10 +32,20 @@ This repository provides two things:
    execution of the script you must uncomment 1 line at the top of the script to install packages to Julia.
 6. As described in *Iteridense-Clustering.jl* you can easily cluster any data. It only has to be available as a CSV file.
 
+# How to do use the Julia reference implementation
+
+* Install the **[Lazarus IDE](https://en.wikipedia.org/wiki/Lazarus_(software))**
+* Open the file *IteridenseTest.lpi* in Lazarus.
+* Build the Lazarus project or run it.
+
 ## Structure of the repository
 
-The folder **[Paper](https://codeberg.org/donovaly/Iteridense/src/branch/main/Paper)** contains the PDF and its source code file of the paper describing the algorithm. The folder **[Paper/clipart](https://codeberg.org/donovaly/Iteridense/src/branch/main/Paper/clipart)** contains all images used in the paper.
+The folder **[src](https://codeberg.org/donovaly/Iteridense-package/src/branch/main/src)** contains the Julia module.
 
-The folder **[Reference Implementation](https://codeberg.org/donovaly/Iteridense/src/branch/main/Reference%20Implementation)** contains the Julia code of the algorithm. There the file *IteridenseLibrary.jl* is the actual algorithm. It can be used as code library for any Julia program. The file *Iteridense-Clustering.jl* explains the algorithm with examples. It uses *IteridenseLibrary.jl*.
+The folder **[IteridenseCLib](https://codeberg.org/donovaly/Iteridense-package/src/branch/main/IteridenseCLib)** contains the Julia module in a version that can be compiled as a C-library. That library can be used e.g. as DLL for any program that can read C-compatible libraries.
+The release ZIP file contains a precompiled version as DLL for Windows (filename IteridenseCLib.dll). 
 
-The folder **[Reference Implementation/datasets](https://codeberg.org/donovaly/Iteridense/src/branch/main/Reference%20Implementation/datasets)** contains all data used as example in *Iteridense-Clustering.jl*.
+The folder **[LazarusExample](https://codeberg.org/donovaly/Iteridense-package/src/branch/main/IteridenseCLib/LazarusExample)** contains the program *IteridenseTest*. This program uses the IteridenseCLib library. The release ZIP contains a compiled version for Windows as executable.
+I effect *IteridenseTest* is the Iteridense Julia package plus a graphical uiser interface (GUI).
+
+The folder **[examples](https://codeberg.org/donovaly/Iteridense-package/src/branch/main/examples)** contains the example Julia script *Iteridense-Clustering.jl* that uses the Iteridense Julia package. It also contains some datasets as CSV to test and play with the clustering.
