@@ -248,6 +248,7 @@ var
   DataTextColumns : array of array of String; // to store text columns
   DataTextColumnsIndices : array of Int64; // to store the index of the text columns
   UsedClusteringMethod : ClusterMethods = none;
+  KMeansClusterCenters : Array of Array of double; // store the K-means cluster center coordinates
   // filename to store appearance
   const AppearanceFile : string = 'Appearance-IteridenseTest.ini';
   // filename with default appearance
@@ -508,7 +509,6 @@ var
   dimensionIndices : array of Int64;
   assignmentsArray, clusterSizesArray : TIntArray;
   clusterDensitiesArray, clusterCentersArray : TDoubleArray;
-  kMeansClusterCenters : array of array of Double;
   rows, columns : cint64;
   tempString : String;
 begin
@@ -657,33 +657,33 @@ begin
     clusterSizesArray:= CArrayToTIntArray(kMeansResult^.clusterSizes);
     clusterCentersArray:= CTensorToTDoubleArray(kMeansResult^.clusterCenters);
     // for convert clusterSizesArray to a matrix
-    nrows:= kMeansResult^.clusterCenters.dims[1];
-    ncols:= kMeansResult^.clusterCenters.dims[0];
-    SetLength(kMeansClusterCenters, nrows, ncols);
+    nrows:= kMeansResult^.clusterCenters.dims[0];
+    ncols:= kMeansResult^.clusterCenters.dims[1];
+    SetLength(KMeansClusterCenters, nrows, ncols);
     counter:= 0;
     // the output is column-major
     for columns:= 0 to ncols-1 do
       for rows:= 0 to nrows-1 do
         begin
-          kMeansClusterCenters[rows, columns]:= clusterCentersArray[counter];
+          KMeansClusterCenters[rows][columns]:= clusterCentersArray[counter];
           inc(counter);
         end;
     // fill the arrays to ClusterResultSG
     ClusterResultSG.RowCount:= Length(clusterSizesArray) + 1; // +1 for header row
-    ClusterResultSG.Columns.Items[2].Title.Caption:= 'Cluster center';
+    ClusterResultSG.Columns.Items[2].Title.Caption:= 'Center at';
     for i:= 0 to High(clusterSizesArray) do
     begin
       ClusterResultSG.Cells[0, i+1]:= IntToStr(i+1);
       ClusterResultSG.Cells[1, i+1]:= IntToStr(clusterSizesArray[i]);
       tempString:= '';
-      for k:= 0 to High(kMeansClusterCenters[0]) do
+      for k:= 0 to High(KMeansClusterCenters[0]) do
       begin
         if k = 0 then
           tempString:= tempString + '(';
-        tempString:= tempString + Format('%.2f', [kMeansClusterCenters[i][k]]);
-        if k < High(kMeansClusterCenters[0]) then
+        tempString:= tempString + Format('%.2f', [KMeansClusterCenters[i][k]]);
+        if k < High(KMeansClusterCenters[0]) then
           tempString:= tempString + ', ';
-        if k = High(kMeansClusterCenters[0]) then
+        if k = High(KMeansClusterCenters[0]) then
           tempString:= tempString + ')';
       end;
       ClusterResultSG.Cells[2, i+1]:= tempString;
@@ -780,7 +780,7 @@ begin
   // plot the data
   ChartData.CDPlotSelectionCCBItemChange(Sender);
 
-  // enable/disable opbjects
+  // enable/disable objects
   ClusteringBB.Enabled:= true;
   FlipB.Enabled:= true;
   SaveCsvMI.Enabled:= false;

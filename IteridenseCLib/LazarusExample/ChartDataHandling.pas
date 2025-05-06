@@ -503,7 +503,8 @@ end;
 
 procedure TChartData.CDPlotSelectionCCBItemChange(Sender: TObject);
 var
-  i, count, dim1, dim2, numOfClusters, assignmentColumn, clusterNumber : Int64;
+  i, count, dim1, dim2, numOfClusters, assignmentColumn,
+    clusterNumber, centerIdx : Int64;
   Series : array of TLineSeries;
   StringArray : TStringArray;
 begin
@@ -523,8 +524,7 @@ begin
       break;
     end;
   end;
-  // add data to plot when there are at least 2 usable dimensions
-  // if there is only one, we delte the series anyway to sho that something happened
+  // add data to plot when there is at least one usable dimensions
   if dim1 > -1 then
   begin
     // first delete
@@ -536,9 +536,9 @@ begin
     MainForm.FlipB.Enabled:= false;
 
     // create a plot series
-    numOfClusters:= MainForm.ClusterResultSG.RowCount; // header row is like for the '0' cluster
-    SetLength(Series, numOfClusters);
-    for i:= 0 to numOfClusters-1 do
+    numOfClusters:= MainForm.ClusterResultSG.RowCount-1;
+    SetLength(Series, numOfClusters+1);
+    for i:= 0 to numOfClusters do // we need one extra for the unclusteed points
     begin
       Series[i]:= TLineSeries.Create(MainForm.DataC);
       Series[i].ShowLines:= False; // points only
@@ -565,12 +565,39 @@ begin
         MainForm.DataC.AxisList[0].Title.Caption:= '';
       end;
     end;
+
+    // if there are center points available in ClusterResultSG (not if in KMeansClusterCenters)
+    // then draw them in an additional new series
+    if MainForm.ClusterResultSG.Columns.Items[2].Title.Caption = 'Center at' then
+    begin
+      SetLength(Series, Length(Series)+1);
+      centerIdx:= Length(Series)-1;
+      Series[centerIdx]:= TLineSeries.Create(MainForm.DataC);
+      Series[centerIdx].ShowLines:= False; // points only
+      Series[centerIdx].Pointer.Visible:= true;
+      Series[centerIdx].Pointer.Brush.Color:= colorPalette[centerIdx];
+      Series[centerIdx].Pointer.Style:= psFullStar; // stars for the points
+      Series[centerIdx].Pointer.HorizSize:= 8;
+      Series[centerIdx].Pointer.VertSize:= 8;
+      Series[centerIdx].Title:= 'centers';
+      MainForm.DataC.AddSeries(Series[centerIdx]);
+      for i:= 0 to numOfClusters-1 do
+      begin
+        if Length(KMeansClusterCenters[0]) > 0 then
+          Series[centerIdx].AddXY(
+            KMeansClusterCenters[i][0], KMeansClusterCenters[i][1] )
+        else
+          Series[centerIdx].AddXY(
+            KMeansClusterCenters[i][0], 0.0 )
+      end;
+    end;
   end
   else
   begin
     MainForm.DataC.AxisList[1].Title.Caption:= 'Dimension 1';
     MainForm.DataC.AxisList[0].Title.Caption:= 'Dimension 2';
   end;
+
 end;
 
 
