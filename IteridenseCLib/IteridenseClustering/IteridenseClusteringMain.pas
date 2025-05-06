@@ -1,4 +1,4 @@
-unit IteridenseTestMain;
+unit IteridenseClusteringMain;
 
 {$mode objfpc}{$H+}{$R+}{$Q+}
 

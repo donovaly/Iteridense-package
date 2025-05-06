@@ -5,7 +5,7 @@
 This repository provides two things:
 
 * a package for the programming Julia
-* a standalone, fully featured program *IteridenseTest* written in Lazarus
+* a standalone, fully featured program *IteridenseClustering* written in Lazarus
 
 Both allow you to cluster any data using the clustering algorithms *Iteridense*, *DBSCAN and *k-Means*.
 
@@ -35,17 +35,17 @@ For a brief description and discussion of the Iteridense clustering algorithm, s
 # How to do use the Julia reference implementation
 
 * Install the **[Lazarus IDE](https://en.wikipedia.org/wiki/Lazarus_(software))**
-* Open the file *IteridenseTest.lpi* in Lazarus.
+* Open the file *IteridenseClustering.lpi* in Lazarus.
 * Build the Lazarus project or run it.
 
 ## Structure of the repository
 
-The folder **[src](https://codeberg.org/donovaly/Iteridense-package/src/branch/main/src)** contains the Julia module.
+The folder **[src](https://github.com/donovaly/Iteridense-package/tree/main/src)** contains the Julia module *[Iteridense.jl](https://github.com/donovaly/Iteridense-package/blob/main/src/Iteridense.jl)*.
 
-The folder **[IteridenseCLib](https://codeberg.org/donovaly/Iteridense-package/src/branch/main/IteridenseCLib)** contains the Julia module in a version that can be compiled as a C-library. That library can be used e.g. as DLL for any program that can read C-compatible libraries.
+The folder **[IteridenseCLib](https://github.com/donovaly/Iteridense-package/tree/main/IteridenseCLib)** contains the Julia module in a version that can be compiled as a C-library. That library can be used e.g. as DLL for any program that can read C-compatible libraries.
 The release ZIP file contains a precompiled version as DLL for Windows (filename IteridenseCLib.dll). 
 
-The folder **[LazarusExample](https://codeberg.org/donovaly/Iteridense-package/src/branch/main/IteridenseCLib/LazarusExample)** contains the program *IteridenseTest*. This program uses the IteridenseCLib library. The release ZIP contains a compiled version for Windows as executable.
-I effect *IteridenseTest* is the Iteridense Julia package plus a graphical uiser interface (GUI).
+The folder **[IteridenseClustering](https://github.com/donovaly/Iteridense-package/tree/main/IteridenseCLib/IteridenseClustering)** contains the program *IteridenseClustering*. This program uses the IteridenseCLib library. The release ZIP contains a compiled version for Windows as executable.
+I effect *IteridenseClustering* is the Iteridense Julia package plus a graphical uiser interface (GUI).
 
-The folder **[examples](https://codeberg.org/donovaly/Iteridense-package/src/branch/main/examples)** contains the example Julia script *Iteridense-Clustering.jl* that uses the Iteridense Julia package. It also contains some datasets as CSV to test and play with the clustering.
+The folder **[examples](https://github.com/donovaly/Iteridense-package/tree/main/examples)** contains the example Julia script *[Iteridense-Clustering.jl](https://github.com/donovaly/Iteridense-package/blob/main/examples/Iteridense-Clustering.jl* that uses the Iteridense Julia package. It also contains some *[datasets](https://github.com/donovaly/Iteridense-package/tree/main/examples/datasets)* as CSV to test and play with the clustering.

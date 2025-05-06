@@ -9,7 +9,7 @@ uses
   Forms, Controls, Dialogs, ButtonPanel, ExtCtrls, Buttons, ComCtrls,
   TAGraph, TATextElements,
   ceTitleFootFrame,
-  IteridenseTestMain;
+  IteridenseClusteringMain;
 
 type
 

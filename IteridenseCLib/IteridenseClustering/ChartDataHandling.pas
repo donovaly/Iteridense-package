@@ -10,7 +10,7 @@ uses
   SpinEx, FileInfo, StrUtils, Streamex, Generics.Collections,
   TATools, TAGraph, TASeries, TAChartAxis, TALegend, TATextElements,
   TATypes, TAChartUtils, TADrawerSVG,
-  IteridenseTestMain;
+  IteridenseClusteringMain;
 
 type
   TChartData = class
@@ -50,9 +50,9 @@ type
 var
   ChartData : TChartData;
   // filename to store appearance
-  const AppearanceFile : string = 'Appearance-IteridenseTest.ini';
+  const AppearanceFile : string = 'Appearance-IteridenseClustering.ini';
   // filename with default appearance
-  const AppearanceDefault : string = 'Appearance-IteridenseTest.default';
+  const AppearanceDefault : string = 'Appearance-IteridenseClustering.default';
   // a palette with distinguishable colors
   colorPalette: array[0..14] of TColor = (
     $ED9464, // RGB(100, 149, 237)

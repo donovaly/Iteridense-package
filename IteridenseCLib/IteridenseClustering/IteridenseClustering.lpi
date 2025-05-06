@@ -5,7 +5,7 @@
     <PathDelim Value="\"/>
     <General>
       <SessionStorage Value="InProjectDir"/>
-      <Title Value="IteridenseTest"/>
+      <Title Value="IteridenseClustering"/>
       <Scaled Value="True"/>
       <ResourceType Value="res"/>
       <UseXPManifest Value="True"/>
@@ -17,8 +17,8 @@
     </General>
     <VersionInfo>
       <UseVersionInfo Value="True"/>
-      <MinorVersionNr Value="1"/>
-      <StringTable CompanyName="Soloof" FileDescription="Program to perform clustering on data" LegalCopyright="Soloof EOOD" ProductName="IteridenseTest" ProductVersion="0.1.0"/>
+      <MinorVersionNr Value="9"/>
+      <StringTable CompanyName="Soloof" FileDescription="Program to perform clustering on data" LegalCopyright="Soloof EOOD" ProductName="IteridenseClustering" ProductVersion="0.9"/>
     </VersionInfo>
     <BuildModes>
       <Item Name="Default" Default="True"/>
@@ -27,7 +27,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="..\CompilationResult\bin\IteridenseTest"/>
+            <Filename Value="..\CompilationResult\bin\IteridenseClustering"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
@@ -68,7 +68,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="..\CompilationResult\bin\IteridenseTest"/>
+            <Filename Value="..\CompilationResult\bin\IteridenseClustering"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
@@ -119,7 +119,7 @@
     </RequiredPackages>
     <Units>
       <Unit>
-        <Filename Value="IteridenseTest.lpr"/>
+        <Filename Value="IteridenseClustering.lpr"/>
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>
@@ -203,7 +203,7 @@
         <UnitName Value="ceAxisFrame"/>
       </Unit>
       <Unit>
-        <Filename Value="IteridenseTestMain.pas"/>
+        <Filename Value="IteridenseClusteringMain.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="MainForm"/>
         <HasResources Value="True"/>
@@ -222,7 +222,7 @@
     <Version Value="11"/>
     <PathDelim Value="\"/>
     <Target>
-      <Filename Value="..\CompilationResult\bin\IteridenseTest"/>
+      <Filename Value="..\CompilationResult\bin\IteridenseClustering"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>

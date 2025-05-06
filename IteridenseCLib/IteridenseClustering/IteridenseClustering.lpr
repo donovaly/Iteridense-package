@@ -1,4 +1,4 @@
-program IteridenseTest;
+program IteridenseClustering;
 
 {$mode objfpc}{$H+}{$R+}{$Q+}
 
@@ -7,7 +7,7 @@ uses
   cthreads,
   {$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, TAChartLazarusPkg, lazcontrols, IteridenseTestMain, ChartDataHandling,
+  Forms, TAChartLazarusPkg, lazcontrols, IteridenseClusteringMain, ChartDataHandling,
   ceAxisDlg, ceBrushFrame, ceFontFrame, ceLegendDlg, cePenFrame, cePointerFrame,
   ceSeriesDlg, ceShapeBrushPenMarginsFrame, ceTitleFootDlg, ceUtils, ceAxisFrame,
   AboutForm;

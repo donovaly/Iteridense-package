@@ -6,10 +6,10 @@
     <BuildModes Active="Release"/>
     <Units>
       <Unit>
-        <Filename Value="IteridenseTest.lpr"/>
+        <Filename Value="IteridenseClustering.lpr"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="3"/>
-        <CursorPos Y="24"/>
+        <CursorPos X="42" Y="10"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit>
@@ -17,8 +17,9 @@
         <Filename Value="ChartDataHandling.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="63"/>
+        <TopLine Value="72"/>
         <CursorPos X="75" Y="764"/>
+        <FoldState Value=" T3j00{(2 pjPnK0M1 pigjR]9]I7ja0d5]96kK0C3 plHlg0#K{"/>
         <UsageCount Value="160"/>
         <Loaded Value="True"/>
       </Unit>
@@ -125,8 +126,7 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="ceTitleFootDlg"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="60"/>
-        <CursorPos X="7" Y="74"/>
+        <CursorPos X="55" Y="12"/>
         <UsageCount Value="155"/>
       </Unit>
       <Unit>
@@ -147,20 +147,19 @@
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="ceAxisFrame"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="14"/>
-        <CursorPos X="40" Y="49"/>
+        <CursorPos X="27" Y="13"/>
         <UsageCount Value="154"/>
       </Unit>
       <Unit>
-        <Filename Value="IteridenseTestMain.pas"/>
+        <Filename Value="IteridenseClusteringMain.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="MainForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="103"/>
-        <CursorPos X="27" Y="111"/>
-        <FoldState Value=" TCKC44 PKXI TMrX03 T7jQE{d T3nE0{O9 pidm70F1 plcmG0&apos;8]IYl303213 PZi70#"/>
+        <TopLine Value="4"/>
+        <CursorPos X="30" Y="11"/>
+        <FoldState Value=" TCKC44 PKXI TMrX03 T7jQE{d T3nE0{O9 pidm70F1 plcmG0&apos;8]IYl3036 Pdi70e"/>
         <UsageCount Value="155"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -172,29 +171,29 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="19"/>
-        <CursorPos X="66" Y="25"/>
+        <TopLine Value="18"/>
+        <CursorPos X="104" Y="48"/>
         <UsageCount Value="98"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
       <Unit>
-        <Filename Value="IteridenseTestUnit.pas"/>
+        <Filename Value="IteridenseClusteringUnit.pas"/>
         <ComponentName Value="MainForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="IteridenseTestMain"/>
+        <UnitName Value="IteridenseClusteringMain"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="24"/>
         <FoldState Value=" T3me0D016 PjPiN0a"/>
         <UsageCount Value="40"/>
       </Unit>
       <Unit>
-        <Filename Value="IteridenseTest.pas"/>
+        <Filename Value="IteridenseClustering.pas"/>
         <ComponentName Value="MainF"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="IteridenseTestUnit"/>
+        <UnitName Value="IteridenseClusteringUnit"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="30"/>
         <UsageCount Value="39"/>
@@ -268,20 +267,20 @@
       </Unit>
       <Unit>
         <Filename Value="ClusterTestChartHandling.pas"/>
-        <UnitName Value="IteridenseTestChartHandling"/>
+        <UnitName Value="IteridenseClusteringChartHandling"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="54"/>
         <CursorPos X="21" Y="308"/>
         <UsageCount Value="7"/>
       </Unit>
       <Unit>
-        <Filename Value="IteridenseTest-ChartHandling.pas"/>
+        <Filename Value="IteridenseClustering-ChartHandling.pas"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="33"/>
         <UsageCount Value="6"/>
       </Unit>
       <Unit>
-        <Filename Value="IteridenseTestChartHandling.pas"/>
+        <Filename Value="IteridenseClusteringChartHandling.pas"/>
         <UnitName Value="ChartDataHandling"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="23"/>
@@ -401,102 +400,106 @@
     <Debugger>
       <Backend Value="{0599E7CA-746F-4D8B-BD06-CEE8C2E1AC4F}"/>
     </Debugger>
-    <JumpHistory HistoryIndex="23">
+    <JumpHistory HistoryIndex="24">
       <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
+        <Filename Value="IteridenseClusteringMain.pas"/>
         <Caret Line="451" Column="14" TopLine="380"/>
       </Position>
       <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
+        <Filename Value="IteridenseClusteringMain.pas"/>
         <Caret Line="457" Column="14" TopLine="409"/>
       </Position>
       <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
+        <Filename Value="IteridenseClusteringMain.pas"/>
         <Caret Line="800" Column="12" TopLine="772"/>
       </Position>
       <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
+        <Filename Value="IteridenseClusteringMain.pas"/>
         <Caret Line="844" Column="14" TopLine="790"/>
       </Position>
       <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
+        <Filename Value="IteridenseClusteringMain.pas"/>
         <Caret Line="847" Column="30" TopLine="793"/>
       </Position>
       <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
+        <Filename Value="IteridenseClusteringMain.pas"/>
         <Caret Line="850" Column="100" TopLine="820"/>
       </Position>
       <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
+        <Filename Value="IteridenseClusteringMain.pas"/>
         <Caret Line="844" TopLine="820"/>
       </Position>
       <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
+        <Filename Value="IteridenseClusteringMain.pas"/>
         <Caret Line="846" TopLine="820"/>
       </Position>
       <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
+        <Filename Value="IteridenseClusteringMain.pas"/>
         <Caret Line="847" TopLine="820"/>
       </Position>
       <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
+        <Filename Value="IteridenseClusteringMain.pas"/>
         <Caret Line="843" Column="11" TopLine="820"/>
       </Position>
       <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
+        <Filename Value="IteridenseClusteringMain.pas"/>
         <Caret Line="846" TopLine="820"/>
       </Position>
       <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
+        <Filename Value="IteridenseClusteringMain.pas"/>
         <Caret Line="856" TopLine="820"/>
       </Position>
       <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
+        <Filename Value="IteridenseClusteringMain.pas"/>
         <Caret Line="861" TopLine="820"/>
       </Position>
       <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
+        <Filename Value="IteridenseClusteringMain.pas"/>
         <Caret Line="863" TopLine="820"/>
       </Position>
       <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
+        <Filename Value="IteridenseClusteringMain.pas"/>
         <Caret Line="864" TopLine="820"/>
       </Position>
       <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
+        <Filename Value="IteridenseClusteringMain.pas"/>
         <Caret Line="866" TopLine="843"/>
       </Position>
       <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
+        <Filename Value="IteridenseClusteringMain.pas"/>
         <Caret Line="842" Column="94" TopLine="821"/>
       </Position>
       <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
+        <Filename Value="IteridenseClusteringMain.pas"/>
         <Caret Line="841" TopLine="810"/>
       </Position>
       <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
+        <Filename Value="IteridenseClusteringMain.pas"/>
         <Caret Line="881" Column="38" TopLine="846"/>
       </Position>
       <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
+        <Filename Value="IteridenseClusteringMain.pas"/>
         <Caret Line="870" TopLine="727"/>
       </Position>
       <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
+        <Filename Value="IteridenseClusteringMain.pas"/>
         <Caret Line="881" Column="19" TopLine="850"/>
       </Position>
       <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
+        <Filename Value="IteridenseClusteringMain.pas"/>
         <Caret Line="891" Column="46" TopLine="870"/>
       </Position>
       <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
+        <Filename Value="IteridenseClusteringMain.pas"/>
         <Caret Line="931" Column="98" TopLine="870"/>
       </Position>
       <Position>
-        <Filename Value="IteridenseTestMain.pas"/>
+        <Filename Value="IteridenseClusteringMain.pas"/>
         <Caret Line="871" TopLine="817"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseClusteringMain.pas"/>
+        <Caret Line="4" Column="37"/>
       </Position>
     </JumpHistory>
     <RunParams>
@@ -510,7 +513,7 @@
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
-        <Source Value="IteridenseTestUnit.pas"/>
+        <Source Value="IteridenseClusteringUnit.pas"/>
         <Line Value="336"/>
       </Item>
     </BreakPoints>

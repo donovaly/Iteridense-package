@@ -10,7 +10,7 @@ uses
   Controls, ExtCtrls, ComCtrls, StdCtrls, Dialogs, Spin,
   TATextElements, TAChartAxis, TAGraph, TASeries,
   ceFontFrame, cePenFrame, ceShapeBrushPenMarginsFrame,
-  IteridenseTestMain;
+  IteridenseClusteringMain;
 
 type
   TChartAxisEditorPage = (aepTitle, aepLabels, aepGrid, aepLine);

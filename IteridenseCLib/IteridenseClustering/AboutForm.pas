@@ -45,7 +45,7 @@ end;
 
 procedure TAboutFormF.GitHubLinkLClick(Sender: TObject);
 begin
-  OpenURL('https://codeberg.org/donovaly/Iteridense-package/src/branch/main/IteridenseCLib/LazarusExample');
+  OpenURL('https://github.com/donovaly/Iteridense-package/tree/main/IteridenseCLib/IteridenseClustering');
 end;
 
 
