@@ -244,10 +244,9 @@ of 4\,\texttimes \,4~cells. In our example the data range of dimension~1
 is 6\,--\,93\,\%. This range defines the space of the dataset.
 4\,\texttimes \,4~cells is defined as a resolution of 4. 5\,\texttimes \,5~cells
 would be a resolution of 5 and so on.
-\item \label{enu:AlgoStep2}The number of data points in the cell spaces
-({[}4\,--\,89/4\,°C, 6\,--\,93/4\,\%{]}, {[}89/4\,--\,2·89/4\,°C;
-6\,--\,2·93/4\,\%{]}, $\ldots$) are counted. The result is a
-count map as shown in \ref{fig:Clustering-process}\,(a).
+\item The number of data points in the cell spaces ({[}4\,--\,89/4\,°C,
+6\,--\,93/4\,\%{]}, {[}89/4\,--\,2·89/4\,°C; 6\,--\,2·93/4\,\%{]},
+$\ldots$) are counted. The result is a count map as shown in \ref{fig:Clustering-process}\,(a).
 \item \label{enu:AlgoStep3}Now the actual clustering is performed. The
 processing scheme ist depicted in \ref{fig:Clustering-process}\,(b).
 Every cell is processed one after another first in x- then in y-direction.
@@ -268,7 +267,7 @@ as the number of points in the cluster divided by the number of cells
 in the cluster. To normalize the density, the result is divided by
 the density of the whole dataset:
 \begin{equation}
-\rho_{\mathrm{cluster}}=\cfrac{\text{num points in cluster}}{\text{num cells in cluster}}\cdot\cfrac{\text{total num of cells}}{\text{total num of points}}\label{eq:DensityDefinition}
+\rho_{\mathrm{cluster}}=\cfrac{\text{num points in cluster}}{\text{num cells in cluster}}\cdot\cfrac{\text{total num of cells}}{\text{total num of points}}
 \end{equation}
 
 So the whole dataset has the density 1.0. As exception, if the clustering
@@ -313,7 +312,7 @@ final resolution is 13, there is one cluster with $\rho_{\mathrm{cluster}}=4.32$
 }\hfill{}
 \par\end{centering}
 \caption{\label{fig:Result-Iteridense}Result of \noun{Iteridense} for the
-dataset in \ref{fig:Data-the-2dimensions} for $\rho=3.0$.}
+data shown in \ref{fig:Clustering-process}\,(a) for $\rho=3.0$.}
 \end{figure}
 
 
@@ -340,9 +339,6 @@ will be erased. The minimum and default is 1.0.
 the loop step~\ref{enu:AlgoStep1}\,--\,\ref{enu:AlgoStep5} is
 stopped\\
  (\textbf{StopResolution}).
-\item \label{enu:OptionFixedResolution}Instead of a the loop step~\ref{enu:AlgoStep1}\,--\,\ref{enu:AlgoStep5},
-run the steps once with a fixed resolution\linebreak{}
- (\textbf{FixedResolution}).
 \end{enumerate}
 Option~\ref{enu:Specification-of-the} can speed up the computation
 significantly.
@@ -363,9 +359,6 @@ sensible for the use case.
 Option~\ref{enu:Specification-of-a} prevents undesired many loops.
 For example if $\rho$ was set to a high value and no cluster will
 be found.
-
-Option~\ref{enu:OptionFixedResolution} is only useful for academic
-purpose. However, it is internally used for step~\ref{enu:AlgoStep8}.
 
 A reference implementation of \noun{Iteridense} is online available~\cite{Iteridense}.
 Its outputs are besides the assignments of the points to clusters

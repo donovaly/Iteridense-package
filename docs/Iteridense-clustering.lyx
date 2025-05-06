@@ -1028,12 +1028,6 @@ cells would be a resolution of 5 and so on.
 \end_layout
 
 \begin_layout Enumerate
-\begin_inset CommandInset label
-LatexCommand label
-name "enu:AlgoStep2"
-
-\end_inset
-
 The number of data points in the cell spaces ([4
 \begin_inset space \thinspace{}
 \end_inset
@@ -1182,7 +1176,7 @@ The density of every cluster
  the result is divided by the density of the whole dataset:
 \begin_inset Formula 
 \begin{equation}
-\rho_{\mathrm{cluster}}=\cfrac{\text{num points in cluster}}{\text{num cells in cluster}}\cdot\cfrac{\text{total num of cells}}{\text{total num of points}}\label{eq:DensityDefinition}
+\rho_{\mathrm{cluster}}=\cfrac{\text{num points in cluster}}{\text{num cells in cluster}}\cdot\cfrac{\text{total num of cells}}{\text{total num of points}}
 \end{equation}
 
 \end_inset
@@ -1502,14 +1496,18 @@ Result of
 \noun on
 Iteridense
 \noun default
- for the dataset in 
+ for the data shown in 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "fig:Data-the-2dimensions"
+reference "fig:Clustering-process"
 
 \end_inset
 
- for 
+
+\begin_inset space \thinspace{}
+\end_inset
+
+(a) for 
 \begin_inset Formula $\rho=3.0$
 \end_inset
 
@@ -1688,51 +1686,6 @@ StopResolution
 ).
 \end_layout
 
-\begin_layout Enumerate
-\begin_inset CommandInset label
-LatexCommand label
-name "enu:OptionFixedResolution"
-
-\end_inset
-
-Instead of a the loop step
-\begin_inset space ~
-\end_inset
-
-
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "enu:AlgoStep1"
-
-\end_inset
-
-
-\begin_inset space \thinspace{}
-\end_inset
-
-–
-\begin_inset space \thinspace{}
-\end_inset
-
-
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "enu:AlgoStep5"
-
-\end_inset
-
-,
- run the steps once with a fixed resolution
-\begin_inset Newline linebreak
-\end_inset
-
- (
-\series bold
-FixedResolution
-\series default
-).
-\end_layout
-
 \begin_layout Standard
 Option
 \begin_inset space ~
@@ -1859,34 +1812,6 @@ reference "enu:Specification-of-a"
 \end_inset
 
  was set to a high value and no cluster will be found.
-\end_layout
-
-\begin_layout Standard
-Option
-\begin_inset space ~
-\end_inset
-
-
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "enu:OptionFixedResolution"
-
-\end_inset
-
- is only useful for academic purpose.
- However,
- it is internally used for step
-\begin_inset space ~
-\end_inset
-
-
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "enu:AlgoStep8"
-
-\end_inset
-
-.
 \end_layout
 
 \begin_layout Standard
