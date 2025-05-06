@@ -1,10 +1,10 @@
 object AboutFormF: TAboutFormF
   Left = 763
-  Height = 226
+  Height = 233
   Top = 398
   Width = 344
-  Caption = 'About JT Driver Sensing'
-  ClientHeight = 226
+  Caption = 'About IteridenseClustering'
+  ClientHeight = 233
   ClientWidth = 344
   DesignTimePPI = 110
   Position = poMainFormCenter
@@ -15,21 +15,23 @@ object AboutFormF: TAboutFormF
     AnchorSideTop.Side = asrBottom
     Left = 18
     Height = 19
-    Top = 133
-    Width = 162
+    Top = 166
+    Width = 143
     BorderSpacing.Top = 8
-    Caption = 'Source code is available at:'
+    Caption = 'Source code is available'
   end
   object GitHubLinkL: TLabel
-    AnchorSideLeft.Control = NameL
+    AnchorSideLeft.Control = SourceCodeTextL
+    AnchorSideLeft.Side = asrBottom
     AnchorSideTop.Control = SourceCodeTextL
-    AnchorSideTop.Side = asrBottom
+    AnchorSideTop.Side = asrCenter
     Cursor = crHandPoint
-    Left = 18
+    Left = 165
     Height = 19
-    Top = 152
-    Width = 308
-    Caption = 'https://codeberg.org/donovaly/Iteridense-package'
+    Top = 166
+    Width = 58
+    BorderSpacing.Left = 4
+    Caption = 'at Github'
     Font.Color = clHighlight
     Font.Style = [fsUnderline]
     ParentFont = False
@@ -42,7 +44,7 @@ object AboutFormF: TAboutFormF
     AnchorSideTop.Side = asrBottom
     Left = 135
     Height = 28
-    Top = 183
+    Top = 197
     Width = 74
     BorderSpacing.Top = 12
     Default = True
@@ -57,7 +59,7 @@ object AboutFormF: TAboutFormF
     AnchorSideTop.Side = asrBottom
     Left = 18
     Height = 38
-    Top = 87
+    Top = 120
     Width = 142
     BorderSpacing.Top = 8
     Caption = 'For a description of Iteridense see the file:'
@@ -67,15 +69,15 @@ object AboutFormF: TAboutFormF
     Left = 18
     Height = 19
     Top = 15
-    Width = 132
-    Caption = 'IteridenseTest version'
+    Width = 170
+    Caption = 'IteridenseClustering version'
   end
   object VersionNumberL: TLabel
     AnchorSideLeft.Control = NameL
     AnchorSideLeft.Side = asrBottom
     AnchorSideTop.Control = NameL
     AnchorSideTop.Side = asrCenter
-    Left = 154
+    Left = 192
     Height = 19
     Top = 15
     Width = 102
@@ -87,11 +89,11 @@ object AboutFormF: TAboutFormF
     AnchorSideTop.Control = NameL
     AnchorSideTop.Side = asrBottom
     Left = 18
-    Height = 41
+    Height = 74
     Top = 38
     Width = 308
     BorderSpacing.Top = 4
-    Caption = 'Program to cluster data using the Iteridense algorithm'
+    Caption = 'Program to cluster data using the algorithms'#13#10'Iteridense'#13#10'DBSCAN'#13#10'k-Means'
     TabOrder = 2
   end
   object ReadmeLinkL: TLabel
@@ -103,7 +105,7 @@ object AboutFormF: TAboutFormF
     Cursor = crHandPoint
     Left = 164
     Height = 19
-    Top = 106
+    Top = 139
     Width = 148
     Anchors = [akLeft, akBottom]
     BorderSpacing.Left = 4
