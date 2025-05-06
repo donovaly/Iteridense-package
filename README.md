@@ -34,7 +34,7 @@ For a brief description and discussion of the Iteridense clustering algorithm, s
 
 # How to do use the Julia reference implementation
 
-* Install the [**Lazarus** IDE](https://www.lazarus-ide.org/)
+* Install the **[Lazarus IDE](https://en.wikipedia.org/wiki/Lazarus_(software))**
 * Open the file *IteridenseTest.lpi* in Lazarus.
 * Build the Lazarus project or run it.
 
@@ -48,4 +48,4 @@ The release ZIP file contains a precompiled version as DLL for Windows (filename
 The folder **[LazarusExample](https://codeberg.org/donovaly/Iteridense-package/src/branch/main/IteridenseCLib/LazarusExample)** contains the program *IteridenseTest*. This program uses the IteridenseCLib library. The release ZIP contains a compiled version for Windows as executable.
 I effect *IteridenseTest* is the Iteridense Julia package plus a graphical uiser interface (GUI).
 
-The folder **[examples](https://codeberg.org/donovaly/Iteridense-package/src/branch/main/examples)** contains the example Julia script *Iteridense-Clustering.jl* that uses the Iteridense Julia package. It also contaoins some datasets as CSV to test and play with the clustering.
+The folder **[examples](https://codeberg.org/donovaly/Iteridense-package/src/branch/main/examples)** contains the example Julia script *Iteridense-Clustering.jl* that uses the Iteridense Julia package. It also contains some datasets as CSV to test and play with the clustering.
