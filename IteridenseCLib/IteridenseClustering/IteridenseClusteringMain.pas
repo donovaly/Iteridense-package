@@ -628,7 +628,7 @@ begin
     begin
       ClusterResultSG.Cells[0, i+1]:= IntToStr(i+1);
       ClusterResultSG.Cells[1, i+1]:= IntToStr(clusterSizesArray[i]);
-      ClusterResultSG.Cells[2, i+1]:= Format('%.2f', [clusterDensitiesArray[i]]);
+      ClusterResultSG.Cells[2, i+1]:= Format('%.3g', [clusterDensitiesArray[i]]);
     end;
     // free the allocated struct
     if IteridenseFree(iteridenseResult) <> 0 then

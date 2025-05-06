@@ -145,6 +145,7 @@ begin
   if firstLine.CountChar(DataColumnSeparator) <> secondLine.CountChar(DataColumnSeparator) then
   begin
     MessageDlg('The column separator of the data file could not be determined', mtError, [mbOK], 0);
+    result:= 2; // means error, but known error
     exit;
   end;
 
@@ -501,6 +502,8 @@ end;
 
 
 // event functions -------------------------------------------------------
+
+// CDPlotSelectionCCBItemChange is the central procedure that plots the data
 procedure TChartData.CDPlotSelectionCCBItemChange(Sender: TObject);
 var
   i, count, dim1, dim2, numOfClusters, assignmentColumn, clusterNumber : Int64;
@@ -580,11 +583,9 @@ begin
       for i:= 0 to numOfClusters-1 do
       begin
         if Length(KMeansClusterCenters[0]) > 0 then
-          Series[0].AddXY(
-            KMeansClusterCenters[i][0], KMeansClusterCenters[i][1] )
+          Series[0].AddXY(KMeansClusterCenters[i][0], KMeansClusterCenters[i][1])
         else
-          Series[0].AddXY(
-            KMeansClusterCenters[i][0], 0.0 );
+          Series[0].AddXY(KMeansClusterCenters[i][0], 0.0);
       end;
     end;
   end
@@ -600,42 +601,29 @@ end;
 procedure TChartData.CDDataPointHintToolHint(
   ATool: TDataPointHintTool; const APoint: TPoint; var AHint: String);
 var
- SeriesName : string;
- dim1, dim2 : double;
- currentSeries, otherSeries : TBasicChartSeries;
- i : integer;
+  SeriesName : string;
+  dim1, dim2 : double;
+  currentSeries, otherSeries : TBasicChartSeries;
+  i : integer;
 begin
- otherSeries:= nil;
- currentSeries:= ATool.Series;
+  otherSeries:= nil;
+  currentSeries:= ATool.Series;
 
- // set all series back in z, except of the current series
- for i:= 0 to MainForm.DataC.SeriesCount - 1 do
- begin
-  if (MainForm.DataC.Series[i] is TLineSeries)
-   and (MainForm.DataC.Series[i].Active)
-   then
-  begin
-   otherSeries:= MainForm.DataC.Series[i];
-   if currentSeries <> otherSeries then
-    otherSeries.ZPosition:= 0;
-  end;
- end;
- // repaint chart if necessary
- if currentSeries.ZPosition < 1 then
- begin
-  currentSeries.ZPosition:= 1;
-  MainForm.DataC.Invalidate;
- end;
+  SeriesName:= ATool.Series.Name;
+  dim1:= MainForm.DataC.AxisList[1].GetTransform.GraphToAxis(
+          ATool.NearestGraphPoint.X);
+  dim2:= MainForm.DataC.AxisList[0].GetTransform.GraphToAxis(
+         ATool.NearestGraphPoint.Y);
 
- SeriesName:= ATool.Series.Name;
- dim1:= MainForm.DataC.AxisList[1].GetTransform.GraphToAxis(
-      ATool.NearestGraphPoint.X);
- dim2:= MainForm.DataC.AxisList[0].GetTransform.GraphToAxis(
-      ATool.NearestGraphPoint.Y);
-
- // all series except of SIXTempValues are connected to the left axis
- if SeriesName <> 'SIXTempValues' then
-  AHint:= Format('%.4g', [dim1]) + ', ' + Format('%.4g', [dim2]);
+  // set the hint text to the cluster number and the coordinates
+  // In ClusterResultSG we stored the coordinated a %.2f since the space there is
+  // limited. Therefore we must read out that values also as %.2f to avoid rounding errors.
+  if (currentSeries as TLineSeries).Title = 'centers' then
+    AHint:= (currentSeries as TLineSeries).Title + '; '
+            + Format('%.2f', [dim1]) + ', ' + Format('%.2f', [dim2])
+  else
+    AHint:= (currentSeries as TLineSeries).Title + '; '
+            + Format('%.3g', [dim1]) + ', ' + Format('%.3g', [dim2]);
 end;
 
 
@@ -654,7 +642,7 @@ begin
   SeriesName:= ATool.Series.Name;
   // get image coordinates of the point
   x:= MainForm{%H-}.DataC.XGraphToImage(series.ListSource[ATool.PointIndex]^.X);
-  // all series except of SIXTempValues are connected to the left axis
+  // all series are connected to the left axis
   y:= MainForm{%H-}.DataC.YGraphToImage(
        MainForm.DataC.AxisList[0].GetTransform.AxisToGraph(
         series.ListSource[ATool.PointIndex]^.Y));
