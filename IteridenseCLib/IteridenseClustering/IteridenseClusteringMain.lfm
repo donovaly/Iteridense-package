@@ -1114,17 +1114,6 @@ object MainForm: TMainForm
       Shift = [ssLeft, ssDouble]
       OnClick = AxisClickToolClick
     end
-    object LineDragTool: TDataPointDragTool
-    end
-    object RectangleSelectionTool: TUserDefinedTool
-      Enabled = False
-    end
-    object DataPointClickTool: TDataPointClickTool
-      Shift = [ssCtrl, ssLeft]
-    end
-    object DataPointMarksClickTool: TDataPointMarksClickTool
-      Shift = [ssCtrl, ssLeft]
-    end
   end
   object ColorDialog: TColorDialog
     Title = 'Select Chart Background Color'

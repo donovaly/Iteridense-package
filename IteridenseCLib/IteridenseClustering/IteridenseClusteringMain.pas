@@ -168,10 +168,8 @@ type
     ChartAxisTransformValues: TChartAxisTransformations;
     ChartToolset: TChartToolset;
     ColorDialog: TColorDialog;
-    DataPointClickTool: TDataPointClickTool;
     DataPointCrosshairTool: TDataPointCrosshairTool;
     DataPointHintTool: TDataPointHintTool;
-    DataPointMarksClickTool: TDataPointMarksClickTool;
     DensityFSE: TFloatSpinEdit;
     MinClusterDensityFSE: TFloatSpinEdit;
     RadiusFSE: TFloatSpinEdit;
@@ -180,13 +178,11 @@ type
     LoadedDataFileM: TMemo;
     OpenCsvBB: TBitBtn;
     LegendClickTool: TLegendClickTool;
-    LineDragTool: TDataPointDragTool;
     MethodsPC: TPageControl;
     SavePlotBB: TBitBtn;
     OpenDialog: TOpenDialog;
     PanDragTool: TPanDragTool;
     PanMouseWheelTool: TPanMouseWheelTool;
-    RectangleSelectionTool: TUserDefinedTool;
     SaveDialog: TSaveDialog;
     DataC: TChart;
     IteridenseTS: TTabSheet;
