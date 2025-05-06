@@ -154,7 +154,8 @@ begin
     exit;
   end;
 
-  // the file opening succeeded and we can delete the existing plot
+  // the file opening succeeded and we can delete the existing plot and results
+  MainForm.ClusterResultSG.RowCount:= 1; // deletes the results table but not the header
   for i:= MainForm.DataC.SeriesCount - 1 downto 0 do
       MainForm.DataC.Series[i].Free;
   // set the chart axis titles according to the header
@@ -165,6 +166,9 @@ begin
   // fill the CheckComboBoxes
   for i:= 0 to High(StringArray) do
   begin
+    // in case there is a leading space, remove it
+    if StringArray[i][1] = ' ' then
+      StringArray[i]:= Trim(StringArray[i]);
     MainForm.DataSelectionCCB.AddItem(StringArray[i], cbChecked);
     MainForm.PlotSelectionCCB.AddItem(StringArray[i], cbChecked);
   end;
@@ -554,7 +558,6 @@ begin
     // set the chart axis titles according to the header
     StringArray:= DataHeader.Split(DataColumnSeparator);
     MainForm.DataC.AxisList[1].Title.Caption:= StringArray[dim1];
-    MainForm.FlipB.Enabled:= false;
 
     // create a plot series
     numOfClusters:= MainForm.ClusterResultSG.RowCount-1;
@@ -577,22 +580,28 @@ begin
     begin
       clusterNumber:= round(DataArray[i, assignmentColumn]);
       if dim2 > -1 then
-      begin
-        Series[clusterNumber].AddXY(DataArray[i, dim1], DataArray[i, dim2]);
-        MainForm.DataC.AxisList[0].Title.Caption:= StringArray[dim2];
-      end
+        Series[clusterNumber].AddXY(DataArray[i, dim1], DataArray[i, dim2])
       else
-      begin
         Series[clusterNumber].AddXY(DataArray[i, dim1], 0.0);
-        MainForm.DataC.AxisList[0].Title.Caption:= '';
-      end;
+    end;
+    // set axis title and enable Flip button
+    if dim2 > -1 then
+    begin
+      MainForm.DataC.AxisList[0].Title.Caption:= StringArray[dim2];
+      MainForm.FlipB.Enabled:= true;
+    end
+    else
+    begin
+      MainForm.DataC.AxisList[0].Title.Caption:= '';
+      MainForm.FlipB.Enabled:= false;
     end;
 
     // If there are center points available in ClusterResultSG (not only if
     // in KMeansClusterCenters) we have k-Means results.
     // k-Means does not have a '0' cluster as all points are always in a cluster,
     // thus we can draw into that series.
-    if MainForm.ClusterResultSG.Columns.Items[2].Title.Caption = 'Center at' then
+    if (MainForm.ClusterResultSG.Columns.Items[2].Title.Caption = 'Center at')
+     and (MainForm.ClusterResultSG.RowCount > 1) then // more than the header line
     begin
       Series[0].Pointer.Brush.Color:= clGray;
       Series[0].Pointer.Style:= psFullStar; // stars for the points
