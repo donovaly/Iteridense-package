@@ -11,7 +11,7 @@ Both allow you to cluster any data using the clustering algorithms *Iteridense*,
 
 For a brief description and discussion of the Iteridense clustering algorithm, see [this PDF](https://codeberg.org/Soloof/Iteridense/raw/branch/main/Paper/Iteridense-clustering.pdf).
 
-# How to do use the Julia reference implementation
+# Usage of the Julia module
 
 1. Install the scientific programming language [Julia](https://en.wikipedia.org/wiki/Julia_(programming_language))
 2. Install the program [VS Code](https://en.wikipedia.org/wiki/Visual_Studio_Code) (under Linux's AUR it is called *Code - OSS*)
@@ -30,13 +30,11 @@ For a brief description and discussion of the Iteridense clustering algorithm, s
    Then step through the file by executing the difference code pieces by setting the cursor into the code and pressing *Ctrl+Return*.
    Note that you must execute all commands from top to bottom of the script as every command depends on the ones above. On the first
    execution of the script you must uncomment 1 line at the top of the script to install packages to Julia.
-6. As described in *Iteridense-Clustering.jl* you can easily cluster any data. It only has to be available as a CSV file.
+6. As described in *Iteridense-Clustering.jl* you can easily cluster any data. It only has to be available as a CSV file in [this format](#Requirements-for-CSV-data-format).
 
 # The IteridenseClustering standalone program
 
 ## Usage
-
-To use the program under Windows:
 
 1. Download the latest release
 2. Extract the ZIP and there in the folder *bin* start the *IteridenseClustering.exe* (no installation or admin permissions are required)
@@ -44,15 +42,13 @@ To use the program under Windows:
 4. Perform the clustering as you wish
 5. Save the result either the plot or as CSV. The CSV is hereby the input file plus an additional colum with the assignments to the clusters.
 
-### Requirements for CSV data format 
+### Requirements for CSV data format
 
 * The CSV data file must have exactly one header line
 * Every column represents a data dimension
 * The CSV can have any column delimiter character (IteridenseClustering detects it automatically) 
 
 ## Compilation
-
-If you want to compile the program:
 
 1. Install the **[Lazarus IDE](https://en.wikipedia.org/wiki/Lazarus_(software))**
 2. Open the file *IteridenseClustering.lpi* in Lazarus.
