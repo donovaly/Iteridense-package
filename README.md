@@ -26,17 +26,37 @@ For a brief description and discussion of the Iteridense clustering algorithm, s
     "julia.NumThreads": "auto",
 
    and press *Ctrl+S* to save the change. Eventually restart VS Code.
-5. Open the script file ***Iteridense-Clustering.jl*** with VS Code and there trust the source when you are asked for this.
+5. Open the script file *[Iteridense-Clustering.jl](https://github.com/donovaly/Iteridense-package/blob/main/examples/Iteridense-Clustering.jl)* with VS Code and there trust the source when you are asked for this.
    Then step through the file by executing the difference code pieces by setting the cursor into the code and pressing *Ctrl+Return*.
    Note that you must execute all commands from top to bottom of the script as every command depends on the ones above. On the first
    execution of the script you must uncomment 1 line at the top of the script to install packages to Julia.
 6. As described in *Iteridense-Clustering.jl* you can easily cluster any data. It only has to be available as a CSV file.
 
-# How to do use the Julia reference implementation
+# The IteridenseClustering standalone program
 
-* Install the **[Lazarus IDE](https://en.wikipedia.org/wiki/Lazarus_(software))**
-* Open the file *IteridenseClustering.lpi* in Lazarus.
-* Build the Lazarus project or run it.
+## Usage
+
+To use the program under Windows:
+
+1. Download the latest release
+2. Extract the ZIP and there in the folder *bin* start the *IteridenseClustering.exe* (no installation or admin permissions are required)
+3. In the program click the button to open a CSV data file
+4. Perform the clustering as you wish
+5. Save the result either the plot or as CSV. The CSV is hereby the input file plus an additional colum with the assignments to the clusters.
+
+### Requirements for CSV data format 
+
+* The CSV data file must have exactly one header line
+* Every column represents a data dimension
+* The CSV can have any column delimiter character (IteridenseClustering detects it automatically) 
+
+## Compilation
+
+If you want to compile the program:
+
+1. Install the **[Lazarus IDE](https://en.wikipedia.org/wiki/Lazarus_(software))**
+2. Open the file *IteridenseClustering.lpi* in Lazarus.
+3. Build the Lazarus project or run it.
 
 ## Structure of the repository
 
@@ -48,4 +68,4 @@ The release ZIP file contains a precompiled version as DLL for Windows (filename
 The folder **[IteridenseClustering](https://github.com/donovaly/Iteridense-package/tree/main/IteridenseCLib/IteridenseClustering)** contains the program *IteridenseClustering*. This program uses the IteridenseCLib library. The release ZIP contains a compiled version for Windows as executable.
 I effect *IteridenseClustering* is the Iteridense Julia package plus a graphical uiser interface (GUI).
 
-The folder **[examples](https://github.com/donovaly/Iteridense-package/tree/main/examples)** contains the example Julia script *[Iteridense-Clustering.jl](https://github.com/donovaly/Iteridense-package/blob/main/examples/Iteridense-Clustering.jl* that uses the Iteridense Julia package. It also contains some *[datasets](https://github.com/donovaly/Iteridense-package/tree/main/examples/datasets)* as CSV to test and play with the clustering.
+The folder **[examples](https://github.com/donovaly/Iteridense-package/tree/main/examples)** contains the example Julia script *[Iteridense-Clustering.jl](https://github.com/donovaly/Iteridense-package/blob/main/examples/Iteridense-Clustering.jl)* that uses the Iteridense Julia package. It also contains some *[datasets](https://github.com/donovaly/Iteridense-package/tree/main/examples/datasets)* as CSV to test and play with the clustering.
