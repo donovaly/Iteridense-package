@@ -879,7 +879,8 @@ begin
   begin
     if (DataSelectionCCB.Checked[i]) then
     begin
-      ClusteringBB.Enabled:= true;
+      // enable ClusteringBB according to the MethodsPC state
+      MethodsPCChange(Sender);
       ClusteringBB.Hint:= 'click to start the Iteridense clustering';
       exit;
     end;

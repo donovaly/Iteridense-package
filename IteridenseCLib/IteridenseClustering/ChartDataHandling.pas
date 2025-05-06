@@ -610,7 +610,7 @@ begin
       Series[0].Title:= 'centers';
       for i:= 0 to numOfClusters-1 do
       begin
-        if Length(KMeansClusterCenters[0]) > 0 then
+        if Length(KMeansClusterCenters[0]) > 1 then
           Series[0].AddXY(KMeansClusterCenters[i][0], KMeansClusterCenters[i][1])
         else
           Series[0].AddXY(KMeansClusterCenters[i][0], 0.0);
