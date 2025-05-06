@@ -221,7 +221,7 @@ function InternalClustering(countTensor, resolution::Int, noDiagonals,
     # to later check neighbors dimension by dimension in reverse order
     dimOrder = reverse(1:dimensions)
     # check neighbors for all cells of the countTensor
-    iterRange = Iterators.product(ntuple(_ -> 1:resolution,  Val(dimensions))...)
+    iterRange = Iterators.product(ntuple(_ -> 1:resolution, Val(dimensions))...)
     for indices in iterRange
         if countTensor[indices...] > 1
             numClusters, clusterTensor = checkNeighbors(clusterTensor, indices, numClusters,
@@ -285,11 +285,21 @@ end
 
 #-------------------------------------------------------------------------------------------------
 # function to perform the Iteridense algorithm loop
-function IteridenseLoop(dataMatrix, minClusterSize::Int, density, stopResolution::Int,
-                        minClusters::Int, minClusterDensity, noDiagonals,
-                        useDensity, useClusters, useFixedResolution,
-                        resolution::Int, maxResolution::Int, minMatrix, maxMatrix,
-                        totalCounts::Int, ::Val{dimensions}) where dimensions
+function IteridenseLoop(dataMatrix,
+                        density,
+                        minClusters::Int,
+                        minClusterSize::Int,
+                        resolution::Int,
+                        maxResolution::Int,
+                        stopResolution::Int,
+                        minClusterDensity,
+                        useDensity,
+                        useClusters,
+                        noDiagonals,
+                        useFixedResolution,
+                        minMatrix, maxMatrix,
+                        totalCounts::Int,
+                        ::Val{dimensions}) where dimensions
     # initializations
     countTensor = Array{Any}(undef)
     clusterTensor = Array{Any}(undef)
@@ -383,9 +393,16 @@ end
 
 #-------------------------------------------------------------------------------------------------
 # main function
-function Clustering(dataMatrix; minClusterSize::Int= 3, startResolution::Int= 2,
-                    density= 1.1, stopResolution::Int= -1, minClusters::Int= 1, useDensity= true,
-                    minClusterDensity= 1.0, noDiagonals= false, useClusters= false)
+function Clustering(dataMatrix;
+                    density= 1.1,
+                    minClusters::Int= 1,
+                    minClusterSize::Int= 3,
+                    startResolution::Int= 2,
+                    stopResolution::Int= -1, 
+                    minClusterDensity= 1.0,
+                    useDensity= true,
+                    useClusters= false,
+                    noDiagonals= false )
 
     if startResolution == stopResolution
         useFixedResolution = true
@@ -462,10 +479,21 @@ function Clustering(dataMatrix; minClusterSize::Int= 3, startResolution::Int= 2,
                 The resolution was reset to MaxResolution")
     end
     # the main clustering loop
-    LoopResult = IteridenseLoop(dataMatrix, minClusterSize, density, stopResolution,
-                        minClusters, minClusterDensity, noDiagonals, useDensity, useClusters,
-                        useFixedResolution, resolution, maxResolution, minMatrix, maxMatrix,
-                        totalCounts, Val(dimensions))
+    LoopResult = IteridenseLoop(dataMatrix,
+                                density,
+                                minClusters,
+                                minClusterSize,
+                                resolution,
+                                maxResolution,
+                                stopResolution,
+                                minClusterDensity,
+                                useDensity,
+                                useClusters,
+                                noDiagonals,
+                                useFixedResolution,
+                                minMatrix, maxMatrix,
+                                totalCounts,
+                                Val(dimensions) )
     #=
     The clustering could always lead to artifacts, that e.g. a point belonging to a cluster
     appears as single point at the corner of a cell and is therefore not detected as part
@@ -479,17 +507,31 @@ function Clustering(dataMatrix; minClusterSize::Int= 3, startResolution::Int= 2,
     if LoopResult.numOfClusters == 0
         printstyled("Information: "; bold=true, color=:blue)
         println("The clustering detected no clusters")
-        return IteridenseResult(clusterTensor= [], countTensor= [], numOfClusters= 0,
+        return IteridenseResult(clusterTensor= [],
+                                countTensor= [],
+                                numOfClusters= 0,
                                 finalResolution= LoopResult.finalResolution,
                                 assignments= zeros(Int, totalCounts),
-                                clusterDensities= [], clusterSizes= [])
+                                clusterDensities= [],
+                                clusterSizes= [] )
     else
         # run a single loop with a higher fixed resolution
         secondResolution = LoopResult.finalResolution + 1
-        LoopResultSecond = IteridenseLoop(dataMatrix, minClusterSize, density, stopResolution,
-                                minClusters, minClusterDensity, noDiagonals, useDensity,
-                                useClusters, true, secondResolution, maxResolution, minMatrix,
-                                maxMatrix, totalCounts, Val(dimensions))
+        LoopResultSecond = IteridenseLoop(dataMatrix,
+                                            density,
+                                            minClusters,
+                                            minClusterSize,
+                                            secondResolution, # new resolution
+                                            maxResolution,
+                                            stopResolution,
+                                            minClusterDensity,
+                                            useDensity,
+                                            useClusters,
+                                            noDiagonals,
+                                            true,             # use fixed resolution
+                                            minMatrix, maxMatrix,
+                                            totalCounts,
+                                            Val(dimensions) )
     end
 
     # assign the data points according to the first clustering result
