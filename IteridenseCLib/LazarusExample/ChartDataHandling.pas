@@ -54,14 +54,13 @@ var
   // filename with default appearance
   const AppearanceDefault : string = 'Appearance-IteridenseTest.default';
   // a palette with distinguishable colors
-  colorPalette: array[0..15] of TColor = (
+  colorPalette: array[0..14] of TColor = (
     $ED9464, // RGB(100, 149, 237)
     $109FFF, // RGB(255, 159, 18)
     $38C88E, // RGB(142, 200, 58)
     $3531FF, // RGB(255, 49, 53)
     $F981FF, // RGB(255, 129, 249)
-    $6C63FF, // RGB(255, 108, 99)
-    $FF9555, // RGB(255, 149, 255)
+    $000000, // RGB(255, 108, 99)
     $A09FFF, // RGB(255, 159, 168)
     $2DECFF, // RGB(255, 236, 45)
     $FFEA4A, // RGB(74, 238, 255)
@@ -501,10 +500,10 @@ begin
 end;
 
 
+// event functions -------------------------------------------------------
 procedure TChartData.CDPlotSelectionCCBItemChange(Sender: TObject);
 var
-  i, count, dim1, dim2, numOfClusters, assignmentColumn,
-    clusterNumber, centerIdx : Int64;
+  i, count, dim1, dim2, numOfClusters, assignmentColumn, clusterNumber : Int64;
   Series : array of TLineSeries;
   StringArray : TStringArray;
 begin
@@ -543,7 +542,8 @@ begin
       Series[i]:= TLineSeries.Create(MainForm.DataC);
       Series[i].ShowLines:= False; // points only
       Series[i].Pointer.Visible:= true;
-      Series[i].Pointer.Brush.Color:= colorPalette[i]; // assign unique color for each cluster
+      // assign unique color for each cluster
+      Series[i].Pointer.Brush.Color:= colorPalette[i mod Length(colorPalette)];
       Series[i].Pointer.Style:= psCircle; // circles for the points
       Series[i].Title:= IntToStr(i);
       MainForm.DataC.AddSeries(Series[i]);
@@ -566,29 +566,25 @@ begin
       end;
     end;
 
-    // if there are center points available in ClusterResultSG (not if in KMeansClusterCenters)
-    // then draw them in an additional new series
+    // If there are center points available in ClusterResultSG (not only if
+    // in KMeansClusterCenters) we have k-Means results.
+    // k-Means does not have a '0' cluster as all points are always in a cluster,
+    // thus we can draw into that series.
     if MainForm.ClusterResultSG.Columns.Items[2].Title.Caption = 'Center at' then
     begin
-      SetLength(Series, Length(Series)+1);
-      centerIdx:= Length(Series)-1;
-      Series[centerIdx]:= TLineSeries.Create(MainForm.DataC);
-      Series[centerIdx].ShowLines:= False; // points only
-      Series[centerIdx].Pointer.Visible:= true;
-      Series[centerIdx].Pointer.Brush.Color:= colorPalette[centerIdx];
-      Series[centerIdx].Pointer.Style:= psFullStar; // stars for the points
-      Series[centerIdx].Pointer.HorizSize:= 8;
-      Series[centerIdx].Pointer.VertSize:= 8;
-      Series[centerIdx].Title:= 'centers';
-      MainForm.DataC.AddSeries(Series[centerIdx]);
+      Series[0].Pointer.Brush.Color:= clGray;
+      Series[0].Pointer.Style:= psFullStar; // stars for the points
+      Series[0].Pointer.HorizSize:= 8;
+      Series[0].Pointer.VertSize:= 8;
+      Series[0].Title:= 'centers';
       for i:= 0 to numOfClusters-1 do
       begin
         if Length(KMeansClusterCenters[0]) > 0 then
-          Series[centerIdx].AddXY(
+          Series[0].AddXY(
             KMeansClusterCenters[i][0], KMeansClusterCenters[i][1] )
         else
-          Series[centerIdx].AddXY(
-            KMeansClusterCenters[i][0], 0.0 )
+          Series[0].AddXY(
+            KMeansClusterCenters[i][0], 0.0 );
       end;
     end;
   end
@@ -765,7 +761,7 @@ begin
 end;
 
 
-// --------------------------------------------------------------
+// chart appearance functions --------------------------------------------
 function TChartData.FontStylesToString(FontStyles: TFontStyles): string;
 begin
   result:= '';
