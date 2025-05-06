@@ -65,15 +65,16 @@ Plots.scatter(dataMatrix[:, 1], dataMatrix[:, 2], xlabel= dataLabels[1], ylabel=
 
 # for comparison k-means clustering for 2 expected clusters
 # for k-means, cluster "0" is a real cluster while for Iteridense and DBSCAN is not
-begin
-result = Clustering.kmeans(dataMatrix', 2; maxiter= 20, display= :iter)
+#begin
+result = Clustering.kmeans(dataMatrix', 3; maxiter= 20, display= :iter)
 assign = Clustering.assignments(result)
 clusterCounts = Clustering.counts(result)
 clusterCenter = result.centers
+clusterCenter'
 # plot results
 Plots.scatter(dataMatrix[:, 1], dataMatrix[:, 2], xlabel= dataLabels[1], ylabel= dataLabels[2],
                 title= "k-means k = 2", group= assign, markersize= 5)
-end
+#end
 
 # DBSCAN clustering
 begin
