@@ -123,7 +123,12 @@ begin
     if (secondLine[i] = ',') or (secondLine[i] = ' ') or (secondLine[i] = #9)
       or (secondLine[i] = ';') or (secondLine[i] = '|') then
     begin
-      DataColumnSeparator:= secondLine[i];
+      // also test the case  that there are spaces around the separators (e.g. ' , ')
+      if (secondLine[i] = ' ') and (i < Length(secondLine))
+        and ((secondLine[i+1] = ',') or (secondLine[i+1] = ';') or (secondLine[i+1] = '|')) then
+        DataColumnSeparator:= secondLine[i+1]
+      else
+        DataColumnSeparator:= secondLine[i];
       break;
     end
   end;
@@ -390,11 +395,12 @@ end;
 
 procedure TChartData.CDSaveCsvMIClick(Sender: TObject);
 var
- textLine, CSVOutName, OutNameHelp, tempString : string;
- SaveFileStream : TFileStream;
+ textLine, CSVOutName, OutNameHelp, tempString, columnSeparator : string;
+ saveFileStream : TFileStream;
  i, k, count : Int64;
  MousePointer : TPoint;
  lineBytes: TBytes;
+ stringArray : TStringArray;
 begin
   MousePointer:= Mouse.CursorPos; // store mouse position
 
@@ -411,7 +417,7 @@ begin
     if FileExists(CSVOutName) then
     begin
       try
-        SaveFileStream:= TFileStream.Create(CSVOutName, fmOpenReadWrite);
+        saveFileStream:= TFileStream.Create(CSVOutName, fmOpenReadWrite);
       except
         on EFOpenError do
         begin
@@ -421,7 +427,7 @@ begin
         end;
       end;
       // delete its content
-      SaveFileStream.Size:= 0;
+      saveFileStream.Size:= 0;
     end
     else
     begin
@@ -439,12 +445,23 @@ begin
     end;
   end; // end if CSVOutName <> ''
 
+  // Some data files use a space around the DataColumnSeparator and we have
+  // to respect this. Therefore check this from the DataHeader.
+  columnSeparator:= DataColumnSeparator;
+  stringArray:= DataHeader.Split(DataColumnSeparator);
+  // test for space after separator
+  if stringArray[1][1] = ' ' then
+    columnSeparator:= columnSeparator + ' ';
+  // test for space before separator
+  if stringArray[0][High(stringArray[0])] = ' ' then
+    columnSeparator:= ' ' + columnSeparator;
+
   try
     // write the header line and add there the column 'cluster'
     // as it might have Unicode characters, output as Unicode
-    textLine:= DataHeader + DataColumnSeparator + 'cluster' + LineEnding;
+    textLine:= DataHeader + columnSeparator + 'cluster' + LineEnding;
     lineBytes:= BytesOf(UTF8Encode(textLine));
-    SaveFileStream.WriteBuffer(lineBytes[0], Length(lineBytes));
+    saveFileStream.WriteBuffer(lineBytes[0], Length(lineBytes));
 
     // write the data
     for i:= 0 to High(DataArray) do
@@ -462,15 +479,15 @@ begin
           inc(count);
         end;
         if k < High(DataArray[i]) then
-          textLine:= textLine + DataColumnSeparator;
+          textLine:= textLine + columnSeparator;
       end;
       textLine:= textLine + LineEnding;
       lineBytes:= BytesOf(UTF8Encode(textLine));
-      SaveFileStream.WriteBuffer(lineBytes[0], Length(lineBytes));
+      saveFileStream.WriteBuffer(lineBytes[0], Length(lineBytes));
     end;
 
   finally
-    SaveFileStream.Free;
+    saveFileStream.Free;
   end;
 
 end;
