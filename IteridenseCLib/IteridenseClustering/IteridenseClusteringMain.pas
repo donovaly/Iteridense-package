@@ -758,7 +758,7 @@ var
   DummyString, firstLine, secondLine : string;
   fileSuccess : Byte = 0;
   MousePointer : TPoint;
-  i, clusterCount, assignmentColumn, count, dim1, dim2 : Integer;
+  i, clusterCount, assignmentColumn, counter, dim1, dim2 : Int64;
   Series : TLineSeries;
 begin
   MousePointer:= Mouse.CursorPos; // store mouse position
@@ -821,6 +821,28 @@ begin
 
   // plot the data
   ChartData.CDPlotSelectionCCBItemChange(Sender);
+
+  // uncheck all but maximal the first 2 items in PlotSelectionCCB
+  // we do that first here since the change will trigger
+  // ChartData.CDPlotSelectionCCBItemChange and we first needed to have a plot
+  counter:= 0;
+  for i:= 0 to PlotSelectionCCB.Items.Count-1 do
+  begin
+    // select maximal 2 for the plot as we don't allow 3D plots
+    if (PlotSelectionCCB.ItemEnabled[i] = false) or (counter > 1) then
+      PlotSelectionCCB.Checked[i]:= false;
+    if (PlotSelectionCCB.ItemEnabled[i] = true) and (counter < 2) then
+      inc(counter);
+  end;
+  // disply the first enabled and checked item in PlotSelectionCCB
+  for i:= 0 to PlotSelectionCCB.Items.Count-1 do
+  begin
+    if (PlotSelectionCCB.ItemEnabled[i]) and (PlotSelectionCCB.Checked[i]) then
+    begin
+      MainForm.PlotSelectionCCB.ItemIndex:= i;
+      break;
+    end;
+  end;
 
   // enable/disable objects
   ClusteringBB.Enabled:= true;

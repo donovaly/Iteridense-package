@@ -92,7 +92,7 @@ var
   StringArray : TStringArray;
   MousePointer : TPoint;
   List : specialize TList<TStringArray>;
-  i, k, m, columns, columnCounter : Int64;
+  i, k, m, columns, columnCounter, counter : Int64;
 begin
   result:= 0; // initialized as failed
   MousePointer:= Mouse.CursorPos; // store mouse position
@@ -154,27 +154,25 @@ begin
     exit;
   end;
 
+  // the file opening succeeded and we can delete the existing plot
+  for i:= MainForm.DataC.SeriesCount - 1 downto 0 do
+      MainForm.DataC.Series[i].Free;
   // set the chart axis titles according to the header
   StringArray:= firstLine.Split(DataColumnSeparator);
   columns:= length(StringArray);
-  // AxisList[1] is x-axis (bottom)
-  MainForm.DataC.AxisList[1].Title.Caption:= StringArray[0];
+  MainForm.DataC.AxisList[1].Title.Caption:= StringArray[0]; // AxisList[1] is x-axis
   MainForm.DataC.AxisList[0].Title.Caption:= StringArray[1];
   // fill the CheckComboBoxes
   for i:= 0 to High(StringArray) do
   begin
     MainForm.DataSelectionCCB.AddItem(StringArray[i], cbChecked);
-    // select only the first 2 for the plot as we don't allow 3D plots
-    if i < 2 then
-      MainForm.PlotSelectionCCB.AddItem(StringArray[i], cbChecked)
-    else
-      MainForm.PlotSelectionCCB.AddItem(StringArray[i], cbUnchecked);
+    MainForm.PlotSelectionCCB.AddItem(StringArray[i], cbChecked);
   end;
-  // set the first item to be displayed
+  // set the first CheckComboBoxes item to be displayed
   MainForm.DataSelectionCCB.ItemIndex:= 0;
   MainForm.PlotSelectionCCB.ItemIndex:= 0;
 
-  // secondLine is the first row of the StringArray
+  // read file, thereby secondLine is the first row of the StringArray
   StringArray:= secondLine.Split(DataColumnSeparator);
   try
     List:= specialize TList<TStringArray>.Create;
@@ -209,10 +207,11 @@ begin
             begin
               result:= 2; // means error, but known error
               // uncheck this column for the clustering
-              MainForm.PlotSelectionCCB.Checked[k]:= false;
               MainForm.PlotSelectionCCB.ItemEnabled[k]:= false;
-              MainForm.DataSelectionCCB.Checked[k]:= false;
+              // we will later uncheck since unchecking will trigger PlotSelectionCCB()
+              // and we first need the reading to be complete before we can plot
               MainForm.DataSelectionCCB.ItemEnabled[k]:= false;
+              MainForm.DataSelectionCCB.Checked[k]:= false;
               // store current column to be able to later save it untouched
               DataTextColumnsIndices[k]:= 1;
             end;
@@ -237,6 +236,7 @@ begin
         end;
       end;
     end;
+
   finally
     List.Free;
   end;
@@ -532,6 +532,8 @@ begin
   dim1:= -1; dim2:= -1;
   for i:= 0 to MainForm.PlotSelectionCCB.Items.Count-1 do
   begin
+    if not MainForm.PlotSelectionCCB.ItemEnabled[i] then
+      continue;
     if (MainForm.PlotSelectionCCB.Checked[i]) and (count = 0) then
     begin
       dim1:= i;
