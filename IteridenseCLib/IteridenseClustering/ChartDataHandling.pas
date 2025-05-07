@@ -587,8 +587,12 @@ begin
       Series[i].Pointer.Brush.Color:= colorPalette[i mod Length(colorPalette)];
       Series[i].Pointer.Style:= psCircle; // circles for the points
       Series[i].Title:= IntToStr(i);
+      Series[i].ZPosition:= 1; // to be laster able to set series behind others
       MainForm.DataC.AddSeries(Series[i]);
     end;
+    // Move the first series to the back since this is the non-cluster, otherwise
+    // especially for high Iterdiense densities they would cover the cluster values.
+    Series[0].ZPosition:= 0;
 
     // add data points to the according cluster number series
     assignmentColumn:= Length(DataArray[0]) - 1;
@@ -619,7 +623,6 @@ begin
     if (MainForm.ClusterResultSG.Columns.Items[2].Title.Caption = 'Center at')
      and (MainForm.ClusterResultSG.RowCount > 1) then // more than the header line
     begin
-      Series[0].Pointer.Brush.Color:= clGray;
       Series[0].Pointer.Style:= psFullStar; // stars for the points
       Series[0].Pointer.HorizSize:= 8;
       Series[0].Pointer.VertSize:= 8;
@@ -631,6 +634,8 @@ begin
         else
           Series[0].AddXY(KMeansClusterCenters[i][0], 0.0);
       end;
+      // bring it to front to assure the center points are visible
+      Series[0].ZPosition:= 2;
     end;
   end
   else

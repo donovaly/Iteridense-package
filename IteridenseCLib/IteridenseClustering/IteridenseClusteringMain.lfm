@@ -1090,7 +1090,7 @@ object MainForm: TMainForm
       Hint = 'runs Iteridense at a fixed resolution'
       Top = 4
       Width = 496
-      Max = 32
+      Max = 64
       Min = 2
       OnChange = IteridenseSliderTBChange
       PageSize = 0
@@ -1137,7 +1137,7 @@ object MainForm: TMainForm
       MinValue = 2
       OnEditingDone = SliderStopSEEditingDone
       TabOrder = 2
-      Value = 48
+      Value = 64
     end
   end
   object LabelHintB: TButton
