@@ -5,7 +5,7 @@
 This repository provides two things:
 
 * a package for the programming Julia
-* a standalone, fully featured program *IteridenseClustering* written in Lazarus
+* a stand-alone, fully featured program *IteridenseClustering* written in Lazarus
 
 Both allow you to cluster any data using the clustering algorithms *Iteridense*, *DBSCAN and *k-Means*.
 
@@ -32,7 +32,7 @@ For a brief description and discussion of the Iteridense clustering algorithm, s
    execution of the script you must uncomment 1 line at the top of the script to install packages to Julia.
 6. As described in *Iteridense-Clustering.jl* you can easily cluster any data. It only has to be available as a CSV file in [this format](#Requirements-for-CSV-data-format).
 
-# The IteridenseClustering standalone program
+# The IteridenseClustering stand-alone program
 
 ## Usage
 

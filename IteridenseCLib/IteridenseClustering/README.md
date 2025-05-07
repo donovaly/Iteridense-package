@@ -1,4 +1,4 @@
-# The IteridenseClustering standalone program
+# The IteridenseClustering stand-alone program
 
 ## Usage
 
