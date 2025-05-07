@@ -8,7 +8,7 @@
       <Unit>
         <Filename Value="IteridenseClustering.lpr"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="2"/>
         <CursorPos Y="24"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -17,10 +17,10 @@
         <Filename Value="ChartDataHandling.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="81"/>
-        <CursorPos X="69" Y="704"/>
-        <FoldState Value=" T3j00{(2 pjPnK0M1 pigjR]9]I7ja0d5]96kK0C3 plHlg0#K{"/>
-        <UsageCount Value="164"/>
+        <TopLine Value="65"/>
+        <CursorPos Y="86"/>
+        <FoldState Value=" T3ic021 pkdl40b2 pjAkD0{I2]J2mR0Q5]J6k70C3 plHlg0#K3"/>
+        <UsageCount Value="176"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -33,7 +33,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="159"/>
+        <UsageCount Value="171"/>
       </Unit>
       <Unit>
         <Filename Value="ChartEditing\cebrushframe.pas"/>
@@ -45,7 +45,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="159"/>
+        <UsageCount Value="171"/>
       </Unit>
       <Unit>
         <Filename Value="ChartEditing\cefontframe.pas"/>
@@ -57,7 +57,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="159"/>
+        <UsageCount Value="171"/>
       </Unit>
       <Unit>
         <Filename Value="ChartEditing\celegenddlg.pas"/>
@@ -69,7 +69,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="159"/>
+        <UsageCount Value="171"/>
       </Unit>
       <Unit>
         <Filename Value="ChartEditing\cepenframe.pas"/>
@@ -81,7 +81,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="159"/>
+        <UsageCount Value="171"/>
       </Unit>
       <Unit>
         <Filename Value="ChartEditing\cepointerframe.pas"/>
@@ -93,7 +93,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="159"/>
+        <UsageCount Value="171"/>
       </Unit>
       <Unit>
         <Filename Value="ChartEditing\ceseriesdlg.pas"/>
@@ -105,7 +105,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="159"/>
+        <UsageCount Value="171"/>
       </Unit>
       <Unit>
         <Filename Value="ChartEditing\ceshapebrushpenmarginsframe.pas"/>
@@ -117,7 +117,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="159"/>
+        <UsageCount Value="171"/>
       </Unit>
       <Unit>
         <Filename Value="ChartEditing\cetitlefootdlg.pas"/>
@@ -127,7 +127,7 @@
         <UnitName Value="ceTitleFootDlg"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="55" Y="12"/>
-        <UsageCount Value="159"/>
+        <UsageCount Value="171"/>
       </Unit>
       <Unit>
         <Filename Value="ChartEditing\ceutils.pas"/>
@@ -137,7 +137,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="159"/>
+        <UsageCount Value="171"/>
       </Unit>
       <Unit>
         <Filename Value="ChartEditing\ceaxisframe.pas"/>
@@ -148,7 +148,7 @@
         <UnitName Value="ceAxisFrame"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="27" Y="13"/>
-        <UsageCount Value="158"/>
+        <UsageCount Value="170"/>
       </Unit>
       <Unit>
         <Filename Value="IteridenseClusteringMain.pas"/>
@@ -157,10 +157,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="255"/>
-        <CursorPos X="7" Y="267"/>
-        <FoldState Value=" TCKC44 PKXI T7jQE{Z T3nA0{w515 po3sE0&apos;8 piYl3036 Pdi70R"/>
-        <UsageCount Value="159"/>
+        <TopLine Value="256"/>
+        <CursorPos X="32" Y="266"/>
+        <FoldState Value=" TCKC44 PKXI T7jQE{Z T3nA0{w9 pidmf0F1 plcmG0{B7 pj5lS037 PgiC0U"/>
+        <UsageCount Value="171"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -170,12 +170,10 @@
         <ComponentName Value="AboutFormF"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="2"/>
-        <TopLine Value="15"/>
-        <CursorPos X="104" Y="48"/>
-        <UsageCount Value="102"/>
-        <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="25"/>
+        <CursorPos X="73" Y="38"/>
+        <UsageCount Value="114"/>
       </Unit>
       <Unit>
         <Filename Value="IteridenseClusteringUnit.pas"/>
@@ -186,7 +184,7 @@
         <EditorIndex Value="-1"/>
         <CursorPos X="24"/>
         <FoldState Value=" T3me0D016 PjPiN0a"/>
-        <UsageCount Value="40"/>
+        <UsageCount Value="39"/>
       </Unit>
       <Unit>
         <Filename Value="IteridenseClustering.pas"/>
@@ -196,39 +194,18 @@
         <UnitName Value="IteridenseClusteringUnit"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="30"/>
-        <UsageCount Value="39"/>
+        <UsageCount Value="38"/>
       </Unit>
       <Unit>
         <Filename Value="JuliaDLLConnection.pas"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="5" Y="28"/>
-        <UsageCount Value="7"/>
-      </Unit>
-      <Unit>
-        <Filename Value="DLL-Test\juliadllconnection.pas"/>
-        <UnitName Value="JuliaDLLConnection"/>
-        <EditorIndex Value="-1"/>
-        <CursorPos X="71" Y="8"/>
-        <UsageCount Value="1"/>
+        <UsageCount Value="6"/>
       </Unit>
       <Unit>
         <Filename Value="mylib.h"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="33" Y="2"/>
-        <UsageCount Value="2"/>
-        <DefaultSyntaxHighlighter Value="C++"/>
-      </Unit>
-      <Unit>
-        <Filename Value="C:\lazarus\components\ideintf\ideimagesintf.pas"/>
-        <UnitName Value="IDEImagesIntf"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="263"/>
-        <CursorPos X="46" Y="281"/>
-        <UsageCount Value="1"/>
-      </Unit>
-      <Unit>
-        <Filename Value="julia_init.h"/>
-        <EditorIndex Value="-1"/>
         <UsageCount Value="1"/>
         <DefaultSyntaxHighlighter Value="C++"/>
       </Unit>
@@ -236,11 +213,6 @@
         <Filename Value="julia_init.pas"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="27" Y="40"/>
-        <UsageCount Value="2"/>
-      </Unit>
-      <Unit>
-        <Filename Value="C:\lazarus\fpc\3.2.2\source\rtl\inc\ctypes.pp"/>
-        <EditorIndex Value="-1"/>
         <UsageCount Value="1"/>
       </Unit>
       <Unit>
@@ -248,7 +220,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="87"/>
         <CursorPos X="23" Y="103"/>
-        <UsageCount Value="3"/>
+        <UsageCount Value="2"/>
       </Unit>
       <Unit>
         <Filename Value="C:\lazarus\fpc\3.2.2\source\packages\rtl-generics\src\generics.collections.pas"/>
@@ -256,14 +228,14 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="1363"/>
         <CursorPos Y="1381"/>
-        <UsageCount Value="4"/>
+        <UsageCount Value="3"/>
       </Unit>
       <Unit>
         <Filename Value="clustertestcharthandling1.pas"/>
         <UnitName Value="ClusterTestChartHandling1"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="28" Y="5"/>
-        <UsageCount Value="5"/>
+        <UsageCount Value="4"/>
       </Unit>
       <Unit>
         <Filename Value="ClusterTestChartHandling.pas"/>
@@ -271,20 +243,20 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="54"/>
         <CursorPos X="21" Y="308"/>
-        <UsageCount Value="7"/>
+        <UsageCount Value="6"/>
       </Unit>
       <Unit>
         <Filename Value="IteridenseClustering-ChartHandling.pas"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="33"/>
-        <UsageCount Value="6"/>
+        <UsageCount Value="5"/>
       </Unit>
       <Unit>
         <Filename Value="IteridenseClusteringChartHandling.pas"/>
         <UnitName Value="ChartDataHandling"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="23"/>
-        <UsageCount Value="6"/>
+        <UsageCount Value="5"/>
       </Unit>
       <Unit>
         <Filename Value="C:\lazarus\fpc\3.2.2\source\rtl\objpas\types.pp"/>
@@ -292,14 +264,14 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="28"/>
         <CursorPos X="11" Y="43"/>
-        <UsageCount Value="7"/>
+        <UsageCount Value="6"/>
       </Unit>
       <Unit>
         <Filename Value="C:\lazarus\lcl\include\brush.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="19"/>
         <CursorPos Y="38"/>
-        <UsageCount Value="4"/>
+        <UsageCount Value="10"/>
       </Unit>
       <Unit>
         <Filename Value="C:\lazarus\components\tachart\tasources.pas"/>
@@ -307,14 +279,14 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="577"/>
         <CursorPos Y="595"/>
-        <UsageCount Value="4"/>
+        <UsageCount Value="10"/>
       </Unit>
       <Unit>
         <Filename Value="C:\lazarus\lcl\include\spinedit.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="156"/>
         <CursorPos Y="175"/>
-        <UsageCount Value="11"/>
+        <UsageCount Value="10"/>
       </Unit>
       <Unit>
         <Filename Value="C:\lazarus\lcl\grids.pas"/>
@@ -322,35 +294,35 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="11396"/>
         <CursorPos Y="11414"/>
-        <UsageCount Value="8"/>
+        <UsageCount Value="7"/>
       </Unit>
       <Unit>
         <Filename Value="C:\lazarus\fpc\3.2.2\source\rtl\win\syswinh.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="32"/>
         <CursorPos X="26" Y="49"/>
-        <UsageCount Value="2"/>
+        <UsageCount Value="1"/>
       </Unit>
       <Unit>
         <Filename Value="C:\lazarus\fpc\3.2.2\source\packages\fcl-base\src\streamex.pp"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="265"/>
         <CursorPos X="41" Y="282"/>
-        <UsageCount Value="3"/>
+        <UsageCount Value="2"/>
       </Unit>
       <Unit>
         <Filename Value="C:\lazarus\lcl\interfaces\win32\win32listsl.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="151"/>
         <CursorPos Y="171"/>
-        <UsageCount Value="4"/>
+        <UsageCount Value="3"/>
       </Unit>
       <Unit>
         <Filename Value="C:\lazarus\fpc\3.2.2\source\rtl\objpas\objpas.pp"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="8"/>
         <CursorPos X="53" Y="18"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
       </Unit>
       <Unit>
         <Filename Value="C:\lazarus\components\tachart\tatypes.pas"/>
@@ -358,28 +330,28 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="79"/>
         <CursorPos X="64" Y="96"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
       </Unit>
       <Unit>
         <Filename Value="C:\lazarus\lcl\include\trackbar.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="331"/>
         <CursorPos Y="360"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit>
       <Unit>
         <Filename Value="C:\lazarus\lcl\include\control.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="2288"/>
         <CursorPos Y="2305"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit>
       <Unit>
         <Filename Value="C:\lazarus\lcl\include\wincontrol.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="5418"/>
         <CursorPos Y="5435"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit>
       <Unit>
         <Filename Value="C:\lazarus\lcl\lclmessageglue.pas"/>
@@ -387,139 +359,127 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="94"/>
         <CursorPos Y="122"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit>
       <Unit>
         <Filename Value="C:\lazarus\lcl\include\customedit.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="564"/>
         <CursorPos Y="582"/>
-        <UsageCount Value="11"/>
+        <UsageCount Value="10"/>
+      </Unit>
+      <Unit>
+        <Filename Value="C:\lazarus\components\tachart\tachartaxis.pas"/>
+        <UnitName Value="TAChartAxis"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1276"/>
+        <CursorPos Y="1294"/>
+        <UsageCount Value="10"/>
       </Unit>
     </Units>
     <Debugger>
       <Backend Value="{0599E7CA-746F-4D8B-BD06-CEE8C2E1AC4F}"/>
     </Debugger>
-    <JumpHistory HistoryIndex="29">
+    <JumpHistory HistoryIndex="24">
       <Position>
         <Filename Value="IteridenseClusteringMain.pas"/>
-        <Caret Line="841" TopLine="810"/>
+        <Caret Line="402" TopLine="390"/>
       </Position>
       <Position>
         <Filename Value="IteridenseClusteringMain.pas"/>
-        <Caret Line="881" Column="38" TopLine="846"/>
+        <Caret Line="403" Column="31" TopLine="386"/>
       </Position>
       <Position>
         <Filename Value="IteridenseClusteringMain.pas"/>
-        <Caret Line="870" TopLine="727"/>
+        <Caret Line="402" TopLine="386"/>
       </Position>
       <Position>
         <Filename Value="IteridenseClusteringMain.pas"/>
-        <Caret Line="881" Column="19" TopLine="850"/>
-      </Position>
-      <Position>
-        <Filename Value="IteridenseClusteringMain.pas"/>
-        <Caret Line="891" Column="46" TopLine="870"/>
-      </Position>
-      <Position>
-        <Filename Value="IteridenseClusteringMain.pas"/>
-        <Caret Line="931" Column="98" TopLine="870"/>
-      </Position>
-      <Position>
-        <Filename Value="IteridenseClusteringMain.pas"/>
-        <Caret Line="871" TopLine="817"/>
-      </Position>
-      <Position>
-        <Filename Value="IteridenseClusteringMain.pas"/>
-        <Caret Line="4" Column="37"/>
-      </Position>
-      <Position>
-        <Filename Value="IteridenseClusteringMain.pas"/>
-        <Caret Line="379" Column="16" TopLine="359"/>
-      </Position>
-      <Position>
-        <Filename Value="IteridenseClusteringMain.pas"/>
-        <Caret Line="380" Column="16" TopLine="359"/>
-      </Position>
-      <Position>
-        <Filename Value="IteridenseClusteringMain.pas"/>
-        <Caret Line="382" Column="16" TopLine="359"/>
-      </Position>
-      <Position>
-        <Filename Value="IteridenseClusteringMain.pas"/>
-        <Caret Line="269" Column="30" TopLine="250"/>
-      </Position>
-      <Position>
-        <Filename Value="IteridenseClusteringMain.pas"/>
-        <Caret Line="273" Column="31" TopLine="250"/>
-      </Position>
-      <Position>
-        <Filename Value="IteridenseClustering.lpr"/>
-        <Caret Line="21" Column="28"/>
-      </Position>
-      <Position>
-        <Filename Value="IteridenseClusteringMain.pas"/>
-        <Caret Line="279" Column="29" TopLine="262"/>
-      </Position>
-      <Position>
-        <Filename Value="IteridenseClusteringMain.pas"/>
-        <Caret Line="272" TopLine="246"/>
-      </Position>
-      <Position>
-        <Filename Value="IteridenseClusteringMain.pas"/>
-        <Caret Line="271" TopLine="244"/>
-      </Position>
-      <Position>
-        <Filename Value="IteridenseClusteringMain.pas"/>
-        <Caret Line="270" TopLine="242"/>
+        <Caret Line="406" Column="11" TopLine="392"/>
       </Position>
       <Position>
         <Filename Value="ChartDataHandling.pas"/>
-        <Caret Line="390" TopLine="81"/>
+        <Caret Line="457" Column="13" TopLine="440"/>
       </Position>
       <Position>
         <Filename Value="IteridenseClusteringMain.pas"/>
-        <Caret Line="962" TopLine="551"/>
+        <Caret Line="403" TopLine="392"/>
       </Position>
       <Position>
         <Filename Value="IteridenseClusteringMain.pas"/>
-        <Caret Line="500" Column="17" TopLine="461"/>
+        <Caret Line="404" TopLine="392"/>
       </Position>
       <Position>
         <Filename Value="IteridenseClusteringMain.pas"/>
-        <Caret Line="499" Column="22" TopLine="461"/>
+        <Caret Line="405" TopLine="392"/>
       </Position>
       <Position>
         <Filename Value="IteridenseClusteringMain.pas"/>
-        <Caret Line="495" TopLine="462"/>
+        <Caret Line="406" Column="29" TopLine="392"/>
       </Position>
       <Position>
         <Filename Value="IteridenseClusteringMain.pas"/>
-        <Caret Line="494" TopLine="460"/>
+        <Caret Line="403" TopLine="392"/>
       </Position>
       <Position>
         <Filename Value="IteridenseClusteringMain.pas"/>
-        <Caret Line="227" Column="51" TopLine="210"/>
+        <Caret Line="404" TopLine="392"/>
       </Position>
       <Position>
         <Filename Value="IteridenseClusteringMain.pas"/>
-        <Caret Line="228" Column="51" TopLine="211"/>
+        <Caret Line="405" TopLine="392"/>
       </Position>
       <Position>
         <Filename Value="IteridenseClusteringMain.pas"/>
-        <Caret Line="229" Column="51" TopLine="212"/>
+        <Caret Line="406" TopLine="392"/>
       </Position>
       <Position>
         <Filename Value="IteridenseClusteringMain.pas"/>
-        <Caret Line="476" Column="77" TopLine="255"/>
+        <Caret Line="407" Column="31" TopLine="392"/>
       </Position>
       <Position>
         <Filename Value="IteridenseClusteringMain.pas"/>
-        <Caret Line="475" Column="77" TopLine="256"/>
+        <Caret Line="403" Column="8" TopLine="390"/>
       </Position>
       <Position>
         <Filename Value="IteridenseClusteringMain.pas"/>
-        <Caret Line="474" Column="77" TopLine="255"/>
+        <Caret Line="407" Column="49" TopLine="390"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseClusteringMain.pas"/>
+        <Caret Line="403" TopLine="390"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseClusteringMain.pas"/>
+        <Caret Line="404" TopLine="390"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseClusteringMain.pas"/>
+        <Caret Line="405" TopLine="390"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseClusteringMain.pas"/>
+        <Caret Line="406" Column="14" TopLine="390"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseClusteringMain.pas"/>
+        <Caret Line="407" TopLine="390"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseClusteringMain.pas"/>
+        <Caret Line="403" TopLine="390"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseClusteringMain.pas"/>
+        <Caret Line="404" TopLine="390"/>
+      </Position>
+      <Position>
+        <Filename Value="IteridenseClusteringMain.pas"/>
+        <Caret Line="405" TopLine="390"/>
+      </Position>
+      <Position>
+        <Filename Value="ChartDataHandling.pas"/>
+        <Caret Line="458" Column="40" TopLine="440"/>
       </Position>
     </JumpHistory>
     <RunParams>
@@ -552,6 +512,9 @@
       </Item>
       <Item>
         <Expression Value="PlotSelectionCCB.Checked[i]"/>
+      </Item>
+      <Item>
+        <Expression Value="DataArray[i, assignmentColumn]"/>
       </Item>
     </Watches>
   </Debugging>

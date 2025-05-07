@@ -254,9 +254,9 @@ var
   SliderIncrement : Double; // to store the slider increment
   KMeansClusterCenters : Array of Array of double; // store the K-means cluster center coordinates
   // filename to store appearance
-  const AppearanceFile : string = 'Appearance-IteridenseTest.ini';
+  const AppearanceFile : string = 'Appearance-IteridenseClustering.ini';
   // filename with default appearance
-  const AppearanceDefault : string = 'Appearance-IteridenseTest.default';
+  const AppearanceDefault : string = 'Appearance-IteridenseClustering.default';
 
 implementation
 
