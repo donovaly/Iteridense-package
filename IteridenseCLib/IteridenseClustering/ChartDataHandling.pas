@@ -454,7 +454,7 @@ begin
   columnSeparator:= DataColumnSeparator;
   stringArray:= DataHeader.Split(DataColumnSeparator);
   // test for space after separator
-  // For the case like 'x  y' the .Split(' ') leads to 2 strings while the second has zero length,
+  // For the case like 'x  y' the .Split(' ') leads to 3 strings while the second has zero length,
   // therefore we must test the length.
   if (Length(stringArray[1]) > 0) and (stringArray[1][1] = ' ') then
     columnSeparator:= columnSeparator + ' ';
