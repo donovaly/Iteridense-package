@@ -938,7 +938,13 @@ begin
   sign:= RadiusTB.Position - SliderPosition;
   // only set new increment if previous position was 1
   if (sign > 0) and (RadiusTB.Position = 2) then
+  begin
     SliderIncrement:= Trunc(RadiusFSE.Value) / 10;
+    // since the radius could be < 0, set the increment to at least 0.1
+    if SliderIncrement = 0.0 then
+      SliderIncrement:= 0.1;
+  end;
+
   RadiusFSE.Value:= RadiusFSE.Value + sign * SliderIncrement;
   // cluster only if there was actually a change (not on e.g. slider resets)
   if SliderIncrement > 0 then
