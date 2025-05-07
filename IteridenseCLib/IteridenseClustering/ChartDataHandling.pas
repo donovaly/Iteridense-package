@@ -22,7 +22,7 @@ type
     function FontStylesToString(FontStyles: TFontStyles): string;
     function StringToFontStyles(s: string): TFontStyles;
     function ReadData(InName: string): Byte;
-    procedure FlipBClick(Sender: TObject);
+    procedure CDFlipTBChange(Sender: TObject);
     procedure CDPlotSelectionCCBItemChange(Sender: TObject);
     procedure CDDataPointHintToolHint(ATool: TDataPointHintTool; const APoint: TPoint;
                                     var AHint: String);
@@ -499,28 +499,42 @@ begin
 end;
 
 
-procedure TChartData.FlipBClick(Sender: TObject);
+procedure TChartData.CDFlipTBChange(Sender: TObject);
 var
   series, i : Int64;
   lineSeries : TLineSeries;
   tempValue : Double;
-  tempString : String;
+  tempString, senderName : String;
 begin
-  // change for all series x and y
-  for series:= 0 to MainForm.DataC.Series.Count-1 do
+  if Sender is TComponent then
+    senderName:= TComponent(Sender).Name
+  else
+    senderName:= '';
+  // only flip if either the button was clicked or if another object sent a signal
+  // and the button is checked
+  if not ((senderName <> 'FlipTB') and (MainForm.FlipTB.State = cbUnchecked) ) then
   begin
-    lineSeries:= MainForm.DataC.Series[series] as TLineSeries;
-    for i:= 0 to lineSeries.Count-1 do
+    // change for all series x and y
+    for series:= 0 to MainForm.DataC.Series.Count-1 do
     begin
-      tempValue:= lineSeries.XValue[i];
-      lineSeries.XValue[i]:= lineSeries.YValue[i];
-      lineSeries.YValue[i]:= tempValue;
+      lineSeries:= MainForm.DataC.Series[series] as TLineSeries;
+      for i:= 0 to lineSeries.Count-1 do
+      begin
+        tempValue:= lineSeries.XValue[i];
+        lineSeries.XValue[i]:= lineSeries.YValue[i];
+        lineSeries.YValue[i]:= tempValue;
+      end;
     end;
+    // flip axis description
+    tempString:= MainForm.DataC.AxisList[0].Title.Caption;
+    MainForm.DataC.AxisList[0].Title.Caption:= MainForm.DataC.AxisList[1].Title.Caption;
+    MainForm.DataC.AxisList[1].Title.Caption:= tempString;
   end;
-  // flip axis decription
-  tempString:= MainForm.DataC.AxisList[0].Title.Caption;
-  MainForm.DataC.AxisList[0].Title.Caption:= MainForm.DataC.AxisList[1].Title.Caption;
-  MainForm.DataC.AxisList[1].Title.Caption:= tempString;
+  // change button caption
+  if MainForm.FlipTB.State = cbUnchecked then
+    MainForm.FlipTB.Caption:= 'Flip'
+  else
+    MainForm.FlipTB.Caption:= 'Flipped';
 end;
 
 
@@ -590,12 +604,12 @@ begin
     if dim2 > -1 then
     begin
       MainForm.DataC.AxisList[0].Title.Caption:= StringArray[dim2];
-      MainForm.FlipB.Enabled:= true;
+      MainForm.FlipTB.Enabled:= true;
     end
     else
     begin
       MainForm.DataC.AxisList[0].Title.Caption:= '';
-      MainForm.FlipB.Enabled:= false;
+      MainForm.FlipTB.Enabled:= false;
     end;
 
     // If there are center points available in ClusterResultSG (not only if
@@ -635,6 +649,10 @@ begin
       break;
     end;
   end;
+
+  // flip plot if necessary
+  if MainForm.FlipTB.State = cbChecked then
+    CDFlipTBChange(Sender);
 
 end;
 

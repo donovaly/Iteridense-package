@@ -114,11 +114,15 @@ type
     AboutMI: TMenuItem;
     AutoscaleMI: TMenuItem;
     AxisClickTool: TAxisClickTool;
+    LabelHintB: TButton;
+    FlipTB: TToggleBox;
+    IteridenseSliderGB: TGroupBox;
     RadiusTB: TTrackBar;
-    FlipB: TButton;
     ChangeBackColorMI: TMenuItem;
     ChartAxisTransformDim1: TChartAxisTransformations;
     DBSCANBevelB: TBevel;
+    SliderStartSE: TSpinEdit;
+    SliderStopSE: TSpinEdit;
     ToleranceFSX: TFloatSpinEditEx;
     KMeansBevelB: TBevel;
     MaxIterationsL: TLabel;
@@ -153,6 +157,7 @@ type
     MinNeighborsSE: TSpinEdit;
     ToleranceL: TLabel;
     DensityTB: TTrackBar;
+    IteridenseSliderTB: TTrackBar;
     UseDensityRB: TRadioButton;
     UseClustersRB: TRadioButton;
     DensityL: TLabel;
@@ -205,13 +210,21 @@ type
     procedure DataSelectionCCBItemChange(Sender: TObject; AIndex: Integer);
     procedure DensityFSEEnter(Sender: TObject);
     procedure DensityTBChange(Sender: TObject);
-    procedure FlipBClick(Sender: TObject);
+    procedure FlipTBChange(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure ClusteringBBClick(Sender: TObject);
     function CArrayToTIntArray(cArray: CArray): TIntArray;
     function CArrayToTDoubleArray(cArray: CArray): TDoubleArray;
     function CTensorToTDoubleArray(tensor: CTensor): TDoubleArray;
+    procedure UpdateLabelHintBPosition;
+    procedure IteridenseSliderTBChange(Sender: TObject);
+    procedure IteridenseSliderTBMouseDown(Sender: TObject;
+      Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+    procedure IteridenseSliderTBMouseMove(Sender: TObject; Shift: TShiftState;
+      X, Y: Integer);
+    procedure IteridenseSliderTBMouseUp(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
     procedure LegendClickToolClick(ASender: TChartTool; ALegend: TChartLegend);
     procedure MethodsPCChange(Sender: TObject);
     procedure OpenCsvBBClick(Sender: TObject);
@@ -222,6 +235,8 @@ type
     procedure ResetChartAppearanceMIClick(Sender: TObject);
     procedure SaveCsvMIClick(Sender: TObject);
     procedure SavePlotBBClick(Sender: TObject);
+    procedure SliderStartSEEditingDone(Sender: TObject);
+    procedure SliderStopSEEditingDone(Sender: TObject);
     procedure TitleFootClickToolClick(ASender: TChartTool; ATitle: TChartTitle);
     procedure UseDensityRBChange(Sender: TObject);
   private
@@ -453,12 +468,6 @@ begin
     exit;
   end;
   ChartData.LoadAppearance(defaultFile);
-end;
-
-
-procedure TMainForm.FlipBClick(Sender: TObject);
-begin
-  ChartData.FlipBClick(Sender);
 end;
 
 
@@ -837,14 +846,19 @@ begin
 
   // enable/disable objects
   ClusteringBB.Enabled:= true;
-  FlipB.Enabled:= true;
+  FlipTB.Enabled:= true;
   SaveCsvMI.Enabled:= false;
   SavePlotBB.Enabled:= true;
   SavePlotMI.Enabled:= true;
   DensityTB.Enabled:= true;
   RadiusTB.Enabled:= true;
-  // reset method
+  if MethodsPC.ActivePage.Caption = 'Iteridense' then
+    IteridenseSliderGB.Enabled:= true;
+  // reset cluster method
   UsedClusteringMethod:= ClusterMethods.none;
+  // propose a minimal cluster size of 5 % of the total clusters
+  MinClusterSizeIterIdenseSE.Value:= Trunc(0.05 * Length(DataArray));
+  MinClusterSizeDBscanSE.Value:= Trunc(0.05 * Length(DataArray));
 end;
 
 
@@ -888,6 +902,7 @@ begin
   // no dimension, thus disable clustering
   ClusteringBB.Enabled:= false;
   ClusteringBB.Hint:= 'no dimensions selected to be clustered';
+  IteridenseSliderGB.Enabled:= false;
 end;
 
 procedure TMainForm.DensityFSEEnter(Sender: TObject);
@@ -896,6 +911,53 @@ begin
   // as this triggers DensityTBChange, set SliderIncrement to zero
   SliderIncrement:= 0;
   DensityTB.Position:= 1;
+end;
+
+procedure TMainForm.IteridenseSliderTBChange(Sender: TObject);
+begin
+  StartResolutionSE.Value:= IteridenseSliderTB.Position;
+  StopResolutionSE.Value:= IteridenseSliderTB.Position;
+  // cluster only if allowed
+  if ClusteringBB.Enabled then
+    ClusteringBBClick(Sender);
+end;
+
+procedure TMainForm.IteridenseSliderTBMouseDown(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+  LabelHintB.Visible:= true;
+  UpdateLabelHintBPosition;
+end;
+
+procedure TMainForm.IteridenseSliderTBMouseMove(Sender: TObject;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  if ssLeft in Shift then
+  begin
+    UpdateLabelHintBPosition;
+  end;
+end;
+
+procedure TMainForm.IteridenseSliderTBMouseUp(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+  LabelHintB.Visible:= false;
+end;
+
+procedure TMainForm.UpdateLabelHintBPosition;
+var
+  mousePointer : TPoint;
+begin
+  // update button caption with current position
+  LabelHintB.Caption:= IntToStr(IteridenseSliderTB.Position);
+
+  // convert to screen coordinates
+  mousePointer:= Mouse.CursorPos;;
+  mousePointer:= MainForm.ScreenToClient(mousePointer);
+
+  // position label above the thumb
+  LabelHintB.Left:= mousePointer.X - LabelHintB.Width div 2;
+  LabelHintB.Top:= IteridenseSliderGB.Top + 8 - LabelHintB.Height div 2;
 end;
 
 procedure TMainForm.DensityTBChange(Sender: TObject);
@@ -917,6 +979,11 @@ begin
     ClusteringBBClick(Sender);
   // save new position
   SliderPosition:= DensityTB.Position;
+end;
+
+procedure TMainForm.FlipTBChange(Sender: TObject);
+begin
+  ChartData.CDFlipTBChange(Sender);
 end;
 
 procedure TMainForm.RadiusFSEEnter(Sender: TObject);
@@ -958,6 +1025,22 @@ begin
   ChartData.CDPlotSelectionCCBItemChange(Sender);
 end;
 
+procedure TMainForm.SliderStartSEEditingDone(Sender: TObject);
+begin
+  // assure it is below minimum and set slider accordingly
+  if SliderStartSE.Value >= SliderStopSE.Value then
+     SliderStartSE.Value:= SliderStopSE.Value - 1;
+  IteridenseSliderTB.Min:= SliderStartSE.Value;
+end;
+
+procedure TMainForm.SliderStopSEEditingDone(Sender: TObject);
+begin
+  // assure it is below minimum and set slider accordingly
+  if SliderStopSE.Value <= SliderStartSE.Value then
+     SliderStopSE.Value:= SliderStartSE.Value + 1;
+  IteridenseSliderTB.Max:= SliderStopSE.Value;
+end;
+
 procedure TMainForm.AutoscaleMIClick(Sender: TObject);
 begin
   ChartData.CDAutoscaleMIClick(Sender);
@@ -990,16 +1073,21 @@ end;
 procedure TMainForm.MethodsPCChange(Sender: TObject);
 begin
   // disable Clustering button when the results tab is active
- if MethodsPC.ActivePage.Caption = 'Clustering Result' then
-   ClusteringBB.Enabled:= false
- else
-   // only enable if data was loaded
-   if Length(DataArray) > 0 then
-     ClusteringBB.Enabled:= true;
- // reset sliders
- SliderIncrement:= 0;
- DensityTB.Position:= 1;
- RadiusTB.Position:= 1 ;
+  if MethodsPC.ActivePage.Caption = 'Clustering Result' then
+    ClusteringBB.Enabled:= false
+  else
+    // only enable if data was loaded
+    if Length(DataArray) > 0 then
+      ClusteringBB.Enabled:= true;
+  // reset sliders
+  SliderIncrement:= 0;
+  DensityTB.Position:= 1;
+  RadiusTB.Position:= 1;
+  // eanble iteridense slider
+  if MethodsPC.ActivePage.Caption = 'Iteridense' then
+   IteridenseSliderGB.Enabled:= true
+  else
+   IteridenseSliderGB.Enabled:= false;
 end;
 
 procedure TMainForm.AxisClickToolClick(ASender: TChartTool; Axis: TChartAxis;

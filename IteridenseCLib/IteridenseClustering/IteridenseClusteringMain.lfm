@@ -973,11 +973,11 @@ object MainForm: TMainForm
     Left = 24
     Height = 112
     Top = 541
-    Width = 384
+    Width = 392
     BorderSpacing.Top = 16
     Caption = 'Selection of Dimensions'
     ClientHeight = 88
-    ClientWidth = 380
+    ClientWidth = 388
     ParentBackground = False
     TabOrder = 6
     object DataSelectionCCB: TCheckComboBox
@@ -1036,7 +1036,7 @@ object MainForm: TMainForm
       BorderSpacing.Left = 8
       Caption = 'Dimensions to plot'
     end
-    object FlipB: TButton
+    object FlipTB: TToggleBox
       AnchorSideLeft.Control = PlotSelectionL
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = PlotSelectionCCB
@@ -1045,15 +1045,109 @@ object MainForm: TMainForm
       Height = 26
       Hint = 'flips the dimensions in the plot'
       Top = 8
-      Width = 48
+      Width = 50
       BorderSpacing.Left = 8
       Caption = 'Flip'
       Enabled = False
       ParentShowHint = False
       ShowHint = True
       TabOrder = 2
-      OnClick = FlipBClick
+      OnChange = FlipTBChange
     end
+  end
+  object IteridenseSliderGB: TGroupBox
+    AnchorSideLeft.Control = DimensionSelectionGB
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = LoadedDataFileM
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = DimensionSelectionGB
+    AnchorSideBottom.Side = asrBottom
+    Left = 428
+    Height = 68
+    Top = 585
+    Width = 624
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    BorderSpacing.Left = 12
+    BorderSpacing.Top = 4
+    BorderSpacing.Right = 12
+    Caption = 'Iteridense Resolution Inspector'
+    ClientHeight = 44
+    ClientWidth = 620
+    Enabled = False
+    ParentBackground = False
+    TabOrder = 7
+    object IteridenseSliderTB: TTrackBar
+      AnchorSideLeft.Control = SliderStartSE
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = IteridenseSliderGB
+      AnchorSideRight.Control = SliderStopSE
+      AnchorSideBottom.Control = IteridenseSliderGB
+      AnchorSideBottom.Side = asrBottom
+      Left = 62
+      Height = 36
+      Hint = 'runs Iteridense at a fixed resolution'
+      Top = 4
+      Width = 496
+      Max = 32
+      Min = 2
+      OnChange = IteridenseSliderTBChange
+      PageSize = 0
+      Position = 2
+      Anchors = [akTop, akLeft, akRight, akBottom]
+      BorderSpacing.Left = 4
+      BorderSpacing.Top = 4
+      BorderSpacing.Right = 4
+      BorderSpacing.Bottom = 4
+      OnMouseDown = IteridenseSliderTBMouseDown
+      OnMouseMove = IteridenseSliderTBMouseMove
+      OnMouseUp = IteridenseSliderTBMouseUp
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 0
+    end
+    object SliderStartSE: TSpinEdit
+      AnchorSideLeft.Control = IteridenseSliderGB
+      AnchorSideTop.Control = IteridenseSliderGB
+      Left = 8
+      Height = 27
+      Top = 4
+      Width = 50
+      BorderSpacing.Left = 8
+      BorderSpacing.Top = 4
+      MaxValue = 99
+      MinValue = 2
+      OnEditingDone = SliderStartSEEditingDone
+      TabOrder = 1
+      Value = 2
+    end
+    object SliderStopSE: TSpinEdit
+      AnchorSideTop.Control = IteridenseSliderGB
+      AnchorSideRight.Control = IteridenseSliderGB
+      AnchorSideRight.Side = asrBottom
+      Left = 562
+      Height = 27
+      Top = 4
+      Width = 50
+      Anchors = [akTop, akRight]
+      BorderSpacing.Top = 4
+      BorderSpacing.Right = 8
+      MaxValue = 128
+      MinValue = 2
+      OnEditingDone = SliderStopSEEditingDone
+      TabOrder = 2
+      Value = 48
+    end
+  end
+  object LabelHintB: TButton
+    Left = 472
+    Height = 21
+    Top = 552
+    Width = 32
+    Caption = 'LabelHintB'
+    TabOrder = 8
+    Visible = False
   end
   object ChartAxisTransformValues: TChartAxisTransformations
     Left = 888
