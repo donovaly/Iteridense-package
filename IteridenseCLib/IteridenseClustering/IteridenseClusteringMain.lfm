@@ -215,6 +215,7 @@ object MainForm: TMainForm
     Legend.BackgroundBrush.Color = clWindow
     Legend.UseSidebar = False
     Legend.Visible = True
+    Proportional = True
     Title.Font.Height = -15
     Title.Text.Strings = (
       'Data'
