@@ -360,20 +360,25 @@ Option~\ref{enu:Specification-of-a} prevents undesired many loops.
 For example if $\rho$ was set to a high value and no cluster will
 be found.
 
-A reference implementation of \noun{Iteridense} is online available~\cite{Iteridense}.
-Its outputs are besides the assignments of the points to clusters
-also the size of clusters, density of clusters, final resolution,
-number of clusters, the count map as tensor in the final resolution
-(the actual probability-density function) and a tensor like the count
-map but with information about what cluster a grid cell belongs to.
+A reference implementation of \noun{Iteridense} in the programming
+language \noun{Julia} is online available~\cite{Iteridense}. Its
+outputs are besides the assignments of the points to clusters also
+the size of clusters, density of clusters, final resolution, number
+of clusters, the count map as tensor in the final resolution (the
+actual probability-density function) and a tensor like the count map
+but with information about what cluster a grid cell belongs to. There
+is also a stand-alone program available with a graphical user interface
+(GUI) that uses the reference implementation~\cite{Iteridense-package}.
 
 \section{Clustering Results}
 
 To show the clustering results artificial data was generated using
 the library \emph{sklearn.datasets} from the scikit-learn project~\cite{SciKitLearnDataSets}.
 Real data were taken from the \emph{Rdatasets} database~\cite{Rdatasets}.
-All clustering results figures were created using the package \emph{Plots}
-of the \noun{Julia} programming language~\cite{JuliaPlots}.
+The clustering results figures were created using the package \emph{Plots}
+of the \noun{Julia} programming language~\cite{JuliaPlots} and the
+GUI reference implementation for \noun{Iteridense} that uses the component
+\emph{TAChart} of the \noun{Lazarus Component Library}~\cite{TAChart}.
 
 \subsection{Effect of the Density Parameter}
 
