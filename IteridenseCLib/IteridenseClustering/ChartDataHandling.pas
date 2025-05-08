@@ -587,10 +587,10 @@ begin
       Series[i].Pointer.Brush.Color:= colorPalette[i mod Length(colorPalette)];
       Series[i].Pointer.Style:= psCircle; // circles for the points
       Series[i].Title:= IntToStr(i);
-      Series[i].ZPosition:= 1; // to be laster able to set series behind others
+      Series[i].ZPosition:= 1; // to be later able to set series behind others
       MainForm.DataC.AddSeries(Series[i]);
     end;
-    // Move the first series to the back since this is the non-cluster, otherwise
+    // Move the first series to the back since it holds the non-cluster points. Otherwise
     // especially for high Iterdiense densities they would cover the cluster values.
     Series[0].ZPosition:= 0;
 
