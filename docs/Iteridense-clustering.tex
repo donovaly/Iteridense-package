@@ -229,12 +229,11 @@ algorithm step~\ref{enu:AlgoStep3}.]{\includegraphics[width=0.33\columnwidth]{cl
 }
 \par\end{centering}
 \caption{\label{fig:Clustering-process}Clustering process of \noun{Iteridense}.
-(a) Data to be clustered; (b) Count map generated in of algorithm
-step~\ref{enu:AlgoStep3}: 16~cells with the info how many data
-points are in.; (c) Clustering scheme of the count map. The red cell
-is the currently evaluated cell, the blue cells have already be evaluated,
-cells~A\,--\,D are neighboring cells determining the clustering
-for the red cell.}
+(a) Data to be clustered; (b) Count map generated in algorithm step~\ref{enu:AlgoStep3}
+for resolution 4: 16~cells with the info how many data points are
+in.; (c) Clustering scheme of the count map. The red cell is the currently
+evaluated cell, the blue cells have already be evaluated, cells~A\,--\,D
+are neighboring cells determining the clustering for the red cell.}
 \end{figure}
 
 \begin{enumerate}
@@ -248,12 +247,12 @@ would be a resolution of 5 and so on.
 6\,--\,93/4\,\%{]}, {[}89/4\,--\,2·89/4\,°C; 6\,--\,2·93/4\,\%{]},
 $\ldots$) are counted. The result is a count map as shown in \ref{fig:Clustering-process}\,(a).
 \item \label{enu:AlgoStep3}Now the actual clustering is performed. The
-processing scheme ist depicted in \ref{fig:Clustering-process}\,(b).
+processing scheme ist depicted in \ref{fig:Clustering-process}\,(c).
 Every cell is processed one after another first in x- then in y-direction.
 If a cell has more than 1~data point it could be part of a cluster
 and then its neighboring cells are evaluated. Thereby only those neighbors
 are evaluated that have already be evaluated (blue and light-blue
-in \ref{fig:Clustering-process}\,(b)) because for them it is already
+in \ref{fig:Clustering-process}\,(c)) because for them it is already
 known to which cluster they belong to.
 
 If none of the neighbor cells A\,--\,D are in a cluster, the current

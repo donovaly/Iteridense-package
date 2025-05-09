@@ -884,7 +884,7 @@ Iteridense
 \noun default
 .
  (a) Data to be clustered;
- (b) Count map generated in of algorithm step
+ (b) Count map generated in algorithm step
 \begin_inset space ~
 \end_inset
 
@@ -895,7 +895,7 @@ reference "enu:AlgoStep3"
 
 \end_inset
 
-:
+ for resolution 4:
  16
 \begin_inset space ~
 \end_inset
@@ -1118,7 +1118,7 @@ reference "fig:Clustering-process"
 \begin_inset space \thinspace{}
 \end_inset
 
-(b).
+(c).
  Every cell is processed one after another first in x- then in y-direction.
  If a cell has more than 1
 \begin_inset space ~
@@ -1136,7 +1136,7 @@ reference "fig:Clustering-process"
 \begin_inset space \thinspace{}
 \end_inset
 
-(b)) because for them it is already known to which cluster they belong to.
+(c)) because for them it is already known to which cluster they belong to.
 \end_layout
 
 \begin_deeper
