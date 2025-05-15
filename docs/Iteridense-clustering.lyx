@@ -1107,7 +1107,7 @@ name "enu:AlgoStep3"
 \end_inset
 
 Now the actual clustering is performed.
- The processing scheme ist depicted in 
+ The processing scheme is depicted in 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Clustering-process"
