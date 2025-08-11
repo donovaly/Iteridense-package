@@ -259,14 +259,14 @@ Iteridense
 \noun on
 Iteridense
 \noun default
- is applicable for datasets with any dimensionality.
+ is applicable for data sets with any dimensionality.
  
 \noun on
 Iteridense
 \noun default
- provides shorter computation times than pure density-based algorithms and that it performs clustering at least as good to the DBSCAN algorithm.
+ provides shorter computation times than pure density-based algorithms and that it performs clustering at least as good as the DBSCAN algorithm.
  This work enables users to cluster data in a quick,
- reliable and objective way based on the the probability-density of the data.
+ reliable and objective way based on the probability-density of the data.
 \end_layout
 
 \begin_layout Section
@@ -274,7 +274,7 @@ Introduction
 \end_layout
 
 \begin_layout Standard
-Density-based clustering algorithms have been proven useful for many practical application.
+Density-based clustering algorithms have been proven useful for many practical applications.
  There exists a wide variety of algorithms,
  some optimized for particular use cases
 \begin_inset space ~
@@ -290,7 +290,7 @@ literal "false"
 
 .
  However,
- these algorithms have a major drawback – one needs to evaluate neighboring points for every data point in the dataset to determine if it is part of a cluster.
+ these algorithms have a major drawback – one needs to evaluate neighboring points for every data point in the data set to determine if it is part of a cluster.
  This is the case for most density-based clustering algorithms like PreDeCon
 \begin_inset space ~
 \end_inset
@@ -340,7 +340,7 @@ literal "false"
 
 \end_inset
 
- don't have this drawback but make assumptions about the shape of the probability distribution.
+ don't have this drawback but make assumptions about the shape of the probability distribution of the data (what is the probability to find a data point inside the range of available data).
 \end_layout
 
 \begin_layout Standard
@@ -374,8 +374,8 @@ literal "false"
 \begin_layout Standard
 The algorithm presented in this paper uses both,
  density-based and grid-based methods.
- Its base idea is to work with different probability-density functions of the dataset and analyzing them in a grid.
- Therefore even for small datasets in 2
+ Its main idea is to work with different probability-density functions of the data set and analyzing them in a grid.
+ This approach makes it possible that even for small data sets in 2
 \begin_inset space ~
 \end_inset
 
@@ -552,15 +552,16 @@ Relief of a random geographic area cut at different heights.
 \end_layout
 
 \begin_layout Standard
-Translating the height to the density of data points 
+Translating the relief height to the density of data points 
 \begin_inset Formula $\rho$
 \end_inset
 
- the cut is made along a certain 
+,
+ the cut is made at a certain 
 \begin_inset Formula $\rho$
 \end_inset
 
- through the probability-density function of the dataset.
+ through the probability-density function of the data set.
  See also the section 
 \emph on
 Background and Motivation
@@ -584,7 +585,7 @@ reference "fig:Relief-of-a"
 \end_layout
 
 \begin_layout Standard
-Detecting clusters by making a cut through the probability-distribution is state-of-the-art
+Detecting clusters by making a cut through the probability-distribution is state-of-the-art 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Kriegel2011"
@@ -594,12 +595,14 @@ literal "false"
 
 .
  The novelty is how to generate the distribution and how to cut it.
- Instead of calculating a single probability-density function calculate different probability-density functions in an iterative process with increasing resolutions.
- Resolution means hereby into how many cells every dimension of the dataset is divided to calculate the probability-density function.
- For every resolution a clustering of the cells is performed and there are two results:
+ Instead of calculating a single probability-density function,
+ we calculate different probability-density functions in an iterative process with increasing resolutions.
+ Resolution means hereby into how many cells every dimension of the data set is divided to calculate the probability-density function.
+ For every resolution a clustering of the cells is performed and one gets two results:
  the amount of clusters and the density of every cluster.
  Depending on the results,
- the algorithm is stopped or it continues and calculates another probability-density function at a higher resolution.
+ the algorithm is stopped,
+ or it continues and calculates another probability-density function at a higher resolution.
 \end_layout
 
 \begin_layout Standard
@@ -622,7 +625,8 @@ The clustering works without the need to test neighbors of every data point,
 \end_layout
 
 \begin_layout Itemize
-One has the choice to specify either 
+One has two choices to stop the algorithm.
+ Either one specifies 
 \begin_inset Formula $\rho$
 \end_inset
 
@@ -632,14 +636,8 @@ One has the choice to specify either
 \series bold
 MinClusters
 \series default
- ,
- the number of how many clusters should at least be detected to stop the algorithm.
- When specifying 
-\series bold
-MinClusters
-\series default
- is possible,
- one gets a completely objective result (no human bias involved as specifying a 
+,
+ the number of how many clusters should at least be detected (in that case the specification of 
 \begin_inset Formula $\rho$
 \end_inset
 
@@ -660,7 +658,7 @@ Iteridense
 \begin_inset Formula $\rho$
 \end_inset
 
- is defined being normalized so that the whole dataset has 
+ is defined being normalized so that the whole data set has 
 \begin_inset Formula $\rho=1$
 \end_inset
 
@@ -674,11 +672,11 @@ Iteridense
 \begin_inset Formula $\rho>1$
 \end_inset
 
- and increasing 
+ and increase 
 \begin_inset Formula $\rho$
 \end_inset
 
- until one gets a suitable result.
+ until you get a suitable result.
  The algorithm stops at a resolution that fulfills the specification of 
 \begin_inset Formula $\rho$
 \end_inset
@@ -732,14 +730,13 @@ reference "fig:Clustering-process"
 \begin_inset space \thinspace{}
 \end_inset
 
-(a) shows as example a 2-dimensional dataset which represents the relative humidity and temperature of air inside a thermo-box after a certain chemical process.
+(a) shows as example a 2-dimensional data set which represents the relative humidity and temperature of air inside a thermo-box after a certain chemical process.
  It looks like there might be a cluster of points inside an area in form of a quarter circle.
- To find that potential cluster,
- 
+ To find that potential cluster 
 \noun on
 Iteridense
 \noun default
- works on this dataset the following way:
+ works on this data set the following way:
 \end_layout
 
 \begin_layout Standard
@@ -936,7 +933,7 @@ name "enu:AlgoStep1"
 
 \end_inset
 
-The space of the dataset is divided into a grid of 4
+The space of the data set is divided into a grid of 4
 \begin_inset space \thinspace{}
 \end_inset
 
@@ -949,7 +946,7 @@ The space of the dataset is divided into a grid of 4
 \end_inset
 
 cells.
- In our example the data range of dimension
+ In our example the data range in dimension
 \begin_inset space ~
 \end_inset
 
@@ -973,7 +970,7 @@ temperature
 \begin_inset space \thinspace{}
 \end_inset
 
-°C and the dimension
+°C and the range in dimension
 \begin_inset space ~
 \end_inset
 
@@ -998,8 +995,53 @@ humidity
 \end_inset
 
 %.
- This range defines the space of the dataset.
- 4
+ These ranges define the space of the data set.
+ As we divide into 4
+\begin_inset space \thinspace{}
+\end_inset
+
+×
+\begin_inset space \thinspace{}
+\end_inset
+
+4
+\begin_inset space ~
+\end_inset
+
+cells,
+ cell
+\begin_inset space ~
+\end_inset
+
+1 covers the space of temperature range 4
+\begin_inset space \thinspace{}
+\end_inset
+
+–
+\begin_inset space \thinspace{}
+\end_inset
+
+25.25
+\begin_inset space \thinspace{}
+\end_inset
+
+°C and humidity range 6
+\begin_inset space \thinspace{}
+\end_inset
+
+–
+\begin_inset space \thinspace{}
+\end_inset
+
+27.75
+\begin_inset space \thinspace{}
+\end_inset
+
+%.
+\begin_inset Newline newline
+\end_inset
+
+A division into 4
 \begin_inset space \thinspace{}
 \end_inset
 
@@ -1012,7 +1054,7 @@ humidity
 \end_inset
 
 cells is defined as a resolution of 4.
- 5
+ A division into 5
 \begin_inset space \thinspace{}
 \end_inset
 
@@ -1028,63 +1070,7 @@ cells would be a resolution of 5 and so on.
 \end_layout
 
 \begin_layout Enumerate
-The number of data points in the cell spaces ([4
-\begin_inset space \thinspace{}
-\end_inset
-
-–
-\begin_inset space \thinspace{}
-\end_inset
-
-89/4
-\begin_inset space \thinspace{}
-\end_inset
-
-°C,
- 6
-\begin_inset space \thinspace{}
-\end_inset
-
-–
-\begin_inset space \thinspace{}
-\end_inset
-
-93/4
-\begin_inset space \thinspace{}
-\end_inset
-
-%],
- [89/4
-\begin_inset space \thinspace{}
-\end_inset
-
-–
-\begin_inset space \thinspace{}
-\end_inset
-
-2·89/4
-\begin_inset space \thinspace{}
-\end_inset
-
-°C;
- 6
-\begin_inset space \thinspace{}
-\end_inset
-
-–
-\begin_inset space \thinspace{}
-\end_inset
-
-2·93/4
-\begin_inset space \thinspace{}
-\end_inset
-
-%],
- 
-\begin_inset Formula $\ldots$
-\end_inset
-
-) are counted.
+The number of data points in the cells are counted.
  The result is a count map as shown in 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -1107,7 +1093,7 @@ name "enu:AlgoStep3"
 \end_inset
 
 Now the actual clustering is performed.
- The processing scheme is depicted in 
+ The evaluating scheme is depicted in 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Clustering-process"
@@ -1119,13 +1105,21 @@ reference "fig:Clustering-process"
 \end_inset
 
 (c).
- Every cell is processed one after another first in x- then in y-direction.
- If a cell has more than 1
+ Every cell is evaluated one after another first in x- then in y-direction.
+ The most basic definition of a cluster is that a cluster consists of at least one cell that has at least 2
 \begin_inset space ~
 \end_inset
 
-data point it could be part of a cluster and then its neighboring cells are evaluated.
- Thereby only those neighbors are evaluated that have already be evaluated (blue and light-blue in 
+data points.
+ Therefore,
+ if a cell has more than 1
+\begin_inset space ~
+\end_inset
+
+data point it could either be a sole cluster or part of a cluster.
+ To decide this,
+ its neighboring cells are evaluated.
+ Thereby only those neighbors are evaluated that have already been evaluated (blue and light-blue in 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Clustering-process"
@@ -1151,7 +1145,8 @@ If none of the neighbor cells A
 
 D are in a cluster,
  the current cell will start a new cluster.
- If any neighbor is in a cluster the current cell will become part of that cluster.
+ If any neighbor is in a cluster,
+ the current cell will become part of that cluster.
  If neighbor cells are in different clusters,
  these clusters are merged and the current cell becomes part of that merged cluster.
  For example cell
@@ -1173,7 +1168,7 @@ The density of every cluster
 
  is calculated as the number of points in the cluster divided by the number of cells in the cluster.
  To normalize the density,
- the result is divided by the density of the whole dataset:
+ the result is divided by the density of the whole data set:
 \begin_inset Formula 
 \begin{equation}
 \rho_{\mathrm{cluster}}=\cfrac{\text{num points in cluster}}{\text{num cells in cluster}}\cdot\cfrac{\text{total num of cells}}{\text{total num of points}}
@@ -1186,7 +1181,7 @@ The density of every cluster
 
 \begin_deeper
 \begin_layout Standard
-So the whole dataset has the density 1.0.
+So the whole data set has the density 1.0.
  As exception,
  if the clustering results in a single cluster containing all points,
  its 
@@ -1227,8 +1222,9 @@ All clusters are evaluated.
 \begin_inset Formula $\rho_{\mathrm{cluster}}$
 \end_inset
 
- is too low or clusters contain too few data points they are deleted as well.
- See the next section of a description of these optional parameters.
+ is lower than a specified value or if they contain fewer data points than a specified value,
+ these clusters are deleted as well.
+ See the next section for a description of these optional settings.
  The result of this algorithm step is a set of clusters that are subsequently numbered.
 \end_layout
 
@@ -1265,7 +1261,7 @@ MinClusters
 \series default
 .
  To assure that the steps are not repeated forever,
- the loop is stopped if the resolution reaches the total number of points in the dataset.
+ the loop is stopped if the resolution reaches the total number of points in the data set.
  The resolution reached at the end of this step is the final resolution.
 \end_layout
 
@@ -1525,7 +1521,7 @@ reference "fig:Clustering-process"
 \end_layout
 
 \begin_layout Subsection
-Options
+Optional Settings
 \end_layout
 
 \begin_layout Standard
@@ -1556,7 +1552,7 @@ StartResolution
 \series default
 ).
  The default and minimum is 2,
- the maximum is the total number of points in the dataset.
+ the maximum is the total number of points in the data set.
 \end_layout
 
 \begin_layout Enumerate
@@ -1615,7 +1611,7 @@ MinClusterSize
  Clusters with less points will be erased.
  The default is 3,
  the minimum is 2,
- the maximum is the total number of points in the dataset minus 1.
+ the maximum is the total number of points in the data set minus 1.
 \end_layout
 
 \begin_layout Enumerate
@@ -2765,7 +2761,7 @@ data points.
 \begin_inset Formula $\epsilon=0.1$
 \end_inset
 
- seems to be a sensible start value for DBSCAN.
+ (the maximum distance to another core point of a cluster) seems to be a sensible start value for DBSCAN.
  The result is 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -2809,7 +2805,7 @@ reference "fig:Result-of-DBSCAN-1"
 \end_inset
 
 .
- For this dataset a human would expect 3
+ For this data set a human would expect 3
 \begin_inset space ~
 \end_inset
 
@@ -3203,7 +3199,7 @@ The change of
 MinClusterSize
 \series default
  might not be obvious when one cannot plot for example high-dimensional data.
- But that this is the way to go is a feature of the the 
+ But that this is the way to go is a feature of the 
 \noun on
 Iteridense
 \noun default
@@ -3533,7 +3529,7 @@ The benefit of
 Iteridense
 \noun default
  compared to density-based algorithms is the computation time.
- In this example the dataset has 1500
+ In this example the data set has 1500
 \begin_inset space ~
 \end_inset
 
@@ -3852,7 +3848,7 @@ Iteridense
 \emph on
 pluton
 \emph default
- dataset
+ data set
 \begin_inset CommandInset citation
 LatexCommand cite
 key "RDataPluton"
@@ -4009,7 +4005,7 @@ Iteridense
 \emph on
 pluton
 \emph default
- dataset.
+ data set.
 \end_layout
 
 \end_inset
@@ -4027,7 +4023,7 @@ By plotting 3
 \begin_inset space ~
 \end_inset
 
-dimensions of the dataset and performing 
+dimensions of the data set and performing 
 \noun on
 Iteridense
 \noun default
@@ -4088,7 +4084,7 @@ Iteridense
 \begin_inset Formula $\rho_{\mathrm{cluster}}$
 \end_inset
 
-and ends up with 
+ and ends up with 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Iteridense-Pluton"
@@ -4108,7 +4104,7 @@ reference "fig:Iteridense-Pluton"
 \begin_inset Newline newline
 \end_inset
 
-For comparison DBSCAN cannot find in this dataset more than 2
+For comparison DBSCAN cannot find in this data set more than 2
 \begin_inset space ~
 \end_inset
 
@@ -4131,7 +4127,7 @@ Iteridense
 \emph on
 PhDPublications
 \emph default
- dataset
+ data set
 \begin_inset space ~
 \end_inset
 
@@ -4180,8 +4176,8 @@ reference "fig:Result-Iteridense-PhD"
 \noun on
 Iteridense
 \noun default
-'s grid-based approach combined with its density analysis makes it possible to deal directly with classes inside datasets.
- Pure density-based algorithms cannot directly cluster the dataset in the same way.
+'s grid-based approach combined with its density analysis makes it possible to deal directly with classes inside data sets.
+ Pure density-based algorithms cannot directly cluster the data set in the same way.
 \end_layout
 
 \begin_layout Standard
@@ -4199,7 +4195,7 @@ reference "fig:Result-Iteridense-PhD"
 
 (b).
  To find in this case clusters inside the classes,
- one has to extract the classes to different datasets and then run 
+ one has to extract the classes to different data sets and then run 
 \noun on
 Iteridense
 \noun default
@@ -4321,7 +4317,7 @@ Iteridense
 \emph on
 PhDPublications
 \emph default
- dataset.
+ data set.
 \end_layout
 
 \end_inset
@@ -4373,9 +4369,9 @@ Iteridense
 \begin_inset Newline linebreak
 \end_inset
 
- DENCLUE assumes a Gaussian distribution function as shape the the density function.
+ DENCLUE assumes a Gaussian distribution function as shape of the density function.
  Another big difference to DENCLUE is that there is not only a single probability-density function created but iteratively several ones with increasing resolutions.
- This costs more computation efforts but one does not have to make assumptions about the density in the dataset.
+ This costs more computation efforts but one does not have to make assumptions about the density in the data set.
  DENCLUE requires at least 2
 \begin_inset space ~
 \end_inset
@@ -4524,7 +4520,7 @@ Iteridense
 \noun on
 Iteridense
 \noun default
- is applicable for datasets with any dimensionality.
+ is applicable for data sets with any dimensionality.
 \end_layout
 
 \begin_layout Standard
@@ -4541,7 +4537,7 @@ It was demonstrated that
 \noun on
 Iteridense
 \noun default
- performs clustering as good to the DBSCAN algorithm and for cases of high-dimension datasets even better.
+ performs clustering as good to the DBSCAN algorithm and for cases of high-dimension data sets even better.
 \end_layout
 
 \begin_layout Standard
@@ -4564,7 +4560,7 @@ literal "false"
 \noun on
 Iteridense
 \noun default
- on the datasets shown in this paper.
+ on the data sets shown in this paper.
 \end_layout
 
 \begin_layout Standard

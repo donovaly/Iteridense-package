@@ -1,4 +1,4 @@
-%% LyX 2.4.3 created this file.  For more info, see https://www.lyx.org/.
+%% LyX 2.4.4 created this file.  For more info, see https://www.lyx.org/.
 %% Do not edit unless you really know what you are doing.
 \documentclass[12pt,onecolumn,fleqn,english,compsoc]{IEEEtran}
 \usepackage{lmodern}
@@ -85,28 +85,29 @@ We introduce \noun{Iteridense}, an iterative clustering algorithm
 combining grid-based and density-based methods. It provides two possibilities
 to perform the clustering and for both it provides a clear path on
 how to change the algorithm's input parameters to achieve suitable
-results. We show that \noun{Iteridense} is applicable for datasets
+results. We show that \noun{Iteridense} is applicable for data sets
 with any dimensionality. \noun{Iteridense} provides shorter computation
 times than pure density-based algorithms and that it performs clustering
-at least as good to the DBSCAN algorithm. This work enables users
+at least as good as the DBSCAN algorithm. This work enables users
 to cluster data in a quick, reliable and objective way based on the
-the probability-density of the data.
+probability-density of the data.
 \end{abstract}
 
 
 \section{Introduction}
 
 Density-based clustering algorithms have been proven useful for many
-practical application. There exists a wide variety of algorithms,
+practical applications. There exists a wide variety of algorithms,
 some optimized for particular use cases~\cite{Kriegel2011}. However,
 these algorithms have a major drawback -- one needs to evaluate neighboring
-points for every data point in the dataset to determine if it is part
-of a cluster. This is the case for most density-based clustering algorithms
-like PreDeCon~\cite{Boehm2004} or HDBSCAN~\cite{Campello2013}.
+points for every data point in the data set to determine if it is
+part of a cluster. This is the case for most density-based clustering
+algorithms like PreDeCon~\cite{Boehm2004} or HDBSCAN~\cite{Campello2013}.
 Other algorithms that combine grid-based with density-based methods
 like DENCLUE~\cite{Hinneburg1998} or CLIQUE\,\cite{Agrawal1998}
 don't have this drawback but make assumptions about the shape of the
-probability distribution.
+probability distribution of the data (what is the probability to find
+a data point inside the range of available data).
 
 Another issue of many clustering algorithms is that as user there
 is no clear path on how to change the algorithm's input parameters
@@ -117,15 +118,15 @@ use cases there is no clear path on how to change $\epsilon$ to get
 a suitable result as we will also discuss in this paper.
 
 The algorithm presented in this paper uses both, density-based and
-grid-based methods. Its base idea is to work with different probability-density
-functions of the dataset and analyzing them in a grid. Therefore even
-for small datasets in 2~dimensions the computation can be 10~times
-faster than a pure density-based algorithm like DBSCAN. Our algorithm
-follows an iterative approach to calculate the probability-density
-function and makes no assumptions about the shape of that function.
-Therefore it provides a clear path on how to set a start value of
-the algorithm's main parameter and how to change it to achieve a certain
-result.
+grid-based methods. Its main idea is to work with different probability-density
+functions of the data set and analyzing them in a grid. This approach
+makes it possible that even for small data sets in 2~dimensions the
+computation can be 10~times faster than a pure density-based algorithm
+like DBSCAN. Our algorithm follows an iterative approach to calculate
+the probability-density function and makes no assumptions about the
+shape of that function. Therefore it provides a clear path on how
+to set a start value of the algorithm's main parameter and how to
+change it to achieve a certain result.
 
 \pagebreak{}
 
@@ -158,21 +159,22 @@ mountain area.
 different heights.}
 \end{figure}
 
-Translating the height to the density of data points $\rho$ the cut
-is made along a certain $\rho$ through the probability-density function
-of the dataset. See also the section \emph{Background and Motivation}
-of \cite{Kriegel2011} for a similar visualization than in \ref{fig:Relief-of-a}.
+Translating the relief height to the density of data points $\rho$,
+the cut is made at a certain $\rho$ through the probability-density
+function of the data set. See also the section \emph{Background and
+Motivation} of \cite{Kriegel2011} for a similar visualization than
+in \ref{fig:Relief-of-a}.
 
 Detecting clusters by making a cut through the probability-distribution
-is state-of-the-art\cite{Kriegel2011}. The novelty is how to generate
+is state-of-the-art \cite{Kriegel2011}. The novelty is how to generate
 the distribution and how to cut it. Instead of calculating a single
-probability-density function calculate different probability-density
+probability-density function, we calculate different probability-density
 functions in an iterative process with increasing resolutions. Resolution
-means hereby into how many cells every dimension of the dataset is
+means hereby into how many cells every dimension of the data set is
 divided to calculate the probability-density function. For every resolution
-a clustering of the cells is performed and there are two results:
-the amount of clusters and the density of every cluster. Depending
-on the results, the algorithm is stopped or it continues and calculates
+a clustering of the cells is performed and one gets two results: the
+amount of clusters and the density of every cluster. Depending on
+the results, the algorithm is stopped, or it continues and calculates
 another probability-density function at a higher resolution.
 
 We call our algorithm \noun{Iteridense} (ITERative grID- and dENSity-based
@@ -183,21 +185,20 @@ are:
 point, making the clustering more computation-efficient. The clusters
 are derived by counting the numbers of data points within a certain
 data area.
-\item One has the choice to specify either $\rho$, the minimal density
-every found cluster must have to stop the algorithm, or \textbf{MinClusters}
-, the number of how many clusters should at least be detected to stop
-the algorithm. When specifying \textbf{MinClusters} is possible, one
-gets a completely objective result (no human bias involved as specifying
-a $\rho$ is not necessary). The possibility to specify \textbf{MinClusters}
-is a big advantage compared to pure density-based algorithms that
-by design cannot have this feature.
+\item One has two choices to stop the algorithm. Either one specifies $\rho$,
+the minimal density every found cluster must have to stop the algorithm,
+or \textbf{MinClusters}, the number of how many clusters should at
+least be detected (in that case the specification of $\rho$ is not
+necessary). The possibility to specify \textbf{MinClusters} is a big
+advantage compared to pure density-based algorithms that by design
+cannot have this feature.
 \item For \noun{Iteridense} $\rho$ is defined being normalized so that
-the whole dataset has $\rho=1$. Because of the iteration with increasing
+the whole data set has $\rho=1$. Because of the iteration with increasing
 resolutions our algorithm provides a clear path on how to set and
-change $\rho$: Start with a low $\rho>1$ and increasing $\rho$
-until one gets a suitable result. The algorithm stops at a resolution
-that fulfills the specification of $\rho$. We will demonstrate this
-feature with an example in \ref{subsec:Clustering-Performance}.
+change $\rho$: Start with a low $\rho>1$ and increase $\rho$ until
+you get a suitable result. The algorithm stops at a resolution that
+fulfills the specification of $\rho$. We will demonstrate this feature
+with an example in \ref{subsec:Clustering-Performance}.
 \end{itemize}
 
 \section{Description of the Iteridense Clustering Algorithm}
@@ -211,11 +212,11 @@ is treated as a dimensionless number since the dimension of the data
 point space can be anything, depending on the source of the data points.
 
 \ref{fig:Clustering-process}\,(a) shows as example a 2-dimensional
-dataset which represents the relative humidity and temperature of
+data set which represents the relative humidity and temperature of
 air inside a thermo-box after a certain chemical process. It looks
 like there might be a cluster of points inside an area in form of
-a quarter circle. To find that potential cluster, \noun{Iteridense}
-works on this dataset the following way:
+a quarter circle. To find that potential cluster \noun{Iteridense}
+works on this data set the following way:
 
 \begin{figure}
 \begin{centering}
@@ -237,26 +238,32 @@ are neighboring cells determining the clustering for the red cell.}
 \end{figure}
 
 \begin{enumerate}
-\item \label{enu:AlgoStep1}The space of the dataset is divided into a grid
-of 4\,\texttimes \,4~cells. In our example the data range of dimension~1
-``temperature'' is 4\,--\,89\,°C and the dimension~2 ``humidity''
-is 6\,--\,93\,\%. This range defines the space of the dataset.
-4\,\texttimes \,4~cells is defined as a resolution of 4. 5\,\texttimes \,5~cells
-would be a resolution of 5 and so on.
-\item The number of data points in the cell spaces ({[}4\,--\,89/4\,°C,
-6\,--\,93/4\,\%{]}, {[}89/4\,--\,2·89/4\,°C; 6\,--\,2·93/4\,\%{]},
-$\ldots$) are counted. The result is a count map as shown in \ref{fig:Clustering-process}\,(a).
+\item \label{enu:AlgoStep1}The space of the data set is divided into a
+grid of 4\,\texttimes \,4~cells. In our example the data range
+in dimension~1 ``temperature'' is 4\,--\,89\,°C and the range
+in dimension~2 ``humidity'' is 6\,--\,93\,\%. These ranges
+define the space of the data set. As we divide into 4\,\texttimes \,4~cells,
+cell~1 covers the space of temperature range 4\,--\,25.25\,°C
+and humidity range 6\,--\,27.75\,\%.\\
+A division into 4\,\texttimes \,4~cells is defined as a resolution
+of 4. A division into 5\,\texttimes \,5~cells would be a resolution
+of 5 and so on.
+\item The number of data points in the cells are counted. The result is
+a count map as shown in \ref{fig:Clustering-process}\,(a).
 \item \label{enu:AlgoStep3}Now the actual clustering is performed. The
-processing scheme is depicted in \ref{fig:Clustering-process}\,(c).
-Every cell is processed one after another first in x- then in y-direction.
-If a cell has more than 1~data point it could be part of a cluster
-and then its neighboring cells are evaluated. Thereby only those neighbors
-are evaluated that have already be evaluated (blue and light-blue
-in \ref{fig:Clustering-process}\,(c)) because for them it is already
-known to which cluster they belong to.
+evaluating scheme is depicted in \ref{fig:Clustering-process}\,(c).
+Every cell is evaluated one after another first in x- then in y-direction.
+The most basic definition of a cluster is that a cluster consists
+of at least one cell that has at least 2~data points. Therefore,
+if a cell has more than 1~data point it could either be a sole cluster
+or part of a cluster. To decide this, its neighboring cells are evaluated.
+Thereby only those neighbors are evaluated that have already been
+evaluated (blue and light-blue in \ref{fig:Clustering-process}\,(c))
+because for them it is already known to which cluster they belong
+to.
 
 If none of the neighbor cells A\,--\,D are in a cluster, the current
-cell will start a new cluster. If any neighbor is in a cluster the
+cell will start a new cluster. If any neighbor is in a cluster, the
 current cell will become part of that cluster. If neighbor cells are
 in different clusters, these clusters are merged and the current cell
 becomes part of that merged cluster. For example cell\,A and cell\,C
@@ -264,27 +271,28 @@ could be in different clusters and the current cell unites both clusters.
 \item The density of every cluster $\rho_{\mathrm{cluster}}$ is calculated
 as the number of points in the cluster divided by the number of cells
 in the cluster. To normalize the density, the result is divided by
-the density of the whole dataset:
+the density of the whole data set:
 \begin{equation}
 \rho_{\mathrm{cluster}}=\cfrac{\text{num points in cluster}}{\text{num cells in cluster}}\cdot\cfrac{\text{total num of cells}}{\text{total num of points}}
 \end{equation}
 
-So the whole dataset has the density 1.0. As exception, if the clustering
+So the whole data set has the density 1.0. As exception, if the clustering
 results in a single cluster containing all points, its $\rho_{\mathrm{cluster}}$
 is set to 1.0.
 
 The final density $\rho_{\mathrm{final}}$ is the minimum of all $\rho_{\mathrm{cluster}}$.
 \item \label{enu:AlgoStep5}All clusters are evaluated. Clusters with $\rho_{\mathrm{cluster}}<1.0$
 will be deleted as they are not sensible. Optionally, if $\rho_{\mathrm{cluster}}$
-is too low or clusters contain too few data points they are deleted
-as well. See the next section of a description of these optional parameters.
-The result of this algorithm step is a set of clusters that are subsequently
+is lower than a specified value or if they contain fewer data points
+than a specified value, these clusters are deleted as well. See the
+next section for a description of these optional settings. The result
+of this algorithm step is a set of clusters that are subsequently
 numbered.
 \item The resolution is incremented by one and the steps \ref{enu:AlgoStep1}\,--\,\ref{enu:AlgoStep5}
 are repeated until either $\rho_{\mathrm{final}}>\rho$ or until as
 many clusters were detected as specified as \textbf{MinClusters}.
 To assure that the steps are not repeated forever, the loop is stopped
-if the resolution reaches the total number of points in the dataset.
+if the resolution reaches the total number of points in the data set.
 The resolution reached at the end of this step is the final resolution.
 \item All data points are assigned according to the found clusters. Points
 in cluster ``0'' are hereby not part of a cluster.
@@ -315,14 +323,14 @@ data shown in \ref{fig:Clustering-process}\,(a) for $\rho=3.0$.}
 \end{figure}
 
 
-\subsection{Options}
+\subsection{Optional Settings}
 
 The algorithm can optionally be modified this way:
 \begin{enumerate}
 \item \label{enu:Specification-of-the}Specification of the start resolution
 for step~\ref{enu:AlgoStep1} (\textbf{StartResolution}). The default
 and minimum is 2, the maximum is the total number of points in the
-dataset.
+data set.
 \item \label{enu:OptionDiagonal}In step~\ref{enu:AlgoStep3} don't take
 cells into account that are diagonally connected to the current cell
 (\textbf{NoDiagonals}). In \ref{fig:Clustering-process}\,(b) cells~A
@@ -330,7 +338,7 @@ and C would then not be evaluated.
 \item \label{enu:OptionClusterSize}Specification of the minimal number
 of data points in a cluster (\textbf{MinClusterSize}). Clusters with
 less points will be erased. The default is 3, the minimum is 2, the
-maximum is the total number of points in the dataset minus 1.
+maximum is the total number of points in the data set minus 1.
 \item \label{enu:OptionClusterDensity}Specification of the minimal $\rho_{\mathrm{cluster}}$
 of a cluster (\textbf{MinClusterDensity}). Clusters with lower $\rho_{\mathrm{cluster}}$
 will be erased. The minimum and default is 1.0.
@@ -485,12 +493,12 @@ using the \emph{make\_blobs }call to \emph{sklearn.datasets} with
 a subsequent transformation. Like in the previous example, there are
 1500~data points.
 
-$\epsilon=0.1$ seems to be a sensible start value for DBSCAN. The
-result is \ref{fig:Result-of-DBSCAN}\,(b). As the result is not
-a useful one might increase $\epsilon$ in small steps and gets with
-\textbf{MinPts} (minimal points to form a dense region) of 6 as results
-\ref{fig:Result-of-DBSCAN}\,--\,\ref{fig:Result-of-DBSCAN-1}.
-For this dataset a human would expect 3~base clusters but DBSCAN
+$\epsilon=0.1$ (the maximum distance to another core point of a cluster)
+seems to be a sensible start value for DBSCAN. The result is \ref{fig:Result-of-DBSCAN}\,(b).
+As the result is not a useful one might increase $\epsilon$ in small
+steps and gets with \textbf{MinPts} (minimal points to form a dense
+region) of 6 as results \ref{fig:Result-of-DBSCAN}\,--\,\ref{fig:Result-of-DBSCAN-1}.
+For this data set a human would expect 3~base clusters but DBSCAN
 does not find exactly 3~clusters. One has to try different $\epsilon$
 to get this result. For data in 2 or 3~dimensions one can plot the
 data to get a feeling for $\epsilon$ and for example increase \textbf{MinPts}.
@@ -540,7 +548,7 @@ clusters in the low-density area.
 \end{itemize}
 The change of \textbf{MinClusterSize} might not be obvious when one
 cannot plot for example high-dimensional data. But that this is the
-way to go is a feature of the the \noun{Iteridense} algorithm.
+way to go is a feature of the \noun{Iteridense} algorithm.
 
 \begin{figure}
 \begin{centering}
@@ -580,7 +588,7 @@ shows the result using the DBSCAN algorithm for $\epsilon=0.1$ and
 $\text{\textbf{MinPts}}=3$.
 
 The benefit of \noun{Iteridense} compared to density-based algorithms
-is the computation time. In this example the dataset has 1500~data
+is the computation time. In this example the data set has 1500~data
 points. To generate the count map in algorithm step~\ref{enu:AlgoStep1},
 every data point has to be evaluated in form of generating its coordinate
 value for the current grid coordinate system. This is the most costly
@@ -630,7 +638,7 @@ and DBSCAN for intersected circle-like clusters.}
 Data with higher dimensions are a main use case for clustering algorithms
 as no human could do the clustering according to plots. \ref{fig:Iteridense-Pluton}
 is an example and also demonstrate the clustering performance of \noun{Iteridense}.
-The data are the publicly available \emph{pluton} dataset\cite{RDataPluton}
+The data are the publicly available \emph{pluton} data set\cite{RDataPluton}
 containing concentrations of the different Plutonium isotopes in 45~ore
 samples. It has 4~dimensions.
 
@@ -646,35 +654,35 @@ dimensions taken into account.]{\includegraphics[width=0.33\columnwidth]{clipart
 }
 \par\end{centering}
 \caption{\label{fig:Iteridense-Pluton}Result of \noun{Iteridense} for the
-\emph{pluton} dataset.}
+\emph{pluton} data set.}
 \end{figure}
 
-By plotting 3~dimensions of the dataset and performing \noun{Iteridense}
+By plotting 3~dimensions of the data set and performing \noun{Iteridense}
 only on the plotted dimensions, the result would be \ref{fig:Iteridense-Pluton}\,(a).
 Taking all dimensions into account, the result is \ref{fig:Iteridense-Pluton}\,(b).
 The points of high Pu-241 concentrations are then identified as a
 cluster. Cluster~1 is so large because its density in all 4~dimensions
 matters. If one wants for some reason cluster~1 to be split into
 2~clusters, one follows the \noun{Iteridense} path and increases
-$\rho$ above the lowest $\rho_{\mathrm{cluster}}$and ends up with
+$\rho$ above the lowest $\rho_{\mathrm{cluster}}$ and ends up with
 \ref{fig:Iteridense-Pluton}\,(c). The high value for $\rho$ is
 the result of the high dimensionality of the data.\\
-For comparison DBSCAN cannot find in this dataset more than 2~clusters.
+For comparison DBSCAN cannot find in this data set more than 2~clusters.
 
 \ref{fig:Result-Iteridense-PhD} shows a use case in which \noun{Iteridense}
 shows its strengths. The data is the publicly available \emph{PhDPublications}
-dataset~\cite{RDataPhDCandData}. It has 6~dimensions and we selected
+data set~\cite{RDataPhDCandData}. It has 6~dimensions and we selected
 3 for the visualization. Since there are 5~classes in the set, \textbf{MinCluster}s
 was set to 5. By evaluating only the 3~shown dimensions, one gets
 \ref{fig:Result-Iteridense-PhD}\,(a). This shows that \noun{Iteridense}'s
 grid-based approach combined with its density analysis makes it possible
-to deal directly with classes inside datasets. Pure density-based
-algorithms cannot directly cluster the dataset in the same way.
+to deal directly with classes inside data sets. Pure density-based
+algorithms cannot directly cluster the data set in the same way.
 
 When evaluating all available dimensions the clusters run across the
 clusters, \ref{fig:Result-Iteridense-PhD}\,(b). To find in this
 case clusters inside the classes, one has to extract the classes to
-different datasets and then run \noun{Iteridense} on every class.
+different data sets and then run \noun{Iteridense} on every class.
 This is requires more efforts but leads to sensible results when going
 the way to specify $\rho$.
 
@@ -689,7 +697,7 @@ the way to specify $\rho$.
 }
 \par\end{centering}
 \caption{\label{fig:Result-Iteridense-PhD}Result of \noun{Iteridense} on the
-\emph{PhDPublications} dataset.}
+\emph{PhDPublications} data set.}
 \end{figure}
 
 
@@ -705,12 +713,12 @@ will perform as poor as DBSCAN on Fisher's Iris data set~\cite{Fisher1936}.
 \noun{Iteridense} shows some similarities to the grid-based DENCLUE
 algorithm. However, the assignments of the data points to the clusters
 is different because\linebreak{}
- DENCLUE assumes a Gaussian distribution function as shape the the
+ DENCLUE assumes a Gaussian distribution function as shape of the
 density function. Another big difference to DENCLUE is that there
 is not only a single probability-density function created but iteratively
 several ones with increasing resolutions. This costs more computation
 efforts but one does not have to make assumptions about the density
-in the dataset. DENCLUE requires at least 2~input variables. $\xi$
+in the data set. DENCLUE requires at least 2~input variables. $\xi$
 is similar to $\rho$ in \noun{Iteridense}. The parameter $\sigma$
 defines the width of the Gaussian that is used to assign the data
 points to the clusters. Its value has to be guessed introducing for
@@ -745,7 +753,7 @@ combining grid-based and density-based methods. It is simple to use
 because it does not require to estimate settings in advance and because
 it provides two possibilities to run the clustering and for both a
 clear path on how to change the algorithm's input parameters to achieve
-suitable results. \noun{Iteridense} is applicable for datasets with
+suitable results. \noun{Iteridense} is applicable for data sets with
 any dimensionality.
 
 The \noun{Iteridense} algorithm provides shorter computation times
@@ -754,14 +762,14 @@ it has the advantage that the user does not have to make assumptions
 on how the grid should be defined or about the shape of the probability-distribution.
 
 It was demonstrated that \noun{Iteridense} performs clustering as
-good to the DBSCAN algorithm and for cases of high-dimension datasets
-even better.
+good to the DBSCAN algorithm and for cases of high-dimension data
+sets even better.
 
 \noun{Iteridense} provides different options to affect either the
 clustering result and to improve the computation time. We provide
 online a reference implementation together with an example worksheet,
 \cite{Iteridense}, demonstrating the clustering with \noun{Iteridense}
-on the datasets shown in this paper.
+on the data sets shown in this paper.
 
 \printbibliography[heading=bibintoc]
 
