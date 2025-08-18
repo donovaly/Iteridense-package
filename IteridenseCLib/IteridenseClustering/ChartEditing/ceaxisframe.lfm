@@ -1,34 +1,33 @@
 object ChartAxisFrame: TChartAxisFrame
   Left = 0
-  Height = 459
+  Height = 401
   Top = 0
-  Width = 657
-  ClientHeight = 459
-  ClientWidth = 657
-  DesignTimePPI = 110
+  Width = 573
+  ClientHeight = 401
+  ClientWidth = 573
   ParentFont = False
   TabOrder = 0
   DesignLeft = 796
   DesignTop = 190
   object PanelTop: TPanel
     Left = 0
-    Height = 30
+    Height = 25
     Top = 0
-    Width = 657
+    Width = 573
     Align = alTop
     AutoSize = True
     BevelOuter = bvNone
-    ClientHeight = 30
-    ClientWidth = 657
+    ClientHeight = 25
+    ClientWidth = 573
     TabOrder = 0
     object cbShow: TCheckBox
       AnchorSideLeft.Control = PanelTop
       AnchorSideTop.Control = PanelTop
       Left = 0
-      Height = 23
+      Height = 19
       Top = 0
-      Width = 53
-      BorderSpacing.Bottom = 7
+      Width = 47
+      BorderSpacing.Bottom = 6
       Caption = 'Show'
       Checked = True
       State = cbChecked
@@ -39,35 +38,35 @@ object ChartAxisFrame: TChartAxisFrame
   object PageControl: TPageControl
     AnchorSideTop.Side = asrBottom
     Left = 0
-    Height = 429
-    Top = 30
-    Width = 657
-    ActivePage = pgTitle
+    Height = 376
+    Top = 25
+    Width = 573
+    ActivePage = pgLabels
     Align = alClient
-    TabIndex = 0
+    TabIndex = 1
     TabOrder = 1
     object pgTitle: TTabSheet
       Caption = 'Title'
-      ClientHeight = 397
-      ClientWidth = 649
+      ClientHeight = 348
+      ClientWidth = 565
       object TitleMemoPanel: TPanel
-        Left = 9
-        Height = 137
-        Top = 9
-        Width = 631
+        Left = 8
+        Height = 121
+        Top = 8
+        Width = 549
         Align = alClient
-        BorderSpacing.Around = 9
+        BorderSpacing.Around = 8
         BevelOuter = bvNone
-        ClientHeight = 137
-        ClientWidth = 631
+        ClientHeight = 121
+        ClientWidth = 549
         TabOrder = 0
         object lblTitle: TLabel
           AnchorSideLeft.Control = TitleMemoPanel
           AnchorSideTop.Control = TitleMemoPanel
           Left = 0
-          Height = 19
+          Height = 15
           Top = 2
-          Width = 24
+          Width = 21
           BorderSpacing.Top = 2
           Caption = 'Text'
           ParentColor = False
@@ -81,11 +80,11 @@ object ChartAxisFrame: TChartAxisFrame
           AnchorSideBottom.Control = TitleMemoPanel
           AnchorSideBottom.Side = asrBottom
           Left = 0
-          Height = 111
-          Top = 26
-          Width = 631
+          Height = 100
+          Top = 21
+          Width = 549
           Anchors = [akTop, akLeft, akRight, akBottom]
-          BorderSpacing.Top = 5
+          BorderSpacing.Top = 4
           ScrollBars = ssAutoBoth
           TabOrder = 0
           OnChange = mmoTitleChange
@@ -95,10 +94,10 @@ object ChartAxisFrame: TChartAxisFrame
           AnchorSideTop.Side = asrCenter
           AnchorSideRight.Control = TitleMemoPanel
           AnchorSideRight.Side = asrBottom
-          Left = 572
-          Height = 23
+          Left = 497
+          Height = 19
           Top = 0
-          Width = 59
+          Width = 52
           Alignment = taLeftJustify
           Anchors = [akTop, akRight]
           Caption = 'Visible'
@@ -109,15 +108,15 @@ object ChartAxisFrame: TChartAxisFrame
         end
       end
       object TitleParamsPanel: TPanel
-        Left = 9
-        Height = 233
-        Top = 155
-        Width = 631
+        Left = 8
+        Height = 203
+        Top = 137
+        Width = 549
         Align = alBottom
-        BorderSpacing.Around = 9
+        BorderSpacing.Around = 8
         BevelOuter = bvNone
-        ClientHeight = 233
-        ClientWidth = 631
+        ClientHeight = 203
+        ClientWidth = 549
         TabOrder = 1
         object rgTitleAlignment: TRadioGroup
           AnchorSideLeft.Control = TitleParamsPanel
@@ -125,9 +124,9 @@ object ChartAxisFrame: TChartAxisFrame
           AnchorSideRight.Control = Bevel1
           AnchorSideBottom.Side = asrBottom
           Left = 0
-          Height = 59
+          Height = 51
           Top = 0
-          Width = 308
+          Width = 268
           Anchors = [akTop, akLeft, akRight]
           AutoFill = True
           AutoSize = True
@@ -141,8 +140,8 @@ object ChartAxisFrame: TChartAxisFrame
           ChildSizing.ShrinkVertical = crsScaleChilds
           ChildSizing.Layout = cclLeftToRightThenTopToBottom
           ChildSizing.ControlsPerLine = 3
-          ClientHeight = 35
-          ClientWidth = 304
+          ClientHeight = 31
+          ClientWidth = 264
           Columns = 3
           ItemIndex = 0
           Items.Strings = (
@@ -150,8 +149,8 @@ object ChartAxisFrame: TChartAxisFrame
             'Center'
             'Right'
           )
-          OnClick = rgTitleAlignmentClick
           TabOrder = 0
+          OnClick = rgTitleAlignmentClick
         end
         object gbTitleFont: TGroupBox
           AnchorSideLeft.Control = rgTitleAlignment
@@ -159,11 +158,11 @@ object ChartAxisFrame: TChartAxisFrame
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Control = Bevel1
           Left = 0
-          Height = 119
-          Top = 68
-          Width = 308
+          Height = 104
+          Top = 59
+          Width = 268
           Anchors = [akTop, akLeft, akRight]
-          BorderSpacing.Top = 9
+          BorderSpacing.Top = 8
           Caption = 'gbTitleFont'
           TabOrder = 1
         end
@@ -174,23 +173,23 @@ object ChartAxisFrame: TChartAxisFrame
           AnchorSideRight.Control = TitleParamsPanel
           AnchorSideRight.Side = asrBottom
           AnchorSideBottom.Side = asrBottom
-          Left = 322
-          Height = 282
+          Left = 280
+          Height = 246
           Top = 0
-          Width = 309
+          Width = 269
           Anchors = [akTop, akLeft, akRight]
           Caption = 'gbTitleShapeBrushPenMargins'
-          Constraints.MaxWidth = 323
-          Constraints.MinHeight = 282
+          Constraints.MaxWidth = 282
+          Constraints.MinHeight = 246
           TabOrder = 3
         end
         object Bevel1: TBevel
           AnchorSideLeft.Control = TitleParamsPanel
           AnchorSideLeft.Side = asrCenter
-          Left = 308
-          Height = 57
-          Top = 37
-          Width = 14
+          Left = 268
+          Height = 50
+          Top = 32
+          Width = 12
           Shape = bsSpacer
         end
         object lblTitleDistance: TLabel
@@ -198,9 +197,9 @@ object ChartAxisFrame: TChartAxisFrame
           AnchorSideTop.Control = seTitleDistance
           AnchorSideTop.Side = asrCenter
           Left = 0
-          Height = 19
-          Top = 209
-          Width = 52
+          Height = 15
+          Top = 183
+          Width = 45
           Caption = 'Distance'
           FocusControl = seTitleDistance
           ParentColor = False
@@ -210,49 +209,49 @@ object ChartAxisFrame: TChartAxisFrame
           AnchorSideLeft.Side = asrBottom
           AnchorSideTop.Control = gbTitleFont
           AnchorSideTop.Side = asrBottom
-          Left = 61
-          Height = 27
-          Top = 205
-          Width = 66
+          Left = 53
+          Height = 23
+          Top = 179
+          Width = 58
           Alignment = taRightJustify
-          BorderSpacing.Left = 9
-          BorderSpacing.Top = 18
+          BorderSpacing.Left = 8
+          BorderSpacing.Top = 16
           MaxValue = 1000
-          OnChange = seTitleDistanceChange
           TabOrder = 2
+          OnChange = seTitleDistanceChange
         end
       end
     end
     object pgLabels: TTabSheet
       Caption = 'Labels'
-      ClientHeight = 397
-      ClientWidth = 649
+      ClientHeight = 348
+      ClientWidth = 565
       object gbAxisRange: TGroupBox
         AnchorSideLeft.Control = pgLabels
         AnchorSideTop.Control = pgLabels
         AnchorSideRight.Control = Bevel2
         AnchorSideBottom.Side = asrBottom
-        Left = 9
-        Height = 124
-        Top = 9
-        Width = 308
+        Left = 8
+        Height = 108
+        Top = 8
+        Width = 268
         Anchors = [akTop, akLeft, akRight]
-        BorderSpacing.Left = 9
-        BorderSpacing.Top = 9
+        BorderSpacing.Left = 8
+        BorderSpacing.Top = 8
         Caption = 'Axis limits'
-        ClientHeight = 100
-        ClientWidth = 304
+        ClientHeight = 88
+        ClientWidth = 264
         TabOrder = 0
         object cbAutoMinMax: TCheckBox
           AnchorSideLeft.Control = gbAxisRange
           AnchorSideTop.Side = asrBottom
-          Left = 11
-          Height = 23
+          Left = 10
+          Height = 19
           Hint = 'Not available when scrolling is active'
-          Top = 32
-          Width = 83
-          BorderSpacing.Left = 11
-          BorderSpacing.Top = 11
+          Top = 28
+          Width = 74
+          BorderSpacing.Left = 10
+          BorderSpacing.Top = 10
           Caption = 'Automatic'
           TabOrder = 0
           OnChange = cbAutoMinMaxChange
@@ -263,61 +262,61 @@ object ChartAxisFrame: TChartAxisFrame
           AnchorSideTop.Side = asrCenter
           AnchorSideRight.Control = gbAxisRange
           AnchorSideRight.Side = asrBottom
-          Left = 174
-          Height = 27
-          Top = 30
-          Width = 107
+          Left = 152
+          Height = 23
+          Top = 26
+          Width = 92
           Alignment = taRightJustify
           Anchors = [akTop, akLeft, akRight]
-          BorderSpacing.Top = 9
-          BorderSpacing.Right = 23
-          OnChange = seMaximumChange
+          BorderSpacing.Top = 8
+          BorderSpacing.Right = 20
           TabOrder = 1
+          OnChange = seMaximumChange
         end
         object seMinimum: TFloatSpinEdit
           AnchorSideLeft.Side = asrBottom
           AnchorSideTop.Side = asrCenter
           AnchorSideRight.Control = gbAxisRange
           AnchorSideRight.Side = asrBottom
-          Left = 174
-          Height = 27
-          Top = 66
-          Width = 107
+          Left = 152
+          Height = 23
+          Top = 58
+          Width = 92
           Alignment = taRightJustify
           Anchors = [akTop, akLeft, akRight]
-          BorderSpacing.Top = 9
-          BorderSpacing.Right = 23
-          OnChange = seMinimumChange
+          BorderSpacing.Top = 8
+          BorderSpacing.Right = 20
           TabOrder = 2
+          OnChange = seMinimumChange
         end
         object cbInverted: TCheckBox
           AnchorSideTop.Control = gbAxisRange
           AnchorSideRight.Control = gbAxisRange
           AnchorSideRight.Side = asrBottom
-          Left = 205
-          Height = 23
+          Left = 179
+          Height = 19
           Top = 2
-          Width = 71
+          Width = 61
           Anchors = [akTop, akRight]
           BorderSpacing.Top = 2
-          BorderSpacing.Right = 28
+          BorderSpacing.Right = 24
           Caption = 'Inverted'
           TabOrder = 3
           OnChange = cbInvertedChange
         end
         object lMaximum: TLabel
-          Left = 138
-          Height = 19
-          Top = 34
-          Width = 29
+          Left = 120
+          Height = 15
+          Top = 30
+          Width = 25
           Caption = 'Max:'
           ParentColor = False
         end
         object lMinimum: TLabel
-          Left = 138
-          Height = 19
-          Top = 71
-          Width = 27
+          Left = 120
+          Height = 15
+          Top = 62
+          Width = 24
           Caption = 'Min:'
           ParentColor = False
         end
@@ -328,12 +327,12 @@ object ChartAxisFrame: TChartAxisFrame
         AnchorSideTop.Control = gbAxisRange
         AnchorSideRight.Control = pgLabels
         AnchorSideRight.Side = asrBottom
-        Left = 331
-        Height = 84
-        Top = 9
-        Width = 309
+        Left = 288
+        Height = 73
+        Top = 8
+        Width = 269
         Anchors = [akTop, akLeft, akRight]
-        BorderSpacing.Right = 9
+        BorderSpacing.Right = 8
         Caption = 'gbLabelFont'
         TabOrder = 3
       end
@@ -346,14 +345,14 @@ object ChartAxisFrame: TChartAxisFrame
         AnchorSideRight.Side = asrBottom
         AnchorSideBottom.Control = gbTicks
         AnchorSideBottom.Side = asrBottom
-        Left = 331
-        Height = 289
-        Top = 102
-        Width = 309
+        Left = 288
+        Height = 249
+        Top = 89
+        Width = 269
         Anchors = [akTop, akLeft, akRight, akBottom]
-        BorderSpacing.Top = 9
+        BorderSpacing.Top = 8
         Caption = 'gbShapeFillBorder'
-        Constraints.MinHeight = 282
+        Constraints.MinHeight = 246
         TabOrder = 4
       end
       object gbLabels: TGroupBox
@@ -361,25 +360,25 @@ object ChartAxisFrame: TChartAxisFrame
         AnchorSideTop.Control = gbAxisRange
         AnchorSideTop.Side = asrBottom
         AnchorSideRight.Control = Bevel2
-        Left = 9
-        Height = 137
-        Top = 142
-        Width = 308
+        Left = 8
+        Height = 118
+        Top = 124
+        Width = 268
         Anchors = [akTop, akLeft, akRight]
         AutoSize = True
-        BorderSpacing.Top = 9
+        BorderSpacing.Top = 8
         Caption = 'Labels'
-        ClientHeight = 113
-        ClientWidth = 304
+        ClientHeight = 98
+        ClientWidth = 264
         TabOrder = 1
         object cbLabelsVisible: TCheckBox
           AnchorSideLeft.Control = gbLabels
           AnchorSideTop.Control = gbLabels
-          Left = 11
-          Height = 23
+          Left = 10
+          Height = 19
           Top = 2
-          Width = 91
-          BorderSpacing.Left = 11
+          Width = 80
+          BorderSpacing.Left = 10
           BorderSpacing.Top = 2
           Caption = 'Show labels'
           TabOrder = 0
@@ -392,16 +391,16 @@ object ChartAxisFrame: TChartAxisFrame
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Control = gbLabels
           AnchorSideRight.Side = asrBottom
-          Left = 120
-          Height = 27
+          Left = 105
+          Height = 23
           Hint = 'According to the Printf specification:'#13#10'https://en.wikipedia.org/wiki/Printf'
-          Top = 32
-          Width = 161
+          Top = 27
+          Width = 139
           Anchors = [akTop, akLeft, akRight]
-          BorderSpacing.Left = 57
-          BorderSpacing.Top = 7
-          BorderSpacing.Right = 23
-          BorderSpacing.Bottom = 9
+          BorderSpacing.Left = 50
+          BorderSpacing.Top = 6
+          BorderSpacing.Right = 20
+          BorderSpacing.Bottom = 8
           ParentShowHint = False
           ShowHint = True
           TabOrder = 1
@@ -412,10 +411,10 @@ object ChartAxisFrame: TChartAxisFrame
           AnchorSideLeft.Control = cbLabelsVisible
           AnchorSideTop.Control = edLabelFormat
           AnchorSideTop.Side = asrCenter
-          Left = 11
-          Height = 19
-          Top = 36
-          Width = 99
+          Left = 10
+          Height = 15
+          Top = 31
+          Width = 87
           Caption = 'Precision format'
           ParentColor = False
         end
@@ -424,26 +423,26 @@ object ChartAxisFrame: TChartAxisFrame
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Side = asrBottom
           AnchorSideBottom.Side = asrCenter
-          Left = 120
-          Height = 27
-          Top = 72
-          Width = 161
+          Left = 105
+          Height = 23
+          Top = 63
+          Width = 139
           Alignment = taRightJustify
           Anchors = [akTop, akLeft, akRight]
-          BorderSpacing.Top = 7
-          BorderSpacing.Bottom = 14
+          BorderSpacing.Top = 6
+          BorderSpacing.Bottom = 12
           MaxValue = 1000
-          OnChange = seLabelDistanceChange
           TabOrder = 2
+          OnChange = seLabelDistanceChange
         end
         object lblLabelDistance: TLabel
           AnchorSideLeft.Control = lblPrecisionFormat
           AnchorSideTop.Control = seLabelDistance
           AnchorSideTop.Side = asrCenter
-          Left = 11
-          Height = 19
-          Top = 76
-          Width = 52
+          Left = 10
+          Height = 15
+          Top = 67
+          Width = 45
           Caption = 'Distance'
           FocusControl = seLabelDistance
           ParentColor = False
@@ -452,10 +451,10 @@ object ChartAxisFrame: TChartAxisFrame
       object Bevel2: TBevel
         AnchorSideLeft.Control = pgLabels
         AnchorSideLeft.Side = asrCenter
-        Left = 317
-        Height = 57
-        Top = 321
-        Width = 14
+        Left = 276
+        Height = 50
+        Top = 280
+        Width = 12
         Shape = bsSpacer
       end
       object gbTicks: TGroupBox
@@ -465,59 +464,59 @@ object ChartAxisFrame: TChartAxisFrame
         AnchorSideRight.Control = gbLabels
         AnchorSideRight.Side = asrBottom
         AnchorSideBottom.Side = asrBottom
-        Left = 9
-        Height = 103
-        Top = 288
-        Width = 308
+        Left = 8
+        Height = 88
+        Top = 250
+        Width = 268
         Anchors = [akTop, akLeft, akRight]
         AutoSize = True
-        BorderSpacing.Top = 9
-        BorderSpacing.Bottom = 9
+        BorderSpacing.Top = 8
+        BorderSpacing.Bottom = 8
         Caption = 'Ticks'
-        ClientHeight = 79
-        ClientWidth = 304
+        ClientHeight = 68
+        ClientWidth = 264
         TabOrder = 2
         object seTickLength: TSpinEdit
           AnchorSideLeft.Control = lblTickLength
           AnchorSideLeft.Side = asrBottom
           AnchorSideTop.Control = gbTicks
-          Left = 115
-          Height = 27
+          Left = 99
+          Height = 23
           Top = 2
-          Width = 109
+          Width = 95
           Alignment = taRightJustify
           Anchors = [akTop, akLeft, akRight]
-          BorderSpacing.Left = 18
+          BorderSpacing.Left = 16
           BorderSpacing.Top = 2
           MaxValue = 1000
-          OnChange = seTickLengthChange
           TabOrder = 0
+          OnChange = seTickLengthChange
         end
         object seTickInnerLength: TSpinEdit
           AnchorSideLeft.Control = seTickLength
           AnchorSideTop.Control = seTickLength
           AnchorSideTop.Side = asrBottom
-          Left = 115
-          Height = 27
-          Top = 38
-          Width = 109
+          Left = 99
+          Height = 23
+          Top = 33
+          Width = 95
           Alignment = taRightJustify
           Anchors = [akTop, akLeft, akRight]
-          BorderSpacing.Top = 9
-          BorderSpacing.Bottom = 14
+          BorderSpacing.Top = 8
+          BorderSpacing.Bottom = 12
           MaxValue = 1000
-          OnChange = seTickInnerLengthChange
           TabOrder = 1
+          OnChange = seTickInnerLengthChange
         end
         object lblTickLength: TLabel
           AnchorSideLeft.Control = gbTicks
           AnchorSideTop.Control = seTickLength
           AnchorSideTop.Side = asrCenter
-          Left = 18
-          Height = 19
+          Left = 16
+          Height = 15
           Top = 6
-          Width = 79
-          BorderSpacing.Left = 18
+          Width = 67
+          BorderSpacing.Left = 16
           Caption = 'Outer length'
           ParentColor = False
         end
@@ -525,24 +524,24 @@ object ChartAxisFrame: TChartAxisFrame
           AnchorSideLeft.Control = lblTickLength
           AnchorSideTop.Control = seTickInnerLength
           AnchorSideTop.Side = asrCenter
-          Left = 18
-          Height = 19
-          Top = 42
-          Width = 75
+          Left = 16
+          Height = 15
+          Top = 37
+          Width = 64
           Caption = 'Inner length'
           ParentColor = False
         end
         object cbTickColor: TColorButton
           AnchorSideTop.Side = asrCenter
           AnchorSideRight.Side = asrBottom
-          Left = 244
-          Height = 29
-          Top = 23
-          Width = 37
+          Left = 212
+          Height = 25
+          Top = 20
+          Width = 32
           Anchors = [akTop, akRight]
-          BorderSpacing.Right = 9
+          BorderSpacing.Right = 8
           BorderWidth = 2
-          ButtonColorSize = 18
+          ButtonColorSize = 16
           ButtonColor = clBlack
           OnColorChanged = cbTickColorColorChanged
         end
@@ -550,34 +549,34 @@ object ChartAxisFrame: TChartAxisFrame
     end
     object pgGrid: TTabSheet
       Caption = 'Grid'
-      ClientHeight = 397
-      ClientWidth = 649
+      ClientHeight = 348
+      ClientWidth = 565
       object gbGrid: TGroupBox
         AnchorSideLeft.Control = pgGrid
         AnchorSideTop.Control = pgGrid
         AnchorSideRight.Control = gbFrame
         AnchorSideRight.Side = asrBottom
-        Left = 9
-        Height = 132
-        Top = 9
-        Width = 344
-        BorderSpacing.Left = 9
-        BorderSpacing.Top = 9
+        Left = 8
+        Height = 115
+        Top = 8
+        Width = 300
+        BorderSpacing.Left = 8
+        BorderSpacing.Top = 8
         Caption = 'Grid lines'
-        ClientHeight = 108
-        ClientWidth = 340
-        Constraints.MinWidth = 344
+        ClientHeight = 95
+        ClientWidth = 296
+        Constraints.MinWidth = 300
         TabOrder = 0
         object cbGridVisible: TCheckBox
-          Left = 18
-          Height = 23
-          Top = 9
-          Width = 304
+          Left = 16
+          Height = 19
+          Top = 8
+          Width = 264
           Align = alTop
-          BorderSpacing.Left = 18
-          BorderSpacing.Top = 9
-          BorderSpacing.Right = 18
-          BorderSpacing.Bottom = 9
+          BorderSpacing.Left = 16
+          BorderSpacing.Top = 8
+          BorderSpacing.Right = 16
+          BorderSpacing.Bottom = 8
           Caption = 'Visible'
           TabOrder = 0
           OnChange = cbGridVisibleChange
@@ -586,31 +585,31 @@ object ChartAxisFrame: TChartAxisFrame
     end
     object pgLine: TTabSheet
       Caption = 'Line'
-      ClientHeight = 397
-      ClientWidth = 649
+      ClientHeight = 348
+      ClientWidth = 565
       object gbFrame: TGroupBox
         AnchorSideLeft.Control = pgLine
         AnchorSideTop.Control = pgLine
-        Left = 9
-        Height = 128
-        Top = 9
-        Width = 385
-        BorderSpacing.Left = 9
-        BorderSpacing.Top = 9
+        Left = 8
+        Height = 112
+        Top = 8
+        Width = 336
+        BorderSpacing.Left = 8
+        BorderSpacing.Top = 8
         Caption = 'gbFrame'
-        ClientHeight = 104
-        ClientWidth = 381
-        Constraints.MinWidth = 344
+        ClientHeight = 92
+        ClientWidth = 332
+        Constraints.MinWidth = 300
         TabOrder = 0
         object cbFrameVisible: TCheckBox
-          Left = 18
-          Height = 23
-          Top = 9
-          Width = 363
+          Left = 16
+          Height = 19
+          Top = 8
+          Width = 316
           Align = alTop
-          BorderSpacing.Left = 18
-          BorderSpacing.Top = 9
-          BorderSpacing.Bottom = 9
+          BorderSpacing.Left = 16
+          BorderSpacing.Top = 8
+          BorderSpacing.Bottom = 8
           Caption = 'Visible'
           TabOrder = 0
           OnChange = cbFrameVisibleChange
@@ -622,25 +621,25 @@ object ChartAxisFrame: TChartAxisFrame
         AnchorSideTop.Side = asrBottom
         AnchorSideRight.Control = gbFrame
         AnchorSideRight.Side = asrBottom
-        Left = 9
-        Height = 129
-        Top = 146
-        Width = 385
+        Left = 8
+        Height = 113
+        Top = 128
+        Width = 336
         Anchors = [akTop, akLeft, akRight]
-        BorderSpacing.Top = 9
+        BorderSpacing.Top = 8
         Caption = 'gbAxisLine'
-        ClientHeight = 105
-        ClientWidth = 381
+        ClientHeight = 93
+        ClientWidth = 332
         TabOrder = 1
         object cbAxisLineVisible: TCheckBox
-          Left = 18
-          Height = 23
-          Top = 9
-          Width = 363
+          Left = 16
+          Height = 19
+          Top = 8
+          Width = 316
           Align = alTop
-          BorderSpacing.Left = 18
-          BorderSpacing.Top = 9
-          BorderSpacing.Bottom = 9
+          BorderSpacing.Left = 16
+          BorderSpacing.Top = 8
+          BorderSpacing.Bottom = 8
           Caption = 'Visible'
           TabOrder = 0
           OnChange = cbAxisLineVisibleChange
@@ -651,25 +650,25 @@ object ChartAxisFrame: TChartAxisFrame
         AnchorSideLeft.Side = asrBottom
         AnchorSideTop.Control = gbFrame
         AnchorSideRight.Side = asrBottom
-        Left = 408
-        Height = 182
-        Top = 9
-        Width = 230
+        Left = 356
+        Height = 156
+        Top = 8
+        Width = 200
         AutoSize = True
-        BorderSpacing.Left = 14
+        BorderSpacing.Left = 12
         Caption = 'Arrow'
-        ClientHeight = 158
-        ClientWidth = 226
+        ClientHeight = 136
+        ClientWidth = 196
         TabOrder = 2
         object cbArrowVisible: TCheckBox
           AnchorSideLeft.Control = gbArrow
           AnchorSideTop.Control = gbArrow
-          Left = 18
-          Height = 23
-          Top = 9
-          Width = 59
-          BorderSpacing.Left = 18
-          BorderSpacing.Top = 9
+          Left = 16
+          Height = 19
+          Top = 8
+          Width = 52
+          BorderSpacing.Left = 16
+          BorderSpacing.Top = 8
           Caption = 'Visible'
           TabOrder = 0
           OnChange = cbArrowVisibleChange
@@ -678,10 +677,10 @@ object ChartAxisFrame: TChartAxisFrame
           AnchorSideLeft.Control = cbArrowVisible
           AnchorSideTop.Control = seArrowBaseLength
           AnchorSideTop.Side = asrCenter
-          Left = 18
-          Height = 19
-          Top = 45
-          Width = 71
+          Left = 16
+          Height = 15
+          Top = 39
+          Width = 61
           Caption = 'Base length'
           ParentColor = False
         end
@@ -689,10 +688,10 @@ object ChartAxisFrame: TChartAxisFrame
           AnchorSideLeft.Control = cbArrowVisible
           AnchorSideTop.Control = seArrowLength
           AnchorSideTop.Side = asrCenter
-          Left = 18
-          Height = 19
-          Top = 81
-          Width = 43
+          Left = 16
+          Height = 15
+          Top = 70
+          Width = 37
           Caption = 'Length'
           ParentColor = False
         end
@@ -700,10 +699,10 @@ object ChartAxisFrame: TChartAxisFrame
           AnchorSideLeft.Control = cbArrowVisible
           AnchorSideTop.Control = seArrowWidth
           AnchorSideTop.Side = asrCenter
-          Left = 18
-          Height = 19
-          Top = 117
-          Width = 37
+          Left = 16
+          Height = 15
+          Top = 101
+          Width = 32
           Caption = 'Width'
           ParentColor = False
         end
@@ -712,17 +711,17 @@ object ChartAxisFrame: TChartAxisFrame
           AnchorSideLeft.Side = asrBottom
           AnchorSideTop.Control = cbArrowVisible
           AnchorSideTop.Side = asrBottom
-          Left = 117
-          Height = 27
-          Top = 41
-          Width = 91
+          Left = 101
+          Height = 23
+          Top = 35
+          Width = 79
           Alignment = taRightJustify
-          BorderSpacing.Left = 28
-          BorderSpacing.Top = 9
-          BorderSpacing.Right = 18
+          BorderSpacing.Left = 24
+          BorderSpacing.Top = 8
+          BorderSpacing.Right = 16
           MaxValue = 1000
-          OnChange = seArrowBaseLengthChange
           TabOrder = 1
+          OnChange = seArrowBaseLengthChange
         end
         object seArrowLength: TSpinEdit
           AnchorSideLeft.Control = seArrowBaseLength
@@ -730,16 +729,16 @@ object ChartAxisFrame: TChartAxisFrame
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Control = seArrowBaseLength
           AnchorSideRight.Side = asrBottom
-          Left = 117
-          Height = 27
-          Top = 77
-          Width = 91
+          Left = 101
+          Height = 23
+          Top = 66
+          Width = 79
           Alignment = taRightJustify
           Anchors = [akTop, akLeft, akRight]
-          BorderSpacing.Top = 9
+          BorderSpacing.Top = 8
           MaxValue = 1000
-          OnChange = seArrowLengthChange
           TabOrder = 2
+          OnChange = seArrowLengthChange
         end
         object seArrowWidth: TSpinEdit
           AnchorSideLeft.Control = seArrowBaseLength
@@ -747,17 +746,17 @@ object ChartAxisFrame: TChartAxisFrame
           AnchorSideTop.Side = asrBottom
           AnchorSideRight.Control = seArrowBaseLength
           AnchorSideRight.Side = asrBottom
-          Left = 117
-          Height = 27
-          Top = 113
-          Width = 91
+          Left = 101
+          Height = 23
+          Top = 97
+          Width = 79
           Alignment = taRightJustify
           Anchors = [akTop, akLeft, akRight]
-          BorderSpacing.Top = 9
-          BorderSpacing.Bottom = 18
+          BorderSpacing.Top = 8
+          BorderSpacing.Bottom = 16
           MaxValue = 1000
-          OnChange = seArrowWidthChange
           TabOrder = 3
+          OnChange = seArrowWidthChange
         end
       end
     end

@@ -257,45 +257,11 @@ begin
 end;
 
 procedure TChartAxisFrame.cbAutoMinMaxChange(Sender: TObject);
-var
-  GlobalMax, GlobalMin, tempMax, tempMin : double;
-  i : integer;
 begin
- // if unckecked propose the current max/min values  for max and min
- if not cbAutoMinMax.Checked then
- begin
-  // SIX values
-  if FAxis = MainForm.DataC.AxisList[0] then
-  begin
-   //determine the min/max of all visible series
-   GlobalMax:= 0.0;
-   GlobalMin:= 0.0;
-   for i:= 1 to 8 do
-   begin
-    if (MainForm.FindComponent('Channel' + IntToStr(i) + 'OnOffCB')
-        as TCheckBox).Checked then
-    begin
-     tempMax:= (MainForm.FindComponent('SIXCh' + IntToStr(i) + 'Values')
-                as TLineSeries).MaxYValue;
-     if tempMax > GlobalMax then
-      GlobalMax:= tempMax;
-     tempMin:= (MainForm.FindComponent('SIXCh' + IntToStr(i) + 'Values')
-                as TLineSeries).MinYValue;
-     if tempMin < GlobalMin then
-      GlobalMin:= tempMin;
-    end;
-   end;
-   seMaximum.Value:= GlobalMax;
-   seMinimum.Value:= GlobalMin;
-  end;
- end;
-
  FAxis.Range.UseMax := not cbAutoMinMax.Checked;
- seMaximum.Visible := FAxis.Range.UseMax;
+ seMaximum.Enabled := FAxis.Range.UseMax;
  FAxis.Range.UseMin := not cbAutoMinMax.Checked;
- seMinimum.Visible := FAxis.Range.UseMin;
- lMaximum.Visible := FAxis.Range.UseMax;
- lMinimum.Visible := FAxis.Range.UseMax;
+ seMinimum.Enabled := FAxis.Range.UseMin;
  // for the x-axis the extent overrides the axis range settings
  if FAxis = MainForm.DataC.AxisList[1] then
  begin
