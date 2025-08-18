@@ -1,4 +1,4 @@
-# https://codeberg.org/donovaly/Iteridense
+# https://codeberg.org/Soloof/Iteridense
 # License is LGPL-3.0-or-later (https://spdx.org/licenses/LGPL-3.0-or-later.html)
 #
 # author: Uwe Stöhr
@@ -7,9 +7,9 @@
  It also shows the clustering of the same datasets using the k-means and the DBSCAN algorithm
 =#
 
-# uncomment on the first run to install mising packages
+# uncomment the following 2 lines on the first run to install missing packages
 # using Pkg; Pkg.add("Clustering"); Pkg.add("CSV"); Pkg.add("DataFrames");
-# Pkg.add("Plots"); Pkg.add("PlotlyBase"); Pkg.add("PlotlyJS")
+#  Pkg.add("Plots"); Pkg.add("PlotlyBase"); Pkg.add("PlotlyJS")
 using Clustering, CSV, DataFrames, Plots
 
 begin
@@ -18,9 +18,8 @@ plotlyjs()
 # setting default plot size
 plotly(size= (512, 512))
 # import the Iteridense library
-packagePath = dirname(@__DIR__)
-include(joinpath(packagePath, "src\\Iteridense.jl"))
-using .Iteridense: Clustering, PlotIteridenseHeatmap
+include(joinpath(@__DIR__, "IteridenseLibrary.jl"))
+using .IteridenseLibrary: Iteridense, PlotIteridenseHeatmap
 end
 
 # The data to be clustered are all in CSV files. The CSV files re expected to be in a subfolder
@@ -42,7 +41,7 @@ begin
 dataLabels = String.(names(data))
 dataMatrix = Matrix(data)
 # initialize plot
-DataPlot= Plots.scatter(dataMatrix[:, 1], dataMatrix[:, 2],
+DataPlot = Plots.scatter(dataMatrix[:, 1], dataMatrix[:, 2],
                         xlabel= dataLabels[1], ylabel= dataLabels[2],
                         title= "Unclustered Data", legend= false, markersize= 5)
 end
@@ -50,7 +49,7 @@ end
 # Iteridense clustering
 ρ = 3.0
 # perform the clustering
-IteridenseResult = Iteridense.Clustering(dataMatrix, density= ρ);
+IteridenseResult = Iteridense(dataMatrix, density= ρ);
 # list the different clustering results
 IteridenseResult.numOfClusters
 IteridenseResult.finalResolution
@@ -65,16 +64,15 @@ Plots.scatter(dataMatrix[:, 1], dataMatrix[:, 2], xlabel= dataLabels[1], ylabel=
 
 # for comparison k-means clustering for 2 expected clusters
 # for k-means, cluster "0" is a real cluster while for Iteridense and DBSCAN is not
-#begin
-result = Clustering.kmeans(dataMatrix', 3; maxiter= 20, display= :iter)
+begin
+result = Clustering.kmeans(dataMatrix', 2; maxiter= 20, display= :iter)
 assign = Clustering.assignments(result)
 clusterCounts = Clustering.counts(result)
 clusterCenter = result.centers
-clusterCenter'
 # plot results
 Plots.scatter(dataMatrix[:, 1], dataMatrix[:, 2], xlabel= dataLabels[1], ylabel= dataLabels[2],
                 title= "k-means k = 2", group= assign, markersize= 5)
-#end
+end
 
 # DBSCAN clustering
 begin
@@ -95,16 +93,16 @@ end
 #---------------------------------------------
 # Now clustering just 3 points as an extreme test case.
 begin
-dataMatrix = Float64.([[19, 23, 57] [42, 39, 34]])
+dataMatrix = [[19, 23, 57] [42, 39, 34]]
 # initialize plot
-DataPlot= Plots.scatter(dataMatrix[:, 1], dataMatrix[:, 2],
+DataPlot = Plots.scatter(dataMatrix[:, 1], dataMatrix[:, 2],
                         xlabel= dataLabels[1], ylabel= dataLabels[2],
                         title= "Unclustered Data", legend= false, markersize= 5)
 end
 
 # Iteridense clustering
 ρ = 2.0
-IteridenseResult = Iteridense.Clustering(dataMatrix, density= ρ);
+IteridenseResult = Iteridense(dataMatrix, density= ρ);
 IteridenseResult.numOfClusters
 IteridenseResult.finalResolution
 IteridenseResult.clusterDensities
@@ -124,7 +122,7 @@ if isfile(filePath)
     data = CSV.read(filePath, DataFrame; delim= ',')
 end
 dataMatrix = Matrix(data)
-DataPlot= Plots.scatter(dataMatrix[:, 1], dataMatrix[:, 2], xlabel= "x", ylabel= "y",
+DataPlot = Plots.scatter(dataMatrix[:, 1], dataMatrix[:, 2], xlabel= "x", ylabel= "y",
                         legend= false)
 end
 
@@ -133,7 +131,7 @@ end
 # 2. increase ρ
 # in our case at ρ = 2.2 we get 2 clusters
 ρ = 2.2
-IteridenseResult = Iteridense.Clustering(dataMatrix, density= ρ,
+IteridenseResult = Iteridense(dataMatrix, density= ρ,
 # uncomment the next line to see the effect of the noDiagonal option
 # set then also ρ = 5.0 to see the effect
                                         #noDiagonals= true,
@@ -175,14 +173,14 @@ if isfile(filePath)
     data = CSV.read(filePath, DataFrame; delim= ',')
 end
 dataMatrix = Matrix(data)
-DataPlot= Plots.scatter(dataMatrix[:, 1], dataMatrix[:, 2], xlabel= "x", ylabel= "y",
+DataPlot = Plots.scatter(dataMatrix[:, 1], dataMatrix[:, 2], xlabel= "x", ylabel= "y",
                         legend= false)
 end
 
-# We can use that we know there are 2 curcels and thus set minClusters.
+# We can use that we know there are 2 circles and thus set minClusters.
 # For this we must useClusters set to true. useClusters acts as a switch between
 # the 2 ways of clustering Iteridense provides.
-IteridenseResult = Iteridense.Clustering(dataMatrix, useClusters= true, minClusters= 2);
+IteridenseResult = Iteridense(dataMatrix, useClusters= true, minClusters= 2);
 IteridenseResult.finalResolution
 IteridenseResult.clusterDensities
 IteridenseResult.clusterSizes
@@ -193,11 +191,11 @@ Plots.scatter(dataMatrix[:, 1], dataMatrix[:, 2], xlabel= "x", ylabel= "y",
 
 # To measure the computation time, we run 10000 times the clustering.
 # By setting startResolution to a higher values the computation speeds up a lot
-# because less grid iterations are run. Setting startResolution to 16 leads artually
+# because less grid iterations are run. Setting startResolution to 16 leads actually
 # to only a single grid run.
 # By using the option noDiagonals the computation is of course faster.
 @elapsed for i in 1:10000
-IteridenseResult = Iteridense.Clustering(dataMatrix, density= ρ,
+IteridenseResult = Iteridense(dataMatrix, density= ρ,
                                 useClusters= true, minClusters= 2,
                                 startResolution= 2,
                                 #noDiagonals= true
@@ -237,14 +235,14 @@ if isfile(filePath)
     data = CSV.read(filePath, DataFrame; delim= ',')
 end
 dataMatrix = Matrix(data)
-DataPlot= Plots.scatter(dataMatrix[:, 1], dataMatrix[:, 2], xlabel= "x", ylabel= "y",
+DataPlot = Plots.scatter(dataMatrix[:, 1], dataMatrix[:, 2], xlabel= "x", ylabel= "y",
                         legend= false)
 end
 
 # Try the two different ways, either specify ρ or minClusters.
 # For ρ until 6.8 there is only one cluster, increase it to get more clusters.
 ρ = 6.8
-IteridenseResult = Iteridense.Clustering(dataMatrix, density= ρ, minClusterSize= 6,
+IteridenseResult = Iteridense(dataMatrix, density= ρ, minClusterSize= 6,
                                         #useClusters= true, minClusters= 3
 );
 IteridenseResult.finalResolution
@@ -289,7 +287,7 @@ if isfile(filePath)
     data = CSV.read(filePath, DataFrame; delim= ',')
 end
 dataMatrix = Matrix(data)
-DataPlot= Plots.scatter(dataMatrix[:, 1], dataMatrix[:, 2], xlabel= "x", ylabel= "y",
+DataPlot = Plots.scatter(dataMatrix[:, 1], dataMatrix[:, 2], xlabel= "x", ylabel= "y",
                         legend= false)
 end
 
@@ -302,7 +300,7 @@ end
 #        there are 1500 data points and every cluster will roughly contain a third of all points.
 #        You get the desired result for ρ = 3.8 or higher
 ρ = 3.8
-IteridenseResult = Iteridense.Clustering(dataMatrix, density= ρ,
+IteridenseResult = Iteridense(dataMatrix, density= ρ,
                                         useClusters= true, minClusters= 3,
                                         minClusterSize= 20
 );
@@ -346,7 +344,7 @@ if isfile(filePath)
     data = CSV.read(filePath, DataFrame; delim= ',')
 end
 dataMatrix = Matrix(data)
-DataPlot= Plots.scatter(dataMatrix[:, 1], dataMatrix[:, 2], xlabel= "x", ylabel= "y",
+DataPlot = Plots.scatter(dataMatrix[:, 1], dataMatrix[:, 2], xlabel= "x", ylabel= "y",
                         legend= false)
 end
 
@@ -354,7 +352,7 @@ end
 # to a low value compares to the 1500 points in the dataset, for example to 10.
 # By increasing ρ you can identify regions with higher density.
 ρ = 3.0
-IteridenseResult = Iteridense.Clustering(dataMatrix, density= ρ, minClusterSize= 10);
+IteridenseResult = Iteridense(dataMatrix, density= ρ, minClusterSize= 10);
 IteridenseResult.numOfClusters
 IteridenseResult.finalResolution
 IteridenseResult.clusterSizes
@@ -396,7 +394,7 @@ dataMatrix = Matrix(data)
 # strip the first and last column and convert data type to float
 inputMatrix = Float64.(dataMatrix[:, 2:end-1])
 # plot data
-DataPlot= Plots.scatter(inputMatrix[:, end-1], inputMatrix[:, end],
+DataPlot = Plots.scatter(inputMatrix[:, end-1], inputMatrix[:, end],
             xlabel= dataLabels[end-2], ylabel= dataLabels[end-1], legend= false)
 end
 
@@ -404,8 +402,8 @@ end
 # By inputting dataMatrix[:, end-2:end-1], only the 2 plotted dimensions are used for the
 # clustering. To use all dimensions, input the inputMatrix.
 # Setting stopResolution as a safe guard is never wrong. It helps in case the algorithm cannot
-# fint at least 3 clusters to stop it after some loops.
-IteridenseResult = Iteridense.Clustering(
+# find at least 3 clusters to stop it after some loops.
+IteridenseResult = Iteridense(
                                 dataMatrix[:, end-2:end-1],
                                 #inputMatrix,
                                 minClusterSize= 10,
@@ -456,7 +454,7 @@ end
 # extract names and values
 dataLabels = String.(names(data))
 dataMatrix = Matrix(data)
-DataPlot= Plots.scatter(dataMatrix[:, 2], dataMatrix[:, 3], dataMatrix[:, 4],
+DataPlot = Plots.scatter(dataMatrix[:, 2], dataMatrix[:, 3], dataMatrix[:, 4],
                 xlabel= "Pu-239", ylabel= "Pu-240", zlabel= "Pu-241", legend= false)
 end
 
@@ -466,7 +464,7 @@ end
 # examples that had only 2 dimensions. But you can, as always, start with a low ρ and then
 # increase it according to the output of clusterDensities.
 ρ = 2
-IteridenseResult = Iteridense.Clustering(
+IteridenseResult = Iteridense(
                                 dataMatrix[:, 2:end],
                                 #dataMatrix,
                                 density= ρ, minClusterSize= 4
@@ -520,7 +518,7 @@ subMatrix = hcat(dataMatrix[:, 2], dataMatrix[:, 6], dataMatrix[:, 7])
 # the first column contains only the row number and will be therefore excluded
 completeMatrix = dataMatrix[:, 2:end]
 # plot data
-DataPlot= Plots.scatter(dataMatrix[:, 2], dataMatrix[:, 6], dataMatrix[:, 7],
+DataPlot = Plots.scatter(dataMatrix[:, 2], dataMatrix[:, 6], dataMatrix[:, 7],
                         xlabel= subLabels[1], ylabel= subLabels[2], zlabel= subLabels[3],
                         legend= false, title= "Subset of PhDPublications dataset")
 end
@@ -531,11 +529,11 @@ end
 # This is possible by setting minClusters to 5 and inputting only the
 # 3 plot dimensions (subMatrix).
 # When inputting all 6 dimensions (completeMatrix), the clustering will be across the classes.
-# One would then need to extract evcery class to different datasets and and run the clustering
+# One would then need to extract every class to different datasets and and run the clustering
 # on every class. This is more work but one can then also go the way to specify ρ.
 
 # At first the clustering of the whole dataset:
-IteridenseResult = Iteridense.Clustering(
+IteridenseResult = Iteridense(
                                 subMatrix,
                                 #completeMatrix,
                                 minClusterSize= 20, useClusters= true, minClusters= 5
@@ -548,7 +546,7 @@ PlotResult = Plots.scatter(dataMatrix[:, 2], dataMatrix[:, 6], dataMatrix[:, 7],
                             title= "Iteridense MinClusters = 5",
                             group= IteridenseResult.assignments)
 
-# Now split the datset into separate ones for every class and then cluster.
+# Now split the dataset into separate ones for every class and then cluster.
 # The following code will apply the same ρ for all classes. This is not very sensible but
 # the aim is just to demonstrate how the clustering is done.
 for phdprestige in 1:5
@@ -558,8 +556,7 @@ for phdprestige in 1:5
     classMatrix = Matrix(classDataFrame)
     # cluster the classMatrix
     ρ = 4.0
-    IteridenseResult = Iteridense.Clustering(classMatrix, density= ρ, minClusterSize= 20,
-                                                stopResolution= 20)
+    IteridenseResult = Iteridense(classMatrix, density= ρ, minClusterSize= 20, stopResolution= 20)
     println("\nphdprestige = $(phdprestige)")
     println("numOfClusters = $(IteridenseResult.numOfClusters)")
     println("finalResolution = $(IteridenseResult.finalResolution)")
@@ -597,11 +594,11 @@ end
 
 #---------------------------------------------
 # it is also possible to cluster 1-dimensional data:
-DataPlot= Plots.scatter(subMatrix[:, end], repeat([0], length(subMatrix[:, end])), 
+DataPlot = Plots.scatter(subMatrix[:, end], repeat([0], length(subMatrix[:, end])), 
                         xlabel= dataLabels[7], ylimits= (-1, 1), yticks=[],
                         title= "Unclustered Data", legend= false, markersize= 5)
 
-IteridenseResult = Iteridense.Clustering(subMatrix[:, end], minClusterSize= 6,
+IteridenseResult = Iteridense(subMatrix[:, end], minClusterSize= 6,
                                 useClusters= true, minClusters= 3);
 IteridenseResult.finalResolution
 IteridenseResult.clusterDensities
