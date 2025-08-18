@@ -6,10 +6,8 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, Buttons,
-  EditBtn, ExtCtrls, ComCtrls, Spin, Menus, Grids, ComboEx, Math, CTypes,
-  SpinEx, FileInfo, StrUtils, Streamex, Generics.Collections, Types,
-  TATransformations, TATools, TAGraph, TASeries, TAChartAxis, TALegend,
-  TATextElements, TATypes,
+  ExtCtrls, ComCtrls, Spin, Menus, Grids, ComboEx, CTypes, SpinEx, FileInfo, Types,
+  TATransformations, TATools, TAGraph, TASeries, TAChartAxis, TALegend, TATextElements,
   AboutForm;
 
 const
@@ -506,7 +504,7 @@ end;
 // function to convert a C-array to an array of Int64
 function TMainForm.CArrayToTIntArray(cArray: CArray): TIntArray;
 var
-  count, i: Int64;
+  i: Int64;
   arrayPointer: PInt64;
 begin
   result:= [];
@@ -519,7 +517,7 @@ end;
 // function to convert a C-array to an array of Double
 function TMainForm.CArrayToTDoubleArray(cArray: CArray): TDoubleArray;
 var
-  count, i: Int64;
+  i: Int64;
   arrayPointer: PDouble;
 begin
   result:= [];
@@ -551,7 +549,6 @@ end;
 
 procedure TMainForm.ClusteringBBClick(Sender: TObject);
 var
-  dataPointer : PDouble;
   counter, row, column, i, k, assignmentColumn, nrows, ncols : Int64;
   iteridenseResult : PIteridenseResultC;
   DBSCANResult : PDBSCANResultC;
@@ -764,11 +761,10 @@ end;
 
 procedure TMainForm.OpenCsvBBClick(Sender: TObject);
 var
-  DummyString, firstLine, secondLine : string;
+  DummyString : string;
   fileSuccess : Byte = 0;
   MousePointer : TPoint;
-  i, clusterCount, assignmentColumn, counter, dim1, dim2 : Int64;
-  Series : TLineSeries;
+  i, assignmentColumn, counter : Int64;
 begin
   MousePointer:= Mouse.CursorPos; // store mouse position
   DummyString:= '';
@@ -856,6 +852,11 @@ begin
     IteridenseSliderGB.Enabled:= true;
   // reset cluster method
   UsedClusteringMethod:= ClusterMethods.none;
+  // reset resolution
+  // the slider must be set fitrst because it will change the others
+  IteridenseSliderTB.Position:= 2;
+  StartResolutionSE.Value:= 2;
+  StopResolutionSE.Value:= 100;
   // propose a minimal cluster size of 5 % of the total clusters
   MinClusterSizeIterIdenseSE.Value:= Trunc(0.05 * Length(DataArray));
   MinClusterSizeDBscanSE.Value:= Trunc(0.05 * Length(DataArray));
@@ -1083,7 +1084,7 @@ begin
   SliderIncrement:= 0;
   DensityTB.Position:= 1;
   RadiusTB.Position:= 1;
-  // eanble iteridense slider
+  // enable iteridense slider
   if MethodsPC.ActivePage.Caption = 'Iteridense' then
    IteridenseSliderGB.Enabled:= true
   else
