@@ -1,23 +1,22 @@
 object AboutFormF: TAboutFormF
   Left = 763
-  Height = 282
+  Height = 246
   Top = 398
-  Width = 383
+  Width = 334
   Caption = 'About IteridenseClustering'
-  ClientHeight = 282
-  ClientWidth = 383
-  DesignTimePPI = 110
+  ClientHeight = 246
+  ClientWidth = 334
   Position = poMainFormCenter
-  LCLVersion = '3.8.0.0'
+  LCLVersion = '4.2.0.0'
   object SourceCodeTextL: TLabel
     AnchorSideLeft.Control = NameL
     AnchorSideTop.Control = CSVInfoST
     AnchorSideTop.Side = asrBottom
-    Left = 18
-    Height = 19
-    Top = 212
-    Width = 143
-    BorderSpacing.Top = 8
+    Left = 16
+    Height = 15
+    Top = 183
+    Width = 125
+    BorderSpacing.Top = 7
     Caption = 'Source code is available'
   end
   object GitHubLinkL: TLabel
@@ -26,11 +25,11 @@ object AboutFormF: TAboutFormF
     AnchorSideTop.Control = SourceCodeTextL
     AnchorSideTop.Side = asrCenter
     Cursor = crHandPoint
-    Left = 165
-    Height = 19
-    Top = 212
-    Width = 58
-    BorderSpacing.Left = 4
+    Left = 144
+    Height = 15
+    Top = 183
+    Width = 49
+    BorderSpacing.Left = 3
     Caption = 'at Github'
     Font.Color = clHighlight
     Font.Style = [fsUnderline]
@@ -42,11 +41,11 @@ object AboutFormF: TAboutFormF
     AnchorSideLeft.Side = asrCenter
     AnchorSideTop.Control = GitHubLinkL
     AnchorSideTop.Side = asrBottom
-    Left = 154
-    Height = 28
-    Top = 243
-    Width = 74
-    BorderSpacing.Top = 12
+    Left = 135
+    Height = 24
+    Top = 208
+    Width = 65
+    BorderSpacing.Top = 10
     Default = True
     DefaultCaption = True
     Kind = bkOK
@@ -57,19 +56,19 @@ object AboutFormF: TAboutFormF
     AnchorSideLeft.Control = NameL
     AnchorSideTop.Control = DescriptionTextST
     AnchorSideTop.Side = asrBottom
-    Left = 18
-    Height = 38
-    Top = 120
-    Width = 214
-    BorderSpacing.Top = 8
-    Caption = 'For a description of the Iteridense'#13#10'algorithm see the file:'
+    Left = 16
+    Height = 33
+    Top = 103
+    Width = 187
+    BorderSpacing.Top = 7
+    Caption = 'For a description of the Iteridense'#13#10'algorithm see the file'
     TabOrder = 1
   end
   object NameL: TLabel
-    Left = 18
-    Height = 19
-    Top = 15
-    Width = 170
+    Left = 16
+    Height = 15
+    Top = 13
+    Width = 146
     Caption = 'IteridenseClustering version'
   end
   object VersionNumberL: TLabel
@@ -77,53 +76,35 @@ object AboutFormF: TAboutFormF
     AnchorSideLeft.Side = asrBottom
     AnchorSideTop.Control = NameL
     AnchorSideTop.Side = asrCenter
-    Left = 192
-    Height = 19
-    Top = 15
-    Width = 102
-    BorderSpacing.Left = 4
+    Left = 165
+    Height = 15
+    Top = 13
+    Width = 88
+    BorderSpacing.Left = 3
     Caption = 'VersionNumberL'
   end
   object DescriptionTextST: TStaticText
     AnchorSideLeft.Control = NameL
     AnchorSideTop.Control = NameL
     AnchorSideTop.Side = asrBottom
-    Left = 18
-    Height = 74
-    Top = 38
-    Width = 308
-    BorderSpacing.Top = 4
+    Left = 16
+    Height = 65
+    Top = 31
+    Width = 269
+    BorderSpacing.Top = 3
     Caption = 'Program to cluster data using the algorithms'#13#10'Iteridense'#13#10'DBSCAN'#13#10'k-Means'
     TabOrder = 2
-  end
-  object ReadmeLinkL: TLabel
-    AnchorSideLeft.Control = UsageTextST
-    AnchorSideTop.Side = asrBottom
-    AnchorSideBottom.Control = UsageTextST
-    AnchorSideBottom.Side = asrBottom
-    Cursor = crHandPoint
-    Left = 154
-    Height = 19
-    Top = 139
-    Width = 148
-    Anchors = [akLeft, akBottom]
-    BorderSpacing.Left = 136
-    Caption = 'Iteridense-clustering.pdf'
-    Font.Color = clHighlight
-    Font.Style = [fsUnderline]
-    ParentFont = False
-    OnClick = ReadmeLinkLClick
   end
   object CSVInfoST: TStaticText
     AnchorSideLeft.Control = NameL
     AnchorSideTop.Control = UsageTextST
     AnchorSideTop.Side = asrBottom
-    Left = 18
-    Height = 38
-    Top = 166
-    Width = 238
-    BorderSpacing.Top = 8
-    Caption = 'For a description of the supported CSV'#13#10'data file format see the file:'
+    Left = 16
+    Height = 33
+    Top = 143
+    Width = 208
+    BorderSpacing.Top = 7
+    Caption = 'For a description of the supported CSV'#13#10'data file format see the file'
     TabOrder = 3
   end
   object CSVInfoL: TLabel
@@ -132,16 +113,36 @@ object AboutFormF: TAboutFormF
     AnchorSideBottom.Control = CSVInfoST
     AnchorSideBottom.Side = asrBottom
     Cursor = crHandPoint
-    Left = 188
-    Height = 19
-    Top = 185
-    Width = 72
+    Left = 161
+    Height = 15
+    Top = 158
+    Width = 64
     Anchors = [akLeft, akBottom]
-    BorderSpacing.Left = 170
+    BorderSpacing.Left = 145
+    BorderSpacing.Bottom = 3
     Caption = 'Readme.md'
     Font.Color = clHighlight
     Font.Style = [fsUnderline]
     ParentFont = False
     OnClick = CSVInfoLClick
+  end
+  object ReadmeLinkL: TLabel
+    AnchorSideLeft.Control = UsageTextST
+    AnchorSideTop.Side = asrBottom
+    AnchorSideBottom.Control = UsageTextST
+    AnchorSideBottom.Side = asrBottom
+    Cursor = crHandPoint
+    Left = 132
+    Height = 15
+    Top = 118
+    Width = 129
+    Anchors = [akLeft, akBottom]
+    BorderSpacing.Left = 116
+    BorderSpacing.Bottom = 3
+    Caption = 'Iteridense-clustering.pdf'
+    Font.Color = clHighlight
+    Font.Style = [fsUnderline]
+    ParentFont = False
+    OnClick = ReadmeLinkLClick
   end
 end
