@@ -7,7 +7,6 @@ object AboutFormF: TAboutFormF
   ClientHeight = 246
   ClientWidth = 334
   Position = poMainFormCenter
-  LCLVersion = '4.2.0.0'
   object SourceCodeTextL: TLabel
     AnchorSideLeft.Control = NameL
     AnchorSideTop.Control = CSVInfoST
@@ -76,11 +75,10 @@ object AboutFormF: TAboutFormF
     AnchorSideLeft.Side = asrBottom
     AnchorSideTop.Control = NameL
     AnchorSideTop.Side = asrCenter
-    Left = 165
+    Left = 162
     Height = 15
     Top = 13
     Width = 88
-    BorderSpacing.Left = 3
     Caption = 'VersionNumberL'
   end
   object DescriptionTextST: TStaticText
