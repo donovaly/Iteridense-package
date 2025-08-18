@@ -350,6 +350,7 @@ object MainForm: TMainForm
     Options = [nboMultiLine]
     TabIndex = 0
     TabOrder = 4
+    TabWidth = 119
     OnChange = MethodsPCChange
     object IteridenseTS: TTabSheet
       Caption = 'Iteridense'
