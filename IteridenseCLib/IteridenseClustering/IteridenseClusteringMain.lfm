@@ -623,6 +623,72 @@ object MainForm: TMainForm
         TabOrder = 9
       end
     end
+    object ClusterResultTS: TTabSheet
+      Caption = 'Clustering Result'
+      ClientHeight = 294
+      ClientWidth = 236
+      object FinalResolutionLE: TLabeledEdit
+        AnchorSideLeft.Control = ClusterResultSG
+        AnchorSideTop.Control = ClusterResultTS
+        AnchorSideBottom.Control = ClusterResultSG
+        Left = 19
+        Height = 23
+        Top = 14
+        Width = 60
+        BorderSpacing.Top = 14
+        BorderSpacing.Bottom = 14
+        EditLabel.Height = 23
+        EditLabel.Width = 82
+        EditLabel.Caption = 'final Resolution'
+        Enabled = False
+        LabelPosition = lpRight
+        LabelSpacing = 8
+        TabOrder = 0
+      end
+      object ClusterResultSG: TStringGrid
+        AnchorSideLeft.Control = ClusterResultTS
+        AnchorSideLeft.Side = asrCenter
+        AnchorSideTop.Control = FinalResolutionLE
+        AnchorSideTop.Side = asrBottom
+        AnchorSideBottom.Control = ClusterResultTS
+        AnchorSideBottom.Side = asrBottom
+        Left = 19
+        Height = 229
+        Top = 51
+        Width = 199
+        Anchors = [akTop, akLeft, akBottom]
+        AutoEdit = False
+        BorderSpacing.Bottom = 14
+        ColCount = 3
+        Columns = <        
+          item
+            Alignment = taCenter
+            Title.Alignment = taCenter
+            Title.Caption = 'Cluster'
+            Width = 45
+          end        
+          item
+            Alignment = taCenter
+            Title.Alignment = taCenter
+            Title.Caption = 'Size'
+            Width = 54
+          end        
+          item
+            Alignment = taCenter
+            Title.Alignment = taCenter
+            Title.Caption = 'Density'
+            Width = 84
+          end>
+        FixedCols = 0
+        RowCount = 1
+        TabOrder = 1
+        ColWidths = (
+          45
+          54
+          84
+        )
+      end
+    end
     object DBSCANTS: TTabSheet
       Caption = 'DBSCAN'
       ClientHeight = 294
@@ -862,72 +928,6 @@ object MainForm: TMainForm
         DisplayMode = dmScientific
         Precision = 1
         ExponentDigits = 1
-      end
-    end
-    object ClusterResultTS: TTabSheet
-      Caption = 'Clustering Result'
-      ClientHeight = 294
-      ClientWidth = 236
-      object FinalResolutionLE: TLabeledEdit
-        AnchorSideLeft.Control = ClusterResultSG
-        AnchorSideTop.Control = ClusterResultTS
-        AnchorSideBottom.Control = ClusterResultSG
-        Left = 19
-        Height = 23
-        Top = 14
-        Width = 60
-        BorderSpacing.Top = 14
-        BorderSpacing.Bottom = 14
-        EditLabel.Height = 23
-        EditLabel.Width = 82
-        EditLabel.Caption = 'final Resolution'
-        Enabled = False
-        LabelPosition = lpRight
-        LabelSpacing = 8
-        TabOrder = 0
-      end
-      object ClusterResultSG: TStringGrid
-        AnchorSideLeft.Control = ClusterResultTS
-        AnchorSideLeft.Side = asrCenter
-        AnchorSideTop.Control = FinalResolutionLE
-        AnchorSideTop.Side = asrBottom
-        AnchorSideBottom.Control = ClusterResultTS
-        AnchorSideBottom.Side = asrBottom
-        Left = 19
-        Height = 229
-        Top = 51
-        Width = 199
-        Anchors = [akTop, akLeft, akBottom]
-        AutoEdit = False
-        BorderSpacing.Bottom = 14
-        ColCount = 3
-        Columns = <        
-          item
-            Alignment = taCenter
-            Title.Alignment = taCenter
-            Title.Caption = 'Cluster'
-            Width = 45
-          end        
-          item
-            Alignment = taCenter
-            Title.Alignment = taCenter
-            Title.Caption = 'Size'
-            Width = 54
-          end        
-          item
-            Alignment = taCenter
-            Title.Alignment = taCenter
-            Title.Caption = 'Density'
-            Width = 84
-          end>
-        FixedCols = 0
-        RowCount = 1
-        TabOrder = 1
-        ColWidths = (
-          45
-          54
-          84
-        )
       end
     end
   end

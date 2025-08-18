@@ -418,6 +418,10 @@ begin
   args[1]:= nil;
   InitJulia(1, @args[0]);
 
+  // assure that MethodsPC will have 2 header lines with each 2 tabs
+  // we therefore set its TabWidth a bit below half of its Width
+  MethodsPC.TabWidth:= MethodsPC.Width div 2 - 3;
+
 end;
 
 
