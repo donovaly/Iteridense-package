@@ -18,8 +18,8 @@
     <VersionInfo>
       <UseVersionInfo Value="True"/>
       <MajorVersionNr Value="1"/>
-      <MinorVersionNr Value="1"/>
-      <StringTable CompanyName="Soloof EOOD" FileDescription="Program to perform clustering on data" LegalCopyright="Soloof EOOD" ProductName="IteridenseClustering" ProductVersion="1.1"/>
+      <MinorVersionNr Value="2"/>
+      <StringTable CompanyName="Soloof EOOD" FileDescription="Program to perform clustering on data" LegalCopyright="Soloof EOOD" ProductName="IteridenseClustering" ProductVersion="1.2"/>
     </VersionInfo>
     <BuildModes>
       <Item Name="Default" Default="True"/>

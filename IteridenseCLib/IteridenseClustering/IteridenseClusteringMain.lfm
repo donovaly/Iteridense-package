@@ -1,16 +1,15 @@
 object MainForm: TMainForm
   Left = 360
-  Height = 679
+  Height = 593
   Top = 155
-  Width = 1064
+  Width = 929
   AllowDropFiles = True
   Caption = 'Iteridense Clustering'
-  ClientHeight = 679
-  ClientWidth = 1064
+  ClientHeight = 593
+  ClientWidth = 929
   Color = clWindow
-  DesignTimePPI = 110
   Menu = MainMenu
-  LCLVersion = '4.0.0.4'
+  LCLVersion = '4.2.0.0'
   OnClose = FormClose
   OnCreate = FormCreate
   OnDropFiles = FormDropFiles
@@ -20,12 +19,12 @@ object MainForm: TMainForm
     AnchorSideTop.Control = MethodsPC
     AnchorSideTop.Side = asrBottom
     AnchorSideBottom.Side = asrBottom
-    Left = 84
-    Height = 48
+    Left = 73
+    Height = 42
     Hint = 'the currently active tab sets what'#13#10'clustering algorithm will be used'
-    Top = 477
-    Width = 160
-    BorderSpacing.Top = 16
+    Top = 416
+    Width = 140
+    BorderSpacing.Top = 14
     Caption = 'Clustering'
     Enabled = False
     Glyph.Data = {
@@ -172,10 +171,10 @@ object MainForm: TMainForm
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Side = asrBottom
-    Left = 328
-    Height = 538
+    Left = 286
+    Height = 470
     Top = 0
-    Width = 728
+    Width = 636
     AxisList = <    
       item
         Marks.Format = '%0:.4g'
@@ -223,8 +222,8 @@ object MainForm: TMainForm
     Title.Visible = True
     Toolset = ChartToolset
     Anchors = [akTop, akLeft, akRight]
-    BorderSpacing.Left = 24
-    BorderSpacing.Right = 8
+    BorderSpacing.Left = 21
+    BorderSpacing.Right = 7
     ParentColor = True
     PopupMenu = ContextChartPM
   end
@@ -233,12 +232,12 @@ object MainForm: TMainForm
     AnchorSideTop.Control = Owner
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
-    Left = 24
-    Height = 29
+    Left = 21
+    Height = 25
     Hint = 'to open a CSV file that contains data'
-    Top = 24
-    Width = 160
-    BorderSpacing.Top = 24
+    Top = 21
+    Width = 140
+    BorderSpacing.Top = 21
     Caption = 'Open CSV Data File'
     Glyph.Data = {
       36040000424D3604000000000000360000002800000010000000100000000100
@@ -287,11 +286,11 @@ object MainForm: TMainForm
     AnchorSideRight.Control = MethodsPC
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Side = asrBottom
-    Left = 192
-    Height = 29
+    Left = 167
+    Height = 25
     Hint = 'to save plot as SVG'
-    Top = 24
-    Width = 112
+    Top = 21
+    Width = 98
     Anchors = [akTop, akRight]
     Caption = 'Save Plot'
     Enabled = False
@@ -340,13 +339,13 @@ object MainForm: TMainForm
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = OpenCsvBB
     AnchorSideTop.Side = asrBottom
-    Left = 24
-    Height = 392
-    Top = 69
-    Width = 280
+    Left = 21
+    Height = 342
+    Top = 60
+    Width = 244
     ActivePage = IteridenseTS
-    BorderSpacing.Left = 24
-    BorderSpacing.Top = 16
+    BorderSpacing.Left = 21
+    BorderSpacing.Top = 14
     MultiLine = True
     Options = [nboMultiLine]
     TabIndex = 0
@@ -354,19 +353,19 @@ object MainForm: TMainForm
     OnChange = MethodsPCChange
     object IteridenseTS: TTabSheet
       Caption = 'Iteridense'
-      ClientHeight = 336
-      ClientWidth = 272
+      ClientHeight = 294
+      ClientWidth = 236
       object DensityFSE: TFloatSpinEdit
         AnchorSideLeft.Control = IteridenseTS
         AnchorSideTop.Control = UseDensityRB
         AnchorSideTop.Side = asrBottom
-        Left = 16
-        Height = 27
+        Left = 14
+        Height = 23
         Hint = 'stop the clustering when a cluster'#13#10'occurs that hast least this density'
-        Top = 31
-        Width = 70
-        BorderSpacing.Left = 16
-        BorderSpacing.Top = 8
+        Top = 26
+        Width = 61
+        BorderSpacing.Left = 14
+        BorderSpacing.Top = 7
         Increment = 0.1
         MaxValue = 1000000
         MinValue = 1
@@ -380,12 +379,12 @@ object MainForm: TMainForm
         AnchorSideLeft.Control = DensityFSE
         AnchorSideTop.Control = StopResolutionSE
         AnchorSideTop.Side = asrBottom
-        Left = 16
-        Height = 27
+        Left = 14
+        Height = 23
         Hint = 'optional:'#13#10'minimal density a cluster must have'
-        Top = 271
-        Width = 70
-        BorderSpacing.Top = 8
+        Top = 230
+        Width = 61
+        BorderSpacing.Top = 7
         Increment = 0.1
         MaxValue = 1000000
         MinValue = 1
@@ -398,12 +397,12 @@ object MainForm: TMainForm
         AnchorSideLeft.Control = DensityFSE
         AnchorSideTop.Control = IteridenseBevelBottomB
         AnchorSideTop.Side = asrBottom
-        Left = 16
-        Height = 27
+        Left = 14
+        Height = 23
         Hint = 'optional:'#13#10'start the iterations at this resolution'
-        Top = 201
-        Width = 70
-        BorderSpacing.Top = 12
+        Top = 170
+        Width = 61
+        BorderSpacing.Top = 10
         MaxValue = 1000000
         MinValue = 2
         ParentShowHint = False
@@ -414,12 +413,12 @@ object MainForm: TMainForm
       object MinClusterSizeIterIdenseSE: TSpinEdit
         AnchorSideLeft.Control = DensityFSE
         AnchorSideTop.Control = IteridenseBevelTopB
-        Left = 16
-        Height = 27
+        Left = 14
+        Height = 23
         Hint = 'optional but useful:'#13#10'minimal number of data points a'#13#10'cluster must have'
-        Top = 148
-        Width = 70
-        BorderSpacing.Top = 12
+        Top = 125
+        Width = 61
+        BorderSpacing.Top = 10
         MaxValue = 1000000
         MinValue = 2
         ParentShowHint = False
@@ -431,12 +430,12 @@ object MainForm: TMainForm
         AnchorSideLeft.Control = DensityFSE
         AnchorSideTop.Control = StartResolutionSE
         AnchorSideTop.Side = asrBottom
-        Left = 16
-        Height = 27
+        Left = 14
+        Height = 23
         Hint = 'optional:'#13#10'stop the iterations at this resolution'
-        Top = 236
-        Width = 70
-        BorderSpacing.Top = 8
+        Top = 200
+        Width = 61
+        BorderSpacing.Top = 7
         MaxValue = 1000000
         MinValue = 2
         ParentShowHint = False
@@ -449,11 +448,11 @@ object MainForm: TMainForm
         AnchorSideLeft.Side = asrBottom
         AnchorSideTop.Control = DensityFSE
         AnchorSideTop.Side = asrCenter
-        Left = 94
-        Height = 19
-        Top = 35
-        Width = 46
-        BorderSpacing.Left = 8
+        Left = 82
+        Height = 15
+        Top = 30
+        Width = 39
+        BorderSpacing.Left = 7
         Caption = 'Density'
       end
       object MinClusterDensityL: TLabel
@@ -461,11 +460,11 @@ object MainForm: TMainForm
         AnchorSideLeft.Side = asrBottom
         AnchorSideTop.Control = MinClusterDensityFSE
         AnchorSideTop.Side = asrCenter
-        Left = 94
-        Height = 19
-        Top = 275
-        Width = 73
-        BorderSpacing.Left = 8
+        Left = 82
+        Height = 15
+        Top = 234
+        Width = 63
+        BorderSpacing.Left = 7
         Caption = 'min Density'
       end
       object MinClusterSizeIterIdenseL: TLabel
@@ -473,11 +472,11 @@ object MainForm: TMainForm
         AnchorSideLeft.Side = asrBottom
         AnchorSideTop.Control = MinClusterSizeIterIdenseSE
         AnchorSideTop.Side = asrCenter
-        Left = 94
-        Height = 19
-        Top = 152
-        Width = 97
-        BorderSpacing.Left = 8
+        Left = 82
+        Height = 15
+        Top = 129
+        Width = 84
+        BorderSpacing.Left = 7
         Caption = 'min Cluster Size'
       end
       object StartResolutionL: TLabel
@@ -485,11 +484,11 @@ object MainForm: TMainForm
         AnchorSideLeft.Side = asrBottom
         AnchorSideTop.Control = StartResolutionSE
         AnchorSideTop.Side = asrCenter
-        Left = 94
-        Height = 19
-        Top = 205
-        Width = 96
-        BorderSpacing.Left = 8
+        Left = 82
+        Height = 15
+        Top = 174
+        Width = 82
+        BorderSpacing.Left = 7
         Caption = 'start Resolution'
       end
       object StopResolutionL: TLabel
@@ -497,23 +496,23 @@ object MainForm: TMainForm
         AnchorSideLeft.Side = asrBottom
         AnchorSideTop.Control = StopResolutionSE
         AnchorSideTop.Side = asrCenter
-        Left = 94
-        Height = 19
-        Top = 240
-        Width = 95
-        BorderSpacing.Left = 8
+        Left = 82
+        Height = 15
+        Top = 204
+        Width = 82
+        BorderSpacing.Left = 7
         Caption = 'stop Resolution'
       end
       object MinClustersSE: TSpinEdit
         AnchorSideLeft.Control = DensityFSE
         AnchorSideTop.Control = UseClustersRB
         AnchorSideTop.Side = asrBottom
-        Left = 16
-        Height = 27
+        Left = 14
+        Height = 23
         Hint = 'stop the clustering if at least as'#13#10'many clusters occurred'
-        Top = 97
-        Width = 70
-        BorderSpacing.Top = 8
+        Top = 82
+        Width = 61
+        BorderSpacing.Top = 7
         Enabled = False
         MaxValue = 1000000
         MinValue = 1
@@ -527,20 +526,20 @@ object MainForm: TMainForm
         AnchorSideLeft.Side = asrBottom
         AnchorSideTop.Control = MinClustersSE
         AnchorSideTop.Side = asrCenter
-        Left = 94
-        Height = 19
-        Top = 101
-        Width = 146
-        BorderSpacing.Left = 8
+        Left = 82
+        Height = 15
+        Top = 86
+        Width = 127
+        BorderSpacing.Left = 7
         Caption = 'min Number of Clusters'
       end
       object UseDensityRB: TRadioButton
         AnchorSideLeft.Control = DensityFSE
         AnchorSideTop.Control = IteridenseTS
-        Left = 16
-        Height = 23
+        Left = 14
+        Height = 19
         Top = 0
-        Width = 91
+        Width = 78
         Caption = 'use Density'
         Checked = True
         TabOrder = 7
@@ -551,11 +550,11 @@ object MainForm: TMainForm
         AnchorSideLeft.Control = DensityFSE
         AnchorSideTop.Control = DensityFSE
         AnchorSideTop.Side = asrBottom
-        Left = 16
-        Height = 23
-        Top = 66
-        Width = 164
-        BorderSpacing.Top = 8
+        Left = 14
+        Height = 19
+        Top = 56
+        Width = 142
+        BorderSpacing.Top = 7
         Caption = 'use Number of Clusters'
         TabOrder = 6
       end
@@ -565,14 +564,14 @@ object MainForm: TMainForm
         AnchorSideTop.Side = asrBottom
         AnchorSideRight.Control = IteridenseTS
         AnchorSideRight.Side = asrBottom
-        Left = 8
+        Left = 7
         Height = 2
-        Top = 187
-        Width = 256
+        Top = 158
+        Width = 222
         Anchors = [akTop, akLeft, akRight]
-        BorderSpacing.Left = 8
-        BorderSpacing.Top = 12
-        BorderSpacing.Right = 8
+        BorderSpacing.Left = 7
+        BorderSpacing.Top = 10
+        BorderSpacing.Right = 7
       end
       object IteridenseBevelTopB: TBevel
         AnchorSideLeft.Control = IteridenseTS
@@ -580,24 +579,24 @@ object MainForm: TMainForm
         AnchorSideTop.Side = asrBottom
         AnchorSideRight.Control = IteridenseTS
         AnchorSideRight.Side = asrBottom
-        Left = 8
+        Left = 7
         Height = 2
-        Top = 136
-        Width = 256
+        Top = 115
+        Width = 222
         Anchors = [akTop, akLeft, akRight]
-        BorderSpacing.Left = 8
-        BorderSpacing.Top = 12
-        BorderSpacing.Right = 8
+        BorderSpacing.Left = 7
+        BorderSpacing.Top = 10
+        BorderSpacing.Right = 7
       end
       object NoDiagonalsCB: TCheckBox
         AnchorSideLeft.Control = DensityFSE
         AnchorSideTop.Control = MinClusterDensityFSE
         AnchorSideTop.Side = asrBottom
-        Left = 16
-        Height = 23
-        Top = 306
-        Width = 126
-        BorderSpacing.Top = 8
+        Left = 14
+        Height = 19
+        Top = 260
+        Width = 110
+        BorderSpacing.Top = 7
         Caption = 'no Diagonal Cells'
         TabOrder = 8
       end
@@ -607,17 +606,17 @@ object MainForm: TMainForm
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = IteridenseTS
         AnchorSideRight.Side = asrBottom
-        Left = 144
-        Height = 27
+        Left = 124
+        Height = 24
         Hint = 'a clustering is performed on'#13#10'every slider movement'
-        Top = 31
-        Width = 120
+        Top = 25
+        Width = 105
         Min = 1
         PageSize = 0
         Position = 1
         OnChange = DensityTBChange
         Anchors = [akTop, akRight]
-        BorderSpacing.Right = 8
+        BorderSpacing.Right = 7
         Enabled = False
         ParentShowHint = False
         ShowHint = True
@@ -626,18 +625,18 @@ object MainForm: TMainForm
     end
     object DBSCANTS: TTabSheet
       Caption = 'DBSCAN'
-      ClientHeight = 336
-      ClientWidth = 272
+      ClientHeight = 294
+      ClientWidth = 236
       object RadiusFSE: TFloatSpinEdit
         AnchorSideLeft.Control = DBSCANTS
         AnchorSideTop.Control = DBSCANTS
-        Left = 16
-        Height = 27
+        Left = 14
+        Height = 23
         Hint = 'neighborhood radius'#13#10'points within this distance'#13#10'are considered neighbors'
-        Top = 16
-        Width = 69
-        BorderSpacing.Left = 16
-        BorderSpacing.Top = 16
+        Top = 14
+        Width = 60
+        BorderSpacing.Left = 14
+        BorderSpacing.Top = 14
         Increment = 0.1
         MaxValue = 1000000
         MinValue = 1E-6
@@ -652,23 +651,23 @@ object MainForm: TMainForm
         AnchorSideLeft.Side = asrBottom
         AnchorSideTop.Control = RadiusFSE
         AnchorSideTop.Side = asrCenter
-        Left = 93
-        Height = 19
-        Top = 20
-        Width = 40
-        BorderSpacing.Left = 8
+        Left = 81
+        Height = 15
+        Top = 18
+        Width = 35
+        BorderSpacing.Left = 7
         Caption = 'Radius'
       end
       object MinClusterSizeDBscanSE: TSpinEdit
         AnchorSideLeft.Control = RadiusFSE
         AnchorSideTop.Control = DBSCANBevelB
         AnchorSideTop.Side = asrBottom
-        Left = 16
-        Height = 27
+        Left = 14
+        Height = 23
         Hint = 'optional but useful:'#13#10'minimal number of data points a'#13#10'cluster must have'
-        Top = 108
-        Width = 70
-        BorderSpacing.Top = 12
+        Top = 92
+        Width = 61
+        BorderSpacing.Top = 10
         MaxValue = 1000000
         MinValue = 2
         ParentShowHint = False
@@ -681,11 +680,11 @@ object MainForm: TMainForm
         AnchorSideLeft.Side = asrBottom
         AnchorSideTop.Control = MinClusterSizeDBscanSE
         AnchorSideTop.Side = asrCenter
-        Left = 94
-        Height = 19
-        Top = 112
-        Width = 97
-        BorderSpacing.Left = 8
+        Left = 82
+        Height = 15
+        Top = 96
+        Width = 84
+        BorderSpacing.Left = 7
         Caption = 'min Cluster Size'
       end
       object DBSCANBevelB: TBevel
@@ -694,25 +693,25 @@ object MainForm: TMainForm
         AnchorSideTop.Side = asrBottom
         AnchorSideRight.Control = DBSCANTS
         AnchorSideRight.Side = asrBottom
-        Left = 8
+        Left = 7
         Height = 2
-        Top = 94
-        Width = 256
+        Top = 80
+        Width = 222
         Anchors = [akTop, akLeft, akRight]
-        BorderSpacing.Left = 8
-        BorderSpacing.Top = 12
-        BorderSpacing.Right = 8
+        BorderSpacing.Left = 7
+        BorderSpacing.Top = 10
+        BorderSpacing.Right = 7
       end
       object MinNeighborsSE: TSpinEdit
         AnchorSideLeft.Control = RadiusFSE
         AnchorSideTop.Control = RadiusFSE
         AnchorSideTop.Side = asrBottom
-        Left = 16
-        Height = 27
+        Left = 14
+        Height = 23
         Hint = 'minimal number of neighbors required'#13#10'to assign a point to a cluster "core"'
-        Top = 55
-        Width = 70
-        BorderSpacing.Top = 12
+        Top = 47
+        Width = 61
+        BorderSpacing.Top = 10
         MaxValue = 1000000
         MinValue = 2
         ParentShowHint = False
@@ -725,11 +724,11 @@ object MainForm: TMainForm
         AnchorSideLeft.Side = asrBottom
         AnchorSideTop.Control = MinNeighborsSE
         AnchorSideTop.Side = asrCenter
-        Left = 94
-        Height = 19
-        Top = 59
-        Width = 90
-        BorderSpacing.Left = 8
+        Left = 82
+        Height = 15
+        Top = 51
+        Width = 79
+        BorderSpacing.Left = 7
         Caption = 'min Neighbors'
       end
       object RadiusTB: TTrackBar
@@ -738,17 +737,17 @@ object MainForm: TMainForm
         AnchorSideTop.Side = asrCenter
         AnchorSideRight.Control = DBSCANTS
         AnchorSideRight.Side = asrBottom
-        Left = 144
-        Height = 27
+        Left = 124
+        Height = 24
         Hint = 'a clustering is performed on'#13#10'every slider movement'
-        Top = 16
-        Width = 120
+        Top = 13
+        Width = 105
         Min = 1
         PageSize = 0
         Position = 1
         OnChange = RadiusTBChange
         Anchors = [akTop, akRight]
-        BorderSpacing.Right = 8
+        BorderSpacing.Right = 7
         Enabled = False
         ParentShowHint = False
         ShowHint = True
@@ -757,17 +756,17 @@ object MainForm: TMainForm
     end
     object KMeansTS: TTabSheet
       Caption = 'K-Means'
-      ClientHeight = 336
-      ClientWidth = 272
+      ClientHeight = 294
+      ClientWidth = 236
       object NumberClustersSE: TSpinEdit
         AnchorSideLeft.Control = KMeansTS
         AnchorSideTop.Control = KMeansTS
-        Left = 16
-        Height = 27
-        Top = 16
-        Width = 70
-        BorderSpacing.Left = 16
-        BorderSpacing.Top = 16
+        Left = 14
+        Height = 23
+        Top = 14
+        Width = 61
+        BorderSpacing.Left = 14
+        BorderSpacing.Top = 14
         MaxValue = 1000000
         MinValue = 1
         TabOrder = 0
@@ -778,11 +777,11 @@ object MainForm: TMainForm
         AnchorSideLeft.Side = asrBottom
         AnchorSideTop.Control = NumberClustersSE
         AnchorSideTop.Side = asrCenter
-        Left = 94
-        Height = 19
-        Top = 20
-        Width = 119
-        BorderSpacing.Left = 8
+        Left = 82
+        Height = 15
+        Top = 18
+        Width = 103
+        BorderSpacing.Left = 7
         Caption = 'Number of Clusters'
       end
       object KMeansBevelB: TBevel
@@ -791,24 +790,24 @@ object MainForm: TMainForm
         AnchorSideTop.Side = asrBottom
         AnchorSideRight.Control = IteridenseTS
         AnchorSideRight.Side = asrBottom
-        Left = 8
+        Left = 7
         Height = 2
-        Top = 55
-        Width = 256
+        Top = 47
+        Width = 220
         Anchors = [akTop, akLeft, akRight]
-        BorderSpacing.Left = 8
-        BorderSpacing.Top = 12
-        BorderSpacing.Right = 8
+        BorderSpacing.Left = 7
+        BorderSpacing.Top = 10
+        BorderSpacing.Right = 7
       end
       object MaxIterationsSE: TSpinEdit
         AnchorSideLeft.Control = NumberClustersSE
         AnchorSideTop.Control = KMeansBevelB
-        Left = 16
-        Height = 27
+        Left = 14
+        Height = 23
         Hint = 'optional:'#13#10'maximal iterations to achieve a solution'
-        Top = 67
-        Width = 70
-        BorderSpacing.Top = 12
+        Top = 57
+        Width = 61
+        BorderSpacing.Top = 10
         MaxValue = 1000000
         MinValue = 1
         ParentShowHint = False
@@ -821,11 +820,11 @@ object MainForm: TMainForm
         AnchorSideLeft.Side = asrBottom
         AnchorSideTop.Control = MaxIterationsSE
         AnchorSideTop.Side = asrCenter
-        Left = 94
-        Height = 19
-        Top = 71
-        Width = 87
-        BorderSpacing.Left = 8
+        Left = 82
+        Height = 15
+        Top = 61
+        Width = 74
+        BorderSpacing.Left = 7
         Caption = 'max Iterations'
       end
       object ToleranceL: TLabel
@@ -833,28 +832,28 @@ object MainForm: TMainForm
         AnchorSideLeft.Side = asrBottom
         AnchorSideTop.Control = ToleranceFSX
         AnchorSideTop.Side = asrCenter
-        Left = 94
-        Height = 19
-        Top = 110
-        Width = 140
-        BorderSpacing.Left = 8
+        Left = 82
+        Height = 15
+        Top = 94
+        Width = 121
+        BorderSpacing.Left = 7
         Caption = 'Tolerance for Iterations'
       end
       object ToleranceFSX: TFloatSpinEditEx
         AnchorSideLeft.Control = NumberClustersSE
         AnchorSideTop.Control = MaxIterationsSE
         AnchorSideTop.Side = asrBottom
-        Left = 16
-        Height = 27
+        Left = 14
+        Height = 23
         Hint = 'optional:'#13#10'if values change from one to next'#13#10'iteration by less than the tolerance'#13#10'a solution is achieved'
-        Top = 106
-        Width = 70
+        Top = 90
+        Width = 61
         Alignment = taLeftJustify
-        BorderSpacing.Top = 12
+        BorderSpacing.Top = 10
         MaxLength = 0
         ParentShowHint = False
         ShowHint = True
-        SpinButtonWidth = 17
+        SpinButtonWidth = 15
         TabOrder = 2
         Increment = 0.00001
         Spacing = 10
@@ -867,20 +866,20 @@ object MainForm: TMainForm
     end
     object ClusterResultTS: TTabSheet
       Caption = 'Clustering Result'
-      ClientHeight = 336
-      ClientWidth = 272
+      ClientHeight = 294
+      ClientWidth = 236
       object FinalResolutionLE: TLabeledEdit
         AnchorSideLeft.Control = ClusterResultSG
         AnchorSideTop.Control = ClusterResultTS
         AnchorSideBottom.Control = ClusterResultSG
-        Left = 22
-        Height = 27
-        Top = 16
-        Width = 69
-        BorderSpacing.Top = 16
-        BorderSpacing.Bottom = 16
-        EditLabel.Height = 27
-        EditLabel.Width = 93
+        Left = 19
+        Height = 23
+        Top = 14
+        Width = 60
+        BorderSpacing.Top = 14
+        BorderSpacing.Bottom = 14
+        EditLabel.Height = 23
+        EditLabel.Width = 82
         EditLabel.Caption = 'final Resolution'
         Enabled = False
         LabelPosition = lpRight
@@ -894,40 +893,40 @@ object MainForm: TMainForm
         AnchorSideTop.Side = asrBottom
         AnchorSideBottom.Control = ClusterResultTS
         AnchorSideBottom.Side = asrBottom
-        Left = 22
-        Height = 261
-        Top = 59
-        Width = 228
+        Left = 19
+        Height = 229
+        Top = 51
+        Width = 199
         Anchors = [akTop, akLeft, akBottom]
         AutoEdit = False
-        BorderSpacing.Bottom = 16
+        BorderSpacing.Bottom = 14
         ColCount = 3
         Columns = <        
           item
             Alignment = taCenter
             Title.Alignment = taCenter
             Title.Caption = 'Cluster'
-            Width = 52
+            Width = 45
           end        
           item
             Alignment = taCenter
             Title.Alignment = taCenter
             Title.Caption = 'Size'
-            Width = 62
+            Width = 54
           end        
           item
             Alignment = taCenter
             Title.Alignment = taCenter
             Title.Caption = 'Density'
-            Width = 96
+            Width = 84
           end>
         FixedCols = 0
         RowCount = 1
         TabOrder = 1
         ColWidths = (
-          52
-          62
-          96
+          45
+          54
+          84
         )
       end
     end
@@ -939,13 +938,13 @@ object MainForm: TMainForm
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Side = asrBottom
-    Left = 602
-    Height = 27
+    Left = 526
+    Height = 24
     Hint = 'No data file loaded'
-    Top = 554
-    Width = 180
+    Top = 484
+    Width = 157
     Alignment = taCenter
-    BorderSpacing.Top = 16
+    BorderSpacing.Top = 14
     Lines.Strings = (
       'None'
     )
@@ -959,41 +958,41 @@ object MainForm: TMainForm
     AnchorSideLeft.Side = asrBottom
     AnchorSideBottom.Control = LoadedDataFileM
     AnchorSideBottom.Side = asrCenter
-    Left = 790
-    Height = 19
-    Top = 557
-    Width = 131
+    Left = 690
+    Height = 15
+    Top = 488
+    Width = 111
     Anchors = [akLeft, akBottom]
-    BorderSpacing.Left = 8
-    BorderSpacing.Bottom = 8
+    BorderSpacing.Left = 7
+    BorderSpacing.Bottom = 7
     Caption = 'Loaded Data CSV File'
   end
   object DimensionSelectionGB: TGroupBox
     AnchorSideLeft.Control = MethodsPC
     AnchorSideTop.Control = ClusteringBB
     AnchorSideTop.Side = asrBottom
-    Left = 24
-    Height = 112
-    Top = 541
-    Width = 392
-    BorderSpacing.Top = 16
+    Left = 21
+    Height = 98
+    Top = 472
+    Width = 342
+    BorderSpacing.Top = 14
     Caption = 'Selection of Dimensions'
-    ClientHeight = 88
-    ClientWidth = 388
+    ClientHeight = 78
+    ClientWidth = 338
     ParentBackground = False
     TabOrder = 6
     object DataSelectionCCB: TCheckComboBox
       AnchorSideLeft.Control = PlotSelectionCCB
       AnchorSideTop.Control = PlotSelectionCCB
       AnchorSideTop.Side = asrBottom
-      Left = 16
-      Height = 26
+      Left = 14
+      Height = 23
       Hint = 'all selected dimensions will be'#13#10'taken into account for clustering'
-      Top = 46
-      Width = 176
+      Top = 40
+      Width = 154
       AutoDropDown = True
-      BorderSpacing.Top = 12
-      ItemHeight = 20
+      BorderSpacing.Top = 10
+      ItemHeight = 17
       ParentShowHint = False
       ShowHint = True
       TabOrder = 0
@@ -1003,24 +1002,24 @@ object MainForm: TMainForm
       AnchorSideLeft.Control = PlotSelectionL
       AnchorSideTop.Control = DataSelectionCCB
       AnchorSideTop.Side = asrCenter
-      Left = 200
-      Height = 19
-      Top = 50
-      Width = 166
+      Left = 175
+      Height = 15
+      Top = 44
+      Width = 143
       Caption = 'Dimensions to be clustered'
     end
     object PlotSelectionCCB: TCheckComboBox
       AnchorSideLeft.Control = DimensionSelectionGB
       AnchorSideTop.Control = DimensionSelectionGB
-      Left = 16
-      Height = 26
+      Left = 14
+      Height = 23
       Hint = 'the first 2 selected dimensions will be plotted'
-      Top = 8
-      Width = 176
+      Top = 7
+      Width = 154
       AutoDropDown = True
-      BorderSpacing.Left = 16
-      BorderSpacing.Top = 8
-      ItemHeight = 20
+      BorderSpacing.Left = 14
+      BorderSpacing.Top = 7
+      ItemHeight = 17
       ParentShowHint = False
       ShowHint = True
       TabOrder = 1
@@ -1031,11 +1030,11 @@ object MainForm: TMainForm
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = PlotSelectionCCB
       AnchorSideTop.Side = asrCenter
-      Left = 200
-      Height = 19
-      Top = 12
-      Width = 116
-      BorderSpacing.Left = 8
+      Left = 175
+      Height = 15
+      Top = 11
+      Width = 100
+      BorderSpacing.Left = 7
       Caption = 'Dimensions to plot'
     end
     object FlipTB: TToggleBox
@@ -1043,12 +1042,12 @@ object MainForm: TMainForm
       AnchorSideLeft.Side = asrBottom
       AnchorSideTop.Control = PlotSelectionCCB
       AnchorSideTop.Side = asrCenter
-      Left = 324
-      Height = 26
+      Left = 282
+      Height = 25
       Hint = 'flips the dimensions in the plot'
-      Top = 8
-      Width = 50
-      BorderSpacing.Left = 8
+      Top = 6
+      Width = 45
+      BorderSpacing.Left = 7
       Caption = 'Flip'
       Enabled = False
       ParentShowHint = False
@@ -1066,17 +1065,17 @@ object MainForm: TMainForm
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = DimensionSelectionGB
     AnchorSideBottom.Side = asrBottom
-    Left = 428
-    Height = 68
-    Top = 585
-    Width = 624
+    Left = 373
+    Height = 59
+    Top = 511
+    Width = 546
     Anchors = [akTop, akLeft, akRight, akBottom]
-    BorderSpacing.Left = 12
-    BorderSpacing.Top = 4
-    BorderSpacing.Right = 12
+    BorderSpacing.Left = 10
+    BorderSpacing.Top = 3
+    BorderSpacing.Right = 10
     Caption = 'Iteridense Resolution Inspector'
-    ClientHeight = 44
-    ClientWidth = 620
+    ClientHeight = 39
+    ClientWidth = 542
     Enabled = False
     ParentBackground = False
     TabOrder = 7
@@ -1087,21 +1086,21 @@ object MainForm: TMainForm
       AnchorSideRight.Control = SliderStopSE
       AnchorSideBottom.Control = IteridenseSliderGB
       AnchorSideBottom.Side = asrBottom
-      Left = 62
-      Height = 36
+      Left = 54
+      Height = 33
       Hint = 'runs Iteridense at a fixed resolution'
-      Top = 4
-      Width = 496
+      Top = 3
+      Width = 434
       Max = 64
       Min = 2
       PageSize = 0
       Position = 2
       OnChange = IteridenseSliderTBChange
       Anchors = [akTop, akLeft, akRight, akBottom]
-      BorderSpacing.Left = 4
-      BorderSpacing.Top = 4
-      BorderSpacing.Right = 4
-      BorderSpacing.Bottom = 4
+      BorderSpacing.Left = 3
+      BorderSpacing.Top = 3
+      BorderSpacing.Right = 3
+      BorderSpacing.Bottom = 3
       ParentShowHint = False
       ShowHint = True
       TabOrder = 0
@@ -1112,12 +1111,12 @@ object MainForm: TMainForm
     object SliderStartSE: TSpinEdit
       AnchorSideLeft.Control = IteridenseSliderGB
       AnchorSideTop.Control = IteridenseSliderGB
-      Left = 8
-      Height = 27
-      Top = 4
-      Width = 50
-      BorderSpacing.Left = 8
-      BorderSpacing.Top = 4
+      Left = 7
+      Height = 23
+      Top = 3
+      Width = 44
+      BorderSpacing.Left = 7
+      BorderSpacing.Top = 3
       MaxValue = 99
       MinValue = 2
       TabOrder = 1
@@ -1128,13 +1127,13 @@ object MainForm: TMainForm
       AnchorSideTop.Control = IteridenseSliderGB
       AnchorSideRight.Control = IteridenseSliderGB
       AnchorSideRight.Side = asrBottom
-      Left = 562
-      Height = 27
-      Top = 4
-      Width = 50
+      Left = 491
+      Height = 23
+      Top = 3
+      Width = 44
       Anchors = [akTop, akRight]
-      BorderSpacing.Top = 4
-      BorderSpacing.Right = 8
+      BorderSpacing.Top = 3
+      BorderSpacing.Right = 7
       MaxValue = 128
       MinValue = 2
       TabOrder = 2
@@ -1143,33 +1142,33 @@ object MainForm: TMainForm
     end
   end
   object LabelHintB: TButton
-    Left = 472
-    Height = 21
-    Top = 552
-    Width = 32
+    Left = 412
+    Height = 18
+    Top = 482
+    Width = 28
     Caption = 'LabelHintB'
     TabOrder = 8
     Visible = False
   end
   object ChartAxisTransformValues: TChartAxisTransformations
-    Left = 888
-    Top = 144
+    Left = 775
+    Top = 126
     object ValuesAutoScaleAxisTransform: TAutoScaleAxisTransform
     end
   end
   object OpenDialog: TOpenDialog
     Filter = 'CSV|*.csv'
-    Left = 424
-    Top = 144
+    Left = 370
+    Top = 126
   end
   object SaveDialog: TSaveDialog
     Filter = 'CSV|*.csv'
-    Left = 424
-    Top = 208
+    Left = 370
+    Top = 182
   end
   object ChartToolset: TChartToolset
-    Left = 888
-    Top = 80
+    Left = 775
+    Top = 70
     object DataPointCrosshairTool: TDataPointCrosshairTool
       GrabRadius = 10
     end
@@ -1236,12 +1235,12 @@ object MainForm: TMainForm
       'ColorS=F0FBFF'
       'ColorT=A4A0A0'
     )
-    Left = 424
-    Top = 80
+    Left = 370
+    Top = 70
   end
   object ContextChartPM: TPopupMenu
-    Left = 888
-    Top = 280
+    Left = 775
+    Top = 244
     object AutoscaleMI: TMenuItem
       Caption = 'Auto scale'
       OnClick = AutoscaleMIClick
@@ -1255,14 +1254,14 @@ object MainForm: TMainForm
     end
   end
   object ChartAxisTransformDim1: TChartAxisTransformations
-    Left = 888
-    Top = 208
+    Left = 775
+    Top = 182
     object ValuesLinearTransform: TLinearAxisTransform
     end
   end
   object MainMenu: TMainMenu
-    Left = 424
-    Top = 280
+    Left = 370
+    Top = 244
     object FileMI: TMenuItem
       Caption = 'File'
       object OpenCsvMI: TMenuItem
