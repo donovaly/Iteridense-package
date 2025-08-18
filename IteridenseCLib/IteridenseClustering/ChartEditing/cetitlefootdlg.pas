@@ -8,8 +8,7 @@ uses
   Classes, SysUtils, Graphics,
   Forms, Controls, Dialogs, ButtonPanel, ExtCtrls, Buttons, ComCtrls,
   TAGraph, TATextElements,
-  ceTitleFootFrame,
-  IteridenseClusteringMain;
+  ceTitleFootFrame;
 
 type
 
@@ -62,8 +61,6 @@ end;
 
 procedure TChartTitleFootEditor.FormCloseQuery(Sender: TObject;
   var CanClose: boolean);
-var
-  HeaderLine : string;
 begin
   if not CanClose then
     exit;

@@ -6,8 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  Buttons, EditBtn, ExtCtrls, ComCtrls, Spin, Math, CTypes,
-  SpinEx, FileInfo, StrUtils, Streamex, Generics.Collections,
+  Buttons, ExtCtrls, ComCtrls, SpinEx, StrUtils, Streamex, Generics.Collections,
   TATools, TAGraph, TASeries, TAChartAxis, TALegend, TATextElements,
   TATypes, TAChartUtils, TADrawerSVG,
   IteridenseClusteringMain;
@@ -77,7 +76,7 @@ implementation
 
 uses
   // ChartEditing units
-  ceTitleFootDlg, ceLegendDlg, ceSeriesDlg, ceAxisDlg, ceAxisFrame;
+  ceTitleFootDlg, ceLegendDlg, ceAxisDlg, ceAxisFrame;
 
 constructor TChartData.create;
 begin
@@ -92,7 +91,7 @@ var
   StringArray : TStringArray;
   MousePointer : TPoint;
   List : specialize TList<TStringArray>;
-  i, k, m, columns, columnCounter, counter : Int64;
+  i, k, columns, columnCounter : Int64;
 begin
   result:= 0; // initialized as failed
   MousePointer:= Mouse.CursorPos; // store mouse position
@@ -300,10 +299,8 @@ function TChartData.SaveHandling(InName: string; FileExt: string): string;
 var
   YesNo : integer;
   OutNameTemp, DialogText : string;
-  MousePointer : TPoint;
 begin
   // initialize
-  MousePointer:= Mouse.CursorPos;
   result:= '';
 
   if FileExt = '.csv' then
@@ -578,7 +575,7 @@ begin
     // create a plot series
     numOfClusters:= MainForm.ClusterResultSG.RowCount-1;
     SetLength(Series, numOfClusters+1);
-    for i:= 0 to numOfClusters do // we need one extra for the unclusteed points
+    for i:= 0 to numOfClusters do // we need one extra for the unclustered points
     begin
       Series[i]:= TLineSeries.Create(MainForm.DataC);
       Series[i].ShowLines:= False; // points only
@@ -591,7 +588,7 @@ begin
       MainForm.DataC.AddSeries(Series[i]);
     end;
     // Move the first series to the back since it holds the non-cluster points. Otherwise
-    // especially for high Iterdiense densities they would cover the cluster values.
+    // especially for high Iteridense densities they would cover the cluster values.
     Series[0].ZPosition:= 0;
 
     // add data points to the according cluster number series
@@ -665,15 +662,11 @@ end;
 procedure TChartData.CDDataPointHintToolHint(
   ATool: TDataPointHintTool; const APoint: TPoint; var AHint: String);
 var
-  SeriesName : string;
   dim1, dim2 : double;
-  currentSeries, otherSeries : TBasicChartSeries;
-  i : integer;
+  currentSeries : TBasicChartSeries;
 begin
-  otherSeries:= nil;
   currentSeries:= ATool.Series;
 
-  SeriesName:= ATool.Series.Name;
   dim1:= MainForm.DataC.AxisList[1].GetTransform.GraphToAxis(
           ATool.NearestGraphPoint.X);
   dim2:= MainForm.DataC.AxisList[0].GetTransform.GraphToAxis(
@@ -699,11 +692,9 @@ var
   rect : TRect;
   HintWindow : THintWindow;
   HintText : string = '';
-  SeriesName : string;
 // moves the hint text above the cursor and center it horizontally to cursor
 begin
   series:= ATool.Series as TLineSeries;
-  SeriesName:= ATool.Series.Name;
   // get image coordinates of the point
   x:= MainForm{%H-}.DataC.XGraphToImage(series.ListSource[ATool.PointIndex]^.X);
   // all series are connected to the left axis
@@ -844,7 +835,6 @@ var
  i : integer;
  Chart : TChart;
  Axis : TChartAxis;
- Series : TLineSeries;
  tempStr : string;
  List : TStringList;
 begin
@@ -1028,7 +1018,6 @@ var
  tempMultiplicity : TLegendMultiplicity;
  tempMarksStyle : TSeriesMarksStyle;
  tempPointerStyle : TSeriesPointerStyle;
- Abool : Boolean;
 begin
 
  try
