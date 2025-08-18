@@ -84,7 +84,7 @@ clusterCounts = Clustering.counts(result)
 Plots.scatter(dataMatrix[:, 1], dataMatrix[:, 2], xlabel= dataLabels[1], ylabel= dataLabels[2],
                 title= "DBSCAN ε = $ε", group= assign, markersize= 5)
 end
-# By setting min_neighbors to 6, one might get the "correct" result but becareful,
+# By setting min_neighbors to 6, one might get the "correct" result but be careful,
 # because it "looks nice" to a human does not mean the clustering is sensible.
 # DBSCAN is prone for human bias to adjust the algorithm parameters to make the result
 # looking nice. For 2D data then a human could do the clustering directly by looking at the plot.
