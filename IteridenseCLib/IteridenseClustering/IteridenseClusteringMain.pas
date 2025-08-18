@@ -115,6 +115,7 @@ type
     LabelHintB: TButton;
     FlipTB: TToggleBox;
     IteridenseSliderGB: TGroupBox;
+    ProportionalMI: TMenuItem;
     RadiusTB: TTrackBar;
     ChangeBackColorMI: TMenuItem;
     ChartAxisTransformDim1: TChartAxisTransformations;
@@ -205,29 +206,30 @@ type
       const APoint: TPoint; var AHint: String);
     procedure DataPointHintToolHintPosition(ATool: TDataPointHintTool;
       var APoint: TPoint);
-    procedure DataSelectionCCBItemChange(Sender: TObject; AIndex: Integer);
+    procedure DataSelectionCCBItemChange(Sender: TObject; AIndex{%H-}: Integer);
     procedure DensityFSEEnter(Sender: TObject);
     procedure DensityTBChange(Sender: TObject);
     procedure FlipTBChange(Sender: TObject);
-    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure FormClose(Sender: TObject; var CloseAction{%H-}: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure ClusteringBBClick(Sender: TObject);
     function CArrayToTIntArray(cArray: CArray): TIntArray;
     function CArrayToTDoubleArray(cArray: CArray): TDoubleArray;
     function CTensorToTDoubleArray(tensor: CTensor): TDoubleArray;
+    procedure ProportionalMIClick(Sender: TObject);
     procedure UpdateLabelHintBPosition;
     procedure IteridenseSliderTBChange(Sender: TObject);
     procedure IteridenseSliderTBMouseDown(Sender: TObject;
-      Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+      Button{%H-}: TMouseButton; Shift{%H-}: TShiftState; X{%H-}, Y{%H-}: Integer);
     procedure IteridenseSliderTBMouseMove(Sender: TObject; Shift: TShiftState;
-      X, Y: Integer);
-    procedure IteridenseSliderTBMouseUp(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
+      X{%H-}, Y{%H-}: Integer);
+    procedure IteridenseSliderTBMouseUp(Sender: TObject; Button{%H-}: TMouseButton;
+      Shift{%H-}: TShiftState; X{%H-}, Y{%H-}: Integer);
     procedure LegendClickToolClick(ASender: TChartTool; ALegend: TChartLegend);
     procedure MethodsPCChange(Sender: TObject);
     procedure OpenCsvBBClick(Sender: TObject);
     procedure FormDropFiles(Sender: TObject; const FileNames{%H-}: array of String);
-    procedure PlotSelectionCCBItemChange(Sender: TObject; AIndex: Integer);
+    procedure PlotSelectionCCBItemChange(Sender: TObject; AIndex{%H-}: Integer);
     procedure RadiusFSEEnter(Sender: TObject);
     procedure RadiusTBChange(Sender: TObject);
     procedure ResetChartAppearanceMIClick(Sender: TObject);
@@ -1049,6 +1051,11 @@ end;
 procedure TMainForm.AutoscaleMIClick(Sender: TObject);
 begin
   ChartData.CDAutoscaleMIClick(Sender);
+end;
+
+procedure TMainForm.ProportionalMIClick(Sender: TObject);
+begin
+  ChartData.CDProportionalMIClick(Sender);
 end;
 
 procedure TMainForm.AboutMIClick(Sender: TObject);

@@ -23,10 +23,11 @@ type
     function ReadData(InName: string): Byte;
     procedure CDFlipTBChange(Sender: TObject);
     procedure CDPlotSelectionCCBItemChange(Sender: TObject);
-    procedure CDDataPointHintToolHint(ATool: TDataPointHintTool; const APoint: TPoint;
+    procedure CDDataPointHintToolHint(ATool: TDataPointHintTool; const APoint{%H-}: TPoint;
                                     var AHint: String);
     procedure CDDataPointHintToolHintPosition(ATool: TDataPointHintTool; var APoint: TPoint);
     procedure CDAutoscaleMIClick(Sender: TObject);
+    procedure CDProportionalMIClick(Sender: TObject);
     procedure CDChangeBackColorMIClick(Sender: TObject);
     procedure CDLegendClickToolClick(Sender: TChartTool; Legend: TChartLegend);
     procedure CDAxisClickToolClick(Sender: TChartTool;
@@ -732,6 +733,12 @@ begin
  // for the x-axis also te extent must be set
  MainForm.DataC.Extent.UseXMax:= false;
  MainForm.DataC.Extent.UseXMin:= false;
+end;
+
+
+procedure TChartData.CDProportionalMIClick(Sender: TObject);
+begin
+ MainForm.DataC.Proportional:= MainForm.ProportionalMI.Checked;
 end;
 
 

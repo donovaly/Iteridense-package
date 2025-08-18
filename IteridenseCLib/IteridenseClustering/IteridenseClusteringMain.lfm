@@ -9,7 +9,6 @@ object MainForm: TMainForm
   ClientWidth = 929
   Color = clWindow
   Menu = MainMenu
-  LCLVersion = '4.2.0.0'
   OnClose = FormClose
   OnCreate = FormCreate
   OnDropFiles = FormDropFiles
@@ -1245,6 +1244,13 @@ object MainForm: TMainForm
     object AutoscaleMI: TMenuItem
       Caption = 'Auto scale'
       OnClick = AutoscaleMIClick
+    end
+    object ProportionalMI: TMenuItem
+      AutoCheck = True
+      Caption = 'Proportional axes'
+      Checked = True
+      Hint = 'applies same scaling'#13#10'factor to both axes'
+      OnClick = ProportionalMIClick
     end
     object Separator1MI: TMenuItem
       Caption = '-'
