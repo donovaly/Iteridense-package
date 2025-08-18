@@ -706,11 +706,11 @@ There are two possible input parameters to the algorithm,
 \series bold
 MinClusters
 \series default
-) or the minimal data point density to form a cluster 
+) or the minimal data point density 
 \begin_inset Formula $\rho$
 \end_inset
 
-.
+ to form a cluster.
  
 \begin_inset Formula $\rho$
 \end_inset
@@ -1082,7 +1082,7 @@ reference "fig:Clustering-process"
 \begin_inset space \thinspace{}
 \end_inset
 
-(a).
+(b).
 \end_layout
 
 \begin_layout Enumerate
@@ -2006,9 +2006,8 @@ reference "sec:Derivation-of-the"
 \end_inset
 
 ,
- the greater the density means,
- translated to the relief example,
- the area of the cluster gets smaller.
+ the greater the density,
+ means (translated to the relief example) the area of the cluster gets smaller.
  Therefore less points are assigned to the clusters for 
 \begin_inset Formula $\rho=5.0$
 \end_inset
@@ -2147,6 +2146,22 @@ Iteridense
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+By increasing 
+\begin_inset Formula $\rho$
+\end_inset
+
+ one can for example define points as outliers:
+ One could define that all data points that are not part of a cluster at density 
+\begin_inset Formula $\rho=4.0$
+\end_inset
+
+ are outliers.
+ If the data points are the result of a measurement,
+ one can repeat the measurement to verify if the result is still an outlier,
+ check the measurement setup etc.
 \end_layout
 
 \begin_layout Standard
@@ -2318,17 +2333,13 @@ An advantage compared to other clustering algorithm is that
 Iteridense
 \noun default
  treats all data points the same way.
- There is no division between core points,
- outliers or the like.
+ There is no separation between core points,
+ border points or the like.
  Another major feature of 
 \noun on
 Iteridense
 \noun default
  is that it provides two ways to achieve results and a clear path for the user on how to change the input parameters to get a suitable result:
-\begin_inset Newpage pagebreak
-\end_inset
-
-
 \end_layout
 
 \begin_layout Itemize
@@ -2755,9 +2766,7 @@ sklearn.datasets
 \end_inset
 
 data points.
-\end_layout
-
-\begin_layout Standard
+ 
 \begin_inset Formula $\epsilon=0.1$
 \end_inset
 
@@ -3087,6 +3096,53 @@ Result of DBSCAN at anistotope clusters with
 \end_layout
 
 \begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+What is 
+\begin_inset Quotes eld
+\end_inset
+
+suitable
+\begin_inset Quotes erd
+\end_inset
+
+ depends on the application.
+ For example the data shown in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Result-of-Iteridense-NoisyBlobs"
+
+\end_inset
+
+ consist also of 1500
+\begin_inset space ~
+\end_inset
+
+data points.
+ It was generated using the 
+\emph on
+make_blobs 
+\emph default
+call to 
+\emph on
+sklearn.datasets
+\emph default
+ with a subsequent transformation.
+ One might see in the data 2
+\begin_inset space ~
+\end_inset
+
+clusters and therefore set 
+\series bold
+MinClusters
+\series default
+ to 2 and 
+\series bold
+MinClusterSize
+\series default
+ to 20.
+ As result one gets 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Result-of-Iteridense-NoisyBlobs"
@@ -3097,43 +3153,18 @@ reference "fig:Result-of-Iteridense-NoisyBlobs"
 \begin_inset space \thinspace{}
 \end_inset
 
-(a) is another example with 1500
+(a).
+ There cluster
 \begin_inset space ~
 \end_inset
 
-data points,
- generated using the 
-\emph on
-make_blobs 
-\emph default
-call to 
-\emph on
-sklearn.datasets
-\emph default
- with a subsequent transformation.
- 
-\series bold
-MinClusters
-\series default
- was set to 2 and 
-\series bold
-MinClusterSize
-\series default
- 20.
- Cluster
-\begin_inset space ~
-\end_inset
-
-2 has 
+1 has 
 \begin_inset Formula $\rho_{\mathrm{cluster}}=3.07$
 \end_inset
 
- and is a merge of a high- and low-density region.
- The two ways to change or to achieve a certain result are:
-\begin_inset Newpage pagebreak
-\end_inset
-
-
+ and is a merge of a high- and a low-density region.
+ This might not be suitable because one had the 2 dense regions in mind to form each a cluster.
+ There are now two ways to change the result:
 \end_layout
 
 \begin_layout Itemize
@@ -3199,11 +3230,24 @@ The change of
 MinClusterSize
 \series default
  might not be obvious when one cannot plot for example high-dimensional data.
- But that this is the way to go is a feature of the 
+ It is therefore a useful feature of the 
 \noun on
 Iteridense
 \noun default
- algorithm.
+ algorithm that for the case 
+\begin_inset Formula $\rho_{\mathrm{cluster}}$
+\end_inset
+
+ is too low for a suitable result,
+ one can increase 
+\series bold
+MinClusterSize
+\series default
+ together with 
+\begin_inset Formula $\rho$
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -3900,7 +3944,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Clustering with only shown
+Clustering with only the shown
 \begin_inset Newline newline
 \end_inset
 
@@ -4370,8 +4414,8 @@ Iteridense
 \end_inset
 
  DENCLUE assumes a Gaussian distribution function as shape of the density function.
- Another big difference to DENCLUE is that there is not only a single probability-density function created but iteratively several ones with increasing resolutions.
- This costs more computation efforts but one does not have to make assumptions about the density in the data set.
+ Another big difference to DENCLUE is that there is not only a single probability-density function created but iteratively several ones with increasing resolution.
+ This increases the computation efforts but one does not have to make assumptions about the density in the data set.
  DENCLUE requires at least 2
 \begin_inset space ~
 \end_inset
@@ -4395,8 +4439,8 @@ Iteridense
 \end_inset
 
  defines the width of the Gaussian that is used to assign the data points to the clusters.
- Its value has to be guessed introducing for some practical applications trial and error.
- There are approaches to improve initial the setting of the DENCLUE parameters,
+ Its value has to be guessed and therefore introduces for some practical applications a trial and error process.
+ There are approaches to improve the initial setting of the DENCLUE parameters,
  see
 \begin_inset space ~
 \end_inset
