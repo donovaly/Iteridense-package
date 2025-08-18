@@ -41,7 +41,7 @@ function getNeighbors!(maxIdxRange, dim::Int64, CheckIdxTuple, neighborIndices, 
     for offset in -1:1
         neighborIdx = idx + offset
         if neighborIdx in maxIdxRange
-            # there are furter dimensions to be checked, thus call getNeighbors! recursively
+            # there are further dimensions to be checked, thus call getNeighbors! recursively
             if dim > 1
                 CheckIdxTupleNew = ntuple(i -> i == dim ? neighborIdx : CheckIdxTuple[i],
                                             Val(dimensions))
@@ -618,7 +618,7 @@ function PerformClustering(dataMatrix;
     # cut off the zero clusters
     clusterCounts = clusterCounts[2:end]
     clusterSizes = reshape(clusterCounts, :)
-    # For the clusterDensities it is not straigh-forward since there is no clear resolution
+    # For the clusterDensities it is not straight-forward since there is no clear resolution
     # and tensors to be taken. We therefore simply take the mean of the 2.
     clusterDensities = (LoopResult.clusterDensities .+
                         LoopResultSecond.clusterDensities) ./ 2
