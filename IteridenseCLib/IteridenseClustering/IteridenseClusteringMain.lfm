@@ -170,10 +170,10 @@ object MainForm: TMainForm
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Side = asrBottom
-    Left = 286
+    Left = 273
     Height = 470
     Top = 0
-    Width = 636
+    Width = 648
     AxisList = <    
       item
         Marks.Format = '%0:.4g'
@@ -221,8 +221,8 @@ object MainForm: TMainForm
     Title.Visible = True
     Toolset = ChartToolset
     Anchors = [akTop, akLeft, akRight]
-    BorderSpacing.Left = 21
-    BorderSpacing.Right = 7
+    BorderSpacing.Left = 8
+    BorderSpacing.Right = 8
     ParentColor = True
     PopupMenu = ContextChartPM
   end
@@ -931,42 +931,6 @@ object MainForm: TMainForm
       end
     end
   end
-  object LoadedDataFileM: TMemo
-    AnchorSideLeft.Control = DataC
-    AnchorSideLeft.Side = asrCenter
-    AnchorSideTop.Control = DataC
-    AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Side = asrBottom
-    AnchorSideBottom.Side = asrBottom
-    Left = 526
-    Height = 24
-    Hint = 'No data file loaded'
-    Top = 484
-    Width = 157
-    Alignment = taCenter
-    BorderSpacing.Top = 14
-    Lines.Strings = (
-      'None'
-    )
-    ParentShowHint = False
-    ReadOnly = True
-    ShowHint = True
-    TabOrder = 5
-  end
-  object LoadedActionFileL: TLabel
-    AnchorSideLeft.Control = LoadedDataFileM
-    AnchorSideLeft.Side = asrBottom
-    AnchorSideBottom.Control = LoadedDataFileM
-    AnchorSideBottom.Side = asrCenter
-    Left = 690
-    Height = 15
-    Top = 488
-    Width = 111
-    Anchors = [akLeft, akBottom]
-    BorderSpacing.Left = 7
-    BorderSpacing.Bottom = 7
-    Caption = 'Loaded Data CSV File'
-  end
   object DimensionSelectionGB: TGroupBox
     AnchorSideLeft.Control = MethodsPC
     AnchorSideTop.Control = ClusteringBB
@@ -980,7 +944,7 @@ object MainForm: TMainForm
     ClientHeight = 78
     ClientWidth = 338
     ParentBackground = False
-    TabOrder = 6
+    TabOrder = 5
     object DataSelectionCCB: TCheckComboBox
       AnchorSideLeft.Control = PlotSelectionCCB
       AnchorSideTop.Control = PlotSelectionCCB
@@ -1059,7 +1023,6 @@ object MainForm: TMainForm
   object IteridenseSliderGB: TGroupBox
     AnchorSideLeft.Control = DimensionSelectionGB
     AnchorSideLeft.Side = asrBottom
-    AnchorSideTop.Control = LoadedDataFileM
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
@@ -1068,17 +1031,17 @@ object MainForm: TMainForm
     Left = 373
     Height = 59
     Top = 511
-    Width = 546
+    Width = 548
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Left = 10
     BorderSpacing.Top = 3
-    BorderSpacing.Right = 10
+    BorderSpacing.Right = 8
     Caption = 'Iteridense Resolution Inspector'
     ClientHeight = 39
-    ClientWidth = 542
+    ClientWidth = 544
     Enabled = False
     ParentBackground = False
-    TabOrder = 7
+    TabOrder = 6
     object IteridenseSliderTB: TTrackBar
       AnchorSideLeft.Control = SliderStartSE
       AnchorSideLeft.Side = asrBottom
@@ -1086,7 +1049,7 @@ object MainForm: TMainForm
       AnchorSideRight.Control = SliderStopSE
       AnchorSideBottom.Control = IteridenseSliderGB
       AnchorSideBottom.Side = asrBottom
-      Left = 54
+      Left = 55
       Height = 33
       Hint = 'runs Iteridense at a fixed resolution'
       Top = 3
@@ -1111,11 +1074,11 @@ object MainForm: TMainForm
     object SliderStartSE: TSpinEdit
       AnchorSideLeft.Control = IteridenseSliderGB
       AnchorSideTop.Control = IteridenseSliderGB
-      Left = 7
+      Left = 8
       Height = 23
       Top = 3
       Width = 44
-      BorderSpacing.Left = 7
+      BorderSpacing.Left = 8
       BorderSpacing.Top = 3
       MaxValue = 99
       MinValue = 2
@@ -1127,13 +1090,13 @@ object MainForm: TMainForm
       AnchorSideTop.Control = IteridenseSliderGB
       AnchorSideRight.Control = IteridenseSliderGB
       AnchorSideRight.Side = asrBottom
-      Left = 491
+      Left = 492
       Height = 23
       Top = 3
       Width = 44
       Anchors = [akTop, akRight]
       BorderSpacing.Top = 3
-      BorderSpacing.Right = 7
+      BorderSpacing.Right = 8
       MaxValue = 128
       MinValue = 2
       TabOrder = 2
@@ -1142,13 +1105,58 @@ object MainForm: TMainForm
     end
   end
   object LabelHintB: TButton
-    Left = 412
+    Left = 373
     Height = 18
-    Top = 482
+    Top = 479
     Width = 28
     Caption = 'LabelHintB'
-    TabOrder = 8
+    TabOrder = 7
     Visible = False
+  end
+  object LoadedDataFileLE: TLabeledEdit
+    AnchorSideLeft.Control = DataC
+    AnchorSideLeft.Side = asrCenter
+    AnchorSideTop.Control = DimensionSelectionGB
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Side = asrBottom
+    Left = 519
+    Height = 23
+    Hint = 'No data file loaded'
+    Top = 479
+    Width = 157
+    Alignment = taCenter
+    BorderSpacing.Left = 1
+    BorderSpacing.Top = 7
+    EditLabel.Height = 23
+    EditLabel.Width = 114
+    EditLabel.Caption = 'Loaded CSV Data File:'
+    LabelPosition = lpLeft
+    ParentShowHint = False
+    ReadOnly = True
+    ShowHint = True
+    TabOrder = 8
+    Text = 'None'
+  end
+  object NumDataPointsLE: TLabeledEdit
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = LoadedDataFileLE
+    AnchorSideTop.Side = asrCenter
+    AnchorSideRight.Control = DataC
+    AnchorSideRight.Side = asrBottom
+    Left = 863
+    Height = 23
+    Top = 479
+    Width = 50
+    Alignment = taCenter
+    Anchors = [akTop, akRight]
+    BorderSpacing.Right = 8
+    EditLabel.Height = 23
+    EditLabel.Width = 124
+    EditLabel.Caption = 'Number of Data Points:'
+    LabelPosition = lpLeft
+    ReadOnly = True
+    TabOrder = 9
+    Text = '0'
   end
   object ChartAxisTransformValues: TChartAxisTransformations
     Left = 775

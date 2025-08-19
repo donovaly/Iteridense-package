@@ -112,9 +112,11 @@ type
     AboutMI: TMenuItem;
     AutoscaleMI: TMenuItem;
     AxisClickTool: TAxisClickTool;
+    NumDataPointsLE: TLabeledEdit;
     LabelHintB: TButton;
     FlipTB: TToggleBox;
     IteridenseSliderGB: TGroupBox;
+    LoadedDataFileLE: TLabeledEdit;
     ProportionalMI: TMenuItem;
     RadiusTB: TTrackBar;
     ChangeBackColorMI: TMenuItem;
@@ -178,8 +180,6 @@ type
     MinClusterDensityFSE: TFloatSpinEdit;
     RadiusFSE: TFloatSpinEdit;
     ClusteringBB: TBitBtn;
-    LoadedActionFileL: TLabel;
-    LoadedDataFileM: TMemo;
     OpenCsvBB: TBitBtn;
     LegendClickTool: TLegendClickTool;
     MethodsPC: TPageControl;
@@ -298,10 +298,6 @@ begin
   end;
   MainForm.Caption:= Application.Title + ' ' + Version;
   DefaultFormatSettings.DecimalSeparator:= '.'; // we use English numbers
-
-  // explicitly set there because the IDE always
-  // stores initial values with trailing LineEnding
-  LoadedDataFileM.Text:= 'None';
 
   // initialize chart transformation
   DataC.Prepare;
@@ -812,14 +808,14 @@ begin
     SaveDialog.FileName:= ''; // will be re-set in ChartData.SaveHandling()
     // show the full path as tooltip
     if DropfileName <> '' then
-      LoadedDataFileM.Hint:= DropfileName
+      LoadedDataFileLE.Hint:= DropfileName
     else
-      LoadedDataFileM.Hint:= DummyString;
+      LoadedDataFileLE.Hint:= DummyString;
     // display file name without suffix
     DummyString:= ExtractFileName(InNameData);
     SetLength(DummyString, Length(DummyString) - 4);
-    LoadedDataFileM.Color:= clActiveCaption;
-    LoadedDataFileM.Text:= DummyString;
+    LoadedDataFileLE.Color:= clActiveCaption;
+    LoadedDataFileLE.Text:= DummyString;
   end; // else if fileSuccess
 
   // add a column with zeros to DataArray to store there later the assignments
@@ -829,6 +825,8 @@ begin
     DataArray[i][assignmentColumn]:= 0;
   // we must also adapt DataTextColumnsIndices accordingly
   Setlength(DataTextColumnsIndices, assignmentColumn+1);
+  // output number of data points
+  NumDataPointsLE.Text:= IntToStr(high(DataArray)+1);
 
   // plot the data
   ChartData.CDPlotSelectionCCBItemChange(Sender);

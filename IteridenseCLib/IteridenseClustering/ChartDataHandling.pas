@@ -376,7 +376,7 @@ var
 begin
   result:= false;
   // propose a file name
-  OutNameHelp:= MainForm.LoadedDataFileM.Text;
+  OutNameHelp:= MainForm.LoadedDataFileLE.Text;
   if UsedClusteringMethod <> none then
   begin
     Str(UsedClusteringMethod, tempString);
@@ -407,7 +407,7 @@ begin
   MousePointer:= Mouse.CursorPos; // store mouse position
 
   // propose a file name
-  OutNameHelp:= MainForm.LoadedDataFileM.Text;
+  OutNameHelp:= MainForm.LoadedDataFileLE.Text;
   if UsedClusteringMethod <> none then
   begin
     Str(UsedClusteringMethod, tempString);
