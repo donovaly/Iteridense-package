@@ -490,14 +490,13 @@ end
 # DBSCAN clustering
 begin
 ε = 2.2
-result = Clustering.dbscan(dataMatrix', ε, min_neighbors= 4, min_cluster_size= 10)
+result = Clustering.dbscan(dataMatrix', ε, min_neighbors= 4, min_cluster_size= 6)
 assign = Clustering.assignments(result)
 clusterCounts = Clustering.counts(result)
 Plots.scatter(dataMatrix[:, 2], dataMatrix[:, 3], dataMatrix[:, 4],
                 xlabel= "Pu-239", ylabel= "Pu-240", zlabel= "Pu-241",
                 title= "DBSCAN ε = $ε", group= assign)
 end
-# DBSCAN performs poorly on this dataset. It can find maximal 2 clusters.
 
 
 #---------------------------------------------

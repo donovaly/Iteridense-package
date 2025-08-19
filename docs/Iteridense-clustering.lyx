@@ -4145,14 +4145,6 @@ reference "fig:Iteridense-Pluton"
 \end_inset
 
  is the result of the high dimensionality of the data.
-\begin_inset Newline newline
-\end_inset
-
-For comparison DBSCAN cannot find in this data set more than 2
-\begin_inset space ~
-\end_inset
-
-clusters.
 \end_layout
 
 \begin_layout Standard
