@@ -251,17 +251,16 @@ function AnalyzeClusters(clusterTensor, countTensor, numClusters::Int, resolutio
         # first sum values of the cluster cells
         for i in eachindex(clusterTensor)
             if clusterTensor[i] == cluster
-                clusterDensities[cluster] += countTensor[i]
+                clusterSizes[cluster] += countTensor[i]
                 cellCounter += 1
             end
         end
-        clusterSizes[cluster] = clusterDensities[cluster]
-        # now calculate the cluster density in counts per area
-        clusterDensities[cluster] = clusterSizes[cluster] / (cellCounter / numOfCells)
+        # now calculate the cluster density in counts per volume
+        clusterDensities[cluster] = clusterSizes[cluster] / cellCounter
         # normalize the density to 1
-        clusterDensities[cluster] = clusterDensities[cluster] / totalCounts
-        # if a cluster contains all points its volume al actually the real volume
-        # spanned by the data. By definition the density of the cluster is then 1.0
+        clusterDensities[cluster] = clusterDensities[cluster] / (totalCounts / numOfCells)
+        # if a cluster contains all points, its volume is actually the real volume
+        # spanned by the data. By definition the density of the cluster is then 1.0.
         if clusterSizes[cluster] == totalCounts
             clusterDensities[cluster] = 1.0
         end
