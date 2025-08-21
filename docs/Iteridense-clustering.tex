@@ -88,9 +88,9 @@ how to change the algorithm's input parameters to achieve suitable
 results. We show that \noun{Iteridense} is applicable for data sets
 with any dimensionality. \noun{Iteridense} provides shorter computation
 times than pure density-based algorithms and that it performs clustering
-at least as good as the DBSCAN algorithm. This work enables users
-to cluster data in a quick, reliable and objective way based on the
-probability-density of the data.
+at least as good as the DBSCAN algorithm. We provide a reference implementation
+of \noun{Iteridense} as well as a stand-alone program with a graphical
+user interface.
 \end{abstract}
 
 
@@ -369,13 +369,13 @@ be found.
 
 A reference implementation of \noun{Iteridense} in the programming
 language \noun{Julia} is online available~\cite{Iteridense}. Its
-outputs are besides the assignments of the points to clusters also
-the size of clusters, density of clusters, final resolution, number
-of clusters, the count map as tensor in the final resolution (the
-actual probability-density function) and a tensor like the count map
-but with information about what cluster a grid cell belongs to. There
-is also a stand-alone program available with a graphical user interface
-(GUI) that uses the reference implementation~\cite{Iteridense-package}.
+outputs are the assignments of the points to clusters, the size of
+clusters, density of clusters, final resolution, number of clusters,
+the count map as tensor in the final resolution (the actual probability-density
+function) and a tensor like the count map but with information about
+what cluster a grid cell belongs to. There is also a stand-alone program
+available with a graphical user interface (GUI) that uses the reference
+implementation~\cite{Iteridense-package}.
 
 \section{Clustering Results}
 

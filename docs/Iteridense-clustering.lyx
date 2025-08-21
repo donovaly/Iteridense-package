@@ -265,8 +265,11 @@ Iteridense
 Iteridense
 \noun default
  provides shorter computation times than pure density-based algorithms and that it performs clustering at least as good as the DBSCAN algorithm.
- This work enables users to cluster data in a quick,
- reliable and objective way based on the probability-density of the data.
+ We provide a reference implementation of 
+\noun on
+Iteridense
+\noun default
+ as well as a stand-alone program with a graphical user interface.
 \end_layout
 
 \begin_layout Section
@@ -1832,7 +1835,8 @@ literal "false"
 \end_inset
 
 .
- Its outputs are besides the assignments of the points to clusters also the size of clusters,
+ Its outputs are the assignments of the points to clusters,
+ the size of clusters,
  density of clusters,
  final resolution,
  number of clusters,
