@@ -136,6 +136,7 @@ function checkNeighbors(clusterTensor, currentIdx, numClusters::Int64, maxIdxRan
     end
     # assure we return the currently highest cluster number
     numClusters = Int64(maximum(clusterTensor))
+
     return numClusters, clusterTensor
 end
 
@@ -308,7 +309,9 @@ function IteridenseLoop(dataMatrix,
     clusterTensor = Array{Any}(undef)
     clusterDensities = Array{Any}(undef)
     clusterSizes = Array{Any}(undef)
+    assignments = zeros(Int64, totalCounts)
     numClusters::Int64 = 0
+    initialResolution = resolution
     achievedDensity = 0.0
     # the main loop
     while resolution < maxResolution
@@ -326,7 +329,7 @@ function IteridenseLoop(dataMatrix,
                     \nFor the $(dimensions) dimensions there is currently only enough RAM\
                     \navailable for a resolution of \
                     $(Int(trunc((0.475*availableRAM / 4)^(1/dimensions))))."; color= :magenta)
-            if resolution-1 ≥ startResolution
+            if resolution-1 ≥ initialResolution
                 printstyled("\nThe clustering was therefore stopped at resolution \
                             $(resolution-1).\n"; color= :magenta)
                 resolution -= 1
@@ -334,18 +337,15 @@ function IteridenseLoop(dataMatrix,
                 printstyled("\nThe clustering was therefore not performed.\n";
                     color= :magenta)
                 resolution = 1
-                # free the RAM
+                # free memory
                 countTensor = nothing
                 clusterTensor = nothing
-                GC.gc()
             end
-            break
+            return IteridenseResult(clusterTensor= clusterTensor, countTensor= countTensor,
+                                    numOfClusters= numClusters, finalResolution= resolution,
+                                    assignments= assignments, clusterDensities= clusterDensities,
+                                    clusterSizes= clusterSizes)
         end
-
-        # explicitly free memory of no longer used tensors
-        countTensor = nothing
-        clusterTensor = nothing
-        # create new tensors
         countTensor = CreateCountTensor(dataMatrix, resolution, minMatrix, maxMatrix,
                                         Val(dimensions))
         numClusters, clusterTensor = InternalClustering(countTensor, resolution, noDiagonals,
@@ -391,8 +391,6 @@ function IteridenseLoop(dataMatrix,
     if resolution ≥ maxResolution || resolution > stopResolution
         resolution = size(clusterTensor, 1)
     end
-
-    assignments = zeros(Int64, totalCounts)
     
     return IteridenseResult(clusterTensor= clusterTensor, countTensor= countTensor,
                             numOfClusters= numClusters, finalResolution= resolution,
@@ -574,12 +572,14 @@ function PerformClustering(dataMatrix;
         if LoopResult.finalResolution > 1 # if there was a clustering
             printstyled("\nInformation: "; bold= true, color= :blue)
             println("The clustering detected no clusters")
-        else
-            # try to clean the RAM
-            GC.gc()
         end
         return IteridenseResultC(ArrayToCTensor(Int32[], Int32),
-                                    ArrayToCTensor(LoopResult.countTensor, Int32),
+                                    # if no clustering was performed there is no countTensor
+                                    if typeof(LoopResult.countTensor) == Nothing
+                                        ArrayToCTensor(Int32[], Int32)
+                                    else
+                                        ArrayToCTensor(LoopResult.countTensor, Int32)
+                                    end,
                                     Clonglong(0),
                                     Clonglong(LoopResult.finalResolution),
                                     ArrayToCArray(zeros(Int, totalCounts), Int64),
@@ -640,7 +640,6 @@ function PerformClustering(dataMatrix;
         if assignments[i] != assignmentsSecond[i] &&
             (assignments[i] > 0 && assignmentsSecond[i] > 0)
             return intermediateResult
-            break
         end
     end
     # For the second item, we subtract both assignment vectors, set negative values in the
