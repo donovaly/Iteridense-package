@@ -30,14 +30,14 @@ function TestIteridenseClustering()
 
     # inspect clusterTensor
     clusterTensorDims = Tuple(result.clusterTensor.dims[1:result.clusterTensor.ndims])
-    clusterTensorArray = unsafe_wrap(Array, Ptr{Int64}(result.clusterTensor.data), clusterTensorDims)
+    clusterTensorArray = unsafe_wrap(Array, Ptr{Int32}(result.clusterTensor.data), clusterTensorDims)
     println("clusterTensor dimensions: ", map(Int, clusterTensorDims))
     #println("clusterTensor complete: ", clusterTensorArray)
 
     # inspect countTensor
     countTensorDims = Tuple(result.countTensor.dims[1:result.countTensor.ndims])
-    countTensorArray = unsafe_wrap(Array, Ptr{Int64}(result.countTensor.data), countTensorDims)
-    #println("countTensor dimensions: ", map(Int64, countTensorDims))
+    countTensorArray = unsafe_wrap(Array, Ptr{Int32}(result.countTensor.data), countTensorDims)
+    #println("countTensor dimensions: ", map(Int32, countTensorDims))
     println("countTensor complete: ", countTensorArray)
 
     # inspect assignments

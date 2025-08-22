@@ -26,8 +26,8 @@ typedef struct {
 
 // C-compatible IteridenseResult struct
 typedef struct {
-    CTensor clusterTensor;    // of type int64_t
-    CTensor countTensor;      // of type int64_t
+    CTensor clusterTensor;    // of type int32_t
+    CTensor countTensor;      // of type int32_t
     int64_t numOfClusters;
     int64_t finalResolution;
     CArray assignments;      // of type int64_t

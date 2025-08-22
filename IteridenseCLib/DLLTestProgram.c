@@ -8,7 +8,7 @@
 
 // Helper to print clusterTensor data (assuming 3D tensor)
 typedef enum {
-    TYPE_INT64,
+    TYPE_INT32,
     TYPE_DOUBLE
 } DataType;
 
@@ -23,8 +23,8 @@ void printTensor(const CTensor* tensor, const char* name, DataType type) {
     printf("\n");
 
     printf("%s data: ", name);
-    if (type == TYPE_INT64) {
-        int64_t* data = (int64_t*)tensor->data;
+    if (type == TYPE_INT32) {
+        int32_t* data = (int32_t*)tensor->data;
         for (size_t i = 0; i < total_elements; i++) {
             printf("%ld ", data[i]);
         }
@@ -71,8 +71,8 @@ int main(int argc, char *argv[]) {
 
     printf("numOfClusters: %d\n", resultIteridense->numOfClusters);
     printf("finalResolution: %d\n", resultIteridense->finalResolution);
-    printTensor(&resultIteridense->clusterTensor, "clusterTensor", TYPE_INT64);
-    printTensor(&resultIteridense->countTensor, "countTensor", TYPE_INT64);
+    printTensor(&resultIteridense->clusterTensor, "clusterTensor", TYPE_INT32);
+    printTensor(&resultIteridense->countTensor, "countTensor", TYPE_INT32);
 
     // Free the allocated resultIteridense
     int free_statusIteridense = IteridenseFree(resultIteridense);

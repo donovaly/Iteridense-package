@@ -151,7 +151,7 @@ function CreateCountTensor(dataMatrix, resolution::Int, minMatrix::Vector, maxMa
     # at first calculate the cell size for every dimension
     sizeMatrix = ntuple(i -> (maxMatrix[i] - minMatrix[i]) / resolution, Val(dimensions))
     # we need now a tensor in that has resolution entries for every dimension
-    countTensor = zeros(Int, ntuple(i -> resolution, Val(dimensions)))
+    countTensor = zeros(Int32, ntuple(i -> resolution, Val(dimensions)))
 
     # create a matrix with coordinates in our grid
     # every of its columns will get the coordinate values for the particular data point
@@ -160,7 +160,7 @@ function CreateCountTensor(dataMatrix, resolution::Int, minMatrix::Vector, maxMa
     for k in axes(dataMatrix, 1)
         # Julia swaps in matrices x and y, thus reverse to use the coordinate system of the plot
         # due to precision issues, we subtract a small value from the values
-        coordMatrix = ntuple(i -> trunc(Int, (dataMatrix[k, dimensions-i+1] - smallValue -
+        coordMatrix = ntuple(i -> trunc(Int32, (dataMatrix[k, dimensions-i+1] - smallValue -
                                                 minMatrix[dimensions-i+1]) /
                                             sizeMatrix[dimensions-i+1]) + 1, Val(dimensions))
         countTensor[coordMatrix...] += 1
@@ -213,7 +213,7 @@ end
 function InternalClustering(countTensor, resolution::Int, noDiagonals,
                             ::Val{dimensions}) where dimensions
     # first create a tensor to store later the information about the clusters
-    clusterTensor = zeros(Int, ntuple(i -> resolution, Val(dimensions)))
+    clusterTensor = zeros(Int32, ntuple(i -> resolution, Val(dimensions)))
 
     numClusters = 0
     # to later check the maximal index range of the clusterTensor
@@ -251,17 +251,21 @@ function AnalyzeClusters(clusterTensor, countTensor, numClusters::Int, resolutio
         # first sum values of the cluster cells
         for i in eachindex(clusterTensor)
             if clusterTensor[i] == cluster
+                # we count using clusterDensities and not clusterSizes
+                # because countTensor is 32 bit and making clusterSizes 32 bit makes it
+                # complicated for the C library and leaving clusterSizes with 64 bit would slow
+                # down the loop significantly
                 clusterDensities[cluster] += countTensor[i]
                 cellCounter += 1
             end
         end
         clusterSizes[cluster] = clusterDensities[cluster]
-        # now calculate the cluster density in counts per area
-        clusterDensities[cluster] = clusterSizes[cluster] / (cellCounter / numOfCells)
+        # now calculate the cluster density in counts per volume
+        clusterDensities[cluster] = clusterSizes[cluster] / cellCounter
         # normalize the density to 1
-        clusterDensities[cluster] = clusterDensities[cluster] / totalCounts
-        # if a cluster contains all points its volume al actually the real volume
-        # spanned by the data. By definition the density of the cluster is then 1.0
+        clusterDensities[cluster] = clusterDensities[cluster] / (totalCounts / numOfCells)
+        # if a cluster contains all points, its volume is actually the real volume
+        # spanned by the data. By definition the density of the cluster is then 1.0.
         if clusterSizes[cluster] == totalCounts
             clusterDensities[cluster] = 1.0
         end
@@ -309,6 +313,35 @@ function IteridenseLoop(dataMatrix,
     achievedDensity = 0.0
     # the main loop
     while resolution < maxResolution
+        # countTensor will have the rank of dimensions. This means for resolution= 4 and
+        # dimension= 16 it has 4^16 * 32 bit, thus 17 GB.
+        # We must therefore test how much RAM is available stop the clustering if necessary.
+        # get the available RAM
+        availableRAM = Int(Sys.free_memory()) # in bytes
+        necessaryRAM = resolution^dimensions * 4
+        # We break if 47.5% of the availableRAM is less than necessaryRAM because we need space for
+        # 2 tensors (countTensor and clusterTensor) and also some RAM for Julia itself.
+        if 0.475*availableRAM < necessaryRAM
+            printstyled("\nImportant Warning!: "; bold= true, color= :magenta)
+            printstyled("Not enough available RAM!\n\
+                    \nFor the $(dimensions) dimensions there is currently only enough RAM\
+                    \navailable for a resolution of \
+                    $(Int(trunc((0.475*availableRAM / 4)^(1/dimensions))))."; color= :magenta)
+            if resolution-1 ≥ startResolution
+                printstyled("\nThe clustering was therefore stopped at resolution \
+                            $(resolution-1).\n"; color= :magenta)
+                resolution -= 1
+            else
+                printstyled("\nThe clustering was therefore not performed.\n";
+                    color= :magenta)
+                resolution = 1
+                # free the RAM
+                countTensor = nothing
+                clusterTensor = nothing
+                GC.gc()
+            end
+            break
+        end
         # explicitly free memory of no longer used tensors
         countTensor = nothing
         clusterTensor = nothing
@@ -505,10 +538,15 @@ function Clustering(dataMatrix;
     # if no cluster was found, return a warning and an empty result and set the assignment
     # to cluster 0
     if LoopResult.numOfClusters == 0
-        printstyled("Information: "; bold=true, color=:blue)
-        println("The clustering detected no clusters")
+        if LoopResult.finalResolution > 1 # if there was a clustering
+            printstyled("\nInformation: "; bold= true, color= :blue)
+            println("The clustering detected no clusters")
+        else
+            # try to clean the RAM
+            GC.gc()
+        end
         return IteridenseResult(clusterTensor= [],
-                                countTensor= [],
+                                countTensor= LoopResult.countTensor,
                                 numOfClusters= 0,
                                 finalResolution= LoopResult.finalResolution,
                                 assignments= zeros(Int, totalCounts),

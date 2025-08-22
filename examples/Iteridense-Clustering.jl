@@ -18,8 +18,9 @@ plotlyjs()
 # setting default plot size
 plotly(size= (512, 512))
 # import the Iteridense library
-include(joinpath(@__DIR__, "IteridenseLibrary.jl"))
-using .IteridenseLibrary: Iteridense, PlotIteridenseHeatmap
+packagePath = dirname(@__DIR__)
+include(joinpath(packagePath, "src\\Iteridense.jl"))
+using .Iteridense: Clustering, PlotIteridenseHeatmap
 end
 
 # The data to be clustered are all in CSV files. The CSV files re expected to be in a subfolder
@@ -49,7 +50,7 @@ end
 # Iteridense clustering
 ρ = 3.0
 # perform the clustering
-IteridenseResult = Iteridense(dataMatrix, density= ρ);
+IteridenseResult = Iteridense.Clustering(dataMatrix, density= ρ);
 # list the different clustering results
 IteridenseResult.numOfClusters
 IteridenseResult.finalResolution
@@ -102,7 +103,7 @@ end
 
 # Iteridense clustering
 ρ = 2.0
-IteridenseResult = Iteridense(dataMatrix, density= ρ);
+IteridenseResult = Iteridense.Clustering(dataMatrix, density= ρ);
 IteridenseResult.numOfClusters
 IteridenseResult.finalResolution
 IteridenseResult.clusterDensities
@@ -131,7 +132,7 @@ end
 # 2. increase ρ
 # in our case at ρ = 2.2 we get 2 clusters
 ρ = 2.2
-IteridenseResult = Iteridense(dataMatrix, density= ρ,
+IteridenseResult = Iteridense.Clustering(dataMatrix, density= ρ,
 # uncomment the next line to see the effect of the noDiagonal option
 # set then also ρ = 5.0 to see the effect
                                         #noDiagonals= true,
@@ -180,7 +181,7 @@ end
 # We can use that we know there are 2 circles and thus set minClusters.
 # For this we must useClusters set to true. useClusters acts as a switch between
 # the 2 ways of clustering Iteridense provides.
-IteridenseResult = Iteridense(dataMatrix, useClusters= true, minClusters= 2);
+IteridenseResult = Iteridense.Clustering(dataMatrix, useClusters= true, minClusters= 2);
 IteridenseResult.finalResolution
 IteridenseResult.clusterDensities
 IteridenseResult.clusterSizes
@@ -195,7 +196,7 @@ Plots.scatter(dataMatrix[:, 1], dataMatrix[:, 2], xlabel= "x", ylabel= "y",
 # to only a single grid run.
 # By using the option noDiagonals the computation is of course faster.
 @elapsed for i in 1:10000
-IteridenseResult = Iteridense(dataMatrix, density= ρ,
+IteridenseResult = Iteridense.Clustering(dataMatrix,
                                 useClusters= true, minClusters= 2,
                                 startResolution= 2,
                                 #noDiagonals= true
@@ -242,7 +243,7 @@ end
 # Try the two different ways, either specify ρ or minClusters.
 # For ρ until 6.8 there is only one cluster, increase it to get more clusters.
 ρ = 6.8
-IteridenseResult = Iteridense(dataMatrix, density= ρ, minClusterSize= 6,
+IteridenseResult = Iteridense.Clustering(dataMatrix, density= ρ, minClusterSize= 6,
                                         #useClusters= true, minClusters= 3
 );
 IteridenseResult.finalResolution
@@ -300,7 +301,7 @@ end
 #        there are 1500 data points and every cluster will roughly contain a third of all points.
 #        You get the desired result for ρ = 3.8 or higher
 ρ = 3.8
-IteridenseResult = Iteridense(dataMatrix, density= ρ,
+IteridenseResult = Iteridense.Clustering(dataMatrix, density= ρ,
                                         useClusters= true, minClusters= 3,
                                         minClusterSize= 20
 );
@@ -352,7 +353,7 @@ end
 # to a low value compares to the 1500 points in the dataset, for example to 10.
 # By increasing ρ you can identify regions with higher density.
 ρ = 3.0
-IteridenseResult = Iteridense(dataMatrix, density= ρ, minClusterSize= 10);
+IteridenseResult = Iteridense.Clustering(dataMatrix, density= ρ, minClusterSize= 10);
 IteridenseResult.numOfClusters
 IteridenseResult.finalResolution
 IteridenseResult.clusterSizes
@@ -403,7 +404,7 @@ end
 # clustering. To use all dimensions, input the inputMatrix.
 # Setting stopResolution as a safe guard is never wrong. It helps in case the algorithm cannot
 # find at least 3 clusters to stop it after some loops.
-IteridenseResult = Iteridense(
+IteridenseResult = Iteridense.Clustering(
                                 dataMatrix[:, end-2:end-1],
                                 #inputMatrix,
                                 minClusterSize= 10,
@@ -464,7 +465,7 @@ end
 # examples that had only 2 dimensions. But you can, as always, start with a low ρ and then
 # increase it according to the output of clusterDensities.
 ρ = 2
-IteridenseResult = Iteridense(
+IteridenseResult = Iteridense.Clustering(
                                 dataMatrix[:, 2:end],
                                 #dataMatrix,
                                 density= ρ, minClusterSize= 4
@@ -532,7 +533,7 @@ end
 # on every class. This is more work but one can then also go the way to specify ρ.
 
 # At first the clustering of the whole dataset:
-IteridenseResult = Iteridense(
+IteridenseResult = Iteridense.Clustering(
                                 subMatrix,
                                 #completeMatrix,
                                 minClusterSize= 20, useClusters= true, minClusters= 5
@@ -597,7 +598,7 @@ DataPlot = Plots.scatter(subMatrix[:, end], repeat([0], length(subMatrix[:, end]
                         xlabel= dataLabels[7], ylimits= (-1, 1), yticks=[],
                         title= "Unclustered Data", legend= false, markersize= 5)
 
-IteridenseResult = Iteridense(subMatrix[:, end], minClusterSize= 6,
+IteridenseResult = Iteridense.Clustering(subMatrix[:, end], minClusterSize= 6,
                                 useClusters= true, minClusters= 3);
 IteridenseResult.finalResolution
 IteridenseResult.clusterDensities
