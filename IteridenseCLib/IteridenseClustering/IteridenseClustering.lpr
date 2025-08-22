@@ -9,7 +9,7 @@ uses
   Interfaces, // this includes the LCL widgetset
   Forms, TAChartLazarusPkg, lazcontrols, IteridenseClusteringMain, ChartDataHandling,
   ceAxisDlg, ceBrushFrame, ceFontFrame, ceLegendDlg, cePenFrame, cePointerFrame,
-  ceSeriesDlg, ceShapeBrushPenMarginsFrame, ceTitleFootDlg, ceUtils, ceAxisFrame,
+  ceShapeBrushPenMarginsFrame, ceTitleFootDlg, ceUtils, ceAxisFrame,
   AboutForm;
 
 {$R *.res}
