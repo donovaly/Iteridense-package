@@ -1,0 +1,70 @@
+## General info
+
+Commands with spaces in between have to be exectuted one after another,
+otherwise you can paste several commands at once and paste them into the
+Julia REPL to execute them.
+
+You need to change the paths in the commands to the one of your system.
+
+
+## Package creation
+
+using PackageCompiler
+
+optional:
+ press ']'
+ 
+ add PackageCompiler
+ 
+ press Backspace
+
+
+cd("D:\\usti\\Julia\\Iteridense-Package")
+
+press ']'
+
+generate IteridenseCLib
+
+
+## Registering dependencies
+
+cd("D:\\usti\\Julia\\Iteridense-Package\\IteridenseCLib")
+
+press ']'
+
+activate .
+
+add --preserve=direct Clustering
+
+press Backspace
+
+
+## Compilation of the library
+
+lib_input_path= "D:\\usti\\Julia\\Iteridense-Package\\IteridenseCLib"
+cd(lib_input_path)
+using PackageCompiler
+lib_name= "IteridenseCLib"
+lib_output= joinpath(lib_input_path, "CompilationResult")
+precomp_file= joinpath(lib_input_path, "build", "precompilation.jl")
+lib_header= joinpath(lib_input_path, "build", lib_name * ".h")
+create_library(lib_input_path, lib_output;
+ incremental= false, force= true, filter_stdlibs= true, lib_name= lib_name,
+ precompile_execution_file= precomp_file,
+ header_files= [lib_header])
+
+
+## Testing the library
+
+d:
+
+cd D:\usti\Julia\Iteridense-Package\IteridenseCLib
+
+gcc --version
+
+gcc DLLTestProgram.c -o CompilationResult\bin\DLLTestProgram.exe -ICompilationResult\include -LCompilationResult\bin -ljulia -lIteridenseCLib
+
+cd D:\usti\Julia\Iteridense-Package\IteridenseCLib\CompilationResult\bin
+
+DLLTestProgram
+
