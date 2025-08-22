@@ -621,6 +621,9 @@ begin
       or (iteridenseResult^.assignments.length = 0) then
     begin
       MessageDlg('Clustering failed, no assignments available', mtError, [mbOK], 0);
+      // free the allocated struct
+      if IteridenseFree(iteridenseResult) <> 0 then
+        MessageDlg('Warning: failed to free iteridenseResult', mtError, [mbOK], 0);
       exit;
     end;
     // convert c-arrays to Pascal arrays
@@ -642,6 +645,7 @@ begin
     if IteridenseFree(iteridenseResult) <> 0 then
       MessageDlg('Warning: failed to free iteridenseResult', mtError, [mbOK], 0);
   end
+
   // DBSCAN
   else if MethodsPC.ActivePage.Caption = 'DBSCAN' then
   begin
@@ -680,6 +684,7 @@ begin
     if DBSCANFree(DBSCANResult) <> 0 then
       MessageDlg('Warning: failed to free DBSCANResult', mtError, [mbOK], 0);
   end
+
   // K-Means
   else if MethodsPC.ActivePage.Caption = 'K-Means' then
   begin
