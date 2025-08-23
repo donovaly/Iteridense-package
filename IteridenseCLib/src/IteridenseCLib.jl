@@ -576,18 +576,19 @@ function PerformClustering(dataMatrix;
             printstyled("\nInformation: "; bold= true, color= :blue)
             println("The clustering detected no clusters")
         end
+        # if no clustering was performed there is no countTensor
+        if typeof(LoopResult.countTensor) == Nothing
+            countTensorResult= Int32[]
+        else
+            countTensorResult= LoopResult.countTensor
+        end
         noClusterResult = IteridenseResultC(ArrayToCTensor(Int32[], Int32),
-                                    # if no clustering was performed there is no countTensor
-                                    if typeof(LoopResult.countTensor) == Nothing
-                                        ArrayToCTensor(Int32[], Int32)
-                                    else
-                                        ArrayToCTensor(LoopResult.countTensor, Int32)
-                                    end,
-                                    Clonglong(0),
-                                    Clonglong(LoopResult.finalResolution),
-                                    ArrayToCArray(zeros(Int, totalCounts), Int64),
-                                    ArrayToCArray(Float64[], Float64),
-                                    ArrayToCArray(Int64[], Int64) )
+                                            ArrayToCTensor(countTensorResult, Int32),
+                                            Clonglong(0),
+                                            Clonglong(LoopResult.finalResolution),
+                                            ArrayToCArray(zeros(Int, totalCounts), Int64),
+                                            ArrayToCArray(Float64[], Float64),
+                                            ArrayToCArray(Int64[], Int64) )
         # trigger a garbage collection
         GC.gc()
         return noClusterResult

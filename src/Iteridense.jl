@@ -542,13 +542,14 @@ function Clustering(dataMatrix;
             printstyled("\nInformation: "; bold= true, color= :blue)
             println("The clustering detected no clusters")
         end
+        # if no clustering was performed there is no countTensor
+        if typeof(LoopResult.countTensor) == Nothing
+            countTensorResult= []
+        else
+            countTensorResult= LoopResult.countTensor
+        end
         return IteridenseResult(clusterTensor= [],
-                                # if no clustering was performed there is no countTensor
-                                if typeof(LoopResult.countTensor) == Nothing
-                                    countTensor= []
-                                else
-                                    countTensor= LoopResult.countTensor
-                                end,
+                                countTensor= countTensorResult,
                                 numOfClusters= 0,
                                 finalResolution= LoopResult.finalResolution,
                                 assignments= zeros(Int, totalCounts),
