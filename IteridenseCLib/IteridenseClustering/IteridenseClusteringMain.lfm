@@ -628,21 +628,23 @@ object MainForm: TMainForm
       ClientHeight = 294
       ClientWidth = 236
       object FinalResolutionLE: TLabeledEdit
-        AnchorSideLeft.Control = ClusterResultSG
         AnchorSideTop.Control = ClusterResultTS
-        AnchorSideBottom.Control = ClusterResultSG
-        Left = 19
+        AnchorSideRight.Control = ClusterResultSG
+        AnchorSideRight.Side = asrBottom
+        Left = 116
         Height = 23
         Top = 14
-        Width = 60
+        Width = 52
+        Anchors = [akTop, akRight]
         BorderSpacing.Top = 14
+        BorderSpacing.Right = 50
         BorderSpacing.Bottom = 14
         EditLabel.Height = 23
         EditLabel.Width = 82
         EditLabel.Caption = 'final Resolution'
-        Enabled = False
-        LabelPosition = lpRight
+        LabelPosition = lpLeft
         LabelSpacing = 8
+        ReadOnly = True
         TabOrder = 0
       end
       object ClusterResultSG: TStringGrid

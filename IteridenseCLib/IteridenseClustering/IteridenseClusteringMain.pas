@@ -6,15 +6,14 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, Buttons,
-  ExtCtrls, ComCtrls, Spin, Menus, Grids, ComboEx, CTypes, SpinEx, FileInfo, Types,
-  TATransformations, TATools, TAGraph, TASeries, TAChartAxis, TALegend, TATextElements,
-  AboutForm;
+  Math, ExtCtrls, ComCtrls, Spin, Menus, Grids, ComboEx, CTypes, SpinEx,
+  FileInfo, Types, TATransformations, TATools, TAGraph, TASeries,
+  TAChartAxis, TALegend, TATextElements, AboutForm;
 
 const
   MAX_DIMENSIONS = 256;
 
 type
-
   // C-compatible tensor struct
   CTensor = record
     data: Pointer;         // void* data
@@ -101,6 +100,13 @@ type
     ): PKMeansResultC; cdecl;
   // frees memory allocated by TKMeansClustering
   TKMeansFree = function(pointer: PKMeansResultC): Integer; cdecl;
+
+  // calls Julia's garbage collection
+  // returns in every case 0
+  TGarbageCollection = function(): Integer; cdecl;
+
+  // returns size of currently available memory in bytes
+  TFreeMemoryInBytes = function(): UInt64; cdecl;
 
   ClusterMethods = (Ideridense, DBSCAN, KMeans, none);
   TIntArray = array of Int64;
@@ -255,6 +261,8 @@ var
   DBSCANFree : TDBSCANFree;
   KMeansClustering : TKMeansClustering;
   KMeansFree : TKMeansFree;
+  GarbageCollection : TGarbageCollection;
+  FreeMemoryInBytes : TFreeMemoryInBytes;
   InitJulia : TInitJulia;
   ShutdownJulia : TShutdownJulia;
   DropfileName : string = ''; // name of dropped CSV file
@@ -334,6 +342,23 @@ begin
     if not Assigned(ShutdownJulia) then
     begin
       errorDialog:= CreateMessageDialog('The function "shutdown_julia" is not found in the DLL',
+                                        mtError, [mbOK]);
+      FreeLibrary(LibHandle);
+      DLLLoadingError:= true;
+    end;
+    // testing general Julia functions
+    GarbageCollection:= TGarbageCollection(GetProcAddress(LibHandle, 'GarbageCollection'));
+    if not Assigned(GarbageCollection) then
+    begin
+      errorDialog:= CreateMessageDialog('The function "GarbageCollection" is not found in the DLL',
+                                        mtError, [mbOK]);
+      FreeLibrary(LibHandle);
+      DLLLoadingError:= true;
+    end;
+    FreeMemoryInBytes:= TFreeMemoryInBytes(GetProcAddress(LibHandle, 'FreeMemoryInBytes'));
+    if not Assigned(FreeMemoryInBytes) then
+    begin
+      errorDialog:= CreateMessageDialog('The function "FreeMemoryInBytes" is not found in the DLL',
                                         mtError, [mbOK]);
       FreeLibrary(LibHandle);
       DLLLoadingError:= true;
@@ -551,7 +576,7 @@ end;
 
 procedure TMainForm.ClusteringBBClick(Sender: TObject);
 var
-  counter, row, column, i, k, assignmentColumn, nrows, ncols : Int64;
+  counter, row, column, i, k, assignmentColumn, nrows, ncols, decision : Int64;
   iteridenseResult : PIteridenseResultC;
   DBSCANResult : PDBSCANResultC;
   kMeansResult : PKMeansResultC;
@@ -560,6 +585,7 @@ var
   assignmentsArray, clusterSizesArray : TIntArray;
   clusterDensitiesArray, clusterCentersArray : TDoubleArray;
   rows, columns : cint64;
+  necessaryRAM, availableRAM : float;
   tempString : String;
 begin
   // initialization
@@ -598,6 +624,30 @@ begin
   // Iteridense
   if MethodsPC.ActivePage.Caption = 'Iteridense' then
   begin
+
+    // warn if there is not enough RAM available
+    necessaryRAM:= power(StopResolutionSE.Value, columns) * 4.0;
+    availableRAM:= FreeMemoryInBytes();
+    //necessaryRAM:= ((1/0.475)*necessaryRAM/1e6);
+    if 0.475*availableRAM < necessaryRAM then
+    begin
+        necessaryRAM:= (1/0.475*necessaryRAM) / availableRAM;
+        // we only round smaller numbers
+        if necessaryRAM < 1e8 then necessaryRAM:= roundTo(necessaryRAM, -2);
+
+        decision:= QuestionDlg('Warning', 'The clustering might stop early or fail!' + LineEnding
+                   + LineEnding + 'The currently available RAM is '
+                   + FloatToStr(trunc(availableRAM/1e6)) + ' MB.' + LineEnding
+                   + 'To perform a clustering in ' + IntToStr(columns) + ' dimensions '
+                   + 'with a maximal resolution of ' + IntToStr(StopResolutionSE.Value)
+                   + ' would require ' + FloatToStr(necessaryRAM)
+                   + ' times more RAM.' + LineEnding + LineEnding
+                   + 'Do you like to try to cluster anyway?',
+                   mtWarning, [mrYes, 'Yes', mrNo, 'No', 'IsDefault'], 0);
+        if decision = mrNo then exit;
+    end;
+
+    // the clustering
     iteridenseResult:= IteridenseClustering(
       @inputArray[0], // pointer to first element
       rows,
@@ -630,6 +680,16 @@ begin
     assignmentsArray:= CArrayToTIntArray(iteridenseResult^.assignments);
     clusterDensitiesArray:= CArrayToTDoubleArray(iteridenseResult^.clusterDensities);
     clusterSizesArray:= CArrayToTIntArray(iteridenseResult^.clusterSizes);
+
+    if iteridenseResult^.finalResolution = 1 then
+    begin
+      // then no clustering was performed
+      QuestionDlg('Error', 'Due to lack of RAM, no clustering could be performed.',
+                   mtError, [mbOK, 'OK'], 0);
+      if IteridenseFree(iteridenseResult) <> 0 then
+        MessageDlg('Warning: failed to free iteridenseResult', mtError, [mbOK], 0);
+      exit;
+    end;
 
     FinalResolutionLE.Text:= IntToStr(iteridenseResult^.finalResolution);
     // fill the arrays to ClusterResultSG
@@ -866,6 +926,7 @@ begin
   IteridenseSliderTB.Position:= 2;
   StartResolutionSE.Value:= 2;
   StopResolutionSE.Value:= 100;
+  FinalResolutionLE.Text:= '';
   // propose a minimal cluster size of 5 % of the total clusters
   MinClusterSizeIterIdenseSE.Value:= Trunc(0.05 * Length(DataArray));
   MinClusterSizeDBscanSE.Value:= Trunc(0.05 * Length(DataArray));

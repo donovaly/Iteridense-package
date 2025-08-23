@@ -8,7 +8,7 @@ module IteridenseCLib
 
 using Base.Libc, Clustering
 
-export  IteridenseClustering, IteridenseFree, GarbageCollection,
+export  IteridenseClustering, IteridenseFree, GarbageCollection, FreeMemoryInBytes,
         DBSCANClustering, DBSCANFree,
         KMeansClustering, KMeansFree
 
@@ -797,6 +797,13 @@ end
 Base.@ccallable function GarbageCollection()::Cint
     GC.gc()
     return 0
+end
+
+
+#-------------------------------------------------------------------------------------------------
+# function to get size of currently available memory
+Base.@ccallable function FreeMemoryInBytes()::Culonglong
+    return Int(Sys.free_memory())
 end
 
 

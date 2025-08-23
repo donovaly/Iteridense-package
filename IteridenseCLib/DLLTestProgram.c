@@ -81,6 +81,12 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
+    // call garbage collection
+    GarbageCollection();
+
+    // get size of currently available memory
+    printf("size of currently available memory: %d\n", FreeMemoryInBytes());
+
     // Call DBSCANClustering
     DBSCANResultC* resultDBSCAN = DBSCANClustering(
         dataMatrix,

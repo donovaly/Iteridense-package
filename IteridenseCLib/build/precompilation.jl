@@ -60,6 +60,10 @@ function TestIteridenseClustering()
 
     # perform garbage collection
     GarbageCollection()
+
+    # get size of currently available memory
+    FreeMemoryInBytes()
+    println("currently available memory: ", FreeMemoryInBytes())
 end
 
 # run multiple times to trigger precompilation and test stability
