@@ -325,7 +325,7 @@ function IteridenseLoop(dataMatrix,
         # We break if 47.5% of the availableRAM is less than necessaryRAM because we need space for
         # 2 tensors (countTensor and clusterTensor) and also some RAM for Julia itself.
         if 0.475*availableRAM < necessaryRAM
-            printstyled("\nImportant Warning!: "; bold= true, color= :magenta)
+            printstyled("\nImportant Warning: "; bold= true, color= :magenta)
             printstyled("Not enough available RAM!\n\
                     \nFor the $(dimensions) dimensions there is currently only enough RAM\
                     \navailable for a resolution of \

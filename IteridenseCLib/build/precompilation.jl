@@ -57,6 +57,9 @@ function TestIteridenseClustering()
 
     # free allocated memory
     IteridenseFree(resultPointer)
+
+    # perform garbage collection
+    GarbageCollection()
 end
 
 # run multiple times to trigger precompilation and test stability

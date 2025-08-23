@@ -93,6 +93,11 @@ IteridenseResultC* IteridenseClustering(
 int IteridenseFree(IteridenseResultC* pointer);
 
 /**
+ * Call Julia's garbage collection
+ */
+int GarbageCollection();
+
+/**
  * Perform DBSCAN clustering on a data matrix
  * 
  * @param dataMatrix Pointer to double array (column-major) of size nrows x ncols

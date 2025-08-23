@@ -8,7 +8,7 @@ module IteridenseCLib
 
 using Base.Libc, Clustering
 
-export  IteridenseClustering, IteridenseFree,
+export  IteridenseClustering, IteridenseFree, GarbageCollection,
         DBSCANClustering, DBSCANFree,
         KMeansClustering, KMeansFree
 
@@ -324,7 +324,7 @@ function IteridenseLoop(dataMatrix,
         # We break if 47.5% of the availableRAM is less than necessaryRAM because we need space for
         # 2 tensors (countTensor and clusterTensor) and also some RAM for Julia itself.
         if 0.475*availableRAM < necessaryRAM
-            printstyled("\nImportant Warning!: "; bold= true, color= :magenta)
+            printstyled("\nImportant Warning: "; bold= true, color= :magenta)
             printstyled("Not enough available RAM!\n\
                     \nFor the $(dimensions) dimensions there is currently only enough RAM\
                     \navailable for a resolution of \
@@ -392,10 +392,13 @@ function IteridenseLoop(dataMatrix,
         resolution = size(clusterTensor, 1)
     end
     
-    return IteridenseResult(clusterTensor= clusterTensor, countTensor= countTensor,
-                            numOfClusters= numClusters, finalResolution= resolution,
-                            assignments= assignments, clusterDensities= clusterDensities,
-                            clusterSizes= clusterSizes)
+    result = IteridenseResult(clusterTensor= clusterTensor, countTensor= countTensor,
+                                numOfClusters= numClusters, finalResolution= resolution,
+                                assignments= assignments, clusterDensities= clusterDensities,
+                                clusterSizes= clusterSizes)
+    # we must manually trigger a garbage collection because the tensors can become very large
+    GC.gc()
+    return result
 end
 
 
@@ -573,7 +576,7 @@ function PerformClustering(dataMatrix;
             printstyled("\nInformation: "; bold= true, color= :blue)
             println("The clustering detected no clusters")
         end
-        return IteridenseResultC(ArrayToCTensor(Int32[], Int32),
+        noClusterResult = IteridenseResultC(ArrayToCTensor(Int32[], Int32),
                                     # if no clustering was performed there is no countTensor
                                     if typeof(LoopResult.countTensor) == Nothing
                                         ArrayToCTensor(Int32[], Int32)
@@ -585,6 +588,9 @@ function PerformClustering(dataMatrix;
                                     ArrayToCArray(zeros(Int, totalCounts), Int64),
                                     ArrayToCArray(Float64[], Float64),
                                     ArrayToCArray(Int64[], Int64) )
+        # trigger a garbage collection
+        GC.gc()
+        return noClusterResult
     else
         # run a single loop with a higher fixed resolution
         secondResolution = LoopResult.finalResolution + 1
@@ -621,6 +627,8 @@ function PerformClustering(dataMatrix;
     # if the number of clusters did change between the 2 runs, return the assignment according
     # to the first clustering result
     if LoopResult.numOfClusters != LoopResultSecond.numOfClusters || useFixedResolution
+        # trigger a garbage collection
+        GC.gc()
         return intermediateResult
     else
         assignmentsSecond = AssignPoints(dataMatrix, LoopResultSecond.clusterTensor,
@@ -663,13 +671,16 @@ function PerformClustering(dataMatrix;
                         LoopResultSecond.clusterDensities) ./ 2
 
     # for the final result we output the tensors and resolution of the first result
-    return IteridenseResultC(ArrayToCTensor(LoopResult.clusterTensor, Int32),
+    result = IteridenseResultC(ArrayToCTensor(LoopResult.clusterTensor, Int32),
                                 ArrayToCTensor(LoopResult.countTensor, Int32),
                                 Clonglong(LoopResult.numOfClusters),
                                 Clonglong(LoopResult.finalResolution),
                                 ArrayToCArray(assignmentsResult, Int64),
                                 ArrayToCArray(clusterDensities, Float64),
                                 ArrayToCArray(clusterSizes, Int64) )
+    # trigger a garbage collection
+    GC.gc()
+    return result
 end
 
 
@@ -778,6 +789,13 @@ Base.@ccallable function IteridenseFree(resultPointer::Ptr{IteridenseResultC})::
         Libc.free(result.clusterSizes.data)
     end
     Libc.free(resultPointer)
+    return 0
+end
+
+#-------------------------------------------------------------------------------------------------
+# function to call Julia's garbage collector
+Base.@ccallable function GarbageCollection()::Cint
+    GC.gc()
     return 0
 end
 
