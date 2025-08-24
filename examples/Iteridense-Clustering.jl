@@ -48,7 +48,7 @@ DataPlot = Plots.scatter(dataMatrix[:, 1], dataMatrix[:, 2],
 end
 
 # Iteridense clustering
-ρ = 3.0
+ρ = 4.1
 # perform the clustering
 IteridenseResult = Iteridense.Clustering(dataMatrix, density= ρ);
 # list the different clustering results
@@ -132,7 +132,7 @@ end
 # 2. increase ρ
 # in our case at ρ = 2.2 we get 2 clusters
 ρ = 2.2
-IteridenseResult = Iteridense.Clustering(dataMatrix, density= ρ,
+IteridenseResult = Iteridense.Clustering(dataMatrix, density= ρ, minClusterSize= 10,
 # uncomment the next line to see the effect of the noDiagonal option
 # set then also ρ = 5.0 to see the effect
                                         #noDiagonals= true,
@@ -300,7 +300,7 @@ end
 #        For example set minClusterSize to a high value, e.g. to 50. This is easy to guess since
 #        there are 1500 data points and every cluster will roughly contain a third of all points.
 #        You get the desired result for ρ = 3.8 or higher
-ρ = 3.8
+ρ = 4.0
 IteridenseResult = Iteridense.Clustering(dataMatrix, density= ρ,
                                         useClusters= true, minClusters= 3,
                                         minClusterSize= 20
