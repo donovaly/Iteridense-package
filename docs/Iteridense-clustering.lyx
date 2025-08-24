@@ -2602,7 +2602,7 @@ status open
 \end_inset
 
 ,
- resulting resolution:
+ final resolution:
  12
 \end_layout
 
@@ -2645,7 +2645,7 @@ status open
 \end_inset
 
 ,
- resulting resolution:
+ final resolution:
  43
 \end_layout
 
@@ -2769,13 +2769,26 @@ status open
 \begin_inset Formula $\rho=6.0$
 \end_inset
 
- with option 
+,
+ 
+\series bold
+MinClusterSize
+\series default
+
+\begin_inset space \thinspace{}
+\end_inset
+
+=
+\begin_inset space \thinspace{}
+\end_inset
+
+10 with option 
 \series bold
 NoDiagonals
 \series default
 ,
- resulting resolution:
- 68
+ final resolution:
+ 60
 \end_layout
 
 \end_inset
@@ -2817,7 +2830,7 @@ status open
 \end_inset
 
 ,
- resulting resolution:
+ final resolution:
  52
 \end_layout
 
@@ -2963,7 +2976,19 @@ reference "fig:Result-Iteridense-Blobs2"
 \begin_inset space \thinspace{}
 \end_inset
 
-(a) shows the results:
+(a) shows the results (with 
+\series bold
+MinClusterSize
+\series default
+
+\begin_inset space \thinspace{}
+\end_inset
+
+=
+\begin_inset space \thinspace{}
+\end_inset
+
+6):
  Until 
 \begin_inset Formula $\rho\le6.8$
 \end_inset
@@ -3043,7 +3068,7 @@ status open
 \end_inset
 
 ,
- resulting resolution:
+ final resolution:
  30
 \end_layout
 
@@ -3086,7 +3111,7 @@ status open
 \end_inset
 
 ,
- resulting resolution:
+ final resolution:
  35
 \end_layout
 
@@ -3119,22 +3144,10 @@ Result of
 Iteridense
 \noun default
  for 
-\begin_inset Formula $\rho\ge7.3$
+\begin_inset Formula $\rho\ge6.8$
 \end_inset
 
- 
-\series bold
-MinClusterSize
-\begin_inset space ~
-\end_inset
-
-=
-\begin_inset space ~
-\end_inset
-
-
-\series default
-6 at anistotope clusters.
+ at anistotope clusters.
 \end_layout
 
 \end_inset
@@ -3188,8 +3201,8 @@ status open
 \end_inset
 
 ,
- resulting resolution:
- 84
+ final resolution:
+ 68
 \end_layout
 
 \end_inset
@@ -3262,7 +3275,7 @@ Result of
 Iteridense
 \noun default
  for 
-\begin_inset Formula $\rho=6.8$
+\begin_inset Formula $\rho=12.0$
 \end_inset
 
  and DBSCAN for 
@@ -3705,7 +3718,7 @@ reference "fig:Result-of-Iteridense-NoisyBlobs"
 \end_inset
 
 1 has 
-\begin_inset Formula $\rho_{\mathrm{cluster}}=3.07$
+\begin_inset Formula $\rho_{\mathrm{cluster}}=2.6$
 \end_inset
 
  and is a merge of a high- and a low-density region.
@@ -3889,7 +3902,7 @@ status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename clipart/BlobNoise-Iteridense-rho4-3.svg
+	filename clipart/BlobNoise-Iteridense-rho4-0.svg
 	lyxscale 50
 	width 33col%
 
@@ -3902,7 +3915,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-\begin_inset Formula $\rho=4.3$
+\begin_inset Formula $\rho=4.0$
 \end_inset
 
 ,
@@ -4330,7 +4343,7 @@ status open
 MinClusters
 \series default
  = 2,
- resulting resolution:
+ final resolution:
  16
 \end_layout
 
@@ -4477,7 +4490,7 @@ status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename clipart/Pluto-Iteridense-rho27-only3.png
+	filename clipart/Pluto-Iteridense-rho2-5-only3.png
 	lyxscale 50
 	width 33col%
 
@@ -4514,7 +4527,7 @@ status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename clipart/Pluto-Iteridense-rho27-all.png
+	filename clipart/Pluto-Iteridense-rho2-5-all.png
 	lyxscale 50
 	width 33col%
 
@@ -4547,7 +4560,7 @@ status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename clipart/Pluto-Iteridense-rho106-all.png
+	filename clipart/Pluto-Iteridense-rho5-9-all.png
 	lyxscale 50
 	width 33col%
 
@@ -4561,7 +4574,7 @@ status open
 
 \begin_layout Plain Layout
 like (b) but 
-\begin_inset Formula $\rho=106$
+\begin_inset Formula $\rho=5.9$
 \end_inset
 
 
@@ -4686,11 +4699,6 @@ reference "fig:Iteridense-Pluton"
 \end_inset
 
 (c).
- The high value for 
-\begin_inset Formula $\rho$
-\end_inset
-
- is the result of the high dimensionality of the data.
 \end_layout
 
 \begin_layout Standard

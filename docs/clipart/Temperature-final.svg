@@ -24,14 +24,14 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:zoom="1.5761719"
-     inkscape:cx="253.46221"
-     inkscape:cy="235.69765"
+     inkscape:cx="254.09665"
+     inkscape:cy="235.69764"
      inkscape:window-width="1920"
      inkscape:window-height="1009"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
-     inkscape:current-layer="svg193" />
+     inkscape:current-layer="g190" />
   <defs
      id="defs-dcbcf0">
     <g
@@ -1269,7 +1269,9 @@
              x="79.65918"
              y="20.327148"
              style="font-size:20px;font-family:sans-serif;white-space:pre;fill:#000000;fill-opacity:1"
-             id="text189">Iteridense ρ = 4.1</text>
+             id="text189"><tspan
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Arial;-inkscape-font-specification:Arial"
+               id="tspan1">Iteridense ρ = 4.1</tspan></text>
         </g>
       </g>
     </g>

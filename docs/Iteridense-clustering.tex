@@ -537,10 +537,10 @@ to the clusters for $\rho=5.0$.
 
 \begin{figure}[h]
 \begin{centering}
-\hfill{}\subfloat[$\rho=2.2$, resulting resolution: 12]{\begin{centering}
+\hfill{}\subfloat[$\rho=2.2$, final resolution: 12]{\begin{centering}
 \includegraphics[scale=0.4]{clipart/Moons-Iteridense-rho2-2}
 \par\end{centering}
-}\hfill{}\subfloat[$\rho=5.0$, resulting resolution: 43]{\begin{centering}
+}\hfill{}\subfloat[$\rho=5.0$, final resolution: 43]{\begin{centering}
 \includegraphics[scale=0.4]{clipart/Moons-Iteridense-rho5}
 \par\end{centering}
 }\hfill{}
@@ -562,11 +562,11 @@ clusters if the option \textbf{NoDiagonals} is used for the clustering.
 
 \begin{figure}
 \begin{centering}
-\hfill{}\subfloat[$\rho=6.0$ with option \textbf{NoDiagonals}, resulting resolution:
-68]{\begin{centering}
+\hfill{}\subfloat[$\rho=6.0$, \textbf{MinClusterSize}\,=\,10 with option \textbf{NoDiagonals},
+final resolution: 60]{\begin{centering}
 \includegraphics[scale=0.4]{clipart/Moons-Iteridense-rho6-noDiagonals}
 \par\end{centering}
-}\hfill{}\subfloat[$\rho=6.0$, resulting resolution: 52]{\begin{centering}
+}\hfill{}\subfloat[$\rho=6.0$, final resolution: 52]{\begin{centering}
 \includegraphics[scale=0.4]{clipart/Moons-Iteridense-rho6}
 \par\end{centering}
 }\hfill{}
@@ -596,30 +596,30 @@ The second path is computationally the fastest, as discussed in the
 next section. However, it can only be taken if there is a physical
 or technical reason for the number of clusters. For the path to specify
 $\rho$ \ref{fig:Result-Iteridense-Blobs}\,(a)\,--\,\ref{fig:Result-Iteridense-Blobs2}\,(a)
-shows the results: Until $\rho\le6.8$ only one cluster is detected
-and starting at $\rho=7.3$ there are 3~clusters. Increasing $\rho$
-leads to more and more clusters. This can be used to identify regions
-with higher density inside a ``base'' cluster. In the example there
-are 3~base clusters and every one has more dense regions that are
-unveiled with greater $\rho$.
+shows the results (with \textbf{MinClusterSize}\,=\,6): Until $\rho\le6.8$
+only one cluster is detected and starting at $\rho=7.3$ there are
+3~clusters. Increasing $\rho$ leads to more and more clusters. This
+can be used to identify regions with higher density inside a ``base''
+cluster. In the example there are 3~base clusters and every one has
+more dense regions that are unveiled with greater $\rho$.
 
 \begin{figure}[p]
 \begin{centering}
-\hfill{}\subfloat[$\rho=6.8$, resulting resolution: 30]{\begin{centering}
+\hfill{}\subfloat[$\rho=6.8$, final resolution: 30]{\begin{centering}
 \includegraphics[scale=0.4]{clipart/Anisotropes-Iteridense-rho6-8}
 \par\end{centering}
-}\hfill{}\subfloat[$\rho=7.3$, resulting resolution: 35]{\begin{centering}
+}\hfill{}\subfloat[$\rho=7.3$, final resolution: 35]{\begin{centering}
 \includegraphics[scale=0.4]{clipart/Anisotropes-Iteridense-rho7-3}
 \par\end{centering}
 }\hfill{}
 \par\end{centering}
 \caption{\label{fig:Result-Iteridense-Blobs}Result of \noun{Iteridense} for
-$\rho\ge7.3$ \textbf{MinClusterSize~=~}6 at anistotope clusters.}
+$\rho\ge6.8$ at anistotope clusters.}
 \end{figure}
 
 \begin{figure}[p]
 \begin{centering}
-\hfill{}\subfloat[$\rho=12.0$, resulting resolution: 84]{\begin{centering}
+\hfill{}\subfloat[$\rho=12.0$, final resolution: 68]{\begin{centering}
 \includegraphics[scale=0.4]{clipart/Anisotropes-Iteridense-rho12}
 \par\end{centering}
 }\hfill{}\subfloat[$\epsilon=0.1$]{\begin{centering}
@@ -628,7 +628,7 @@ $\rho\ge7.3$ \textbf{MinClusterSize~=~}6 at anistotope clusters.}
 }\hfill{}
 \par\end{centering}
 \caption{\label{fig:Result-Iteridense-Blobs2}Result of \noun{Iteridense} for
-$\rho=6.8$ and DBSCAN for $\epsilon=0.1$ at anistotope clusters.}
+$\rho=12.0$ and DBSCAN for $\epsilon=0.1$ at anistotope clusters.}
 \end{figure}
 
 For comparison, the algorithm DBSCAN does not provide a clear path
@@ -682,7 +682,7 @@ also of 1500~data points. It was generated using the \emph{make\_blobs
 }call to \emph{sklearn.datasets} with a subsequent transformation.
 One might see in the data 2~clusters and therefore set \textbf{MinClusters}
 to 2 and \textbf{MinClusterSize} to 20. As result one gets \ref{fig:Result-of-Iteridense-NoisyBlobs}\,(a).
-There cluster~1 has $\rho_{\mathrm{cluster}}=3.07$ and is a merge
+There cluster~1 has $\rho_{\mathrm{cluster}}=2.6$ and is a merge
 of a high- and a low-density region. This might not be suitable because
 one had the 2 dense regions in mind to form each a cluster. There
 are now two ways to change the result:
@@ -706,8 +706,8 @@ together with $\rho$.
 
 }\subfloat[\textbf{MinClusters} = 3]{\includegraphics[width=0.33\columnwidth]{clipart/BlobNoise-Iteridense-MinClusters3}
 
-}\subfloat[$\rho=4.3$,\protect \\
-\textbf{MinClusterSize} = 50]{\includegraphics[width=0.33\columnwidth]{clipart/BlobNoise-Iteridense-rho4-3}
+}\subfloat[$\rho=4.0$,\protect \\
+\textbf{MinClusterSize} = 50]{\includegraphics[width=0.33\columnwidth]{clipart/BlobNoise-Iteridense-rho4-0}
 
 }
 \par\end{centering}
@@ -770,7 +770,7 @@ are run, the parameter \textbf{StopResolution} can be set.
 
 \begin{figure}
 \begin{centering}
-\hfill{}\subfloat[\textbf{MinClusters} = 2, resulting resolution: 16]{\begin{centering}
+\hfill{}\subfloat[\textbf{MinClusters} = 2, final resolution: 16]{\begin{centering}
 \includegraphics[scale=0.4]{clipart/Circles-Iteridense-MinClusters2}
 \par\end{centering}
 }\hfill{}\subfloat[$\epsilon=0.1$]{\begin{centering}
@@ -795,11 +795,11 @@ samples. It has 4~dimensions.
 \begin{figure}
 \begin{centering}
 \subfloat[Clustering with only the shown\protect \\
-dimensions taken into account.]{\includegraphics[width=0.33\columnwidth]{clipart/Pluto-Iteridense-rho27-only3}
+dimensions taken into account.]{\includegraphics[width=0.33\columnwidth]{clipart/Pluto-Iteridense-rho2-5-only3}
 
-}\subfloat[Clustering with all dimensions taken into account.]{\includegraphics[width=0.33\columnwidth]{clipart/Pluto-Iteridense-rho27-all}
+}\subfloat[Clustering with all dimensions taken into account.]{\includegraphics[width=0.33\columnwidth]{clipart/Pluto-Iteridense-rho2-5-all}
 
-}\subfloat[like (b) but $\rho=106$]{\includegraphics[width=0.33\columnwidth]{clipart/Pluto-Iteridense-rho106-all}
+}\subfloat[like (b) but $\rho=5.9$]{\includegraphics[width=0.33\columnwidth]{clipart/Pluto-Iteridense-rho5-9-all}
 
 }
 \par\end{centering}
@@ -815,8 +815,7 @@ cluster. Cluster~1 is so large because its density in all 4~dimensions
 matters. If one wants for some reason cluster~1 to be split into
 2~clusters, one follows the \noun{Iteridense} path and increases
 $\rho$ above the lowest $\rho_{\mathrm{cluster}}$ and ends up with
-\ref{fig:Iteridense-Pluton}\,(c). The high value for $\rho$ is
-the result of the high dimensionality of the data.
+\ref{fig:Iteridense-Pluton}\,(c).
 
 \ref{fig:Result-Iteridense-PhD} shows a use case in which \noun{Iteridense}
 shows its strengths. The data is the publicly available \emph{PhDPublications}
