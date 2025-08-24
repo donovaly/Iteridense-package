@@ -3971,6 +3971,446 @@ Computation Performance
 \end_layout
 
 \begin_layout Standard
+
+\noun on
+Iteridense
+\noun default
+ creates two tensors,
+ the count tensor to could how many data points are in a cell and the cluster tensor that stores to what cluster a cell belongs to.
+ Both tensors have the rank 
+\begin_inset Formula $D$
+\end_inset
+
+ whereas 
+\begin_inset Formula $D$
+\end_inset
+
+ are the dimensions of the data (or features).
+ Each tensor has 
+\begin_inset Formula $R^{D}$
+\end_inset
+
+ entries (cells) whereas 
+\begin_inset Formula $R$
+\end_inset
+
+ denote the resolution.
+ Therefore 
+\noun on
+Iteridense
+\noun default
+ is memory-limited.
+ This is an important point as this limits the practical usability.
+\end_layout
+
+\begin_layout Standard
+To estimate the computational complexity 
+\begin_inset Formula $\mathcal{O}$
+\end_inset
+
+ we look at the different steps:
+\end_layout
+
+\begin_layout Description
+Counting 
+\begin_inset Formula $\mathcal{O}\left(ND\right)$
+\end_inset
+
+ because a computation is performed for every data point in every dimension
+\end_layout
+
+\begin_layout Description
+Clustering Every cell has 
+\begin_inset Formula $B$
+\end_inset
+
+ neighbor cells:
+ 
+\begin_inset Formula $B=3^{D}-1$
+\end_inset
+
+ (for the case that option 
+\series bold
+NoDiagonals
+\series default
+ is used 
+\begin_inset Formula $B=2D$
+\end_inset
+
+).
+ For the clustering we only evaluate 
+\begin_inset Formula $B/2$
+\end_inset
+
+ of the neighbors.
+ Therefore checking a neighbors has 
+\begin_inset Formula $\mathcal{O}\left(0.5BR^{D}\right)\approx\mathcal{O}\left(0.5\left(3R\right)^{D}\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Description
+Evaluation To evaluate how many clusters there are and now many cells they have,
+ we need to step over all cluster tensor cells,
+ therefore we have 
+\begin_inset Formula $\mathcal{O}\left(R^{D}\right)$
+\end_inset
+
+ for this step
+\end_layout
+
+\begin_layout Description
+Assignment To assign the cluster number to every data point the complexity is 
+\begin_inset Formula $\mathcal{O}\left(N\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\noun on
+Iteridense
+\noun default
+ iteratively clusters with increasing 
+\begin_inset Formula $R=R_{\mathrm{start}}\ldots R_{\mathrm{final}}+1$
+\end_inset
+
+.
+ Note that the assignment is only performed once for the final 
+\begin_inset Formula $R$
+\end_inset
+
+.
+ So we have these number of computes:
+\begin_inset Formula 
+\begin{align}
+ & N+\sum_{R=R_{\mathrm{start}}}^{R_{\mathrm{final}}+1}\left(ND)+R^{D}\left(\frac{3^{D}}{2}+1\right)\right)\\
+ & \approx N+\left(R_{\mathrm{final}}+1-R_{\mathrm{start}}+1\right)ND+\frac{3^{D}}{2}\sum_{R=R_{\mathrm{start}}}^{R_{\mathrm{final}}+1}R^{D}
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+as approximation we can write
+\begin_inset Formula 
+\[
+\sum_{R=R_{\mathrm{start}}}^{R_{\mathrm{final}}+1}R^{D}\approx\frac{\left(R_{\mathrm{final}}+1\right)^{D+1}-R_{\mathrm{start}}^{D+1}}{D+1}
+\]
+
+\end_inset
+
+and we get
+\begin_inset Formula 
+\begin{equation}
+\mathcal{O}\to\mathcal{O}\left(N+\left(R_{\mathrm{final}}-R_{\mathrm{start}}+2\right)ND+\frac{3^{D}\left(\left(R_{\mathrm{final}}+1\right)^{D+1}-R_{\mathrm{start}}^{D+1}\right)}{2(D+1)}\right)
+\end{equation}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+\mathcal{O}\approx\mathcal{O}\left(\left(R_{\mathrm{final}}-R_{\mathrm{start}}+2\right)ND+3^{D}\left(\left(R_{\mathrm{final}}+1\right)^{D+1}-R_{\mathrm{start}}^{D+1}\right)\right)\label{eq:O()}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In the naive approach,
+ 
+\begin_inset Formula $R_{\mathrm{start}}=2$
+\end_inset
+
+ as this is the lowest possible resolution we have
+\begin_inset Formula 
+\begin{equation}
+\mathcal{O}_{\mathrm{worst\,case}}\approx\mathcal{O}\left(R_{\mathrm{final}}ND+3^{D}\left(R_{\mathrm{final}}+1\right)^{D+1}\right)\label{eq:O(worst)}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Computational-and-memory"
+
+\end_inset
+
+ lists 
+\begin_inset Formula $\mathcal{O}$
+\end_inset
+
+ of different clustering algorithms.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Computational-and-memory"
+
+\end_inset
+
+Computational and memory complexity for different cluster algorithms.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="3">
+<features booktabs="true" tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Algorithm
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Computational Complexity
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+note
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Iteridense
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\mathcal{O}\left(DN\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+actually formula 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:O()"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+DBSCAN
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\mathcal{O}(DN\log N)$
+\end_inset
+
+ to 
+\begin_inset Formula $\mathcal{O}\left(DN^{2}\right)$
+\end_inset
+
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Chen2025"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\mathcal{O}\left(DN^{2}\right)$
+\end_inset
+
+ if brute force
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+DENCLUE
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\mathcal{O}(DN\log N)$
+\end_inset
+
+ to 
+\begin_inset Formula $\mathcal{O}\left(DN^{3}\right)$
+\end_inset
+
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Ajmal2024"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\mathcal{O}\left(N^{3}\right)$
+\end_inset
+
+ worst case for 
+\begin_inset Formula $N$
+\end_inset
+
+ iterations
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+K-Means
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\mathcal{O}(DN)$
+\end_inset
+
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Ahmed2020"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 The data shown in 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -4028,7 +4468,7 @@ MinClusters
 \end_inset
 
 2 took 
-\begin_inset Formula $\approx9.4\thinspace$
+\begin_inset Formula $\approx4.5\thinspace$
 \end_inset
 
 s
@@ -4055,7 +4495,7 @@ Julia
 \end_inset
 
  the final resolution was 25 and with 
-\begin_inset Formula $\approx24\thinspace$
+\begin_inset Formula $\approx11.7\thinspace$
 \end_inset
 
 s more time was needed.
@@ -4077,15 +4517,25 @@ StartResolution
 \begin_inset space ~
 \end_inset
 
-10 the time would decrease from 
-\begin_inset Formula $\approx9.4\thinspace$
+10 the time decreases from 
+\begin_inset Formula $\approx4.5\thinspace$
 \end_inset
 
 s to 
-\begin_inset Formula $\approx7.1\thinspace$
+\begin_inset Formula $\approx3.7\thinspace$
 \end_inset
 
-s.
+s and from 
+\begin_inset Formula $\approx11.7\thinspace$
+\end_inset
+
+s to 
+\begin_inset Formula $\approx10.5\thinspace$
+\end_inset
+
+s,
+ respectively.
+ In effect the maximal calculated resolution determines the runtime.
 \end_layout
 
 \begin_layout Standard
@@ -4182,7 +4632,7 @@ reference "fig:Result-Iteridense-Circles"
 \end_inset
 
 cluster runs took 
-\begin_inset Formula $\approx17.8\thinspace$
+\begin_inset Formula $\approx12.1\thinspace$
 \end_inset
 
 s while the same with 
@@ -4190,14 +4640,10 @@ s while the same with
 \end_inset
 
  took 
-\begin_inset Formula $\approx69\thinspace$
+\begin_inset Formula $\approx49\thinspace$
 \end_inset
 
-s and with 
-\begin_inset Formula $\epsilon=0.5$
-\end_inset
-
- both clusters were even not detected.
+s.
 \begin_inset Foot
 status collapsed
 
@@ -4223,6 +4669,14 @@ literal "false"
 \end_inset
 
 .
+\begin_inset Newline newline
+\end_inset
+
+With 
+\begin_inset Formula $\epsilon=0.5$
+\end_inset
+
+ both clusters were not detected.
 \end_layout
 
 \end_inset
