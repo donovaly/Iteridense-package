@@ -9,6 +9,7 @@ object MainForm: TMainForm
   ClientWidth = 929
   Color = clWindow
   Menu = MainMenu
+  LCLVersion = '4.2.0.0'
   OnClose = FormClose
   OnCreate = FormCreate
   OnDropFiles = FormDropFiles
@@ -368,12 +369,12 @@ object MainForm: TMainForm
         BorderSpacing.Top = 7
         Increment = 0.1
         MaxValue = 1000000
-        MinValue = 1
+        MinValue = 0.01
         ParentShowHint = False
         ShowHint = True
         TabOrder = 0
         Value = 1.1
-        OnEnter = DensityFSEEnter
+        OnChange = DensityFSEChange
       end
       object MinClusterDensityFSE: TFloatSpinEdit
         AnchorSideLeft.Control = DensityFSE
@@ -387,11 +388,9 @@ object MainForm: TMainForm
         BorderSpacing.Top = 7
         Increment = 0.1
         MaxValue = 1000000
-        MinValue = 1
         ParentShowHint = False
         ShowHint = True
         TabOrder = 1
-        Value = 1
       end
       object StartResolutionSE: TSpinEdit
         AnchorSideLeft.Control = DensityFSE
@@ -712,7 +711,7 @@ object MainForm: TMainForm
         ShowHint = True
         TabOrder = 0
         Value = 1
-        OnEnter = RadiusFSEEnter
+        OnChange = RadiusFSEChange
       end
       object RadiusEpsFSEL: TLabel
         AnchorSideLeft.Control = RadiusFSE

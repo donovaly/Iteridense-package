@@ -213,7 +213,7 @@ type
     procedure DataPointHintToolHintPosition(ATool: TDataPointHintTool;
       var APoint: TPoint);
     procedure DataSelectionCCBItemChange(Sender: TObject; AIndex{%H-}: Integer);
-    procedure DensityFSEEnter(Sender: TObject);
+    procedure DensityFSEChange(Sender: TObject);
     procedure DensityTBChange(Sender: TObject);
     procedure FlipTBChange(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction{%H-}: TCloseAction);
@@ -223,6 +223,7 @@ type
     function CArrayToTDoubleArray(cArray: CArray): TDoubleArray;
     function CTensorToTDoubleArray(tensor: CTensor): TDoubleArray;
     procedure ProportionalMIClick(Sender: TObject);
+    procedure RadiusFSEChange(Sender: TObject);
     procedure UpdateLabelHintBPosition;
     procedure IteridenseSliderTBChange(Sender: TObject);
     procedure IteridenseSliderTBMouseDown(Sender: TObject;
@@ -236,7 +237,6 @@ type
     procedure OpenCsvBBClick(Sender: TObject);
     procedure FormDropFiles(Sender: TObject; const FileNames{%H-}: array of String);
     procedure PlotSelectionCCBItemChange(Sender: TObject; AIndex{%H-}: Integer);
-    procedure RadiusFSEEnter(Sender: TObject);
     procedure RadiusTBChange(Sender: TObject);
     procedure ResetChartAppearanceMIClick(Sender: TObject);
     procedure SaveCsvMIClick(Sender: TObject);
@@ -275,6 +275,10 @@ var
   UsedClusteringMethod : ClusterMethods = none;
   SliderPosition : Integer; // to know in what direction a slider was moved
   SliderIncrement : Double; // to store the slider increment
+  IderidenseDensity : Double; // to store the density for Ideridense
+  IderidenseDensityBySlider : Boolean = false; // for signal handling
+  DBSCANRadius : Double; // to store the radius for DBSCAN
+  DBSCANRadiusBySlider : Boolean = false; // for signal handling
   KMeansClusterCenters : Array of Array of double; // store the K-means cluster center coordinates
   // filename to store appearance
   const AppearanceFile : string = 'Appearance-IteridenseClustering.ini';
@@ -310,8 +314,10 @@ begin
   // initialize chart transformation
   DataC.Prepare;
 
-  // initialize SliderPosition
-  SliderPosition:= 1;
+  // initializations
+  SliderPosition:= DensityTB.Position;
+  IderidenseDensity:= DensityFSE.Value;
+  DBSCANRadius:= RadiusFSE.Value;
 
   // setup the chart
   // due to a bug in TAChart the preset title size is not taken on
@@ -620,7 +626,8 @@ begin
     end;
   end;
 
-  // we execute the clustering according to the currently open methods tab
+  // we execute the clustering according to the currently open methods tab:
+
   // Iteridense
   if MethodsPC.ActivePage.Caption = 'Iteridense' then
   begin
@@ -631,20 +638,21 @@ begin
     //necessaryRAM:= ((1/0.475)*necessaryRAM/1e6);
     if 0.475*availableRAM < necessaryRAM then
     begin
-        necessaryRAM:= (1/0.475*necessaryRAM) / availableRAM;
-        // we only round smaller numbers
-        if necessaryRAM < 1e8 then necessaryRAM:= roundTo(necessaryRAM, -2);
-
-        decision:= QuestionDlg('Warning', 'The clustering might stop early or fail!' + LineEnding
-                   + LineEnding + 'The currently available RAM is '
-                   + FloatToStr(trunc(availableRAM/1e6)) + ' MB.' + LineEnding
-                   + 'To perform a clustering in ' + IntToStr(columns) + ' dimensions '
-                   + 'with a maximal resolution of ' + IntToStr(StopResolutionSE.Value)
-                   + ' would require ' + FloatToStr(necessaryRAM)
-                   + ' times more RAM.' + LineEnding + LineEnding
-                   + 'Do you like to try to cluster anyway?',
-                   mtWarning, [mrYes, 'Yes', mrNo, 'No', 'IsDefault'], 0);
-        if decision = mrNo then exit;
+      necessaryRAM:= (1/0.475*necessaryRAM) / availableRAM;
+      // we only round smaller numbers
+      if necessaryRAM < 1e8 then
+        necessaryRAM:= roundTo(necessaryRAM, -2);
+      decision:= QuestionDlg('Warning', 'The clustering might stop early or fail!' + LineEnding
+                 + LineEnding + 'The currently available RAM is '
+                 + FloatToStr(trunc(availableRAM/1e6)) + ' MB.' + LineEnding
+                 + 'To perform a clustering in ' + IntToStr(columns) + ' dimensions '
+                 + 'with a maximal resolution of ' + IntToStr(StopResolutionSE.Value)
+                 + ' would require ' + FloatToStr(necessaryRAM)
+                 + ' times more RAM.' + LineEnding + LineEnding
+                 + 'Do you like to try to cluster anyway?',
+                 mtWarning, [mrYes, 'Yes', mrNo, 'No', 'IsDefault'], 0);
+      if decision = mrNo then
+        exit;
     end;
 
     // the clustering
@@ -921,8 +929,13 @@ begin
     IteridenseSliderGB.Enabled:= true;
   // reset cluster method
   UsedClusteringMethod:= ClusterMethods.none;
+  // reset density
+  // as resetting the slider triggers DensityTBChange, set SliderIncrement to zero
+  SliderIncrement:= 0;
+  DensityTB.Position:= DensityTB.Min;
+  DensityFSE.Value:= 1.1;
   // reset resolution
-  // the slider must be set fitrst because it will change the others
+  // the slider must be set first because it will change the others
   IteridenseSliderTB.Position:= 2;
   StartResolutionSE.Value:= 2;
   StopResolutionSE.Value:= 100;
@@ -976,12 +989,23 @@ begin
   IteridenseSliderGB.Enabled:= false;
 end;
 
-procedure TMainForm.DensityFSEEnter(Sender: TObject);
+procedure TMainForm.DensityFSEChange(Sender: TObject);
+var
+  increment : Double;
 begin
-  // reset the slider position
-  // as this triggers DensityTBChange, set SliderIncrement to zero
+  if IderidenseDensityBySlider then
+     exit;
+  increment:= SliderIncrement;
+  // as changing slider position triggers DensityTBChange, set SliderIncrement to zero
   SliderIncrement:= 0;
-  DensityTB.Position:= 1;
+  // if increased, set position to Min otherwise to Max
+  if DensityFSE.Value > IderidenseDensity then
+    DensityTB.Position:= DensityTB.Min;
+  if DensityFSE.Value < IderidenseDensity then
+    DensityTB.Position:= DensityTB.Max;
+  // save new density
+  IderidenseDensity:= DensityFSE.Value;
+  SliderIncrement:= increment;
 end;
 
 procedure TMainForm.IteridenseSliderTBChange(Sender: TObject);
@@ -1042,12 +1066,22 @@ begin
   sign:= DensityTB.Position - SliderPosition;
   // only set new increment if previous position was 1
   if (sign > 0) and (DensityTB.Position = 2) then
+  begin
     SliderIncrement:= Trunc(DensityFSE.Value) / 10;
+    // we can also have the case that DensityFSE.Value < 0
+    if SliderIncrement = 0.0 then
+       SliderIncrement:= 0.1;
+  end;
 
-  DensityFSE.Value:= DensityFSE.Value + sign * SliderIncrement;
   // cluster only if there was actually a change (not on e.g. slider resets)
   if SliderIncrement > 0 then
+  begin
+    IderidenseDensityBySlider:= true;
+    DensityFSE.Value:= DensityFSE.Value + sign * SliderIncrement;
+    IderidenseDensity:= DensityFSE.Value;
+    IderidenseDensityBySlider:= false;
     ClusteringBBClick(Sender);
+  end;
   // save new position
   SliderPosition:= DensityTB.Position;
 end;
@@ -1057,12 +1091,23 @@ begin
   ChartData.CDFlipTBChange(Sender);
 end;
 
-procedure TMainForm.RadiusFSEEnter(Sender: TObject);
+procedure TMainForm.RadiusFSEChange(Sender: TObject);
+var
+  increment : Double;
 begin
-  // reset the slider position
-  // as this triggers DensityTBChange, set SliderIncrement to zero
+  if DBSCANRadiusBySlider then
+     exit;
+  increment:= SliderIncrement;
+  // as changing slider position triggers DensityTBChange, set SliderIncrement to zero
   SliderIncrement:= 0;
-  RadiusTB.Position:= 1;
+  // if increased, set position to Min otherwise to Max
+  if RadiusFSE.Value > DBSCANRadius then
+    RadiusTB.Position:= RadiusTB.Min;
+  if RadiusFSE.Value < DBSCANRadius then
+    RadiusTB.Position:= RadiusTB.Max;
+  // save new radius
+  DBSCANRadius:= RadiusFSE.Value;
+  SliderIncrement:= increment;
 end;
 
 procedure TMainForm.RadiusTBChange(Sender: TObject);
@@ -1083,10 +1128,15 @@ begin
       SliderIncrement:= 0.1;
   end;
 
-  RadiusFSE.Value:= RadiusFSE.Value + sign * SliderIncrement;
   // cluster only if there was actually a change (not on e.g. slider resets)
   if SliderIncrement > 0 then
+  begin
+    DBSCANRadiusBySlider:= true;
+    RadiusFSE.Value:= RadiusFSE.Value + sign * SliderIncrement;
+    DBSCANRadius:= RadiusFSE.Value;
+    DBSCANRadiusBySlider:= false;
     ClusteringBBClick(Sender);
+  end;
   // save new position
   SliderPosition:= RadiusTB.Position;
 end;
