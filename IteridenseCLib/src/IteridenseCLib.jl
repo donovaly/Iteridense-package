@@ -172,13 +172,14 @@ end
 #-------------------------------------------------------------------------------------------------
 # function to remove empty clusters
 function removeEmptyClusters!(clusterTensor, numClusters::Int64)
-    # as we can have any pattern of empty clusters, we evaluate first every cluster
+    # evaluate first every cluster
     isEmpty = zeros(Int, numClusters)
     for n in 1:numClusters
         if count(i -> (i == n), clusterTensor) == 0
             isEmpty[n] = 1
         end
     end
+    # now delete the empty clusters
     cluster = 1
     while cluster < numClusters + 1
         if isEmpty[cluster] == 1
@@ -223,6 +224,7 @@ function InternalClustering(countTensor, resolution::Int64, noDiagonals,
     # check neighbors for all cells of the countTensor
     iterRange = Iterators.product(ntuple(_ -> 1:resolution, Val(dimensions))...)
     for indices in iterRange
+        # only if a cell has more than one data point it can be part of a cluster
         if countTensor[indices...] > 1
             numClusters, clusterTensor = checkNeighbors(clusterTensor, indices, numClusters,
                                                             maxIdxRange, dimOrder, noDiagonals,
@@ -242,10 +244,12 @@ end
 #-------------------------------------------------------------------------------------------------
 # function to analyze the density of the found clusters
 function AnalyzeClusters(clusterTensor, countTensor, numClusters::Int64, resolution::Int64,
-                            totalCounts::Int64)
+                            totalCounts::Int64, ::Val{dimensions}) where dimensions
     numOfCells = length(countTensor)
     clusterDensities = zeros(Float64, numClusters)
     clusterSizes = zeros(Int64, numClusters)
+    # the normalization factor γ
+    γ = dimensions / (2*resolution^(dimensions-2))
     for cluster in 1:numClusters
         cellCounter = 0
         # first sum values of the cluster cells
@@ -262,13 +266,8 @@ function AnalyzeClusters(clusterTensor, countTensor, numClusters::Int64, resolut
         clusterSizes[cluster] = clusterDensities[cluster]
         # now calculate the cluster density in counts per volume
         clusterDensities[cluster] = clusterSizes[cluster] / cellCounter
-        # normalize the density to 1
-        clusterDensities[cluster] = clusterDensities[cluster] / (totalCounts / numOfCells)
-        # if a cluster contains all points, its volume is actually the real volume
-        # spanned by the data. By definition the density of the cluster is then 1.0.
-        if clusterSizes[cluster] == totalCounts
-            clusterDensities[cluster] = 1.0
-        end
+        # normalize the density
+        clusterDensities[cluster] = clusterDensities[cluster] / (totalCounts / numOfCells) * γ
     end
     return clusterDensities, clusterSizes
 end
@@ -356,7 +355,7 @@ function IteridenseLoop(dataMatrix,
             continue
         end
         clusterDensities, clusterSizes = AnalyzeClusters(clusterTensor, countTensor, numClusters,
-                                                            resolution, totalCounts)
+                                                        resolution, totalCounts, Val(dimensions))
         # Remove clusters smaller than minClusterSize or with density < minClusterDensity:
         # First set these cluster numbers to zero, then remove the empty clusters and eventually
         # re-evaluate the remaining clusters.
@@ -372,8 +371,9 @@ function IteridenseLoop(dataMatrix,
             resolution += 1
             continue
         end
+        # since we merged clusters, analyze them again
         clusterDensities, clusterSizes = AnalyzeClusters(clusterTensor, countTensor, numClusters,
-                                                            resolution, totalCounts)
+                                                        resolution, totalCounts, Val(dimensions))
         achievedDensity = minimum(clusterDensities)
         # break the loop according to the settings
         if (useDensity && (achievedDensity > density)) ||
@@ -466,7 +466,7 @@ function PerformClustering(dataMatrix;
                             minClusterSize::Int= 3,
                             startResolution::Int64= 2,
                             stopResolution::Int64= -1,
-                            minClusterDensity::Float64= 1.0,
+                            minClusterDensity::Float64= 0.0,
                             useDensity= true,
                             useClusters= false,
                             noDiagonals= false )::IteridenseResultC
@@ -490,8 +490,8 @@ function PerformClustering(dataMatrix;
     if startResolution < 2
         startResolution = 2
     end
-    if density < 1
-        density = 1.0
+    if density < 0.0
+        density = 0.0
     end
     if stopResolution > -1 && stopResolution < startResolution
         stopResolution = startResolution
@@ -499,8 +499,8 @@ function PerformClustering(dataMatrix;
     if minClusters < 1
         minClusters = 1
     end
-    if minClusterDensity < 1
-        minClusterDensity = 1.0
+    if minClusterDensity < 0.0
+        minClusterDensity = 0.0
     end
     # minClusterDensity must not be greater than the density
     if minClusterDensity > density
@@ -666,8 +666,8 @@ function PerformClustering(dataMatrix;
     # cut off the zero clusters
     clusterCounts = clusterCounts[2:end]
     clusterSizes = reshape(clusterCounts, :)
-    # For the clusterDensities it is not straight-forward since there is no clear resolution
-    # and tensors to be taken. We therefore simply take the mean of the 2.
+    # For the clusterDensities it is not straight-forward since there are different resolutions.
+    # We therefore simply take the mean of the 2.
     clusterDensities = (LoopResult.clusterDensities .+
                         LoopResultSecond.clusterDensities) ./ 2
 
