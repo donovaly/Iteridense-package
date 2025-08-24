@@ -47,7 +47,7 @@
 \language_package default
 \inputencoding auto-legacy
 \fontencoding auto
-\font_roman "lmodern" "default"
+\font_roman "libertine" "default"
 \font_sans "lmss" "default"
 \font_typewriter "lmtt" "default"
 \font_math "auto" "auto"
@@ -1170,11 +1170,22 @@ The density of every cluster
 \end_inset
 
  is calculated as the number of points in the cluster divided by the number of cells in the cluster.
- To normalize the density,
- the result is divided by the density of the whole data set:
 \begin_inset Formula 
 \begin{equation}
-\rho_{\mathrm{cluster}}=\cfrac{\text{num points in cluster}}{\text{num cells in cluster}}\cdot\cfrac{\text{total num of cells}}{\text{total num of points}}
+\rho_{\mathrm{cluster}}=\frac{\text{num points in cluster}}{\text{num cells of cluster}}
+\end{equation}
+
+\end_inset
+
+To make 
+\begin_inset Formula $\rho_{\mathrm{cluster}}$
+\end_inset
+
+ independent of the resolution,
+ it has to be the normalized:
+\begin_inset Formula 
+\begin{equation}
+\rho_{\mathrm{cluster\,norm}}=\frac{\text{num points in cluster}}{\text{num cells of cluster}}\cdot\frac{\text{total num of points}}{\text{total num of cells}}\cdot\frac{\text{dimension}}{2\thinspace\text{resolution}^{\text{dimension}-2}}
 \end{equation}
 
 \end_inset
@@ -1184,14 +1195,23 @@ The density of every cluster
 
 \begin_deeper
 \begin_layout Standard
-So the whole data set has the density 1.0.
- As exception,
- if the clustering results in a single cluster containing all points,
- its 
-\begin_inset Formula $\rho_{\mathrm{cluster}}$
+The normalization is derived in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Density-Normalization"
+
 \end_inset
 
- is set to 1.0.
+.
+ For 2
+\begin_inset space ~
+\end_inset
+
+dimensions the last term vanishes and 
+\begin_inset Formula $\rho_{\mathrm{cluster\,norm}}$
+\end_inset
+
+ describes by what factor the cluster is more dense than the whole data set.
 \end_layout
 
 \begin_layout Standard
@@ -1200,10 +1220,22 @@ The final density
 \end_inset
 
  is the minimum of all 
-\begin_inset Formula $\rho_{\mathrm{cluster}}$
+\begin_inset Formula $\rho_{\mathrm{cluster\,norm}}$
 \end_inset
 
 .
+\begin_inset Newline newline
+\end_inset
+
+(In the following 
+\begin_inset Formula $\rho_{\mathrm{cluster}}$
+\end_inset
+
+ means 
+\begin_inset Formula $\rho_{\mathrm{cluster\,norm}}$
+\end_inset
+
+.)
 \end_layout
 
 \end_deeper
@@ -1215,18 +1247,13 @@ name "enu:AlgoStep5"
 \end_inset
 
 All clusters are evaluated.
- Clusters with 
-\begin_inset Formula $\rho_{\mathrm{cluster}}<1.0$
-\end_inset
-
- will be deleted as they are not sensible.
- Optionally,
- if 
+ Optionally clusters with 
 \begin_inset Formula $\rho_{\mathrm{cluster}}$
 \end_inset
 
- is lower than a specified value or if they contain fewer data points than a specified value,
- these clusters are deleted as well.
+ lower than a specified value will be deleted.
+ If they contain fewer data points than a specified value,
+ they are deleted as well.
  See the next section for a description of these optional settings.
  The result of this algorithm step is a set of clusters that are subsequently numbered.
 \end_layout
@@ -1377,16 +1404,29 @@ nolink "false"
 \end_inset
 
  shows the result for 
-\begin_inset Formula $\rho=3.0$
+\begin_inset Formula $\rho=4.1$
 \end_inset
 
 .
- The final resolution is 13,
- there is one cluster with 
+ In that case the final resolution is 13 and there is one cluster with 
 \begin_inset Formula $\rho_{\mathrm{cluster}}=4.3$
 \end_inset
 
 .
+ Note that this case is just an example for the algorithm.
+ A suitable clustering result for this data set would probably be one with 2
+\begin_inset space ~
+\end_inset
+
+clusters and we will discuss what 
+\begin_inset Quotes eld
+\end_inset
+
+suitable
+\begin_inset Quotes erd
+\end_inset
+
+ means later.
 \end_layout
 
 \begin_layout Standard
@@ -1507,7 +1547,7 @@ reference "fig:Clustering-process"
 \end_inset
 
 (a) for 
-\begin_inset Formula $\rho=3.0$
+\begin_inset Formula $\rho=4.1$
 \end_inset
 
 .
@@ -1856,6 +1896,508 @@ literal "false"
 .
 \end_layout
 
+\begin_layout Subsection
+Density Normalization
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Density-Normalization"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To be able to use the cluster density in a useful way,
+ it has to be normalized.
+ The point is that without it,
+ the density will increase with the increase of the resolution.
+ We define 
+\begin_inset Formula $\rho_{\mathrm{cluster}}$
+\end_inset
+
+ as:
+\begin_inset Formula 
+\begin{equation}
+\rho_{\mathrm{cluster}}=\frac{\text{num points in cluster}}{\text{num cells of cluster}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+When the resolution doubles,
+ 
+\begin_inset Formula $\rho_{\mathrm{cluster}}$
+\end_inset
+
+ will increase because the cluster will keep its number of points but will have more cells.
+ The 
+\noun on
+Iteridense
+\noun default
+ algorithm requires 
+\begin_inset Formula $\rho_{\mathrm{cluster}}$
+\end_inset
+
+ to be independent of the resolution.
+ One approach would be to normalize 
+\begin_inset Formula $\rho_{\mathrm{cluster}}$
+\end_inset
+
+ with the density of the whole data set
+\begin_inset Formula 
+\begin{equation}
+\rho_{\mathrm{data\,set}}=\frac{\text{total num of points}}{\text{total num of cells}}
+\end{equation}
+
+\end_inset
+
+ and we would then have
+\begin_inset Formula 
+\[
+\rho_{\mathrm{cluster\,norm}}=\frac{\rho_{\mathrm{cluster}}}{\rho_{\mathrm{data\,set}}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This density is independent of the resolution but not on the dimension.
+ In practice is is often a tricky question if more or less dimensions are applicable for the effect one wants to evaluate.
+ By taking another dimension into account,
+ the density would increase,
+ even if the new dimension does not influence the cluster at all.
+\end_layout
+
+\begin_layout Standard
+Take for example this case:
+ 
+\begin_inset Formula $D=1$
+\end_inset
+
+,
+ resolution 
+\begin_inset Formula $R=8$
+\end_inset
+
+,
+ number of cells of cluster 
+\begin_inset Formula $C=R/4$
+\end_inset
+
+ (
+\begin_inset Formula $C$
+\end_inset
+
+ depends on 
+\begin_inset Formula $R$
+\end_inset
+
+),
+ number of points in cluster 
+\begin_inset Formula $P=8$
+\end_inset
+
+,
+ total number of points 
+\begin_inset Formula $N=16$
+\end_inset
+
+.
+ We get then 
+\begin_inset Formula $\rho_{\mathrm{cluster}}={\displaystyle \frac{P}{C}}=4\vphantom{\cfrac{A^{A^{A}}}{A_{A_{A}}}_{_{A_{A}}}^{A^{A}}}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $\rho_{\mathrm{data\,set\,1D}}={\displaystyle \frac{N}{R}}=2\vphantom{\cfrac{A^{A^{A}}}{A_{A_{A}}}_{_{A_{A}}}^{A^{A}}}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $\rho_{\mathrm{cluster\,norm\,1D}}={\displaystyle \frac{PR}{CN}}=2\vphantom{\cfrac{A^{A^{A}}}{A_{A_{A}}}_{_{A_{A}}}^{A^{A}}}$
+\end_inset
+
+,
+ so the cluster is in 1D 2
+\begin_inset space ~
+\end_inset
+
+times more dense than the data set.
+\end_layout
+
+\begin_layout Standard
+Now another dimension is added.
+ Here we have to make assumptions how the number of data points change by this addition:
+\end_layout
+
+\begin_layout Itemize
+we assume that for the 1D case we have 2
+\begin_inset space ~
+\end_inset
+
+equal clusters that contain together all data points,
+ so 
+\begin_inset Formula $N=2P$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+we assume that every dimension adds 2 more of these clusters (like a hypercube gets 2 more facets with every dimension)
+\end_layout
+
+\begin_layout Standard
+With this we have for 2D:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\rho_{\mathrm{cluster}}={\displaystyle \frac{P}{C}}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $\rho_{\mathrm{data\,set\,2D}}={\displaystyle \frac{2\cdot2\cdot P}{R^{2}}}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $\rho_{\mathrm{cluster\,norm\,2D}}={\displaystyle \frac{P\cdot R^{2}}{C\cdot2\cdot2\cdot P}}=8$
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Standard
+so the cluster is 8
+\begin_inset space ~
+\end_inset
+
+times more dense than the data set and 
+\begin_inset Formula $\rho_{\mathrm{cluster\,norm}}$
+\end_inset
+
+ is 4
+\begin_inset space ~
+\end_inset
+
+times the one for the 1D case.
+ This is a problem because the idea of 
+\noun on
+Iteridense
+\noun default
+ is that you can increase 
+\begin_inset Formula $\rho$
+\end_inset
+
+ to find clusters.
+ The addition of a dimension would lead to the fact that one has to increase 
+\begin_inset Formula $\rho$
+\end_inset
+
+ drastically to find the same cluster.
+ This makes the usage of 
+\begin_inset Formula $\rho$
+\end_inset
+
+ hard.
+\end_layout
+
+\begin_layout Standard
+The solution is to preserve the 
+\begin_inset Formula $\rho_{\mathrm{cluster\,norm}}$
+\end_inset
+
+ of the 1D case to all greater dimensions using the assumptions we made for adding a dimension.
+ That means we have to multiply 
+\begin_inset Formula $\rho_{\mathrm{cluster\,norm}}$
+\end_inset
+
+ with a correction factor 
+\begin_inset Formula $\gamma$
+\end_inset
+
+ that depends on the dimension.
+ In our example 
+\begin_inset Formula $\gamma$
+\end_inset
+
+ would be 1/4.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\rho_{\mathrm{cluster}}$
+\end_inset
+
+ is independent of 
+\begin_inset Formula $D$
+\end_inset
+
+,
+ therefore 
+\begin_inset Formula $\gamma$
+\end_inset
+
+ only depends on 
+\begin_inset Formula $\rho_{\mathrm{data\,set}}$
+\end_inset
+
+.
+ With our assumptions we have
+\begin_inset Formula 
+\begin{equation}
+\rho_{\mathrm{data\,set}}=\frac{2D\cdot P}{R^{D}}
+\end{equation}
+
+\end_inset
+
+and
+\begin_inset Formula 
+\begin{equation}
+\gamma_{1D}=\frac{\rho_{\mathrm{data\,set\,D}}}{\rho_{\mathrm{data\,set\,1D}}}=\frac{R\cdot2D\cdot P}{2\cdot PR^{D}}=\frac{D}{R^{D-1}}
+\end{equation}
+
+\end_inset
+
+and
+\begin_inset Formula 
+\begin{equation}
+\rho_{\mathrm{cluster\,norm\,1D}}=\rho_{\mathrm{cluster\,norm}}\cdot\gamma_{1D}=\frac{P}{C}\cdot\frac{R^{D}}{2D\cdot P}\cdot\frac{D}{R^{D-1}}=\frac{R}{2C}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Since for 
+\begin_inset Formula $D=1$
+\end_inset
+
+ 
+\begin_inset Formula $C\propto R$
+\end_inset
+
+,
+ 
+\begin_inset Formula $\rho_{\mathrm{cluster\,norm}}$
+\end_inset
+
+ is independent of the dimension and the resolution.
+\end_layout
+
+\begin_layout Standard
+However,
+ this normalization will preserve the density from the 1D case.
+ For most practical use cases,
+ one starts with 2D.
+ Therefore we normalize according to the 2D case:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\gamma_{2D}=\frac{\rho_{\mathrm{data\,set\,D}}}{\rho_{\mathrm{data\,set\,2D}}}=\frac{R^{2}\cdot2D\cdot P}{4\cdot PR^{D}}=\frac{D}{2R^{D-2}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The final normalization is
+\begin_inset Formula 
+\begin{equation}
+\rho_{\mathrm{cluster\,norm}}=\frac{\text{num points in cluster}}{\text{num cells of cluster}}\cdot\frac{\text{total num of points}}{\text{total num of cells}}\cdot\frac{\text{dimension}}{2\thinspace\text{resolution}^{\text{dimension}-2}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This normalization cannot cover all cases but keeps 
+\begin_inset Formula $\rho_{\mathrm{cluster}}$
+\end_inset
+
+ stable enough for practical usage.
+ To get a feeling about the stability we take the case 
+\begin_inset Formula $D=2$
+\end_inset
+
+,
+ 
+\begin_inset Formula $R=8$
+\end_inset
+
+ and clusters with each 
+\begin_inset Formula $P=8$
+\end_inset
+
+ and 
+\begin_inset Formula $C=2$
+\end_inset
+
+,
+ thus 
+\begin_inset Formula $\rho_{\mathrm{cluster}}=4$
+\end_inset
+
+.
+ We look at these 4
+\begin_inset space ~
+\end_inset
+
+cases:
+\end_layout
+
+\begin_layout Itemize
+2
+\begin_inset space ~
+\end_inset
+
+clusters,
+ one at the upper right corner,
+ the other one of the lower left corner of the data grid.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Now a new dimension is added which only adds a single new cluster of the same size.
+ Then we have 
+\begin_inset Formula $\rho_{\mathrm{data\,set\,2D}}={\displaystyle \frac{2P}{R^{2}}}\vphantom{\cfrac{A^{A^{A}}}{A_{A_{A}}}_{_{A_{A}}}^{A^{A}}}$
+\end_inset
+
+ and thus 
+\begin_inset Formula $\rho_{\mathrm{cluster\,norm\,2D}}=16$
+\end_inset
+
+.
+ And for 
+\begin_inset Formula $D=3$
+\end_inset
+
+ we have 
+\begin_inset Formula $\rho_{\mathrm{data\,set\,3D}}={\displaystyle \frac{3P}{R^{3}}}\vphantom{\cfrac{A^{A^{A}}}{A_{A_{A}}}_{_{A_{A}}}^{A^{A}}}$
+\end_inset
+
+ and thus 
+\begin_inset Formula $\rho_{\mathrm{cluster\,norm\,3D}}=16$
+\end_inset
+
+.
+ So no change for 
+\begin_inset Formula $\rho_{\mathrm{cluster\,norm}}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Now a new dimension is added which adds two new clusters of the same size.
+ Then we have for 
+\begin_inset Formula $D=3$
+\end_inset
+
+ 
+\begin_inset Formula $\rho_{\mathrm{data\,set\,3D}}={\displaystyle \frac{4P}{R^{3}}}\vphantom{\cfrac{A^{A^{A}}}{A_{A_{A}}}_{_{A_{A}}}^{A^{A}}}$
+\end_inset
+
+ and thus 
+\begin_inset Formula $\rho_{\mathrm{cluster\,norm\,3D}}=12$
+\end_inset
+
+.
+ So 
+\begin_inset Formula $\rho_{\mathrm{cluster\,norm}}$
+\end_inset
+
+ increased by a factor 0.75.
+ Without 
+\begin_inset Formula $\gamma_{2D}$
+\end_inset
+
+ it would have increased by a factor 4.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+4
+\begin_inset space ~
+\end_inset
+
+clusters at every corner of the data grid.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Now a new dimension is added which only adds a single new cluster of the same size.
+ Then we have 
+\begin_inset Formula $\rho_{\mathrm{data\,set\,2D}}={\displaystyle \frac{4P}{R^{2}}}\vphantom{\cfrac{A^{A^{A}}}{A_{A_{A}}}_{_{A_{A}}}^{A^{A}}}$
+\end_inset
+
+ and thus 
+\begin_inset Formula $\rho_{\mathrm{cluster\,norm\,2D}}=8$
+\end_inset
+
+.
+ And for 
+\begin_inset Formula $D=3$
+\end_inset
+
+ we have 
+\begin_inset Formula $\rho_{\mathrm{data\,set\,3D}}={\displaystyle \frac{5P}{R^{3}}}\vphantom{\cfrac{A^{A^{A}}}{A_{A_{A}}}_{_{A_{A}}}^{A^{A}}}$
+\end_inset
+
+ and thus 
+\begin_inset Formula $\rho_{\mathrm{cluster\,norm\,3D}}=9.6$
+\end_inset
+
+.
+ So an increase of 
+\begin_inset Formula $\rho_{\mathrm{cluster\,norm}}$
+\end_inset
+
+ by a factor of 1.2.
+ Without 
+\begin_inset Formula $\gamma_{2D}$
+\end_inset
+
+ it would have increased by a factor 6.4.
+\end_layout
+
+\begin_layout Itemize
+Now a new dimension is added which adds two new clusters of the same size.
+ Then we have for 
+\begin_inset Formula $D=3$
+\end_inset
+
+ 
+\begin_inset Formula $\rho_{\mathrm{data\,set\,3D}}={\displaystyle \frac{6P}{R^{3}}}\vphantom{\cfrac{A^{A^{A}}}{A_{A_{A}}}_{_{A_{A}}}^{A^{A}}}$
+\end_inset
+
+ and thus 
+\begin_inset Formula $\rho_{\mathrm{cluster\,norm\,3D}}=8$
+\end_inset
+
+.
+ So no change for 
+\begin_inset Formula $\rho_{\mathrm{cluster\,norm}}$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
 \begin_layout Section
 Clustering Results
 \end_layout
@@ -2164,7 +2706,7 @@ By increasing
 
  are outliers.
  If the data points are the result of a measurement,
- one can repeat the measurement to verify if the result is still an outlier,
+ one can repeat the measurement of an outlier point to verify if the result is still an outlier,
  check the measurement setup etc.
 \end_layout
 
@@ -2307,7 +2849,7 @@ Effect of a high
 \begin_inset Formula $\rho$
 \end_inset
 
- and the option to evaluate neighbor cells on the clustering result.
+ and the option to evaluate neighbor cells.
 \end_layout
 
 \end_inset

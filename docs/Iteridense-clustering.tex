@@ -1,7 +1,7 @@
 %% LyX 2.4.4 created this file.  For more info, see https://www.lyx.org/.
 %% Do not edit unless you really know what you are doing.
 \documentclass[12pt,onecolumn,fleqn,english,compsoc]{IEEEtran}
-\usepackage{lmodern}
+\usepackage{libertineRoman}
 \renewcommand{\sfdefault}{lmss}
 \renewcommand{\ttdefault}{lmtt}
 \usepackage[T1]{fontenc}
@@ -270,24 +270,29 @@ becomes part of that merged cluster. For example cell\,A and cell\,C
 could be in different clusters and the current cell unites both clusters.
 \item The density of every cluster $\rho_{\mathrm{cluster}}$ is calculated
 as the number of points in the cluster divided by the number of cells
-in the cluster. To normalize the density, the result is divided by
-the density of the whole data set:
+in the cluster.
 \begin{equation}
-\rho_{\mathrm{cluster}}=\cfrac{\text{num points in cluster}}{\text{num cells in cluster}}\cdot\cfrac{\text{total num of cells}}{\text{total num of points}}
+\rho_{\mathrm{cluster}}=\frac{\text{num points in cluster}}{\text{num cells of cluster}}
+\end{equation}
+To make $\rho_{\mathrm{cluster}}$ independent of the resolution,
+it has to be the normalized:
+\begin{equation}
+\rho_{\mathrm{cluster\,norm}}=\frac{\text{num points in cluster}}{\text{num cells of cluster}}\cdot\frac{\text{total num of points}}{\text{total num of cells}}\cdot\frac{\text{dimension}}{2\thinspace\text{resolution}^{\text{dimension}-2}}
 \end{equation}
 
-So the whole data set has the density 1.0. As exception, if the clustering
-results in a single cluster containing all points, its $\rho_{\mathrm{cluster}}$
-is set to 1.0.
+The normalization is derived in \ref{subsec:Density-Normalization}.
+For 2~dimensions the last term vanishes and $\rho_{\mathrm{cluster\,norm}}$
+describes by what factor the cluster is more dense than the whole
+data set.
 
-The final density $\rho_{\mathrm{final}}$ is the minimum of all $\rho_{\mathrm{cluster}}$.
-\item \label{enu:AlgoStep5}All clusters are evaluated. Clusters with $\rho_{\mathrm{cluster}}<1.0$
-will be deleted as they are not sensible. Optionally, if $\rho_{\mathrm{cluster}}$
-is lower than a specified value or if they contain fewer data points
-than a specified value, these clusters are deleted as well. See the
-next section for a description of these optional settings. The result
-of this algorithm step is a set of clusters that are subsequently
-numbered.
+The final density $\rho_{\mathrm{final}}$ is the minimum of all $\rho_{\mathrm{cluster\,norm}}$.\\
+(In the following $\rho_{\mathrm{cluster}}$ means $\rho_{\mathrm{cluster\,norm}}$.)
+\item \label{enu:AlgoStep5}All clusters are evaluated. Optionally clusters
+with $\rho_{\mathrm{cluster}}$ lower than a specified value will
+be deleted. If they contain fewer data points than a specified value,
+they are deleted as well. See the next section for a description of
+these optional settings. The result of this algorithm step is a set
+of clusters that are subsequently numbered.
 \item The resolution is incremented by one and the steps \ref{enu:AlgoStep1}\,--\,\ref{enu:AlgoStep5}
 are repeated until either $\rho_{\mathrm{final}}>\rho$ or until as
 many clusters were detected as specified as \textbf{MinClusters}.
@@ -305,8 +310,12 @@ but now are, are finally assigned to that cluster. This will only
 be done if the number of clusters did not change in step~\ref{enu:AlgoStep8}
 and if no data point belongs now to another cluster than before step~\ref{enu:AlgoStep8}.
 \end{enumerate}
-\ref{fig:Result-Iteridense} shows the result for $\rho=3.0$. The
-final resolution is 13, there is one cluster with $\rho_{\mathrm{cluster}}=4.3$.
+\ref{fig:Result-Iteridense} shows the result for $\rho=4.1$. In
+that case the final resolution is 13 and there is one cluster with
+$\rho_{\mathrm{cluster}}=4.3$. Note that this case is just an example
+for the algorithm. A suitable clustering result for this data set
+would probably be one with 2~clusters and we will discuss what ``suitable''
+means later.
 
 \begin{figure}
 \begin{centering}
@@ -319,7 +328,7 @@ final resolution is 13, there is one cluster with $\rho_{\mathrm{cluster}}=4.3$.
 }\hfill{}
 \par\end{centering}
 \caption{\label{fig:Result-Iteridense}Result of \noun{Iteridense} for the
-data shown in \ref{fig:Clustering-process}\,(a) for $\rho=3.0$.}
+data shown in \ref{fig:Clustering-process}\,(a) for $\rho=4.1$.}
 \end{figure}
 
 
@@ -377,6 +386,135 @@ what cluster a grid cell belongs to. There is also a stand-alone program
 available with a graphical user interface (GUI) that uses the reference
 implementation~\cite{Iteridense-package}.
 
+\subsection{Density Normalization\label{subsec:Density-Normalization}}
+
+To be able to use the cluster density in a useful way, it has to be
+normalized. The point is that without it, the density will increase
+with the increase of the resolution. We define $\rho_{\mathrm{cluster}}$
+as:
+\begin{equation}
+\rho_{\mathrm{cluster}}=\frac{\text{num points in cluster}}{\text{num cells of cluster}}
+\end{equation}
+
+When the resolution doubles, $\rho_{\mathrm{cluster}}$ will increase
+because the cluster will keep its number of points but will have more
+cells. The \noun{Iteridense} algorithm requires $\rho_{\mathrm{cluster}}$
+to be independent of the resolution. One approach would be to normalize
+$\rho_{\mathrm{cluster}}$ with the density of the whole data set
+\begin{equation}
+\rho_{\mathrm{data\,set}}=\frac{\text{total num of points}}{\text{total num of cells}}
+\end{equation}
+ and we would then have
+\[
+\rho_{\mathrm{cluster\,norm}}=\frac{\rho_{\mathrm{cluster}}}{\rho_{\mathrm{data\,set}}}
+\]
+
+This density is independent of the resolution but not on the dimension.
+In practice is is often a tricky question if more or less dimensions
+are applicable for the effect one wants to evaluate. By taking another
+dimension into account, the density would increase, even if the new
+dimension does not influence the cluster at all.
+
+Take for example this case: $D=1$, resolution $R=8$, number of cells
+of cluster $C=R/4$ ($C$ depends on $R$), number of points in cluster
+$P=8$, total number of points $N=16$. We get then $\rho_{\mathrm{cluster}}={\displaystyle \frac{P}{C}}=4\vphantom{\cfrac{A^{A^{A}}}{A_{A_{A}}}_{_{A_{A}}}^{A^{A}}}$,
+$\rho_{\mathrm{data\,set\,1D}}={\displaystyle \frac{N}{R}}=2\vphantom{\cfrac{A^{A^{A}}}{A_{A_{A}}}_{_{A_{A}}}^{A^{A}}}$,
+$\rho_{\mathrm{cluster\,norm\,1D}}={\displaystyle \frac{PR}{CN}}=2\vphantom{\cfrac{A^{A^{A}}}{A_{A_{A}}}_{_{A_{A}}}^{A^{A}}}$,
+so the cluster is in 1D 2~times more dense than the data set.
+
+Now another dimension is added. Here we have to make assumptions how
+the number of data points change by this addition:
+\begin{itemize}
+\item we assume that for the 1D case we have 2~equal clusters that contain
+together all data points, so $N=2P$
+\item we assume that every dimension adds 2 more of these clusters (like
+a hypercube gets 2 more facets with every dimension)
+\end{itemize}
+With this we have for 2D:
+
+$\rho_{\mathrm{cluster}}={\displaystyle \frac{P}{C}}$, $\rho_{\mathrm{data\,set\,2D}}={\displaystyle \frac{2\cdot2\cdot P}{R^{2}}}$,
+$\rho_{\mathrm{cluster\,norm\,2D}}={\displaystyle \frac{P\cdot R^{2}}{C\cdot2\cdot2\cdot P}}=8$,
+
+so the cluster is 8~times more dense than the data set and $\rho_{\mathrm{cluster\,norm}}$
+is 4~times the one for the 1D case. This is a problem because the
+idea of \noun{Iteridense} is that you can increase $\rho$ to find
+clusters. The addition of a dimension would lead to the fact that
+one has to increase $\rho$ drastically to find the same cluster.
+This makes the usage of $\rho$ hard.
+
+The solution is to preserve the $\rho_{\mathrm{cluster\,norm}}$ of
+the 1D case to all greater dimensions using the assumptions we made
+for adding a dimension. That means we have to multiply $\rho_{\mathrm{cluster\,norm}}$
+with a correction factor $\gamma$ that depends on the dimension.
+In our example $\gamma$ would be 1/4.
+
+$\rho_{\mathrm{cluster}}$ is independent of $D$, therefore $\gamma$
+only depends on $\rho_{\mathrm{data\,set}}$. With our assumptions
+we have
+\begin{equation}
+\rho_{\mathrm{data\,set}}=\frac{2D\cdot P}{R^{D}}
+\end{equation}
+and
+\begin{equation}
+\gamma_{1D}=\frac{\rho_{\mathrm{data\,set\,D}}}{\rho_{\mathrm{data\,set\,1D}}}=\frac{R\cdot2D\cdot P}{2\cdot PR^{D}}=\frac{D}{R^{D-1}}
+\end{equation}
+and
+\begin{equation}
+\rho_{\mathrm{cluster\,norm\,1D}}=\rho_{\mathrm{cluster\,norm}}\cdot\gamma_{1D}=\frac{P}{C}\cdot\frac{R^{D}}{2D\cdot P}\cdot\frac{D}{R^{D-1}}=\frac{R}{2C}
+\end{equation}
+
+Since for $D=1$ $C\propto R$, $\rho_{\mathrm{cluster\,norm}}$ is
+independent of the dimension and the resolution.
+
+However, this normalization will preserve the density from the 1D
+case. For most practical use cases, one starts with 2D. Therefore
+we normalize according to the 2D case:
+
+\begin{equation}
+\gamma_{2D}=\frac{\rho_{\mathrm{data\,set\,D}}}{\rho_{\mathrm{data\,set\,2D}}}=\frac{R^{2}\cdot2D\cdot P}{4\cdot PR^{D}}=\frac{D}{2R^{D-2}}
+\end{equation}
+
+The final normalization is
+\begin{equation}
+\rho_{\mathrm{cluster\,norm}}=\frac{\text{num points in cluster}}{\text{num cells of cluster}}\cdot\frac{\text{total num of points}}{\text{total num of cells}}\cdot\frac{\text{dimension}}{2\thinspace\text{resolution}^{\text{dimension}-2}}
+\end{equation}
+
+This normalization cannot cover all cases but keeps $\rho_{\mathrm{cluster}}$
+stable enough for practical usage. To get a feeling about the stability
+we take the case $D=2$, $R=8$ and clusters with each $P=8$ and
+$C=2$, thus $\rho_{\mathrm{cluster}}=4$. We look at these 4~cases:
+\begin{itemize}
+\item 2~clusters, one at the upper right corner, the other one of the lower
+left corner of the data grid.
+\begin{itemize}
+\item Now a new dimension is added which only adds a single new cluster
+of the same size. Then we have $\rho_{\mathrm{data\,set\,2D}}={\displaystyle \frac{2P}{R^{2}}}\vphantom{\cfrac{A^{A^{A}}}{A_{A_{A}}}_{_{A_{A}}}^{A^{A}}}$
+and thus $\rho_{\mathrm{cluster\,norm\,2D}}=16$. And for $D=3$ we
+have $\rho_{\mathrm{data\,set\,3D}}={\displaystyle \frac{3P}{R^{3}}}\vphantom{\cfrac{A^{A^{A}}}{A_{A_{A}}}_{_{A_{A}}}^{A^{A}}}$
+and thus $\rho_{\mathrm{cluster\,norm\,3D}}=16$. So no change for
+$\rho_{\mathrm{cluster\,norm}}$.
+\item Now a new dimension is added which adds two new clusters of the same
+size. Then we have for $D=3$ $\rho_{\mathrm{data\,set\,3D}}={\displaystyle \frac{4P}{R^{3}}}\vphantom{\cfrac{A^{A^{A}}}{A_{A_{A}}}_{_{A_{A}}}^{A^{A}}}$
+and thus $\rho_{\mathrm{cluster\,norm\,3D}}=12$. So $\rho_{\mathrm{cluster\,norm}}$
+increased by a factor 0.75. Without $\gamma_{2D}$ it would have increased
+by a factor 4.
+\end{itemize}
+\item 4~clusters at every corner of the data grid.
+\begin{itemize}
+\item Now a new dimension is added which only adds a single new cluster
+of the same size. Then we have $\rho_{\mathrm{data\,set\,2D}}={\displaystyle \frac{4P}{R^{2}}}\vphantom{\cfrac{A^{A^{A}}}{A_{A_{A}}}_{_{A_{A}}}^{A^{A}}}$
+and thus $\rho_{\mathrm{cluster\,norm\,2D}}=8$. And for $D=3$ we
+have $\rho_{\mathrm{data\,set\,3D}}={\displaystyle \frac{5P}{R^{3}}}\vphantom{\cfrac{A^{A^{A}}}{A_{A_{A}}}_{_{A_{A}}}^{A^{A}}}$
+and thus $\rho_{\mathrm{cluster\,norm\,3D}}=9.6$. So an increase
+of $\rho_{\mathrm{cluster\,norm}}$ by a factor of 1.2. Without $\gamma_{2D}$
+it would have increased by a factor 6.4.
+\item Now a new dimension is added which adds two new clusters of the same
+size. Then we have for $D=3$ $\rho_{\mathrm{data\,set\,3D}}={\displaystyle \frac{6P}{R^{3}}}\vphantom{\cfrac{A^{A^{A}}}{A_{A_{A}}}_{_{A_{A}}}^{A^{A}}}$
+and thus $\rho_{\mathrm{cluster\,norm\,3D}}=8$. So no change for
+$\rho_{\mathrm{cluster\,norm}}$.
+\end{itemize}
+\end{itemize}
+
 \section{Clustering Results}
 
 To show the clustering results artificial data was generated using
@@ -414,8 +552,9 @@ moon-like clusters using different $\rho$.}
 By increasing $\rho$ one can for example define points as outliers:
 One could define that all data points that are not part of a cluster
 at density $\rho=4.0$ are outliers. If the data points are the result
-of a measurement, one can repeat the measurement to verify if the
-result is still an outlier, check the measurement setup etc.
+of a measurement, one can repeat the measurement of an outlier point
+to verify if the result is still an outlier, check the measurement
+setup etc.
 
 \ref{fig:Effect-of-a} shows the result for $\rho=6.0$. The density
 is now so high that the moon-like clusters break down into many small
@@ -433,7 +572,7 @@ clusters if the option \textbf{NoDiagonals} is used for the clustering.
 }\hfill{}
 \par\end{centering}
 \caption{\label{fig:Effect-of-a}Effect of a high $\rho$ and the option to
-evaluate neighbor cells on the clustering result.}
+evaluate neighbor cells.}
 \end{figure}
 
 
