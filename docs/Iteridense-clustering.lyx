@@ -259,7 +259,7 @@ Iteridense
 \noun on
 Iteridense
 \noun default
- is applicable for data sets with any dimensionality.
+ is applicable for datasets with any dimensionality.
  
 \noun on
 Iteridense
@@ -293,7 +293,7 @@ literal "false"
 
 .
  However,
- these algorithms have a major drawback – one needs to evaluate neighboring points for every data point in the data set to determine if it is part of a cluster.
+ these algorithms have a major drawback – one needs to evaluate neighboring points for every data point in the dataset to determine if it is part of a cluster.
  This is the case for most density-based clustering algorithms like PreDeCon
 \begin_inset space ~
 \end_inset
@@ -377,8 +377,8 @@ literal "false"
 \begin_layout Standard
 The algorithm presented in this paper uses both,
  density-based and grid-based methods.
- Its main idea is to work with different probability-density functions of the data set and analyzing them in a grid.
- This approach makes it possible that even for small data sets in 2
+ Its main idea is to work with different probability-density functions of the dataset and analyzing them in a grid.
+ This approach makes it possible that even for small datasets in 2
 \begin_inset space ~
 \end_inset
 
@@ -564,7 +564,7 @@ Translating the relief height to the density of data points
 \begin_inset Formula $\rho$
 \end_inset
 
- through the probability-density function of the data set.
+ through the probability-density function of the dataset.
  See also the section 
 \emph on
 Background and Motivation
@@ -600,7 +600,7 @@ literal "false"
  The novelty is how to generate the distribution and how to cut it.
  Instead of calculating a single probability-density function,
  we calculate different probability-density functions in an iterative process with increasing resolutions.
- Resolution means hereby into how many cells every dimension of the data set is divided to calculate the probability-density function.
+ Resolution means hereby into how many cells every dimension of the dataset is divided to calculate the probability-density function.
  For every resolution a clustering of the cells is performed and one gets two results:
  the amount of clusters and the density of every cluster.
  Depending on the results,
@@ -661,7 +661,7 @@ Iteridense
 \begin_inset Formula $\rho$
 \end_inset
 
- is defined being normalized so that the whole data set has 
+ is defined being normalized so that the whole dataset has 
 \begin_inset Formula $\rho=1$
 \end_inset
 
@@ -733,13 +733,13 @@ reference "fig:Clustering-process"
 \begin_inset space \thinspace{}
 \end_inset
 
-(a) shows as example a 2-dimensional data set which represents the relative humidity and temperature of air inside a thermo-box after a certain chemical process.
+(a) shows as example a 2-dimensional dataset which represents the relative humidity and temperature of air inside a thermo-box after a certain chemical process.
  It looks like there might be a cluster of points inside an area in form of a quarter circle.
  To find that potential cluster 
 \noun on
 Iteridense
 \noun default
- works on this data set the following way:
+ works on this dataset the following way:
 \end_layout
 
 \begin_layout Standard
@@ -936,7 +936,7 @@ name "enu:AlgoStep1"
 
 \end_inset
 
-The space of the data set is divided into a grid of 4
+The space of the dataset is divided into a grid of 4
 \begin_inset space \thinspace{}
 \end_inset
 
@@ -998,7 +998,7 @@ humidity
 \end_inset
 
 %.
- These ranges define the space of the data set.
+ These ranges define the space of the dataset.
  As we divide into 4
 \begin_inset space \thinspace{}
 \end_inset
@@ -1211,7 +1211,7 @@ dimensions the last term vanishes and
 \begin_inset Formula $\rho_{\mathrm{cluster\,norm}}$
 \end_inset
 
- describes by what factor the cluster is more dense than the whole data set.
+ describes by what factor the cluster is more dense than the whole dataset.
 \end_layout
 
 \begin_layout Standard
@@ -1291,7 +1291,7 @@ MinClusters
 \series default
 .
  To assure that the steps are not repeated forever,
- the loop is stopped if the resolution reaches the total number of points in the data set.
+ the loop is stopped if the resolution reaches the total number of points in the dataset.
  The resolution reached at the end of this step is the final resolution.
 \end_layout
 
@@ -1414,7 +1414,7 @@ nolink "false"
 
 .
  Note that this case is just an example for the algorithm.
- A suitable clustering result for this data set would probably be one with 2
+ A suitable clustering result for this dataset would probably be one with 2
 \begin_inset space ~
 \end_inset
 
@@ -1595,7 +1595,7 @@ StartResolution
 \series default
 ).
  The default and minimum is 2,
- the maximum is the total number of points in the data set.
+ the maximum is the total number of points in the dataset.
 \end_layout
 
 \begin_layout Enumerate
@@ -1654,7 +1654,7 @@ MinClusterSize
  Clusters with less points will be erased.
  The default is 3,
  the minimum is 2,
- the maximum is the total number of points in the data set minus 1.
+ the maximum is the total number of points in the dataset minus 1.
 \end_layout
 
 \begin_layout Enumerate
@@ -1810,7 +1810,7 @@ reference "enu:OptionClusterSize"
 \begin_inset Formula $D$
 \end_inset
 
- is the dimensionality of the data set.
+ is the dimensionality of the dataset.
 \end_layout
 
 \begin_layout Standard
@@ -1947,7 +1947,7 @@ Iteridense
 \begin_inset Formula $\rho_{\mathrm{cluster}}$
 \end_inset
 
- with the density of the whole data set
+ with the density of the whole dataset
 \begin_inset Formula 
 \begin{equation}
 \rho_{\mathrm{data\,set}}=\frac{\text{total num of points}}{\text{total num of cells}}
@@ -2028,7 +2028,7 @@ Take for example this case:
 \begin_inset space ~
 \end_inset
 
-times more dense than the data set.
+times more dense than the dataset.
 \end_layout
 
 \begin_layout Standard
@@ -2079,7 +2079,7 @@ so the cluster is 8
 \begin_inset space ~
 \end_inset
 
-times more dense than the data set and 
+times more dense than the dataset and 
 \begin_inset Formula $\rho_{\mathrm{cluster\,norm}}$
 \end_inset
 
@@ -3373,7 +3373,7 @@ reference "fig:Result-of-DBSCAN-1"
 \end_inset
 
 .
- For this data set a human would expect 3
+ For this dataset a human would expect 3
 \begin_inset space ~
 \end_inset
 
@@ -3967,7 +3967,7 @@ Iteridense
 \end_layout
 
 \begin_layout Subsection
-Computation Performance
+Computational Complexity
 \end_layout
 
 \begin_layout Standard
@@ -3976,7 +3976,7 @@ Computation Performance
 Iteridense
 \noun default
  creates two tensors,
- the count tensor to could how many data points are in a cell and the cluster tensor that stores to what cluster a cell belongs to.
+ the count tensor to store how many data points are in a cell and the cluster tensor that stores to what cluster a cell belongs to.
  Both tensors have the rank 
 \begin_inset Formula $D$
 \end_inset
@@ -4011,15 +4011,18 @@ To estimate the computational complexity
  we look at the different steps:
 \end_layout
 
-\begin_layout Description
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
 Counting 
 \begin_inset Formula $\mathcal{O}\left(ND\right)$
 \end_inset
 
- because a computation is performed for every data point in every dimension
+,
+ because a computation is performed for every data point in every dimension.
 \end_layout
 
-\begin_layout Description
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
 Clustering Every cell has 
 \begin_inset Formula $B$
 \end_inset
@@ -4050,22 +4053,24 @@ NoDiagonals
 .
 \end_layout
 
-\begin_layout Description
-Evaluation To evaluate how many clusters there are and now many cells they have,
- we need to step over all cluster tensor cells,
- therefore we have 
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Evaluation To evaluate how many clusters were found and how many cells they have,
+ all tensor cells are evaluated,
+ therefore this step has 
 \begin_inset Formula $\mathcal{O}\left(R^{D}\right)$
 \end_inset
 
- for this step
+.
 \end_layout
 
-\begin_layout Description
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
 Assignment To assign the cluster number to every data point the complexity is 
 \begin_inset Formula $\mathcal{O}\left(N\right)$
 \end_inset
 
-
+.
 \end_layout
 
 \begin_layout Standard
@@ -4073,7 +4078,7 @@ Assignment To assign the cluster number to every data point the complexity is
 \noun on
 Iteridense
 \noun default
- iteratively clusters with increasing 
+ clusters iteratively with increasing 
 \begin_inset Formula $R=R_{\mathrm{start}}\ldots R_{\mathrm{final}}+1$
 \end_inset
 
@@ -4083,7 +4088,7 @@ Iteridense
 \end_inset
 
 .
- So we have these number of computes:
+ So there are these number of computes:
 \begin_inset Formula 
 \begin{align}
  & N+\sum_{R=R_{\mathrm{start}}}^{R_{\mathrm{final}}+1}\left(ND)+R^{D}\left(\frac{3^{D}}{2}+1\right)\right)\\
@@ -4104,10 +4109,10 @@ as approximation we can write
 
 \end_inset
 
-and we get
+and get
 \begin_inset Formula 
 \begin{equation}
-\mathcal{O}\to\mathcal{O}\left(N+\left(R_{\mathrm{final}}-R_{\mathrm{start}}+2\right)ND+\frac{3^{D}}{2(D+1)}\left(\left(R_{\mathrm{final}}+1\right)^{D+1}-R_{\mathrm{start}}^{D+1}\right)\right)
+\mathcal{O}\left(N+\left(R_{\mathrm{final}}-R_{\mathrm{start}}+2\right)ND+\frac{3^{D}}{2(D+1)}\left(\left(R_{\mathrm{final}}+1\right)^{D+1}-R_{\mathrm{start}}^{D+1}\right)\right)
 \end{equation}
 
 \end_inset
@@ -4124,12 +4129,12 @@ and we get
 \end_layout
 
 \begin_layout Standard
-In the naive approach,
- 
+The worst case is 
 \begin_inset Formula $R_{\mathrm{start}}=2$
 \end_inset
 
- as this is the lowest possible resolution we have
+ as this is the lowest possible resolution.
+ This leads to
 \begin_inset Formula 
 \begin{equation}
 \mathcal{O}_{\mathrm{worst\,case}}\approx\mathcal{O}\left(R_{\mathrm{final}}ND+\frac{3^{D}}{2(D+1)}\left(R_{\mathrm{final}}+1\right)^{D+1}\right)\label{eq:O(worst)}
@@ -4161,12 +4166,11 @@ Setting
 \begin_inset Formula $R_{\mathrm{start}}$
 \end_inset
 
-(
+ (the parameter 
 \series bold
 StartResolution
 \series default
-) has not the major impact,
- but the final resolution
+) has not the major impact
 \end_layout
 
 \begin_layout Itemize
@@ -4184,7 +4188,7 @@ The worst case is that
 \series bold
 StopResolution
 \series default
- can be set.
+ is by default set to 100.
 \end_layout
 
 \begin_layout Standard
@@ -4204,23 +4208,25 @@ reference "tab:Computational-and-memory"
 \end_inset
 
  is correct,
- we take a data set with 
+ we took a dataset with 
 \begin_inset Formula $N=1500$
 \end_inset
 
- and cluster subsequently subsets of that data set to be able to create a plot with the computation time over 
+.
+ We clustered subsequently subsets of that dataset to create a plot with the computation time over 
 \begin_inset Formula $N$
 \end_inset
 
 .
- The data set we use is shown in 
+ The used dataset is shown in 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Result-Iteridense-Circles"
 
 \end_inset
 
- and was generated using the 
+.
+ It was generated using the 
 \emph on
 make_circles 
 \emph default
@@ -4626,17 +4632,16 @@ reference "fig:Result-Iteridense-Circles"
 \noun on
 Iteridense
 \noun default
- result for the full data set for 
+ result for the full dataset for 
 \begin_inset Formula $\text{\textbf{MinClusters}}=2$
 \end_inset
 
 .
- The result is 
+ Thereby 
 \begin_inset Formula $R_{\mathrm{final}}=16$
 \end_inset
 
-.
- These values were taken to measure the calculation times.
+ and this value was used when measuring the calculation times.
  For comparison 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -4670,11 +4675,8 @@ Clustering
 \noun on
 Julia
 \noun default
- programming language
-\begin_inset space ~
-\end_inset
-
-
+ programming language,
+ 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "ClusteringDBSCAN"
@@ -4696,7 +4698,7 @@ Julia
 \begin_inset space ~
 \end_inset
 
-time in a row and the overall time was taken.
+times in a row and the overall time was taken.
 \end_layout
 
 \begin_layout Standard
@@ -4712,7 +4714,11 @@ reference "fig:Computation-time-comparison"
 \end_inset
 
 (a).
- Iteridense shows the same linear increase as k-means proving that formula 
+ 
+\noun on
+Iteridense
+\noun default
+ shows the same linear increase as k-means proving that formula 
 \begin_inset CommandInset ref
 LatexCommand eqref
 reference "eq:O(worst)"
@@ -4879,8 +4885,8 @@ Iteridense
 Iteridense
 \noun default
 .
- The test was performed by adding z-values to the data set so that the clusters form cylinders.
- DBSCAN find the 2
+ This test was performed by adding z-values to the dataset so that the clusters form cylinders.
+ DBSCAN finds the 2
 \begin_inset space ~
 \end_inset
 
@@ -4893,7 +4899,8 @@ clusters for the range
 \end_inset
 
 .
- Eventually we extended the data set by copying its points to get in total 
+ Eventually,
+ we extended the dataset by copying its points to get in total 
 \begin_inset Formula $N=7500\thinspace$
 \end_inset
 
@@ -4918,7 +4925,7 @@ reference "fig:Computation-time-comparison"
 \noun on
 Iteridense
 \noun default
- is faster than DBSCAN is not at about 
+ is faster than DBSCAN is now at about 
 \begin_inset Formula $N=3700$
 \end_inset
 
@@ -4938,6 +4945,7 @@ status collapsed
 \begin_inset Graphics
 	filename clipart/Iteridense-Performance5e4.jpg
 	lyxscale 50
+	width 66col%
 
 \end_inset
 
@@ -4995,7 +5003,42 @@ Iteridense
 \begin_inset Formula $\mathcal{O}\left(DN^{2}\right)$
 \end_inset
 
- to summarize what derived already.
+ for 
+\begin_inset Formula $R_{\mathrm{final}}=10$
+\end_inset
+
+.
+ (
+\begin_inset Formula $R_{\mathrm{final}}$
+\end_inset
+
+ around 10 is a common result when clustering in more than 3 dimensions.) The 
+\begin_inset Formula $\mathcal{O}$
+\end_inset
+
+ of 
+\noun on
+Iteridense
+\noun default
+ is in all areas lower than 
+\begin_inset Formula $\mathcal{O}\left(DN^{2}\right)$
+\end_inset
+
+ except of low 
+\begin_inset Formula $N$
+\end_inset
+
+.
+ Therefore 
+\noun on
+Iterdense
+\noun default
+ extends the parameter range at which clustering could be performed dramatically,
+ compared to algorithms with 
+\begin_inset Formula $\mathcal{O}\left(DN^{2}\right)$
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -5133,20 +5176,16 @@ reference "fig:Result-Iteridense-Cylinders"
 
 \end_inset
 
-
-\begin_inset space \thinspace{}
-\end_inset
-
-(a) shows the 
-\noun on
-Iteridense
-\noun default
- result for the full 3D data set for 
+ shows the cluster result for the full 3D dataset for 
 \begin_inset Formula $\text{\textbf{MinClusters}}=2$
 \end_inset
 
 .
- Iteridense does not find the outer cylinder to be completely a cluster.
+ 
+\noun on
+Iteridense
+\noun default
+ does not find the outer cylinder to be completely a cluster.
  DBSCAN can find it because it allows to change the search radius.
  However,
  it took about 20 cluster attempts to find an 
@@ -5154,13 +5193,14 @@ Iteridense
 \end_inset
 
  that works.
- In 3D the data set can be visualized to find a suitable 
+ In 3D the dataset can be visualized to find a suitable 
 \begin_inset Formula $\epsilon$
 \end_inset
 
  but this is impossible in higher dimensions.
  In effect DBSCAN provides for this task more flexibility and a more suitable result for the cost that one needs to try.
- In comparison 
+ In comparison,
+ for 
 \noun on
 Iteridense
 \noun default
@@ -5173,7 +5213,7 @@ Iteridense
 \end_inset
 
 .
- This data set is a good example that every algorithm has its strengths and weaknesses.
+ This dataset is a good example that every algorithm has its strengths and weaknesses.
 \end_layout
 
 \begin_layout Subsection
@@ -5198,7 +5238,7 @@ Iteridense
 \emph on
 pluton
 \emph default
- data set
+ dataset
 \begin_inset CommandInset citation
 LatexCommand cite
 key "RDataPluton"
@@ -5361,7 +5401,7 @@ Iteridense
 \emph on
 pluton
 \emph default
- data set.
+ dataset.
 \end_layout
 
 \end_inset
@@ -5379,7 +5419,7 @@ By plotting 3
 \begin_inset space ~
 \end_inset
 
-dimensions of the data set and performing 
+dimensions of the dataset and performing 
 \noun on
 Iteridense
 \noun default
@@ -5470,7 +5510,7 @@ Iteridense
 \emph on
 PhDPublications
 \emph default
- data set
+ dataset
 \begin_inset space ~
 \end_inset
 
@@ -5519,8 +5559,8 @@ reference "fig:Result-Iteridense-PhD"
 \noun on
 Iteridense
 \noun default
-'s grid-based approach combined with its density analysis makes it possible to deal directly with classes inside data sets.
- Pure density-based algorithms cannot directly cluster the data set in the same way.
+'s grid-based approach combined with its density analysis makes it possible to deal directly with classes inside datasets.
+ Pure density-based algorithms cannot directly cluster the dataset in the same way.
 \end_layout
 
 \begin_layout Standard
@@ -5538,7 +5578,7 @@ reference "fig:Result-Iteridense-PhD"
 
 (b).
  To find in this case clusters inside the classes,
- one has to extract the classes to different data sets and then run 
+ one has to extract the classes to different datasets and then run 
 \noun on
 Iteridense
 \noun default
@@ -5664,7 +5704,7 @@ Iteridense
 \emph on
 PhDPublications
 \emph default
- data set.
+ dataset.
 \end_layout
 
 \end_inset
@@ -5682,7 +5722,7 @@ Discussion
 \end_layout
 
 \begin_layout Standard
-As shown in the previous sections,
+As shown,
  the 
 \noun on
 Iteridense
@@ -5690,11 +5730,8 @@ Iteridense
  algorithm is applicable for general purposes.
  It is more computation-efficient than pure density-based algorithms that evaluate neighboring data points.
  But it shares with density-based algorithms the drawback that clusters overlapping each other cannot be detected.
- For example it will perform as poor as DBSCAN on Fisher's Iris data set
-\begin_inset space ~
-\end_inset
-
-
+ For example it will perform as poor as DBSCAN on Fisher's Iris dataset,
+ 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Fisher1936"
@@ -5718,7 +5755,7 @@ Iteridense
 
  DENCLUE assumes a Gaussian distribution function as shape of the density function.
  Another big difference to DENCLUE is that there is not only a single probability-density function created but iteratively several ones with increasing resolution.
- This increases the computation efforts but one does not have to make assumptions about the density in the data set.
+ This increases the computation efforts for the benefit that one does not need to make assumptions about the density in the dataset.
  DENCLUE requires at least 2
 \begin_inset space ~
 \end_inset
@@ -5862,12 +5899,13 @@ Iteridense
 \noun default
 ,
  an iterative clustering algorithm combining grid-based and density-based methods.
- It is simple to use because it does not require to estimate settings in advance and because it provides two possibilities to run the clustering and for both a clear path on how to change the algorithm's input parameters to achieve suitable results.
+ It is simple to use because it does not require to estimate settings in advance and because it provides two ways to run the clustering.
+ For both ways there is a clear path on how to change the algorithm's input parameters to achieve suitable results.
  
 \noun on
 Iteridense
 \noun default
- is applicable for data sets with any dimensionality.
+ provides different options to affect the clustering result.
 \end_layout
 
 \begin_layout Standard
@@ -5875,25 +5913,28 @@ The
 \noun on
 Iteridense
 \noun default
- algorithm provides shorter computation times than pure density-based algorithms.
+ algorithm has a 
+\begin_inset Formula $\mathcal{O}\left(DN+R^{D+1}\right)$
+\end_inset
+
+ and therefore extends the application range compared to algorithms having 
+\begin_inset Formula $\mathcal{O}\left(DN^{2}\right)$
+\end_inset
+
+.
  Compared to pure grid-based algorithms it has the advantage that the user does not have to make assumptions on how the grid should be defined or about the shape of the probability-distribution.
 \end_layout
 
 \begin_layout Standard
-It was demonstrated that 
+It was demonstrated that for common example datasets 
 \noun on
 Iteridense
 \noun default
- performs clustering as good to the DBSCAN algorithm and for cases of high-dimension data sets even better.
+ performs clustering as good to the DBSCAN algorithm with less time and computational effort.
 \end_layout
 
 \begin_layout Standard
-
-\noun on
-Iteridense
-\noun default
- provides different options to affect either the clustering result and to improve the computation time.
- We provide online a reference implementation together with an example worksheet,
+We provide online a reference implementation together with an example worksheet,
  
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -5902,12 +5943,17 @@ literal "false"
 
 \end_inset
 
-,
- demonstrating the clustering with 
-\noun on
-Iteridense
-\noun default
- on the data sets shown in this paper.
+.
+ We also provide a stand-alone program with a graphical user interface that can be used to cluster any data that is available as a CSV file,
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Iteridense-package"
+literal "false"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
