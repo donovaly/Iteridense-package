@@ -4107,7 +4107,7 @@ as approximation we can write
 and we get
 \begin_inset Formula 
 \begin{equation}
-\mathcal{O}\to\mathcal{O}\left(N+\left(R_{\mathrm{final}}-R_{\mathrm{start}}+2\right)ND+\frac{3^{D}\left(\left(R_{\mathrm{final}}+1\right)^{D+1}-R_{\mathrm{start}}^{D+1}\right)}{2(D+1)}\right)
+\mathcal{O}\to\mathcal{O}\left(N+\left(R_{\mathrm{final}}-R_{\mathrm{start}}+2\right)ND+\frac{3^{D}}{2(D+1)}\left(\left(R_{\mathrm{final}}+1\right)^{D+1}-R_{\mathrm{start}}^{D+1}\right)\right)
 \end{equation}
 
 \end_inset
@@ -4115,7 +4115,7 @@ and we get
 
 \begin_inset Formula 
 \begin{equation}
-\mathcal{O}\approx\mathcal{O}\left(\left(R_{\mathrm{final}}-R_{\mathrm{start}}+2\right)ND+3^{D}\left(\left(R_{\mathrm{final}}+1\right)^{D+1}-R_{\mathrm{start}}^{D+1}\right)\right)\label{eq:O()}
+\mathcal{O}\approx\mathcal{O}\left(\left(R_{\mathrm{final}}-R_{\mathrm{start}}+2\right)ND+\frac{3^{D}}{2(D+1)}\left(\left(R_{\mathrm{final}}+1\right)^{D+1}-R_{\mathrm{start}}^{D+1}\right)\right)\label{eq:O()}
 \end{equation}
 
 \end_inset
@@ -4132,12 +4132,59 @@ In the naive approach,
  as this is the lowest possible resolution we have
 \begin_inset Formula 
 \begin{equation}
-\mathcal{O}_{\mathrm{worst\,case}}\approx\mathcal{O}\left(R_{\mathrm{final}}ND+3^{D}\left(R_{\mathrm{final}}+1\right)^{D+1}\right)\label{eq:O(worst)}
+\mathcal{O}_{\mathrm{worst\,case}}\approx\mathcal{O}\left(R_{\mathrm{final}}ND+\frac{3^{D}}{2(D+1)}\left(R_{\mathrm{final}}+1\right)^{D+1}\right)\label{eq:O(worst)}
 \end{equation}
 
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+With this result the following can be seen:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\mathcal{O}$
+\end_inset
+
+ scales roughly with 
+\begin_inset Formula $\mathcal{O}\left(DN+R^{D+1}\right)$
+\end_inset
+
+,
+ thus a linear increase plus an offset
+\end_layout
+
+\begin_layout Itemize
+Setting 
+\begin_inset Formula $R_{\mathrm{start}}$
+\end_inset
+
+(
+\series bold
+StartResolution
+\series default
+) has not the major impact,
+ but the final resolution
+\end_layout
+
+\begin_layout Itemize
+The worst case is that 
+\begin_inset Formula $\rho$
+\end_inset
+
+ is set so high that the 
+\begin_inset Formula $R_{\mathrm{final}}=N$
+\end_inset
+
+.
+ To prevent that this happens,
+ the parameter 
+\series bold
+StopResolution
+\series default
+ can be set.
 \end_layout
 
 \begin_layout Standard
@@ -4152,6 +4199,36 @@ reference "tab:Computational-and-memory"
 \end_inset
 
  of different clustering algorithms.
+ To prove that our derivation of 
+\begin_inset Formula $\mathcal{O}$
+\end_inset
+
+ is correct,
+ we take a data set with 
+\begin_inset Formula $N=1500$
+\end_inset
+
+ and cluster subsequently subsets of that data set to be able to create a plot with the computation time over 
+\begin_inset Formula $N$
+\end_inset
+
+.
+ The data set we use is shown in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Result-Iteridense-Circles"
+
+\end_inset
+
+ and was generated using the 
+\emph on
+make_circles 
+\emph default
+call to 
+\emph on
+sklearn.datasets
+\emph default
+.
 \end_layout
 
 \begin_layout Standard
@@ -4231,7 +4308,7 @@ Iteridense
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset Formula $\mathcal{O}\left(DN\right)$
+\begin_inset Formula $\mathcal{O}\left(DN+R^{D+1}\right)$
 \end_inset
 
 
@@ -4359,7 +4436,7 @@ literal "false"
 \begin_inset Text
 
 \begin_layout Plain Layout
-K-Means
+k-means
 \end_layout
 
 \end_inset
@@ -4401,358 +4478,9 @@ literal "false"
 
 \end_layout
 
-\begin_layout Plain Layout
-
-\end_layout
-
 \end_inset
 
 
-\end_layout
-
-\begin_layout Standard
-The data shown in 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Result-Iteridense-Circles"
-
-\end_inset
-
- was generated using the 
-\emph on
-make_circles 
-\emph default
-call to 
-\emph on
-sklearn.datasets
-\emph default
-.
-\end_layout
-
-\begin_layout Standard
-In that case,
- there must be 2
-\begin_inset space ~
-\end_inset
-
-clusters,
- therefore one can specify 
-\series bold
-MinClusters
-\series default
-.
- This will lead to a shorter computation as with the specification of 
-\begin_inset Formula $\rho$
-\end_inset
-
- since the algorithm loop is stopped as soon as 2
-\begin_inset space ~
-\end_inset
-
-clusters are detected,
- otherwise there might be further loops.
- For our example 10,000
-\begin_inset space ~
-\end_inset
-
-cluster runs with 
-\series bold
-MinClusters
-\begin_inset space ~
-\end_inset
-
-
-\series default
-=
-\begin_inset space ~
-\end_inset
-
-2 took 
-\begin_inset Formula $\approx4.5\thinspace$
-\end_inset
-
-s
-\begin_inset Foot
-status collapsed
-
-\begin_layout Plain Layout
-The times were measured using the feature 
-\emph on
-@elapsed
-\emph default
- of the 
-\noun on
-Julia
-\noun default
- programming language.
-\end_layout
-
-\end_inset
-
- and the final resolution was 13.
- For 
-\begin_inset Formula $\rho=2.0$
-\end_inset
-
- the final resolution was 25 and with 
-\begin_inset Formula $\approx11.7\thinspace$
-\end_inset
-
-s more time was needed.
- By starting the algorithm at a higher resolution,
- e.
-\begin_inset space \thinspace{}
-\end_inset
-
-g.
- with 
-\series bold
-StartResolution
-\begin_inset space ~
-\end_inset
-
-
-\series default
-=
-\begin_inset space ~
-\end_inset
-
-10 the time decreases from 
-\begin_inset Formula $\approx4.5\thinspace$
-\end_inset
-
-s to 
-\begin_inset Formula $\approx3.7\thinspace$
-\end_inset
-
-s and from 
-\begin_inset Formula $\approx11.7\thinspace$
-\end_inset
-
-s to 
-\begin_inset Formula $\approx10.5\thinspace$
-\end_inset
-
-s,
- respectively.
- In effect the maximal calculated resolution determines the runtime.
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Result-Iteridense-Circles"
-
-\end_inset
-
-
-\begin_inset space \thinspace{}
-\end_inset
-
-(a) shows the 
-\noun on
-Iteridense
-\noun default
- result.
- For comparison 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Result-Iteridense-Circles"
-
-\end_inset
-
-
-\begin_inset space \thinspace{}
-\end_inset
-
-(b) shows the result using the DBSCAN algorithm for 
-\begin_inset Formula $\epsilon=0.1$
-\end_inset
-
- and 
-\begin_inset Formula $\text{\textbf{MinPts}}=3$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Standard
-The benefit of 
-\noun on
-Iteridense
-\noun default
- compared to density-based algorithms is the computation time.
- In this example the data set has 1500
-\begin_inset space ~
-\end_inset
-
-data points.
- To generate the count map in algorithm step
-\begin_inset space ~
-\end_inset
-
-
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "enu:AlgoStep1"
-
-\end_inset
-
-,
- every data point has to be evaluated in form of generating its coordinate value for the current grid coordinate system.
- This is the most costly operation,
- especially for high-dimensional data.
- Afterwards,
- only the cells have to be evaluated,
- not the data points.
- For DBSCAN in comparison the coordinates for every data point are only read out once but the distances between every point and neighboring points have to be calculated.
- The larger 
-\begin_inset Formula $\epsilon$
-\end_inset
-
- or the greater the point density the more points are neighbors and have to be evaluated.
- This can become very computation-intensive.
- For the data of 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Result-Iteridense-Circles"
-
-\end_inset
-
- with 
-\begin_inset Formula $\epsilon=0.1$
-\end_inset
-
- and 
-\begin_inset Formula $\text{\textbf{MinPts}}=3$
-\end_inset
-
- 10,000
-\begin_inset space ~
-\end_inset
-
-cluster runs took 
-\begin_inset Formula $\approx12.1\thinspace$
-\end_inset
-
-s while the same with 
-\begin_inset Formula $\epsilon=0.5$
-\end_inset
-
- took 
-\begin_inset Formula $\approx49\thinspace$
-\end_inset
-
-s.
-\begin_inset Foot
-status collapsed
-
-\begin_layout Plain Layout
-The computation time measurement of the DBSCAN algorithm was performed using its implementation in the package 
-\emph on
-Clustering
-\emph default
- of the 
-\noun on
-Julia
-\noun default
- programming language
-\begin_inset space ~
-\end_inset
-
-
-\begin_inset CommandInset citation
-LatexCommand cite
-key "ClusteringDBSCAN"
-literal "false"
-
-\end_inset
-
-.
-\begin_inset Newline newline
-\end_inset
-
-With 
-\begin_inset Formula $\epsilon=0.5$
-\end_inset
-
- both clusters were not detected.
-\end_layout
-
-\end_inset
-
- Therefore setting 
-\begin_inset Formula $\epsilon$
-\end_inset
-
- to a suitable value does not only affect the result a lot but also the computation time.
- Since there is no clear path on how to change 
-\begin_inset Formula $\epsilon$
-\end_inset
-
- to get a useful result,
- more cluster runs have to be performed than with 
-\noun on
-Iteridense
-\noun default
-.
-\end_layout
-
-\begin_layout Standard
-For 
-\noun on
-Iteridense
-\noun default
- the worst case in terms of computation is to set 
-\begin_inset Formula $\rho$
-\end_inset
-
- so high that the algorithm runs 1500
-\begin_inset space \thinspace{}
-\end_inset
-
-loops as there are 1500
-\begin_inset space ~
-\end_inset
-
-data points.
- A single run of this takes 
-\begin_inset Formula $\approx13.4\thinspace$
-\end_inset
-
-s.
- So 1500
-\begin_inset space \thinspace{}
-\end_inset
-
-loops take longer than 10.000
-\begin_inset space ~
-\end_inset
-
-times the 12
-\begin_inset space ~
-\end_inset
-
-loops from the default 
-\series bold
-StartResolution
-\series default
- 2 to the final resolution
-\begin_inset space ~
-\end_inset
-
-13.
- This is because the number of cells in the grid scales in 2
-\begin_inset space ~
-\end_inset
-
-dimensions squarely with the resolution.
- To prevent that undesired many loops are run,
- the parameter 
-\series bold
-StopResolution
-\series default
- can be set.
 \end_layout
 
 \begin_layout Standard
@@ -4883,6 +4611,571 @@ Iteridense
 
 \end_layout
 
+\begin_layout Standard
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Result-Iteridense-Circles"
+
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+(a) shows the 
+\noun on
+Iteridense
+\noun default
+ result for the full data set for 
+\begin_inset Formula $\text{\textbf{MinClusters}}=2$
+\end_inset
+
+.
+ The result is 
+\begin_inset Formula $R_{\mathrm{final}}=16$
+\end_inset
+
+.
+ These values were taken to measure the calculation times.
+ For comparison 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Result-Iteridense-Circles"
+
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+(b) shows the result using the DBSCAN algorithm for 
+\begin_inset Formula $\epsilon=0.1$
+\end_inset
+
+ and 
+\begin_inset Formula $\text{\textbf{MinPts}}=3$
+\end_inset
+
+.
+ We chose for the time measurement for comparison also 
+\begin_inset Formula $\epsilon=0.2$
+\end_inset
+
+.
+ The computation of the k-mean and DBSCAN algorithms were performed using their implementation in the package 
+\emph on
+Clustering
+\emph default
+ of the 
+\noun on
+Julia
+\noun default
+ programming language
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ClusteringDBSCAN"
+literal "false"
+
+\end_inset
+
+.
+ The times were measured using the feature 
+\emph on
+@elapsed
+\emph default
+ of the 
+\noun on
+Julia
+\noun default
+ programming language.
+ To get reliable values the clustering was for every algorithm performed 2000
+\begin_inset space ~
+\end_inset
+
+time in a row and the overall time was taken.
+\end_layout
+
+\begin_layout Standard
+The result is shown in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Computation-time-comparison"
+
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+(a).
+ Iteridense shows the same linear increase as k-means proving that formula 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:O(worst)"
+
+\end_inset
+
+ is basically correct.
+ The slope of the increase is relatively low.
+ For DBSCAN in the used implementation,
+ one can see that is has 
+\begin_inset Formula $\mathcal{O}\left(DN^{2}\right)$
+\end_inset
+
+.
+ It is interesting to see how strongly the choice of 
+\begin_inset Formula $\epsilon$
+\end_inset
+
+ influences the computation time
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement class
+alignment document
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename clipart/Calculation-time-comparison-2D.svg
+	lyxscale 50
+	width 45col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset Formula $D=2$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename clipart/Calculation-time-comparison-3D.svg
+	lyxscale 50
+	width 45col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset Formula $D=3$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Computation-time-comparison"
+
+\end_inset
+
+Computation time comparisons.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The 
+\begin_inset Formula $N$
+\end_inset
+
+ at which 
+\noun on
+Iteridense
+\noun default
+ is faster than DBSCAN is at about 
+\begin_inset Formula $N=670$
+\end_inset
+
+.
+ By repeating the test in 3D,
+ we should see a shift of this value to greater number because of the greater offset in 
+\begin_inset Formula $\mathcal{O}$
+\end_inset
+
+ for 
+\noun on
+Iteridense
+\noun default
+.
+ The test was performed by adding z-values to the data set so that the clusters form cylinders.
+ DBSCAN find the 2
+\begin_inset space ~
+\end_inset
+
+clusters for the range 
+\begin_inset Formula $0.2\le\epsilon\le0.26$
+\end_inset
+
+ and we therefore chose the lowest possible 
+\begin_inset Formula $\epsilon=0.2$
+\end_inset
+
+.
+ Eventually we extended the data set by copying its points to get in total 
+\begin_inset Formula $N=7500\thinspace$
+\end_inset
+
+points.
+ The result is shown in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Computation-time-comparison"
+
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+(b).
+ The 
+\begin_inset Formula $N$
+\end_inset
+
+ at which 
+\noun on
+Iteridense
+\noun default
+ is faster than DBSCAN is not at about 
+\begin_inset Formula $N=3700$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement class
+alignment document
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename clipart/Iteridense-Performance5e4.jpg
+	lyxscale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Computational-complexity-of"
+
+\end_inset
+
+Computational complexity of 
+\noun on
+Iteridense
+\noun default
+ in comparison to 
+\begin_inset Formula $\mathcal{O}\left(DN^{2}\right)$
+\end_inset
+
+.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Computational-complexity-of"
+
+\end_inset
+
+ shows 
+\begin_inset Formula $\mathcal{O}$
+\end_inset
+
+ of 
+\noun on
+Iteridense
+\noun default
+ in comparison to 
+\begin_inset Formula $\mathcal{O}\left(DN^{2}\right)$
+\end_inset
+
+ to summarize what derived already.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement class
+alignment document
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename clipart/Circles3D-Iteridense.png
+	lyxscale 50
+	width 45col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\series bold
+MinClusters
+\series default
+ = 2,
+ final resolution:
+ 13
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename clipart/Circles3D-DBSCAN-eps0-2.png
+	lyxscale 50
+	width 45col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset Formula $\epsilon=0.2$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Result-Iteridense-Cylinders"
+
+\end_inset
+
+Result of 
+\noun on
+Iteridense
+\noun default
+ and DBSCAN for intersected cylinder-like clusters.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Result-Iteridense-Cylinders"
+
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+(a) shows the 
+\noun on
+Iteridense
+\noun default
+ result for the full 3D data set for 
+\begin_inset Formula $\text{\textbf{MinClusters}}=2$
+\end_inset
+
+.
+ Iteridense does not find the outer cylinder to be completely a cluster.
+ DBSCAN can find it because it allows to change the search radius.
+ However,
+ it took about 20 cluster attempts to find an 
+\begin_inset Formula $\epsilon$
+\end_inset
+
+ that works.
+ In 3D the data set can be visualized to find a suitable 
+\begin_inset Formula $\epsilon$
+\end_inset
+
+ but this is impossible in higher dimensions.
+ In effect DBSCAN provides for this task more flexibility and a more suitable result for the cost that one needs to try.
+ In comparison 
+\noun on
+Iteridense
+\noun default
+ one can set 
+\begin_inset Formula $\text{\textbf{MinClusters}}=2$
+\end_inset
+
+ and then fine-tune with 
+\begin_inset Formula $\rho$
+\end_inset
+
+.
+ This data set is a good example that every algorithm has its strengths and weaknesses.
+\end_layout
+
 \begin_layout Subsection
 Results in higher Dimensions
 \end_layout
@@ -4962,6 +5255,8 @@ Clustering with only the shown
 \end_inset
 
 dimensions taken into account.
+ final resolution:
+ 6
 \end_layout
 
 \end_inset
@@ -4995,6 +5290,8 @@ status open
 
 \begin_layout Plain Layout
 Clustering with all dimensions taken into account.
+ final resolution:
+ 5
 \end_layout
 
 \end_inset
@@ -5031,7 +5328,9 @@ like (b) but
 \begin_inset Formula $\rho=5.9$
 \end_inset
 
-
+,
+ final resolution:
+ 7
 \end_layout
 
 \end_inset
@@ -5288,7 +5587,9 @@ Evaluation of the 3
 \begin_inset space ~
 \end_inset
 
-shown dimensions
+shown dimensions.
+ final resolution:
+ 9
 \end_layout
 
 \end_inset
@@ -5330,7 +5631,9 @@ Evaluation of all 6
 \begin_inset space ~
 \end_inset
 
-dimension
+dimension.
+ final resolution:
+ 5
 \end_layout
 
 \end_inset

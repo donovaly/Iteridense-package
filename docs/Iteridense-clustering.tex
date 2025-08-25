@@ -758,94 +758,55 @@ as approximation we can write
 \]
 and we get
 \begin{equation}
-\mathcal{O}\to\mathcal{O}\left(N+\left(R_{\mathrm{final}}-R_{\mathrm{start}}+2\right)ND+\frac{3^{D}\left(\left(R_{\mathrm{final}}+1\right)^{D+1}-R_{\mathrm{start}}^{D+1}\right)}{2(D+1)}\right)
+\mathcal{O}\to\mathcal{O}\left(N+\left(R_{\mathrm{final}}-R_{\mathrm{start}}+2\right)ND+\frac{3^{D}}{2(D+1)}\left(\left(R_{\mathrm{final}}+1\right)^{D+1}-R_{\mathrm{start}}^{D+1}\right)\right)
 \end{equation}
 \begin{equation}
-\mathcal{O}\approx\mathcal{O}\left(\left(R_{\mathrm{final}}-R_{\mathrm{start}}+2\right)ND+3^{D}\left(\left(R_{\mathrm{final}}+1\right)^{D+1}-R_{\mathrm{start}}^{D+1}\right)\right)\label{eq:O()}
+\mathcal{O}\approx\mathcal{O}\left(\left(R_{\mathrm{final}}-R_{\mathrm{start}}+2\right)ND+\frac{3^{D}}{2(D+1)}\left(\left(R_{\mathrm{final}}+1\right)^{D+1}-R_{\mathrm{start}}^{D+1}\right)\right)\label{eq:O()}
 \end{equation}
 
 In the naive approach, $R_{\mathrm{start}}=2$ as this is the lowest
 possible resolution we have
 \begin{equation}
-\mathcal{O}_{\mathrm{worst\,case}}\approx\mathcal{O}\left(R_{\mathrm{final}}ND+3^{D}\left(R_{\mathrm{final}}+1\right)^{D+1}\right)\label{eq:O(worst)}
+\mathcal{O}_{\mathrm{worst\,case}}\approx\mathcal{O}\left(R_{\mathrm{final}}ND+\frac{3^{D}}{2(D+1)}\left(R_{\mathrm{final}}+1\right)^{D+1}\right)\label{eq:O(worst)}
 \end{equation}
 
+With this result the following can be seen:
+\begin{itemize}
+\item $\mathcal{O}$ scales roughly with $\mathcal{O}\left(DN+R^{D+1}\right)$,
+thus a linear increase plus an offset
+\item Setting $R_{\mathrm{start}}$(\textbf{StartResolution}) has not the
+major impact, but the final resolution
+\item The worst case is that $\rho$ is set so high that the $R_{\mathrm{final}}=N$.
+To prevent that this happens, the parameter \textbf{StopResolution}
+can be set.
+\end{itemize}
 \ref{tab:Computational-and-memory} lists $\mathcal{O}$ of different
-clustering algorithms.
+clustering algorithms. To prove that our derivation of $\mathcal{O}$
+is correct, we take a data set with $N=1500$ and cluster subsequently
+subsets of that data set to be able to create a plot with the computation
+time over $N$. The data set we use is shown in \ref{fig:Result-Iteridense-Circles}
+and was generated using the \emph{make\_circles }call to \emph{sklearn.datasets}.
 
 \begin{table}[h]
 \caption{\label{tab:Computational-and-memory}Computational and memory complexity
 for different cluster algorithms.}
 
-\begin{centering}
+\centering{}%
 \begin{tabular}{ccc}
 \toprule 
 Algorithm & Computational Complexity & note\tabularnewline
 \midrule
 \midrule 
-Iteridense & $\mathcal{O}\left(DN\right)$ & actually formula \eqref{eq:O()}\tabularnewline
+Iteridense & $\mathcal{O}\left(DN+R^{D+1}\right)$ & actually formula \eqref{eq:O()}\tabularnewline
 \midrule 
 DBSCAN & $\mathcal{O}(DN\log N)$ to $\mathcal{O}\left(DN^{2}\right)$ \cite{Chen2025} & $\mathcal{O}\left(DN^{2}\right)$ if brute force\tabularnewline
 \midrule 
 DENCLUE & $\mathcal{O}(DN\log N)$ to $\mathcal{O}\left(DN^{3}\right)$ \cite{Ajmal2024} & $\mathcal{O}\left(N^{3}\right)$ worst case for $N$ iterations\tabularnewline
 \midrule 
-K-Means & $\mathcal{O}(DN)$ \cite{Ahmed2020} & \tabularnewline
+k-means & $\mathcal{O}(DN)$ \cite{Ahmed2020} & \tabularnewline
 \bottomrule
 \end{tabular}
-\par\end{centering}
 \end{table}
-
-The data shown in \ref{fig:Result-Iteridense-Circles} was generated
-using the \emph{make\_circles }call to \emph{sklearn.datasets}.
-
-In that case, there must be 2~clusters, therefore one can specify
-\textbf{MinClusters}. This will lead to a shorter computation as with
-the specification of $\rho$ since the algorithm loop is stopped as
-soon as 2~clusters are detected, otherwise there might be further
-loops. For our example 10,000~cluster runs with \textbf{MinClusters~}=~2
-took $\approx4.5\thinspace$s\footnote{The times were measured using the feature \emph{@elapsed} of the \noun{Julia}
-programming language.} and the final resolution was 13. For $\rho=2.0$ the final resolution
-was 25 and with $\approx11.7\thinspace$s more time was needed. By
-starting the algorithm at a higher resolution, e.\,g. with \textbf{StartResolution~}=~10
-the time decreases from $\approx4.5\thinspace$s to $\approx3.7\thinspace$s
-and from $\approx11.7\thinspace$s to $\approx10.5\thinspace$s, respectively.
-In effect the maximal calculated resolution determines the runtime.
-
-\ref{fig:Result-Iteridense-Circles}\,(a) shows the \noun{Iteridense}
-result. For comparison \ref{fig:Result-Iteridense-Circles}\,(b)
-shows the result using the DBSCAN algorithm for $\epsilon=0.1$ and
-$\text{\textbf{MinPts}}=3$.
-
-The benefit of \noun{Iteridense} compared to density-based algorithms
-is the computation time. In this example the data set has 1500~data
-points. To generate the count map in algorithm step~\ref{enu:AlgoStep1},
-every data point has to be evaluated in form of generating its coordinate
-value for the current grid coordinate system. This is the most costly
-operation, especially for high-dimensional data. Afterwards, only
-the cells have to be evaluated, not the data points. For DBSCAN in
-comparison the coordinates for every data point are only read out
-once but the distances between every point and neighboring points
-have to be calculated. The larger $\epsilon$ or the greater the point
-density the more points are neighbors and have to be evaluated. This
-can become very computation-intensive. For the data of \ref{fig:Result-Iteridense-Circles}
-with $\epsilon=0.1$ and $\text{\textbf{MinPts}}=3$ 10,000~cluster
-runs took $\approx12.1\thinspace$s while the same with $\epsilon=0.5$
-took $\approx49\thinspace$s.\footnote{The computation time measurement of the DBSCAN algorithm was performed
-using its implementation in the package \emph{Clustering} of the \noun{Julia}
-programming language~\cite{ClusteringDBSCAN}.\\
-With $\epsilon=0.5$ both clusters were not detected.} Therefore setting $\epsilon$ to a suitable value does not only affect
-the result a lot but also the computation time. Since there is no
-clear path on how to change $\epsilon$ to get a useful result, more
-cluster runs have to be performed than with \noun{Iteridense}.
-
-For \noun{Iteridense} the worst case in terms of computation is to
-set $\rho$ so high that the algorithm runs 1500\,loops as there
-are 1500~data points. A single run of this takes $\approx13.4\thinspace$s.
-So 1500\,loops take longer than 10.000~times the 12~loops from
-the default \textbf{StartResolution} 2 to the final resolution~13.
-This is because the number of cells in the grid scales in 2~dimensions
-squarely with the resolution. To prevent that undesired many loops
-are run, the parameter \textbf{StopResolution} can be set.
 
 \begin{figure}
 \begin{centering}
@@ -861,6 +822,91 @@ are run, the parameter \textbf{StopResolution} can be set.
 and DBSCAN for intersected circle-like clusters.}
 \end{figure}
 
+\ref{fig:Result-Iteridense-Circles}\,(a) shows the \noun{Iteridense}
+result for the full data set for $\text{\textbf{MinClusters}}=2$.
+The result is $R_{\mathrm{final}}=16$. These values were taken to
+measure the calculation times. For comparison \ref{fig:Result-Iteridense-Circles}\,(b)
+shows the result using the DBSCAN algorithm for $\epsilon=0.1$ and
+$\text{\textbf{MinPts}}=3$. We chose for the time measurement for
+comparison also $\epsilon=0.2$. The computation of the k-mean and
+DBSCAN algorithms were performed using their implementation in the
+package \emph{Clustering} of the \noun{Julia} programming language~\cite{ClusteringDBSCAN}.
+The times were measured using the feature \emph{@elapsed} of the \noun{Julia}
+programming language. To get reliable values the clustering was for
+every algorithm performed 2000~time in a row and the overall time
+was taken.
+
+The result is shown in \ref{fig:Computation-time-comparison}\,(a).
+Iteridense shows the same linear increase as k-means proving that
+formula \eqref{eq:O(worst)} is basically correct. The slope of the
+increase is relatively low. For DBSCAN in the used implementation,
+one can see that is has $\mathcal{O}\left(DN^{2}\right)$. It is interesting
+to see how strongly the choice of $\epsilon$ influences the computation
+time
+
+\begin{figure}
+\begin{centering}
+\hfill{}\subfloat[$D=2$]{\begin{centering}
+\includegraphics[width=0.45\columnwidth]{clipart/Calculation-time-comparison-2D}
+\par\end{centering}
+}\hfill{}\subfloat[$D=3$]{\begin{centering}
+\includegraphics[width=0.45\columnwidth]{clipart/Calculation-time-comparison-3D}
+\par\end{centering}
+}\hfill{}
+\par\end{centering}
+\caption{\label{fig:Computation-time-comparison}Computation time comparisons.}
+\end{figure}
+
+The $N$ at which \noun{Iteridense} is faster than DBSCAN is at about
+$N=670$. By repeating the test in 3D, we should see a shift of this
+value to greater number because of the greater offset in $\mathcal{O}$
+for \noun{Iteridense}. The test was performed by adding z-values to
+the data set so that the clusters form cylinders. DBSCAN find the
+2~clusters for the range $0.2\le\epsilon\le0.26$ and we therefore
+chose the lowest possible $\epsilon=0.2$. Eventually we extended
+the data set by copying its points to get in total $N=7500\thinspace$points.
+The result is shown in \ref{fig:Computation-time-comparison}\,(b).
+The $N$ at which \noun{Iteridense} is faster than DBSCAN is not at
+about $N=3700$.
+
+\begin{figure}
+\begin{centering}
+\includegraphics{clipart/Iteridense-Performance5e4}
+\par\end{centering}
+\caption{\label{fig:Computational-complexity-of}Computational complexity of
+\noun{Iteridense} in comparison to $\mathcal{O}\left(DN^{2}\right)$. }
+\end{figure}
+
+\ref{fig:Computational-complexity-of} shows $\mathcal{O}$ of \noun{Iteridense}
+in comparison to $\mathcal{O}\left(DN^{2}\right)$ to summarize what
+derived already.
+
+\begin{figure}
+\begin{centering}
+\hfill{}\subfloat[\textbf{MinClusters} = 2, final resolution: 13]{\begin{centering}
+\includegraphics[width=0.45\columnwidth]{clipart/Circles3D-Iteridense}
+\par\end{centering}
+}\hfill{}\subfloat[$\epsilon=0.2$]{\begin{centering}
+\includegraphics[width=0.45\columnwidth]{clipart/Circles3D-DBSCAN-eps0-2}
+\par\end{centering}
+}\hfill{}
+\par\end{centering}
+\caption{\label{fig:Result-Iteridense-Cylinders}Result of \noun{Iteridense}
+and DBSCAN for intersected cylinder-like clusters.}
+\end{figure}
+
+\ref{fig:Result-Iteridense-Cylinders}\,(a) shows the \noun{Iteridense}
+result for the full 3D data set for $\text{\textbf{MinClusters}}=2$.
+Iteridense does not find the outer cylinder to be completely a cluster.
+DBSCAN can find it because it allows to change the search radius.
+However, it took about 20 cluster attempts to find an $\epsilon$
+that works. In 3D the data set can be visualized to find a suitable
+$\epsilon$ but this is impossible in higher dimensions. In effect
+DBSCAN provides for this task more flexibility and a more suitable
+result for the cost that one needs to try. In comparison \noun{Iteridense}
+one can set $\text{\textbf{MinClusters}}=2$ and then fine-tune with
+$\rho$. This data set is a good example that every algorithm has
+its strengths and weaknesses.
 
 \subsection{Results in higher Dimensions}
 
@@ -874,11 +920,12 @@ samples. It has 4~dimensions.
 \begin{figure}
 \begin{centering}
 \subfloat[Clustering with only the shown\protect \\
-dimensions taken into account.]{\includegraphics[width=0.33\columnwidth]{clipart/Pluto-Iteridense-rho2-5-only3}
+dimensions taken into account. final resolution: 6]{\includegraphics[width=0.33\columnwidth]{clipart/Pluto-Iteridense-rho2-5-only3}
 
-}\subfloat[Clustering with all dimensions taken into account.]{\includegraphics[width=0.33\columnwidth]{clipart/Pluto-Iteridense-rho2-5-all}
+}\subfloat[Clustering with all dimensions taken into account. final resolution:
+5]{\includegraphics[width=0.33\columnwidth]{clipart/Pluto-Iteridense-rho2-5-all}
 
-}\subfloat[like (b) but $\rho=5.9$]{\includegraphics[width=0.33\columnwidth]{clipart/Pluto-Iteridense-rho5-9-all}
+}\subfloat[like (b) but $\rho=5.9$, final resolution: 7]{\includegraphics[width=0.33\columnwidth]{clipart/Pluto-Iteridense-rho5-9-all}
 
 }
 \par\end{centering}
@@ -915,10 +962,10 @@ the way to specify $\rho$.
 
 \begin{figure}
 \begin{centering}
-\subfloat[Evaluation of the 3~shown dimensions]{\begin{centering}
+\subfloat[Evaluation of the 3~shown dimensions. final resolution: 9]{\begin{centering}
 \includegraphics[width=0.45\columnwidth]{clipart/PhdPubs-Iteridense-MinClusters5-sub}
 \par\end{centering}
-}\hfill{}\subfloat[Evaluation of all 6~dimension]{\begin{centering}
+}\hfill{}\subfloat[Evaluation of all 6~dimension. final resolution: 5]{\begin{centering}
 \includegraphics[width=0.45\columnwidth]{clipart/PhdPubs-Iteridense-MinClusters5-complete}
 \par\end{centering}
 }
