@@ -613,7 +613,7 @@ begin
 
   SetLength(inputArray, rows * columns);
   counter:= 0;
-  for column:= 0 to Length(DataArray[0])-1-1 do // -1 to not take the assignment column into account
+  for column:= 0 to Length(DataArray[0])-1-1 do // -1 to not take assignment column into account
   begin
     // omit the text columns and only use selected dimensions
     if (DataTextColumnsIndices[column] = 0) and (dimensionIndices[column] = 1) then
@@ -633,10 +633,13 @@ begin
   begin
 
     // warn if there is not enough RAM available
-    necessaryRAM:= power(StopResolutionSE.Value, columns) * 4.0;
+    // * 2 because we have to create 2 tensors, the count tensor and the cluster tensor
+    // * 4 because we use Float32 which has 4 bytes
+    necessaryRAM:= power(StopResolutionSE.Value, columns) * 2 * 4;
     availableRAM:= FreeMemoryInBytes();
-    //necessaryRAM:= ((1/0.475)*necessaryRAM/1e6);
-    if 0.475*availableRAM < necessaryRAM then
+    // 95% of the availableRAM because we need space for
+    // for Julia and other tasks the OS might perform
+    if 0.95*availableRAM < necessaryRAM then
     begin
       necessaryRAM:= (1/0.475*necessaryRAM) / availableRAM;
       // we only round smaller numbers
