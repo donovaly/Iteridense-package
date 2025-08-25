@@ -87,7 +87,8 @@ function checkNeighbors(clusterTensor, currentIdx, numClusters::Int, maxIdxRange
                 push!(neighborIndices, idxTuple)
             else
                 # pass the new index to the function to determine neighbors
-                CheckIdxTuple = ntuple(i -> i == dim ? checkDimIdx : currentIdx[i], Val(dimensions))
+                CheckIdxTuple = ntuple(i -> i == dim ? checkDimIdx : currentIdx[i],
+                                        Val(dimensions))
                 neighborIndices = getNeighbors!(maxIdxRange, dim-1, CheckIdxTuple,
                                                 neighborIndices, noDiagonals, Val(dimensions))
             end
@@ -320,10 +321,12 @@ function IteridenseLoop(dataMatrix,
         # We must therefore test how much RAM is available stop the clustering if necessary.
         # get the available RAM
         availableRAM = Int(Sys.free_memory()) # in bytes
-        necessaryRAM = resolution^dimensions * 4
-        # We break if 47.5% of the availableRAM is less than necessaryRAM because we need space for
-        # 2 tensors (countTensor and clusterTensor) and also some RAM for Julia itself.
-        if 0.475*availableRAM < necessaryRAM
+        # we have 2 tensors (countTensor and clusterTensor), therefore * 2
+        # we use Float32, which has a size of 4 bytes
+        necessaryRAM = resolution^dimensions * 4 * 2
+        # We break if 95% of the availableRAM is less than necessaryRAM because we need some RAM
+        # for Julia itself and other tasks the OS might perform.
+        if 0.95*availableRAM < necessaryRAM
             printstyled("\nImportant Warning: "; bold= true, color= :magenta)
             printstyled("Not enough available RAM!\n\
                     \nFor the $(dimensions) dimensions there is currently only enough RAM\
@@ -431,7 +434,7 @@ function Clustering(dataMatrix;
                     minClusters::Int= 1,
                     minClusterSize::Int= 3,
                     startResolution::Int= 2,
-                    stopResolution::Int= -1, 
+                    stopResolution::Int= 100, 
                     minClusterDensity= 0.0,
                     useDensity= true,
                     useClusters= false,
@@ -459,7 +462,7 @@ function Clustering(dataMatrix;
     if density < 0.0
         density = 0.0
     end
-    if stopResolution > -1 && stopResolution < startResolution
+    if stopResolution < startResolution
         stopResolution = startResolution
     end
     if minClusters < 1
@@ -494,12 +497,10 @@ function Clustering(dataMatrix;
     clusterSizes = Array{Any}(undef)
     # assure that maximal resolution is used as limit
     maxResolution = totalCounts
-    if stopResolution > -1
-        if stopResolution > maxResolution
-            stopResolution = maxResolution
-        end
-        maxResolution = stopResolution + 1
+    if stopResolution > maxResolution
+        stopResolution = maxResolution
     end
+    maxResolution = stopResolution + 1
     if useFixedResolution
         if startResolution > maxResolution
             startResolution = maxResolution - 1
@@ -668,7 +669,8 @@ function PlotIteridenseHeatmap(dataMatrix, resolution::Int)
     countMatrix = CreateCountTensor(dataMatrix, resolution, minMatrix, maxMatrix, Val(dimensions))
     # plot the countMatrix as heatmap
     if dimensions == 2
-        return Plots.heatmap(ranges[1], ranges[2], countMatrix, aspect_ratio= 1, color= cgrad(:heat))
+        return Plots.heatmap(ranges[1], ranges[2], countMatrix, aspect_ratio= 1,
+                                color= cgrad(:heat))
     else
         countVector = reshape(countMatrix, 1, :)
         return Plots.heatmap(countVector, yticks=[], color= cgrad(:heat))
