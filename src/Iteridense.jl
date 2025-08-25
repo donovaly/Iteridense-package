@@ -434,24 +434,24 @@ function Clustering(dataMatrix;
                     minClusters::Int= 1,
                     minClusterSize::Int= 3,
                     startResolution::Int= 2,
-                    stopResolution::Int= 100, 
+                    stopResolution::Int= 64, 
                     minClusterDensity= 0.0,
                     useDensity= true,
                     useClusters= false,
                     noDiagonals= false )
 
-    if startResolution == stopResolution
-        useFixedResolution = true
-    else
-        useFixedResolution = false
+    # at first count data points and determine the dimensions
+    totalCounts::Int = size(dataMatrix, 1)
+    dimensions::Int = size(dataMatrix, 2)
+    # dataMatrix is a matrix in which every column contains the data of a dimension
+    # therefore store the min/max of every dimension in vectors
+    minMatrix = zeros(dimensions)
+    maxMatrix = zeros(dimensions)
+    for i in 1:dimensions
+        minMatrix[i] = minimum(dataMatrix[:, i])
+        maxMatrix[i] = maximum(dataMatrix[:, i])
     end
-    if (!useDensity && !useClusters && !useFixedResolution)
-        error("No information given on how to stop the clustering process")
-    end
-    # useClusters works as a toggle, if on, the density is not used
-    if useClusters
-        useDensity= false
-    end
+
     # assure to have sensible inputs
     if minClusterSize < 2
         minClusterSize = 2
@@ -461,6 +461,17 @@ function Clustering(dataMatrix;
     end
     if density < 0.0
         density = 0.0
+    end
+    # minClusterSize cannot be greater than totalCounts - 1
+    if minClusterSize ≥ totalCounts
+        minClusterSize = totalCounts - 1
+    end
+    # totalCounts is maximal possible resolution
+    if startResolution > totalCounts
+        startResolution = totalCounts
+    end
+    if stopResolution > totalCounts
+        stopResolution = totalCounts
     end
     if stopResolution < startResolution
         stopResolution = startResolution
@@ -475,22 +486,19 @@ function Clustering(dataMatrix;
     if minClusterDensity > density
         minClusterDensity = density
     end
-    # at first count data points and determine the dimensions
-    totalCounts::Int = size(dataMatrix, 1)
-    dimensions::Int = size(dataMatrix, 2)
-    # dataMatrix is a matrix in which every column contains the data of a dimension
-    # therefore store the min/max of every dimension in vectors
-    minMatrix= zeros(dimensions)
-    maxMatrix= zeros(dimensions)
-    for i in 1:dimensions
-        minMatrix[i] = minimum(dataMatrix[:, i])
-        maxMatrix[i] = maximum(dataMatrix[:, i])
+    if startResolution == stopResolution
+        useFixedResolution = true
+    else
+        useFixedResolution = false
+    end
+    if (!useDensity && !useClusters && !useFixedResolution)
+        error("No information given on how to stop the clustering process")
+    end
+    # useClusters works as a toggle, if on, the density is not used
+    if useClusters
+        useDensity= false
     end
 
-    # minClusterSize cannot be greater than totalCounts - 1
-    if minClusterSize ≥ totalCounts
-        minClusterSize = totalCounts - 1
-    end
     # initializations
     resolution::Int = startResolution
     clusterDensities = Array{Any}(undef)
@@ -508,10 +516,7 @@ function Clustering(dataMatrix;
         resolution = startResolution
         maxResolution = startResolution + 1
     end
-    if resolution > maxResolution
-        @warn("Given resolution is greater than MaxResolution\n\
-                The resolution was reset to MaxResolution")
-    end
+
     # the main clustering loop
     LoopResult = IteridenseLoop(dataMatrix,
                                 density,

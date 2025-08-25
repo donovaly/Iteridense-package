@@ -174,7 +174,7 @@ end
 # function to remove empty clusters
 function removeEmptyClusters!(clusterTensor, numClusters::Int64)
     # evaluate first every cluster
-    isEmpty = zeros(Int, numClusters)
+    isEmpty = zeros(Int64, numClusters)
     for n in 1:numClusters
         if count(i -> (i == n), clusterTensor) == 0
             isEmpty[n] = 1
@@ -394,14 +394,11 @@ function IteridenseLoop(dataMatrix,
     if resolution ≥ maxResolution || resolution > stopResolution
         resolution = size(clusterTensor, 1)
     end
-    
-    result = IteridenseResult(clusterTensor= clusterTensor, countTensor= countTensor,
+
+    return IteridenseResult(clusterTensor= clusterTensor, countTensor= countTensor,
                                 numOfClusters= numClusters, finalResolution= resolution,
                                 assignments= assignments, clusterDensities= clusterDensities,
                                 clusterSizes= clusterSizes)
-    # we must manually trigger a garbage collection because the tensors can become very large
-    GC.gc()
-    return result
 end
 
 
@@ -410,17 +407,17 @@ end
 function AssignPoints(dataMatrix, clusterTensor, resolution::Int64, minMatrix, maxMatrix,
                         totalCounts::Int64, ::Val{dimensions}) where dimensions
     # at first calculate the cell size for every dimension
-    sizeMatrix = zeros(dimensions)
+    sizeMatrix = zeros(Float64, dimensions)
     for i in 1:dimensions
         sizeMatrix[i] = (maxMatrix[i] - minMatrix[i]) / resolution
     end
     # now assign every data point
-    assignments = zeros(Int, totalCounts)
+    assignments = zeros(Int64, totalCounts)
     smallValue = 1e-6
     for k in axes(dataMatrix, 1)
         # Julia swaps in matrices x and y, thus reverse to use the coordinate system of the plot
         # due to precision issues, we subtract a small value from the values
-        coordMatrix = ntuple(i -> trunc(Int, (dataMatrix[k, dimensions-i+1] - smallValue -
+        coordMatrix = ntuple(i -> trunc(Int64, (dataMatrix[k, dimensions-i+1] - smallValue -
                                                 minMatrix[dimensions-i+1]) /
                                             sizeMatrix[dimensions-i+1]) + 1, Val(dimensions))
         assignments[k] = clusterTensor[coordMatrix...]
@@ -466,26 +463,26 @@ end
 function PerformClustering(dataMatrix;
                             density= 1.1,
                             minClusters::Int64= 1,
-                            minClusterSize::Int= 3,
+                            minClusterSize::Int64= 3,
                             startResolution::Int64= 2,
-                            stopResolution::Int64= 100,
+                            stopResolution::Int64= 64,
                             minClusterDensity::Float64= 0.0,
                             useDensity= true,
                             useClusters= false,
                             noDiagonals= false )::IteridenseResultC
 
-    if startResolution == stopResolution
-        useFixedResolution = true
-    else
-        useFixedResolution = false
+    # at first count data points and determine the dimensions
+    totalCounts::Int64 = size(dataMatrix, 1)
+    dimensions::Int64 = size(dataMatrix, 2)
+    # dataMatrix is a matrix in which every column contains the data of a dimension
+    # therefore store the min/max of every dimension in vectors
+    minMatrix = zeros(Float64, dimensions)
+    maxMatrix = zeros(Float64, dimensions)
+    for i in 1:dimensions
+        minMatrix[i] = minimum(dataMatrix[:, i])
+        maxMatrix[i] = maximum(dataMatrix[:, i])
     end
-    if (!useDensity && !useClusters && !useFixedResolution)
-        error("No information given on how to stop the clustering process")
-    end
-    # useClusters works as a toggle, if on, the density is not used
-    if useClusters
-        useDensity= false
-    end
+
     # assure to have sensible inputs
     if minClusterSize < 2
         minClusterSize = 2
@@ -495,6 +492,17 @@ function PerformClustering(dataMatrix;
     end
     if density < 0.0
         density = 0.0
+    end
+    # minClusterSize cannot be greater than totalCounts - 1
+    if minClusterSize ≥ totalCounts
+        minClusterSize = totalCounts - 1
+    end
+    # totalCounts is maximal possible resolution
+    if startResolution > totalCounts
+        startResolution = totalCounts
+    end
+    if stopResolution > totalCounts
+        stopResolution = totalCounts
     end
     if stopResolution < startResolution
         stopResolution = startResolution
@@ -509,22 +517,19 @@ function PerformClustering(dataMatrix;
     if minClusterDensity > density
         minClusterDensity = density
     end
-    # at first count data points and determine the dimensions
-    totalCounts::Int = size(dataMatrix, 1)
-    dimensions::Int = size(dataMatrix, 2)
-    # dataMatrix is a matrix in which every column contains the data of a dimension
-    # therefore store the min/max of every dimension in vectors
-    minMatrix= zeros(dimensions)
-    maxMatrix= zeros(dimensions)
-    for i in 1:dimensions
-        minMatrix[i] = minimum(dataMatrix[:, i])
-        maxMatrix[i] = maximum(dataMatrix[:, i])
+    if startResolution == stopResolution
+        useFixedResolution = true
+    else
+        useFixedResolution = false
+    end
+    if (!useDensity && !useClusters && !useFixedResolution)
+        error("No information given on how to stop the clustering process")
+    end
+    # useClusters works as a toggle, if on, the density is not used
+    if useClusters
+        useDensity= false
     end
 
-    # minClusterSize cannot be greater than totalCounts - 1
-    if minClusterSize ≥ totalCounts
-        minClusterSize = totalCounts - 1
-    end
     # initializations
     resolution::Int64 = startResolution
     clusterDensities = Array{Any}(undef)
@@ -542,10 +547,7 @@ function PerformClustering(dataMatrix;
         resolution = startResolution
         maxResolution = startResolution + 1
     end
-    if resolution > maxResolution
-        @warn("Given resolution is greater than MaxResolution\n\
-                The resolution was reset to MaxResolution")
-    end
+
     # the main clustering loop
     LoopResult = IteridenseLoop(dataMatrix,
                                 density,
@@ -587,7 +589,7 @@ function PerformClustering(dataMatrix;
                                             ArrayToCTensor(countTensorResult, Int32),
                                             Clonglong(0),
                                             Clonglong(LoopResult.finalResolution),
-                                            ArrayToCArray(zeros(Int, totalCounts), Int64),
+                                            ArrayToCArray(zeros(Int64, totalCounts), Int64),
                                             ArrayToCArray(Float64[], Float64),
                                             ArrayToCArray(Int64[], Int64) )
         # trigger a garbage collection
@@ -660,7 +662,7 @@ function PerformClustering(dataMatrix;
     # to update clusterSizes we don't need to update and evaluate the clusterTensor
     # but count in assignmentsResult
     # we have to count the zero clusters too
-    clusterCounts = zeros(Int, LoopResult.numOfClusters + 1)
+    clusterCounts = zeros(Int64, LoopResult.numOfClusters + 1)
     for num in assignmentsResult
         clusterCounts[num+1] += 1
     end
