@@ -408,6 +408,7 @@ object MainForm: TMainForm
         ShowHint = True
         TabOrder = 2
         Value = 2
+        OnChange = StartResolutionSEChange
       end
       object MinClusterSizeIterIdenseSE: TSpinEdit
         AnchorSideLeft.Control = DensityFSE
@@ -441,6 +442,7 @@ object MainForm: TMainForm
         ShowHint = True
         TabOrder = 4
         Value = 64
+        OnChange = StopResolutionSEChange
       end
       object DensityL: TLabel
         AnchorSideLeft.Control = DensityFSE

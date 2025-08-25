@@ -224,6 +224,8 @@ type
     function CTensorToTDoubleArray(tensor: CTensor): TDoubleArray;
     procedure ProportionalMIClick(Sender: TObject);
     procedure RadiusFSEChange(Sender: TObject);
+    procedure StartResolutionSEChange(Sender: TObject);
+    procedure StopResolutionSEChange(Sender: TObject);
     procedure UpdateLabelHintBPosition;
     procedure IteridenseSliderTBChange(Sender: TObject);
     procedure IteridenseSliderTBMouseDown(Sender: TObject;
@@ -631,7 +633,6 @@ begin
   // Iteridense
   if MethodsPC.ActivePage.Caption = 'Iteridense' then
   begin
-
     // warn if there is not enough RAM available
     // * 2 because we have to create 2 tensors, the count tensor and the cluster tensor
     // * 4 because we use Float32 which has 4 bytes
@@ -1116,6 +1117,16 @@ begin
   // save new radius
   DBSCANRadius:= RadiusFSE.Value;
   SliderIncrement:= increment;
+end;
+
+procedure TMainForm.StartResolutionSEChange(Sender: TObject);
+begin
+  StopResolutionSE.MinValue:= StartResolutionSE.Value;
+end;
+
+procedure TMainForm.StopResolutionSEChange(Sender: TObject);
+begin
+  StartResolutionSE.MaxValue:= StopResolutionSE.Value;
 end;
 
 procedure TMainForm.RadiusTBChange(Sender: TObject);
