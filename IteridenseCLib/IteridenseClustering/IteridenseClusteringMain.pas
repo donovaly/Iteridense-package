@@ -903,6 +903,10 @@ begin
   Setlength(DataTextColumnsIndices, assignmentColumn+1);
   // output number of data points
   NumDataPointsLE.Text:= IntToStr(high(DataArray)+1);
+  // number of data points is the limit for Iteridense "stop Resolution" parameter
+  StopResolutionSE.MaxValue:= high(DataArray)+1;
+  SliderStopSE.MaxValue:= StopResolutionSE.MaxValue;
+  IteridenseSliderTB.Max:= SliderStopSE.Value;
 
   // plot the data
   ChartData.CDPlotSelectionCCBItemChange(Sender);
@@ -921,6 +925,7 @@ begin
   end;
 
   // enable/disable objects
+  MethodsPC.Enabled:= true;
   ClusteringBB.Enabled:= true;
   FlipTB.Enabled:= true;
   SaveCsvMI.Enabled:= false;
@@ -941,7 +946,7 @@ begin
   // the slider must be set first because it will change the others
   IteridenseSliderTB.Position:= 2;
   StartResolutionSE.Value:= 2;
-  StopResolutionSE.Value:= 100;
+  StopResolutionSE.Value:= min(64, StopResolutionSE.MaxValue);
   FinalResolutionLE.Text:= '';
   // propose a minimal cluster size of 5 % of the total clusters
   MinClusterSizeIterIdenseSE.Value:= Trunc(0.05 * Length(DataArray));

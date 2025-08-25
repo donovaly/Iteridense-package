@@ -9,7 +9,6 @@ object MainForm: TMainForm
   ClientWidth = 929
   Color = clWindow
   Menu = MainMenu
-  LCLVersion = '4.2.0.0'
   OnClose = FormClose
   OnCreate = FormCreate
   OnDropFiles = FormDropFiles
@@ -346,6 +345,7 @@ object MainForm: TMainForm
     ActivePage = IteridenseTS
     BorderSpacing.Left = 21
     BorderSpacing.Top = 14
+    Enabled = False
     MultiLine = True
     Options = [nboMultiLine]
     TabIndex = 0
@@ -435,12 +435,12 @@ object MainForm: TMainForm
         Top = 200
         Width = 61
         BorderSpacing.Top = 7
-        MaxValue = 1000000
+        MaxValue = 1000
         MinValue = 2
         ParentShowHint = False
         ShowHint = True
         TabOrder = 4
-        Value = 100
+        Value = 64
       end
       object DensityL: TLabel
         AnchorSideLeft.Control = DensityFSE
@@ -1098,7 +1098,6 @@ object MainForm: TMainForm
       Anchors = [akTop, akRight]
       BorderSpacing.Top = 3
       BorderSpacing.Right = 8
-      MaxValue = 128
       MinValue = 2
       TabOrder = 2
       Value = 64
