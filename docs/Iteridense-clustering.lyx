@@ -117,6 +117,24 @@
 \shortcut idx
 \color #008000
 \end_index
+\spellchecker_ignore english MinClusters
+\spellchecker_ignore english pluton
+\spellchecker_ignore english PhDPublications
+\spellchecker_ignore english Iteridense's
+\spellchecker_ignore english CLIQUE's
+\spellchecker_ignore english MinClusterSize
+\spellchecker_ignore english soloof
+\spellchecker_ignore english PreDeCon
+\spellchecker_ignore english HDBSCAN
+\spellchecker_ignore english NoDiagonals
+\spellchecker_ignore english StartResolution
+\spellchecker_ignore english StopResolution
+\spellchecker_ignore english MinClusterDensity
+\spellchecker_ignore english sklearn
+\spellchecker_ignore english scikit-learn
+\spellchecker_ignore english Rdatasets
+\spellchecker_ignore english TAChart
+\spellchecker_ignore english MinPts
 \secnumdepth 3
 \tocdepth 3
 \paragraph_separation skip
@@ -613,7 +631,7 @@ We call our algorithm
 \noun on
 Iteridense
 \noun default
- (ITERative grID- and dENSity-based clustering).
+ (ITERative grID- and dENSity-basEd clustering).
  Based on our approach the key features of 
 \noun on
 Iteridense
@@ -733,7 +751,7 @@ reference "fig:Clustering-process"
 \begin_inset space \thinspace{}
 \end_inset
 
-(a) shows as example a 2-dimensional dataset which represents the relative humidity and temperature of air inside a thermo-box after a certain chemical process.
+(a) shows as example a 2-dimensional dataset which represents the relative humidity and temperature of air inside a thermal cabinet after a certain chemical process.
  It looks like there might be a cluster of points inside an area in form of a quarter circle.
  To find that potential cluster 
 \noun on
@@ -3156,7 +3174,7 @@ Iteridense
 \begin_inset Formula $\rho\ge6.8$
 \end_inset
 
- at anistotope clusters.
+ at anisotropic clusters.
 \end_layout
 
 \end_inset
@@ -3291,7 +3309,7 @@ Iteridense
 \begin_inset Formula $\epsilon=0.1$
 \end_inset
 
- at anistotope clusters.
+ at anisotropic clusters.
 \end_layout
 
 \end_inset
@@ -3521,7 +3539,7 @@ name "fig:Result-of-DBSCAN"
 
 \end_inset
 
-Result of DBSCAN at anistotope clusters with 
+Result of DBSCAN at anisotropic clusters with 
 \begin_inset Formula $\epsilon\le0.2$
 \end_inset
 
@@ -3646,7 +3664,7 @@ name "fig:Result-of-DBSCAN-1"
 
 \end_inset
 
-Result of DBSCAN at anistotope clusters with 
+Result of DBSCAN at anisotropic clusters with 
 \begin_inset Formula $\epsilon>0.2$
 \end_inset
 
@@ -5086,7 +5104,7 @@ Iteridense
 .
  Therefore 
 \noun on
-Iterdense
+Iteridense
 \noun default
  extends the parameter range at which clustering could be performed,
  dramatically,
@@ -5244,7 +5262,7 @@ Iteridense
  does not find the outer cylinder to be completely a cluster.
  DBSCAN can find it because it allows to change the search radius.
  However,
- it took about 20 cluster attempts to find an 
+ it took several cluster attempts to find an 
 \begin_inset Formula $\epsilon$
 \end_inset
 

@@ -189,7 +189,7 @@ amount of clusters and the density of every cluster. Depending on
 the results, the algorithm is stopped, or it continues and calculates
 another probability-density function at a higher resolution.
 
-We call our algorithm \noun{Iteridense} (ITERative grID- and dENSity-based
+We call our algorithm \noun{Iteridense} (ITERative grID- and dENSity-basEd
 clustering). Based on our approach the key features of \noun{Iteridense}
 are:
 \begin{itemize}
@@ -225,9 +225,9 @@ point space can be anything, depending on the source of the data points.
 
 \ref{fig:Clustering-process}\,(a) shows as example a 2-dimensional
 dataset which represents the relative humidity and temperature of
-air inside a thermo-box after a certain chemical process. It looks
-like there might be a cluster of points inside an area in form of
-a quarter circle. To find that potential cluster \noun{Iteridense}
+air inside a thermal cabinet after a certain chemical process. It
+looks like there might be a cluster of points inside an area in form
+of a quarter circle. To find that potential cluster \noun{Iteridense}
 works on this dataset the following way:
 
 \begin{figure}
@@ -626,7 +626,7 @@ more dense regions that are unveiled with greater $\rho$.
 }\hfill{}
 \par\end{centering}
 \caption{\label{fig:Result-Iteridense-Blobs}Result of \noun{Iteridense} for
-$\rho\ge6.8$ at anistotope clusters.}
+$\rho\ge6.8$ at anisotropic clusters.}
 \end{figure}
 
 \begin{figure}[p]
@@ -640,7 +640,7 @@ $\rho\ge6.8$ at anistotope clusters.}
 }\hfill{}
 \par\end{centering}
 \caption{\label{fig:Result-Iteridense-Blobs2}Result of \noun{Iteridense} for
-$\rho=12.0$ and DBSCAN for $\epsilon=0.1$ at anistotope clusters.}
+$\rho=12.0$ and DBSCAN for $\epsilon=0.1$ at anisotropic clusters.}
 \end{figure}
 
 For comparison, the algorithm DBSCAN does not provide a clear path
@@ -670,7 +670,7 @@ However, for data in higher dimensions this is hardly possible.
 \par\end{centering}
 }\hfill{}
 \par\end{centering}
-\caption{\label{fig:Result-of-DBSCAN}Result of DBSCAN at anistotope clusters
+\caption{\label{fig:Result-of-DBSCAN}Result of DBSCAN at anisotropic clusters
 with $\epsilon\le0.2$.}
 \end{figure}
 
@@ -684,7 +684,7 @@ with $\epsilon\le0.2$.}
 \par\end{centering}
 }\hfill{}
 \par\end{centering}
-\caption{\label{fig:Result-of-DBSCAN-1}Result of DBSCAN at anistotope clusters
+\caption{\label{fig:Result-of-DBSCAN-1}Result of DBSCAN at anisotropic clusters
 with $\epsilon>0.2$.}
 \end{figure}
 
@@ -892,7 +892,7 @@ in comparison to $\mathcal{O}\left(DN^{2}\right)$ for $R_{\mathrm{final}}=10$.
 ($R_{\mathrm{final}}$ around 10 is a common result when clustering
 in more than 3 dimensions.) The $\mathcal{O}$ of \noun{Iteridense}
 is in all areas lower than $\mathcal{O}\left(DN^{2}\right)$ except
-of low $N$. Therefore \noun{Iterdense} extends the parameter range
+of low $N$. Therefore \noun{Iteridense} extends the parameter range
 at which clustering could be performed, dramatically, compared to
 algorithms with $\mathcal{O}\left(DN^{2}\right)$.
 
@@ -914,7 +914,7 @@ and DBSCAN for intersected cylinder-like clusters.}
 the full 3D dataset for $\text{\textbf{MinClusters}}=2$. \noun{Iteridense}
 does not find the outer cylinder to be completely a cluster. DBSCAN
 can find it because it allows to change the search radius. However,
-it took about 20 cluster attempts to find an $\epsilon$ that works.
+it took several cluster attempts to find an $\epsilon$ that works.
 In 3D the dataset can be visualized to find a suitable $\epsilon$
 but this is impossible in higher dimensions. In effect DBSCAN provides
 for this task more flexibility and a more suitable result for the
