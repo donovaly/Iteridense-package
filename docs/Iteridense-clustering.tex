@@ -287,15 +287,19 @@ in the cluster.
 \rho_{\mathrm{cluster}}=\frac{\text{num points in cluster}}{\text{num cells of cluster}}
 \end{equation}
 To make $\rho_{\mathrm{cluster}}$ independent of the resolution,
-it has to be the normalized:
+it has to be the normalized.\\
+For dimension $>3$:
 \begin{equation}
 \rho_{\mathrm{cluster}}=\frac{\text{num points in cluster}}{\text{num cells of cluster}}\cdot\frac{\text{total num of points}}{\text{total num of cells}}\cdot\frac{\text{dimension}}{2\thinspace\text{resolution}^{\text{dimension}-2\vphantom{\hat{A}}}}
 \end{equation}
+For dimension $<3$:
+\begin{equation}
+\rho_{\mathrm{cluster}}=\frac{\text{num points in cluster}}{\text{num cells of cluster}}\cdot\frac{\text{total num of points}}{\text{total num of cells}}
+\end{equation}
 
 The normalization is derived in \ref{subsec:Density-Normalization}.
-For 2~dimensions the last term vanishes and $\rho_{\mathrm{cluster}}$
-describes by what factor the cluster is more dense than the whole
-dataset.
+For less than 2~dimensions $\rho_{\mathrm{cluster}}$ expresses by
+what factor the cluster is more dense than the whole dataset.
 
 The final density $\rho_{\mathrm{final}}$ is the minimum of all $\rho_{\mathrm{cluster}}$.
 \item \label{enu:AlgoStep5}All clusters are evaluated. Optionally clusters
@@ -325,8 +329,8 @@ and if no data point belongs now to another cluster than before step~\ref{enu:Al
 that case the final resolution is 13 and there is one cluster with
 $\rho_{\mathrm{cluster}}=4.3$. Note that this case is just an example
 for the algorithm. A suitable clustering result for this dataset would
-probably be one with 2~clusters and we will discuss what ``suitable''
-means later.
+probably be one with 2~clusters. We will discuss later what ``suitable''
+means.
 
 \begin{figure}
 \begin{centering}
@@ -404,8 +408,10 @@ normalized. The point is that without it, the density will increase
 with the increase of the resolution. We define $\rho_{\mathrm{cluster}}$
 as:
 \begin{equation}
-\rho_{\mathrm{cluster}}=\frac{\text{num points in cluster}}{\text{num cells of cluster}}
+\rho_{\mathrm{cluster}}=\frac{P}{C}
 \end{equation}
+whereas $C$ is the number of cells of the cluster and $P$ the number
+of points in the cluster.
 
 When the resolution doubles, $\rho_{\mathrm{cluster}}$ will increase
 because the cluster will keep its number of points but will have more
@@ -413,22 +419,23 @@ cells. The \noun{Iteridense} algorithm requires $\rho_{\mathrm{cluster}}$
 to be independent of the resolution. One approach would be to normalize
 $\rho_{\mathrm{cluster}}$ with the density of the whole dataset
 \begin{equation}
-\rho_{\mathrm{dataset}}=\frac{\text{total num of points}}{\text{total num of cells}}
-\end{equation}
- and we would then have
-\[
 \rho_{\mathrm{cluster\,norm}}=\frac{\rho_{\mathrm{cluster}}}{\rho_{\mathrm{dataset}}}
-\]
+\end{equation}
+We have
+\begin{equation}
+\rho_{\mathrm{dataset}}=\frac{N}{R^{D}}
+\end{equation}
+whereas $N$ is total number of points, $R$ the resolution and $D$
+the dimension.
 
 This density is independent of the resolution but not on the dimension.
-In practice is is often a tricky question if more or less dimensions
+In practice it is often a tricky question if more or less dimensions
 are applicable for the effect one wants to evaluate. By taking another
 dimension into account, the density would increase, even if the new
 dimension does not influence the cluster at all.
 
-Take for example this case: $D=1$, resolution $R=8$, number of cells
-of cluster $C=R/4$ ($C$ depends on $R$), number of points in cluster
-$P=8$, total number of points $N=16$.\\
+Take for example this case: dimension $D=1$, resolution $R=8$, $C=R/4$
+($C$ depends on $R$), $P=8$, $N=16$.\\
 We get $\rho_{\mathrm{cluster}}={\displaystyle \frac{P}{C}}=4\vphantom{\cfrac{A^{A^{A}}}{A_{A_{A}}}_{_{A_{A}}}^{A^{A}}}$,
 $\rho_{\mathrm{dataset\,1D}}={\displaystyle \frac{N}{R}}=2\vphantom{\cfrac{A^{A^{A}}}{A_{A_{A}}}_{_{A_{A}}}^{A^{A}}}$,
 $\rho_{\mathrm{cluster\,norm\,1D}}={\displaystyle \frac{PR}{CN}}=2\vphantom{\cfrac{A^{A^{A}}}{A_{A_{A}}}_{_{A_{A}}}^{A^{A}}}$,
@@ -444,8 +451,8 @@ a hypercube gets 2 more facets with every dimension).
 \end{itemize}
 With this we have for 2D:
 
-$\rho_{\mathrm{cluster}}={\displaystyle \frac{P}{C}}$, $\rho_{\mathrm{dataset\,2D}}={\displaystyle \frac{2\cdot2\cdot P}{R^{2}}}$,
-$\rho_{\mathrm{cluster\,norm\,2D}}={\displaystyle \frac{P\cdot R^{2}}{C\cdot2\cdot2\cdot P}}=8$,
+$\rho_{\mathrm{cluster}}={\displaystyle \frac{P}{C}}$, $\rho_{\mathrm{dataset\,2D}}={\displaystyle \frac{4P}{R^{2}}}$,
+$\rho_{\mathrm{cluster\,norm\,2D}}={\displaystyle \frac{P\cdot R^{2}}{C\cdot4P}}=8$,
 
 so the cluster is 8~times more dense than the dataset and $\rho_{\mathrm{cluster\,norm}}$
 is 4~times the one for the 1D case. This is a problem because the
@@ -486,15 +493,20 @@ according to the 2D case:
 \gamma_{2D}=\frac{\rho_{\mathrm{dataset\,D}}}{\rho_{\mathrm{dataset\,2D}}}=\frac{R^{2}\cdot2D\cdot P}{4\cdot PR^{D}}=\frac{D}{2R^{D-2}}
 \end{equation}
 
-The final normalization is
+The final normalization is for $D>2$:
 \begin{equation}
-\rho_{\mathrm{cluster\,norm}}=\frac{\text{num points in cluster}}{\text{num cells of cluster}}\cdot\frac{\text{total num of points}}{\text{total num of cells}}\cdot\frac{\text{dimension}}{2\thinspace\text{resolution}^{\text{dimension}-2\vphantom{\hat{A}}}}
+\rho_{\mathrm{cluster\,norm}}=\frac{\rho_{\mathrm{cluster}}}{\rho_{\mathrm{dataset}}}\cdot\gamma_{2D}=\frac{P}{C}\cdot\frac{R^{D}}{N}\cdot\frac{D}{2R^{D-2}}
+\end{equation}
+
+For $D<3$ we omit the factor $\gamma_{2D}$:
+\begin{equation}
+\rho_{\mathrm{cluster\,norm}}=\frac{\rho_{\mathrm{cluster}}}{\rho_{\mathrm{dataset}}}
 \end{equation}
 
 This normalization cannot cover all cases but keeps $\rho_{\mathrm{cluster\,norm}}$
 stable enough for practical usage. To get a feeling about the stability
 we take the case $D=2$, $R=8$ and clusters with each $P=8$ and
-$C=2$, thus $\rho_{\mathrm{cluster}}=4$. We look at these 4~cases:
+$C=2$, thus $\rho_{\mathrm{cluster}}=4$. We look at these 4~cases:\pagebreak{}
 \begin{itemize}
 \item 2~clusters, one at the upper right corner, the other one of the lower
 left corner of the data grid.
@@ -688,9 +700,9 @@ with $\epsilon\le0.2$.}
 with $\epsilon>0.2$.}
 \end{figure}
 
-\newpage What is ``suitable'' depends on the application. For example
-the data shown in \ref{fig:Result-of-Iteridense-NoisyBlobs} consist
-also of 1500~data points. It was generated using the \emph{make\_blobs
+What is ``suitable'' depends on the application. For example the
+data shown in \ref{fig:Result-of-Iteridense-NoisyBlobs} consist also
+of 1500~data points. It was generated using the \emph{make\_blobs
 }call to \emph{sklearn.datasets} with a subsequent transformation.
 One might see in the data 2~clusters and therefore set \textbf{MinClusters}
 to 2 and \textbf{MinClusterSize} to 20. As result one gets \ref{fig:Result-of-Iteridense-NoisyBlobs}\,(a).
@@ -727,6 +739,7 @@ together with $\rho$.
 for clusters with different densities.}
 \end{figure}
 
+\pagebreak{}
 
 \subsection{Computational Complexity\label{subsec:Computational-Complexity}}
 

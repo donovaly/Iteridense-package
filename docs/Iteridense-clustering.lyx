@@ -1200,10 +1200,30 @@ To make
 \end_inset
 
  independent of the resolution,
- it has to be the normalized:
+ it has to be the normalized.
+\begin_inset Newline newline
+\end_inset
+
+For dimension 
+\begin_inset Formula $>3$
+\end_inset
+
+:
 \begin_inset Formula 
 \begin{equation}
 \rho_{\mathrm{cluster}}=\frac{\text{num points in cluster}}{\text{num cells of cluster}}\cdot\frac{\text{total num of points}}{\text{total num of cells}}\cdot\frac{\text{dimension}}{2\thinspace\text{resolution}^{\text{dimension}-2\vphantom{Â}}}
+\end{equation}
+
+\end_inset
+
+For dimension 
+\begin_inset Formula $<3$
+\end_inset
+
+:
+\begin_inset Formula 
+\begin{equation}
+\rho_{\mathrm{cluster}}=\frac{\text{num points in cluster}}{\text{num cells of cluster}}\cdot\frac{\text{total num of points}}{\text{total num of cells}}
 \end{equation}
 
 \end_inset
@@ -1221,15 +1241,15 @@ reference "subsec:Density-Normalization"
 \end_inset
 
 .
- For 2
+ For less than 2
 \begin_inset space ~
 \end_inset
 
-dimensions the last term vanishes and 
+dimensions 
 \begin_inset Formula $\rho_{\mathrm{cluster}}$
 \end_inset
 
- describes by what factor the cluster is more dense than the whole dataset.
+ expresses by what factor the cluster is more dense than the whole dataset.
 \end_layout
 
 \begin_layout Standard
@@ -1424,7 +1444,8 @@ nolink "false"
 \begin_inset space ~
 \end_inset
 
-clusters and we will discuss what 
+clusters.
+ We will discuss later what 
 \begin_inset Quotes eld
 \end_inset
 
@@ -1432,7 +1453,7 @@ suitable
 \begin_inset Quotes erd
 \end_inset
 
- means later.
+ means.
 \end_layout
 
 \begin_layout Standard
@@ -1943,12 +1964,20 @@ To be able to use the cluster density in a useful way,
  as:
 \begin_inset Formula 
 \begin{equation}
-\rho_{\mathrm{cluster}}=\frac{\text{num points in cluster}}{\text{num cells of cluster}}
+\rho_{\mathrm{cluster}}=\frac{P}{C}
 \end{equation}
 
 \end_inset
 
+whereas 
+\begin_inset Formula $C$
+\end_inset
 
+ is the number of cells of the cluster and 
+\begin_inset Formula $P$
+\end_inset
+
+ the number of points in the cluster.
 \end_layout
 
 \begin_layout Standard
@@ -1974,25 +2003,38 @@ Iteridense
  with the density of the whole dataset
 \begin_inset Formula 
 \begin{equation}
-\rho_{\mathrm{dataset}}=\frac{\text{total num of points}}{\text{total num of cells}}
+\rho_{\mathrm{cluster\,norm}}=\frac{\rho_{\mathrm{cluster}}}{\rho_{\mathrm{dataset}}}
 \end{equation}
 
 \end_inset
 
- and we would then have
+We have
 \begin_inset Formula 
-\[
-\rho_{\mathrm{cluster\,norm}}=\frac{\rho_{\mathrm{cluster}}}{\rho_{\mathrm{dataset}}}
-\]
+\begin{equation}
+\rho_{\mathrm{dataset}}=\frac{N}{R^{D}}
+\end{equation}
 
 \end_inset
 
+whereas 
+\begin_inset Formula $N$
+\end_inset
 
+ is total number of points,
+ 
+\begin_inset Formula $R$
+\end_inset
+
+ the resolution and 
+\begin_inset Formula $D$
+\end_inset
+
+ the dimension.
 \end_layout
 
 \begin_layout Standard
 This density is independent of the resolution but not on the dimension.
- In practice is is often a tricky question if more or less dimensions are applicable for the effect one wants to evaluate.
+ In practice it is often a tricky question if more or less dimensions are applicable for the effect one wants to evaluate.
  By taking another dimension into account,
  the density would increase,
  even if the new dimension does not influence the cluster at all.
@@ -2000,7 +2042,7 @@ This density is independent of the resolution but not on the dimension.
 
 \begin_layout Standard
 Take for example this case:
- 
+ dimension 
 \begin_inset Formula $D=1$
 \end_inset
 
@@ -2010,7 +2052,7 @@ Take for example this case:
 \end_inset
 
 ,
- number of cells of cluster 
+ 
 \begin_inset Formula $C=R/4$
 \end_inset
 
@@ -2023,12 +2065,12 @@ Take for example this case:
 \end_inset
 
 ),
- number of points in cluster 
+ 
 \begin_inset Formula $P=8$
 \end_inset
 
 ,
- total number of points 
+ 
 \begin_inset Formula $N=16$
 \end_inset
 
@@ -2090,12 +2132,12 @@ With this we have for 2D:
 
 ,
  
-\begin_inset Formula $\rho_{\mathrm{dataset\,2D}}={\displaystyle \frac{2\cdot2\cdot P}{R^{2}}}$
+\begin_inset Formula $\rho_{\mathrm{dataset\,2D}}={\displaystyle \frac{4P}{R^{2}}}$
 \end_inset
 
 ,
  
-\begin_inset Formula $\rho_{\mathrm{cluster\,norm\,2D}}={\displaystyle \frac{P\cdot R^{2}}{C\cdot2\cdot2\cdot P}}=8$
+\begin_inset Formula $\rho_{\mathrm{cluster\,norm\,2D}}={\displaystyle \frac{P\cdot R^{2}}{C\cdot4P}}=8$
 \end_inset
 
 ,
@@ -2240,10 +2282,34 @@ This normalization will preserve the density from the 1D case.
 \end_layout
 
 \begin_layout Standard
-The final normalization is
+The final normalization is for 
+\begin_inset Formula $D>2$
+\end_inset
+
+:
 \begin_inset Formula 
 \begin{equation}
-\rho_{\mathrm{cluster\,norm}}=\frac{\text{num points in cluster}}{\text{num cells of cluster}}\cdot\frac{\text{total num of points}}{\text{total num of cells}}\cdot\frac{\text{dimension}}{2\thinspace\text{resolution}^{\text{dimension}-2\vphantom{Â}}}
+\rho_{\mathrm{cluster\,norm}}=\frac{\rho_{\mathrm{cluster}}}{\rho_{\mathrm{dataset}}}\cdot\gamma_{2D}=\frac{P}{C}\cdot\frac{R^{D}}{N}\cdot\frac{D}{2R^{D-2}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+For 
+\begin_inset Formula $D<3$
+\end_inset
+
+ we omit the factor 
+\begin_inset Formula $\gamma_{2D}$
+\end_inset
+
+:
+\begin_inset Formula 
+\begin{equation}
+\rho_{\mathrm{cluster\,norm}}=\frac{\rho_{\mathrm{cluster}}}{\rho_{\mathrm{dataset}}}
 \end{equation}
 
 \end_inset
@@ -2285,6 +2351,10 @@ This normalization cannot cover all cases but keeps
 \end_inset
 
 cases:
+\begin_inset Newpage pagebreak
+\end_inset
+
+
 \end_layout
 
 \begin_layout Itemize
@@ -3682,9 +3752,6 @@ Result of DBSCAN at anisotropic clusters with
 \end_layout
 
 \begin_layout Standard
-\begin_inset Newpage newpage
-\end_inset
-
 What is 
 \begin_inset Quotes eld
 \end_inset
@@ -3988,6 +4055,13 @@ Iteridense
 
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
 \end_inset
 
 

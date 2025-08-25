@@ -250,7 +250,11 @@ function AnalyzeClusters(clusterTensor, countTensor, numClusters::Int64, resolut
     clusterDensities = zeros(Float64, numClusters)
     clusterSizes = zeros(Int64, numClusters)
     # the normalization factor γ
-    γ = dimensions / (2*resolution^(dimensions-2))
+    if dimensions > 2
+        γ = dimensions / (2*resolution^(dimensions-2))
+    else
+        γ = 1.0
+    end
     for cluster in 1:numClusters
         cellCounter = 0
         # first sum values of the cluster cells
