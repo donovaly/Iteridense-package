@@ -1185,7 +1185,7 @@ To make
  it has to be the normalized:
 \begin_inset Formula 
 \begin{equation}
-\rho_{\mathrm{cluster\,norm}}=\frac{\text{num points in cluster}}{\text{num cells of cluster}}\cdot\frac{\text{total num of points}}{\text{total num of cells}}\cdot\frac{\text{dimension}}{2\thinspace\text{resolution}^{\text{dimension}-2}}
+\rho_{\mathrm{cluster}}=\frac{\text{num points in cluster}}{\text{num cells of cluster}}\cdot\frac{\text{total num of points}}{\text{total num of cells}}\cdot\frac{\text{dimension}}{2\thinspace\text{resolution}^{\text{dimension}-2\vphantom{Â}}}
 \end{equation}
 
 \end_inset
@@ -1208,7 +1208,7 @@ reference "subsec:Density-Normalization"
 \end_inset
 
 dimensions the last term vanishes and 
-\begin_inset Formula $\rho_{\mathrm{cluster\,norm}}$
+\begin_inset Formula $\rho_{\mathrm{cluster}}$
 \end_inset
 
  describes by what factor the cluster is more dense than the whole dataset.
@@ -1220,22 +1220,10 @@ The final density
 \end_inset
 
  is the minimum of all 
-\begin_inset Formula $\rho_{\mathrm{cluster\,norm}}$
-\end_inset
-
-.
-\begin_inset Newline newline
-\end_inset
-
-(In the following 
 \begin_inset Formula $\rho_{\mathrm{cluster}}$
 \end_inset
 
- means 
-\begin_inset Formula $\rho_{\mathrm{cluster\,norm}}$
-\end_inset
-
-.)
+.
 \end_layout
 
 \end_deeper
@@ -1574,6 +1562,51 @@ The algorithm can optionally be modified this way:
 \begin_layout Enumerate
 \begin_inset CommandInset label
 LatexCommand label
+name "enu:OptionDiagonal"
+
+\end_inset
+
+In step
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:AlgoStep3"
+
+\end_inset
+
+ don't take cells into account that are diagonally connected to the current cell
+\begin_inset Newline newline
+\end_inset
+
+(
+\series bold
+NoDiagonals
+\series default
+).
+ In 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Clustering-process"
+
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+(b) cells
+\begin_inset space ~
+\end_inset
+
+A and C would then not be evaluated.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset CommandInset label
+LatexCommand label
 name "enu:Specification-of-the"
 
 \end_inset
@@ -1601,30 +1634,18 @@ StartResolution
 \begin_layout Enumerate
 \begin_inset CommandInset label
 LatexCommand label
-name "enu:OptionDiagonal"
+name "enu:Specification-of-a"
 
 \end_inset
 
-In step
+Specification of a resolution at which the loop step
 \begin_inset space ~
 \end_inset
 
 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "enu:AlgoStep3"
-
-\end_inset
-
- don't take cells into account that are diagonally connected to the current cell (
-\series bold
-NoDiagonals
-\series default
-).
- In 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Clustering-process"
+reference "enu:AlgoStep1"
 
 \end_inset
 
@@ -1632,11 +1653,32 @@ reference "fig:Clustering-process"
 \begin_inset space \thinspace{}
 \end_inset
 
-(b) cells
-\begin_inset space ~
+–
+\begin_inset space \thinspace{}
 \end_inset
 
-A and C would then not be evaluated.
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:AlgoStep5"
+
+\end_inset
+
+ is stopped (
+\series bold
+StopResolution
+\series default
+).
+ It is by default set to 
+\begin_inset Formula $\min(64,N)$
+\end_inset
+
+,
+ whereas 
+\begin_inset Formula $N$
+\end_inset
+
+ is the number of data points.
 \end_layout
 
 \begin_layout Enumerate
@@ -1679,65 +1721,6 @@ MinClusterDensity
 
  will be erased.
  The minimum and default is 1.0.
-\end_layout
-
-\begin_layout Enumerate
-\begin_inset CommandInset label
-LatexCommand label
-name "enu:Specification-of-a"
-
-\end_inset
-
-Specification of a resolution at which the loop step
-\begin_inset space ~
-\end_inset
-
-
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "enu:AlgoStep1"
-
-\end_inset
-
-
-\begin_inset space \thinspace{}
-\end_inset
-
-–
-\begin_inset space \thinspace{}
-\end_inset
-
-
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "enu:AlgoStep5"
-
-\end_inset
-
- is stopped
-\begin_inset Newline newline
-\end_inset
-
- (
-\series bold
-StopResolution
-\series default
-).
-\end_layout
-
-\begin_layout Standard
-Option
-\begin_inset space ~
-\end_inset
-
-
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "enu:Specification-of-the"
-
-\end_inset
-
- can speed up the computation significantly.
 \end_layout
 
 \begin_layout Standard
@@ -1797,6 +1780,49 @@ Option
 
 \begin_inset CommandInset ref
 LatexCommand ref
+reference "enu:Specification-of-the"
+
+\end_inset
+
+ can speed up the computation,
+ see 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Computational-Complexity"
+
+\end_inset
+
+ for details.
+\end_layout
+
+\begin_layout Standard
+Option
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:Specification-of-a"
+
+\end_inset
+
+ prevents undesired many loops.
+ For example if 
+\begin_inset Formula $\rho$
+\end_inset
+
+ was set to a high value and no cluster will be found.
+\end_layout
+
+\begin_layout Standard
+Option
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
 reference "enu:OptionClusterSize"
 
 \end_inset
@@ -1831,26 +1857,6 @@ MinClusters
 \series default
  is used.
  It helps to sort out clusters with a density too low to be sensible for the use case.
-\end_layout
-
-\begin_layout Standard
-Option
-\begin_inset space ~
-\end_inset
-
-
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "enu:Specification-of-a"
-
-\end_inset
-
- prevents undesired many loops.
- For example if 
-\begin_inset Formula $\rho$
-\end_inset
-
- was set to a high value and no cluster will be found.
 \end_layout
 
 \begin_layout Standard
@@ -1950,7 +1956,7 @@ Iteridense
  with the density of the whole dataset
 \begin_inset Formula 
 \begin{equation}
-\rho_{\mathrm{data\,set}}=\frac{\text{total num of points}}{\text{total num of cells}}
+\rho_{\mathrm{dataset}}=\frac{\text{total num of points}}{\text{total num of cells}}
 \end{equation}
 
 \end_inset
@@ -1958,7 +1964,7 @@ Iteridense
  and we would then have
 \begin_inset Formula 
 \[
-\rho_{\mathrm{cluster\,norm}}=\frac{\rho_{\mathrm{cluster}}}{\rho_{\mathrm{data\,set}}}
+\rho_{\mathrm{cluster\,norm}}=\frac{\rho_{\mathrm{cluster}}}{\rho_{\mathrm{dataset}}}
 \]
 
 \end_inset
@@ -2009,13 +2015,16 @@ Take for example this case:
 \end_inset
 
 .
- We get then 
+\begin_inset Newline newline
+\end_inset
+
+We get 
 \begin_inset Formula $\rho_{\mathrm{cluster}}={\displaystyle \frac{P}{C}}=4\vphantom{\cfrac{A^{A^{A}}}{A_{A_{A}}}_{_{A_{A}}}^{A^{A}}}$
 \end_inset
 
 ,
  
-\begin_inset Formula $\rho_{\mathrm{data\,set\,1D}}={\displaystyle \frac{N}{R}}=2\vphantom{\cfrac{A^{A^{A}}}{A_{A_{A}}}_{_{A_{A}}}^{A^{A}}}$
+\begin_inset Formula $\rho_{\mathrm{dataset\,1D}}={\displaystyle \frac{N}{R}}=2\vphantom{\cfrac{A^{A^{A}}}{A_{A_{A}}}_{_{A_{A}}}^{A^{A}}}$
 \end_inset
 
 ,
@@ -2024,7 +2033,7 @@ Take for example this case:
 \end_inset
 
 ,
- so the cluster is in 1D 2
+ so the cluster is 2
 \begin_inset space ~
 \end_inset
 
@@ -2037,7 +2046,7 @@ Now another dimension is added.
 \end_layout
 
 \begin_layout Itemize
-we assume that for the 1D case we have 2
+We assume that for the 1D case we have 2
 \begin_inset space ~
 \end_inset
 
@@ -2046,11 +2055,11 @@ equal clusters that contain together all data points,
 \begin_inset Formula $N=2P$
 \end_inset
 
-
+.
 \end_layout
 
 \begin_layout Itemize
-we assume that every dimension adds 2 more of these clusters (like a hypercube gets 2 more facets with every dimension)
+We assume that every dimension adds 2 more of these clusters (like a hypercube gets 2 more facets with every dimension).
 \end_layout
 
 \begin_layout Standard
@@ -2063,7 +2072,7 @@ With this we have for 2D:
 
 ,
  
-\begin_inset Formula $\rho_{\mathrm{data\,set\,2D}}={\displaystyle \frac{2\cdot2\cdot P}{R^{2}}}$
+\begin_inset Formula $\rho_{\mathrm{dataset\,2D}}={\displaystyle \frac{2\cdot2\cdot P}{R^{2}}}$
 \end_inset
 
 ,
@@ -2110,7 +2119,7 @@ Iteridense
 \end_layout
 
 \begin_layout Standard
-The solution is to preserve the 
+The solution is to preserve 
 \begin_inset Formula $\rho_{\mathrm{cluster\,norm}}$
 \end_inset
 
@@ -2145,14 +2154,14 @@ The solution is to preserve the
 \end_inset
 
  only depends on 
-\begin_inset Formula $\rho_{\mathrm{data\,set}}$
+\begin_inset Formula $\rho_{\mathrm{dataset}}$
 \end_inset
 
 .
  With our assumptions we have
 \begin_inset Formula 
 \begin{equation}
-\rho_{\mathrm{data\,set}}=\frac{2D\cdot P}{R^{D}}
+\rho_{\mathrm{dataset\,D}}=\frac{2D\cdot P}{R^{D}}
 \end{equation}
 
 \end_inset
@@ -2160,7 +2169,7 @@ The solution is to preserve the
 and
 \begin_inset Formula 
 \begin{equation}
-\gamma_{1D}=\frac{\rho_{\mathrm{data\,set\,D}}}{\rho_{\mathrm{data\,set\,1D}}}=\frac{R\cdot2D\cdot P}{2\cdot PR^{D}}=\frac{D}{R^{D-1}}
+\gamma_{1D}=\frac{\rho_{\mathrm{dataset\,D}}}{\rho_{\mathrm{dataset\,1D}}}=\frac{R\cdot2D\cdot P}{2\cdot PR^{D}}=\frac{D}{R^{D-1}}
 \end{equation}
 
 \end_inset
@@ -2194,9 +2203,9 @@ Since for
 \end_layout
 
 \begin_layout Standard
-However,
- this normalization will preserve the density from the 1D case.
- For most practical use cases,
+This normalization will preserve the density from the 1D case.
+ However,
+ for most practical use cases,
  one starts with 2D.
  Therefore we normalize according to the 2D case:
 \end_layout
@@ -2204,7 +2213,7 @@ However,
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\gamma_{2D}=\frac{\rho_{\mathrm{data\,set\,D}}}{\rho_{\mathrm{data\,set\,2D}}}=\frac{R^{2}\cdot2D\cdot P}{4\cdot PR^{D}}=\frac{D}{2R^{D-2}}
+\gamma_{2D}=\frac{\rho_{\mathrm{dataset\,D}}}{\rho_{\mathrm{dataset\,2D}}}=\frac{R^{2}\cdot2D\cdot P}{4\cdot PR^{D}}=\frac{D}{2R^{D-2}}
 \end{equation}
 
 \end_inset
@@ -2216,7 +2225,7 @@ However,
 The final normalization is
 \begin_inset Formula 
 \begin{equation}
-\rho_{\mathrm{cluster\,norm}}=\frac{\text{num points in cluster}}{\text{num cells of cluster}}\cdot\frac{\text{total num of points}}{\text{total num of cells}}\cdot\frac{\text{dimension}}{2\thinspace\text{resolution}^{\text{dimension}-2}}
+\rho_{\mathrm{cluster\,norm}}=\frac{\text{num points in cluster}}{\text{num cells of cluster}}\cdot\frac{\text{total num of points}}{\text{total num of cells}}\cdot\frac{\text{dimension}}{2\thinspace\text{resolution}^{\text{dimension}-2\vphantom{Â}}}
 \end{equation}
 
 \end_inset
@@ -2226,7 +2235,7 @@ The final normalization is
 
 \begin_layout Standard
 This normalization cannot cover all cases but keeps 
-\begin_inset Formula $\rho_{\mathrm{cluster}}$
+\begin_inset Formula $\rho_{\mathrm{cluster\,norm}}$
 \end_inset
 
  stable enough for practical usage.
@@ -2274,7 +2283,7 @@ clusters,
 \begin_layout Itemize
 Now a new dimension is added which only adds a single new cluster of the same size.
  Then we have 
-\begin_inset Formula $\rho_{\mathrm{data\,set\,2D}}={\displaystyle \frac{2P}{R^{2}}}\vphantom{\cfrac{A^{A^{A}}}{A_{A_{A}}}_{_{A_{A}}}^{A^{A}}}$
+\begin_inset Formula $\rho_{\mathrm{dataset\,2D}}={\displaystyle \frac{2P}{R^{2}}}\vphantom{\cfrac{A^{A^{A}}}{A_{A_{A}}}_{_{A_{A}}}^{A^{A}}}$
 \end_inset
 
  and thus 
@@ -2309,7 +2318,7 @@ Now a new dimension is added which adds two new clusters of the same size.
 \end_inset
 
  
-\begin_inset Formula $\rho_{\mathrm{data\,set\,3D}}={\displaystyle \frac{4P}{R^{3}}}\vphantom{\cfrac{A^{A^{A}}}{A_{A_{A}}}_{_{A_{A}}}^{A^{A}}}$
+\begin_inset Formula $\rho_{\mathrm{dataset\,3D}}={\displaystyle \frac{4P}{R^{3}}}\vphantom{\cfrac{A^{A^{A}}}{A_{A_{A}}}_{_{A_{A}}}^{A^{A}}}$
 \end_inset
 
  and thus 
@@ -2342,7 +2351,7 @@ clusters at every corner of the data grid.
 \begin_layout Itemize
 Now a new dimension is added which only adds a single new cluster of the same size.
  Then we have 
-\begin_inset Formula $\rho_{\mathrm{data\,set\,2D}}={\displaystyle \frac{4P}{R^{2}}}\vphantom{\cfrac{A^{A^{A}}}{A_{A_{A}}}_{_{A_{A}}}^{A^{A}}}$
+\begin_inset Formula $\rho_{\mathrm{dataset\,2D}}={\displaystyle \frac{4P}{R^{2}}}\vphantom{\cfrac{A^{A^{A}}}{A_{A_{A}}}_{_{A_{A}}}^{A^{A}}}$
 \end_inset
 
  and thus 
@@ -2355,7 +2364,7 @@ Now a new dimension is added which only adds a single new cluster of the same si
 \end_inset
 
  we have 
-\begin_inset Formula $\rho_{\mathrm{data\,set\,3D}}={\displaystyle \frac{5P}{R^{3}}}\vphantom{\cfrac{A^{A^{A}}}{A_{A_{A}}}_{_{A_{A}}}^{A^{A}}}$
+\begin_inset Formula $\rho_{\mathrm{dataset\,3D}}={\displaystyle \frac{5P}{R^{3}}}\vphantom{\cfrac{A^{A^{A}}}{A_{A_{A}}}_{_{A_{A}}}^{A^{A}}}$
 \end_inset
 
  and thus 
@@ -2382,7 +2391,7 @@ Now a new dimension is added which adds two new clusters of the same size.
 \end_inset
 
  
-\begin_inset Formula $\rho_{\mathrm{data\,set\,3D}}={\displaystyle \frac{6P}{R^{3}}}\vphantom{\cfrac{A^{A^{A}}}{A_{A_{A}}}_{_{A_{A}}}^{A^{A}}}$
+\begin_inset Formula $\rho_{\mathrm{dataset\,3D}}={\displaystyle \frac{6P}{R^{3}}}\vphantom{\cfrac{A^{A^{A}}}{A_{A_{A}}}_{_{A_{A}}}^{A^{A}}}$
 \end_inset
 
  and thus 
@@ -3968,6 +3977,13 @@ Iteridense
 
 \begin_layout Subsection
 Computational Complexity
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Computational-Complexity"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -4109,18 +4125,18 @@ as approximation we can write
 
 \end_inset
 
-and get
-\begin_inset Formula 
-\begin{equation}
-\mathcal{O}\left(N+\left(R_{\mathrm{final}}-R_{\mathrm{start}}+2\right)ND+\frac{3^{D}}{2(D+1)}\left(\left(R_{\mathrm{final}}+1\right)^{D+1}-R_{\mathrm{start}}^{D+1}\right)\right)
-\end{equation}
-
+For 
+\begin_inset Formula $\mathcal{O}$
 \end_inset
 
+ we can neglect the addition of 
+\begin_inset Formula $N$
+\end_inset
 
+ and get
 \begin_inset Formula 
 \begin{equation}
-\mathcal{O}\approx\mathcal{O}\left(\left(R_{\mathrm{final}}-R_{\mathrm{start}}+2\right)ND+\frac{3^{D}}{2(D+1)}\left(\left(R_{\mathrm{final}}+1\right)^{D+1}-R_{\mathrm{start}}^{D+1}\right)\right)\label{eq:O()}
+\mathcal{O}\left(\left(R_{\mathrm{final}}-R_{\mathrm{start}}+2\right)ND+\frac{3^{D}}{2(D+1)}\left(\left(R_{\mathrm{final}}+1\right)^{D+1}-R_{\mathrm{start}}^{D+1}\right)\right)\label{eq:O()}
 \end{equation}
 
 \end_inset
@@ -4150,15 +4166,15 @@ With this result the following can be seen:
 \end_layout
 
 \begin_layout Itemize
-\begin_inset Formula $\mathcal{O}$
-\end_inset
 
+\noun on
+Iteridense
+\noun default
  scales roughly with 
 \begin_inset Formula $\mathcal{O}\left(DN+R^{D+1}\right)$
 \end_inset
 
-,
- thus a linear increase plus an offset
+ – a linear increase plus an offset.
 \end_layout
 
 \begin_layout Itemize
@@ -4170,15 +4186,20 @@ Setting
 \series bold
 StartResolution
 \series default
-) has not the major impact
+) has an impact,
+ but a minor one.
 \end_layout
 
 \begin_layout Itemize
-The worst case is that 
+The worst case for 
+\noun on
+Iteridense
+\noun default
+ is that 
 \begin_inset Formula $\rho$
 \end_inset
 
- is set so high that the 
+ is set so high that 
 \begin_inset Formula $R_{\mathrm{final}}=N$
 \end_inset
 
@@ -4188,7 +4209,11 @@ The worst case is that
 \series bold
 StopResolution
 \series default
- is by default set to 100.
+ sets the limit for 
+\begin_inset Formula $R_{\mathrm{final}}$
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -4212,8 +4237,13 @@ reference "tab:Computational-and-memory"
 \begin_inset Formula $N=1500$
 \end_inset
 
-.
- We clustered subsequently subsets of that dataset to create a plot with the computation time over 
+ and clustered subsets of that dataset.
+ Every subset has a different 
+\begin_inset Formula $N$
+\end_inset
+
+,
+ which allows to create a plot with the computation time over 
 \begin_inset Formula $N$
 \end_inset
 
@@ -4641,8 +4671,25 @@ Iteridense
 \begin_inset Formula $R_{\mathrm{final}}=16$
 \end_inset
 
- and this value was used when measuring the calculation times.
- For comparison 
+ and this value was used for 
+\series bold
+StopResolution
+\series default
+ when clustering the subsets.
+ By setting 
+\begin_inset Formula $\text{\textbf{MinClusters}}=20$
+\end_inset
+
+ it was assured that for every clustering 
+\begin_inset Formula $R_{\mathrm{final}}=16$
+\end_inset
+
+ was reached.
+\begin_inset Newline newline
+\end_inset
+
+For comparison,
+ 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Result-Iteridense-Circles"
@@ -4662,12 +4709,19 @@ reference "fig:Result-Iteridense-Circles"
 \end_inset
 
 .
- We chose for the time measurement for comparison also 
+ We chose for the subset clustering also 
 \begin_inset Formula $\epsilon=0.2$
 \end_inset
 
-.
- The computation of the k-mean and DBSCAN algorithms were performed using their implementation in the package 
+ to see the influence of 
+\begin_inset Formula $\epsilon$
+\end_inset
+
+ on the computation time.
+\begin_inset Newline newline
+\end_inset
+
+The computation of the k-mean and DBSCAN algorithms were performed using their implementation in the package 
 \emph on
 Clustering
 \emph default
@@ -4694,7 +4748,8 @@ literal "false"
 Julia
 \noun default
  programming language.
- To get reliable values the clustering was for every algorithm performed 2000
+ To get reliable values,
+ the clustering was for every algorithm performed 2000
 \begin_inset space ~
 \end_inset
 
@@ -4876,7 +4931,7 @@ Iteridense
 
 .
  By repeating the test in 3D,
- we should see a shift of this value to greater number because of the greater offset in 
+ we should see an increase of this value because of the greater offset in 
 \begin_inset Formula $\mathcal{O}$
 \end_inset
 
@@ -4894,13 +4949,13 @@ clusters for the range
 \begin_inset Formula $0.2\le\epsilon\le0.26$
 \end_inset
 
- and we therefore chose the lowest possible 
+ and we chose the lowest possible 
 \begin_inset Formula $\epsilon=0.2$
 \end_inset
 
 .
  Eventually,
- we extended the dataset by copying its points to get in total 
+ we extended the dataset by multiplying its points to get in total 
 \begin_inset Formula $N=7500\thinspace$
 \end_inset
 
@@ -5033,7 +5088,8 @@ Iteridense
 \noun on
 Iterdense
 \noun default
- extends the parameter range at which clustering could be performed dramatically,
+ extends the parameter range at which clustering could be performed,
+ dramatically,
  compared to algorithms with 
 \begin_inset Formula $\mathcal{O}\left(DN^{2}\right)$
 \end_inset

@@ -289,16 +289,15 @@ in the cluster.
 To make $\rho_{\mathrm{cluster}}$ independent of the resolution,
 it has to be the normalized:
 \begin{equation}
-\rho_{\mathrm{cluster\,norm}}=\frac{\text{num points in cluster}}{\text{num cells of cluster}}\cdot\frac{\text{total num of points}}{\text{total num of cells}}\cdot\frac{\text{dimension}}{2\thinspace\text{resolution}^{\text{dimension}-2}}
+\rho_{\mathrm{cluster}}=\frac{\text{num points in cluster}}{\text{num cells of cluster}}\cdot\frac{\text{total num of points}}{\text{total num of cells}}\cdot\frac{\text{dimension}}{2\thinspace\text{resolution}^{\text{dimension}-2\vphantom{\hat{A}}}}
 \end{equation}
 
 The normalization is derived in \ref{subsec:Density-Normalization}.
-For 2~dimensions the last term vanishes and $\rho_{\mathrm{cluster\,norm}}$
+For 2~dimensions the last term vanishes and $\rho_{\mathrm{cluster}}$
 describes by what factor the cluster is more dense than the whole
 dataset.
 
-The final density $\rho_{\mathrm{final}}$ is the minimum of all $\rho_{\mathrm{cluster\,norm}}$.\\
-(In the following $\rho_{\mathrm{cluster}}$ means $\rho_{\mathrm{cluster\,norm}}$.)
+The final density $\rho_{\mathrm{final}}$ is the minimum of all $\rho_{\mathrm{cluster}}$.
 \item \label{enu:AlgoStep5}All clusters are evaluated. Optionally clusters
 with $\rho_{\mathrm{cluster}}$ lower than a specified value will
 be deleted. If they contain fewer data points than a specified value,
@@ -348,14 +347,18 @@ data shown in \ref{fig:Clustering-process}\,(a) for $\rho=4.1$.}
 
 The algorithm can optionally be modified this way:
 \begin{enumerate}
+\item \label{enu:OptionDiagonal}In step~\ref{enu:AlgoStep3} don't take
+cells into account that are diagonally connected to the current cell\\
+(\textbf{NoDiagonals}). In \ref{fig:Clustering-process}\,(b) cells~A
+and C would then not be evaluated.
 \item \label{enu:Specification-of-the}Specification of the start resolution
 for step~\ref{enu:AlgoStep1} (\textbf{StartResolution}). The default
 and minimum is 2, the maximum is the total number of points in the
 dataset.
-\item \label{enu:OptionDiagonal}In step~\ref{enu:AlgoStep3} don't take
-cells into account that are diagonally connected to the current cell
-(\textbf{NoDiagonals}). In \ref{fig:Clustering-process}\,(b) cells~A
-and C would then not be evaluated.
+\item \label{enu:Specification-of-a}Specification of a resolution at which
+the loop step~\ref{enu:AlgoStep1}\,--\,\ref{enu:AlgoStep5} is
+stopped (\textbf{StopResolution}). It is by default set to $\min(64,N)$,
+whereas $N$ is the number of data points.
 \item \label{enu:OptionClusterSize}Specification of the minimal number
 of data points in a cluster (\textbf{MinClusterSize}). Clusters with
 less points will be erased. The default is 3, the minimum is 2, the
@@ -363,18 +366,18 @@ maximum is the total number of points in the dataset minus 1.
 \item \label{enu:OptionClusterDensity}Specification of the minimal $\rho_{\mathrm{cluster}}$
 of a cluster (\textbf{MinClusterDensity}). Clusters with lower $\rho_{\mathrm{cluster}}$
 will be erased. The minimum and default is 1.0.
-\item \label{enu:Specification-of-a}Specification of a resolution at which
-the loop step~\ref{enu:AlgoStep1}\,--\,\ref{enu:AlgoStep5} is
-stopped\\
- (\textbf{StopResolution}).
 \end{enumerate}
-Option~\ref{enu:Specification-of-the} can speed up the computation
-significantly.
-
 Option~\ref{enu:OptionDiagonal} can be useful for a low $\rho$
 (and thus low resolutions)\footnote{For example with \textbf{NoDiagonals} in \ref{fig:Result-Iteridense}
 with $\rho=2.2$ the cluster would contain more points.} while for higher $\rho$ and also high dimensions it might lead to
 bad results. Therefore this option should only be used if really desired.
+
+Option~\ref{enu:Specification-of-the} can speed up the computation,
+see \ref{subsec:Computational-Complexity} for details.
+
+Option~\ref{enu:Specification-of-a} prevents undesired many loops.
+For example if $\rho$ was set to a high value and no cluster will
+be found.
 
 Option~\ref{enu:OptionClusterSize} is useful to exclude unsuitably
 small clusters. It is recommended to set $\text{\textbf{MinClusterSize}}\ge D+1$
@@ -383,10 +386,6 @@ where $D$ is the dimensionality of the dataset.
 Option~\ref{enu:OptionClusterDensity} has only an effect if \textbf{MinClusters}
 is used. It helps to sort out clusters with a density too low to be
 sensible for the use case.
-
-Option~\ref{enu:Specification-of-a} prevents undesired many loops.
-For example if $\rho$ was set to a high value and no cluster will
-be found.
 
 A reference implementation of \noun{Iteridense} in the programming
 language \noun{Julia} is online available~\cite{Iteridense}. Its
@@ -414,11 +413,11 @@ cells. The \noun{Iteridense} algorithm requires $\rho_{\mathrm{cluster}}$
 to be independent of the resolution. One approach would be to normalize
 $\rho_{\mathrm{cluster}}$ with the density of the whole dataset
 \begin{equation}
-\rho_{\mathrm{data\,set}}=\frac{\text{total num of points}}{\text{total num of cells}}
+\rho_{\mathrm{dataset}}=\frac{\text{total num of points}}{\text{total num of cells}}
 \end{equation}
  and we would then have
 \[
-\rho_{\mathrm{cluster\,norm}}=\frac{\rho_{\mathrm{cluster}}}{\rho_{\mathrm{data\,set}}}
+\rho_{\mathrm{cluster\,norm}}=\frac{\rho_{\mathrm{cluster}}}{\rho_{\mathrm{dataset}}}
 \]
 
 This density is independent of the resolution but not on the dimension.
@@ -429,22 +428,23 @@ dimension does not influence the cluster at all.
 
 Take for example this case: $D=1$, resolution $R=8$, number of cells
 of cluster $C=R/4$ ($C$ depends on $R$), number of points in cluster
-$P=8$, total number of points $N=16$. We get then $\rho_{\mathrm{cluster}}={\displaystyle \frac{P}{C}}=4\vphantom{\cfrac{A^{A^{A}}}{A_{A_{A}}}_{_{A_{A}}}^{A^{A}}}$,
-$\rho_{\mathrm{data\,set\,1D}}={\displaystyle \frac{N}{R}}=2\vphantom{\cfrac{A^{A^{A}}}{A_{A_{A}}}_{_{A_{A}}}^{A^{A}}}$,
+$P=8$, total number of points $N=16$.\\
+We get $\rho_{\mathrm{cluster}}={\displaystyle \frac{P}{C}}=4\vphantom{\cfrac{A^{A^{A}}}{A_{A_{A}}}_{_{A_{A}}}^{A^{A}}}$,
+$\rho_{\mathrm{dataset\,1D}}={\displaystyle \frac{N}{R}}=2\vphantom{\cfrac{A^{A^{A}}}{A_{A_{A}}}_{_{A_{A}}}^{A^{A}}}$,
 $\rho_{\mathrm{cluster\,norm\,1D}}={\displaystyle \frac{PR}{CN}}=2\vphantom{\cfrac{A^{A^{A}}}{A_{A_{A}}}_{_{A_{A}}}^{A^{A}}}$,
-so the cluster is in 1D 2~times more dense than the dataset.
+so the cluster is 2~times more dense than the dataset.
 
 Now another dimension is added. Here we have to make assumptions how
 the number of data points change by this addition:
 \begin{itemize}
-\item we assume that for the 1D case we have 2~equal clusters that contain
-together all data points, so $N=2P$
-\item we assume that every dimension adds 2 more of these clusters (like
-a hypercube gets 2 more facets with every dimension)
+\item We assume that for the 1D case we have 2~equal clusters that contain
+together all data points, so $N=2P$.
+\item We assume that every dimension adds 2 more of these clusters (like
+a hypercube gets 2 more facets with every dimension).
 \end{itemize}
 With this we have for 2D:
 
-$\rho_{\mathrm{cluster}}={\displaystyle \frac{P}{C}}$, $\rho_{\mathrm{data\,set\,2D}}={\displaystyle \frac{2\cdot2\cdot P}{R^{2}}}$,
+$\rho_{\mathrm{cluster}}={\displaystyle \frac{P}{C}}$, $\rho_{\mathrm{dataset\,2D}}={\displaystyle \frac{2\cdot2\cdot P}{R^{2}}}$,
 $\rho_{\mathrm{cluster\,norm\,2D}}={\displaystyle \frac{P\cdot R^{2}}{C\cdot2\cdot2\cdot P}}=8$,
 
 so the cluster is 8~times more dense than the dataset and $\rho_{\mathrm{cluster\,norm}}$
@@ -454,21 +454,21 @@ clusters. The addition of a dimension would lead to the fact that
 one has to increase $\rho$ drastically to find the same cluster.
 This makes the usage of $\rho$ hard.
 
-The solution is to preserve the $\rho_{\mathrm{cluster\,norm}}$ of
-the 1D case to all greater dimensions using the assumptions we made
-for adding a dimension. That means we have to multiply $\rho_{\mathrm{cluster\,norm}}$
+The solution is to preserve $\rho_{\mathrm{cluster\,norm}}$ of the
+1D case to all greater dimensions using the assumptions we made for
+adding a dimension. That means we have to multiply $\rho_{\mathrm{cluster\,norm}}$
 with a correction factor $\gamma$ that depends on the dimension.
 In our example $\gamma$ would be 1/4.
 
 $\rho_{\mathrm{cluster}}$ is independent of $D$, therefore $\gamma$
-only depends on $\rho_{\mathrm{data\,set}}$. With our assumptions
-we have
+only depends on $\rho_{\mathrm{dataset}}$. With our assumptions we
+have
 \begin{equation}
-\rho_{\mathrm{data\,set}}=\frac{2D\cdot P}{R^{D}}
+\rho_{\mathrm{dataset\,D}}=\frac{2D\cdot P}{R^{D}}
 \end{equation}
 and
 \begin{equation}
-\gamma_{1D}=\frac{\rho_{\mathrm{data\,set\,D}}}{\rho_{\mathrm{data\,set\,1D}}}=\frac{R\cdot2D\cdot P}{2\cdot PR^{D}}=\frac{D}{R^{D-1}}
+\gamma_{1D}=\frac{\rho_{\mathrm{dataset\,D}}}{\rho_{\mathrm{dataset\,1D}}}=\frac{R\cdot2D\cdot P}{2\cdot PR^{D}}=\frac{D}{R^{D-1}}
 \end{equation}
 and
 \begin{equation}
@@ -478,20 +478,20 @@ and
 Since for $D=1$ $C\propto R$, $\rho_{\mathrm{cluster\,norm}}$ is
 independent of the dimension and the resolution.
 
-However, this normalization will preserve the density from the 1D
-case. For most practical use cases, one starts with 2D. Therefore
-we normalize according to the 2D case:
+This normalization will preserve the density from the 1D case. However,
+for most practical use cases, one starts with 2D. Therefore we normalize
+according to the 2D case:
 
 \begin{equation}
-\gamma_{2D}=\frac{\rho_{\mathrm{data\,set\,D}}}{\rho_{\mathrm{data\,set\,2D}}}=\frac{R^{2}\cdot2D\cdot P}{4\cdot PR^{D}}=\frac{D}{2R^{D-2}}
+\gamma_{2D}=\frac{\rho_{\mathrm{dataset\,D}}}{\rho_{\mathrm{dataset\,2D}}}=\frac{R^{2}\cdot2D\cdot P}{4\cdot PR^{D}}=\frac{D}{2R^{D-2}}
 \end{equation}
 
 The final normalization is
 \begin{equation}
-\rho_{\mathrm{cluster\,norm}}=\frac{\text{num points in cluster}}{\text{num cells of cluster}}\cdot\frac{\text{total num of points}}{\text{total num of cells}}\cdot\frac{\text{dimension}}{2\thinspace\text{resolution}^{\text{dimension}-2}}
+\rho_{\mathrm{cluster\,norm}}=\frac{\text{num points in cluster}}{\text{num cells of cluster}}\cdot\frac{\text{total num of points}}{\text{total num of cells}}\cdot\frac{\text{dimension}}{2\thinspace\text{resolution}^{\text{dimension}-2\vphantom{\hat{A}}}}
 \end{equation}
 
-This normalization cannot cover all cases but keeps $\rho_{\mathrm{cluster}}$
+This normalization cannot cover all cases but keeps $\rho_{\mathrm{cluster\,norm}}$
 stable enough for practical usage. To get a feeling about the stability
 we take the case $D=2$, $R=8$ and clusters with each $P=8$ and
 $C=2$, thus $\rho_{\mathrm{cluster}}=4$. We look at these 4~cases:
@@ -500,13 +500,13 @@ $C=2$, thus $\rho_{\mathrm{cluster}}=4$. We look at these 4~cases:
 left corner of the data grid.
 \begin{itemize}
 \item Now a new dimension is added which only adds a single new cluster
-of the same size. Then we have $\rho_{\mathrm{data\,set\,2D}}={\displaystyle \frac{2P}{R^{2}}}\vphantom{\cfrac{A^{A^{A}}}{A_{A_{A}}}_{_{A_{A}}}^{A^{A}}}$
+of the same size. Then we have $\rho_{\mathrm{dataset\,2D}}={\displaystyle \frac{2P}{R^{2}}}\vphantom{\cfrac{A^{A^{A}}}{A_{A_{A}}}_{_{A_{A}}}^{A^{A}}}$
 and thus $\rho_{\mathrm{cluster\,norm\,2D}}=16$. And for $D=3$ we
 have $\rho_{\mathrm{data\,set\,3D}}={\displaystyle \frac{3P}{R^{3}}}\vphantom{\cfrac{A^{A^{A}}}{A_{A_{A}}}_{_{A_{A}}}^{A^{A}}}$
 and thus $\rho_{\mathrm{cluster\,norm\,3D}}=16$. So no change for
 $\rho_{\mathrm{cluster\,norm}}$.
 \item Now a new dimension is added which adds two new clusters of the same
-size. Then we have for $D=3$ $\rho_{\mathrm{data\,set\,3D}}={\displaystyle \frac{4P}{R^{3}}}\vphantom{\cfrac{A^{A^{A}}}{A_{A_{A}}}_{_{A_{A}}}^{A^{A}}}$
+size. Then we have for $D=3$ $\rho_{\mathrm{dataset\,3D}}={\displaystyle \frac{4P}{R^{3}}}\vphantom{\cfrac{A^{A^{A}}}{A_{A_{A}}}_{_{A_{A}}}^{A^{A}}}$
 and thus $\rho_{\mathrm{cluster\,norm\,3D}}=12$. So $\rho_{\mathrm{cluster\,norm}}$
 increased by a factor 0.75. Without $\gamma_{2D}$ it would have increased
 by a factor 4.
@@ -514,14 +514,14 @@ by a factor 4.
 \item 4~clusters at every corner of the data grid.
 \begin{itemize}
 \item Now a new dimension is added which only adds a single new cluster
-of the same size. Then we have $\rho_{\mathrm{data\,set\,2D}}={\displaystyle \frac{4P}{R^{2}}}\vphantom{\cfrac{A^{A^{A}}}{A_{A_{A}}}_{_{A_{A}}}^{A^{A}}}$
+of the same size. Then we have $\rho_{\mathrm{dataset\,2D}}={\displaystyle \frac{4P}{R^{2}}}\vphantom{\cfrac{A^{A^{A}}}{A_{A_{A}}}_{_{A_{A}}}^{A^{A}}}$
 and thus $\rho_{\mathrm{cluster\,norm\,2D}}=8$. And for $D=3$ we
-have $\rho_{\mathrm{data\,set\,3D}}={\displaystyle \frac{5P}{R^{3}}}\vphantom{\cfrac{A^{A^{A}}}{A_{A_{A}}}_{_{A_{A}}}^{A^{A}}}$
+have $\rho_{\mathrm{dataset\,3D}}={\displaystyle \frac{5P}{R^{3}}}\vphantom{\cfrac{A^{A^{A}}}{A_{A_{A}}}_{_{A_{A}}}^{A^{A}}}$
 and thus $\rho_{\mathrm{cluster\,norm\,3D}}=9.6$. So an increase
 of $\rho_{\mathrm{cluster\,norm}}$ by a factor of 1.2. Without $\gamma_{2D}$
 it would have increased by a factor 6.4.
 \item Now a new dimension is added which adds two new clusters of the same
-size. Then we have for $D=3$ $\rho_{\mathrm{data\,set\,3D}}={\displaystyle \frac{6P}{R^{3}}}\vphantom{\cfrac{A^{A^{A}}}{A_{A_{A}}}_{_{A_{A}}}^{A^{A}}}$
+size. Then we have for $D=3$ $\rho_{\mathrm{dataset\,3D}}={\displaystyle \frac{6P}{R^{3}}}\vphantom{\cfrac{A^{A^{A}}}{A_{A_{A}}}_{_{A_{A}}}^{A^{A}}}$
 and thus $\rho_{\mathrm{cluster\,norm\,3D}}=8$. So no change for
 $\rho_{\mathrm{cluster\,norm}}$.
 \end{itemize}
@@ -728,7 +728,7 @@ for clusters with different densities.}
 \end{figure}
 
 
-\subsection{Computational Complexity}
+\subsection{Computational Complexity\label{subsec:Computational-Complexity}}
 
 \noun{Iteridense} creates two tensors, the count tensor to store how
 many data points are in a cell and the cluster tensor that stores
@@ -765,12 +765,9 @@ as approximation we can write
 \[
 \sum_{R=R_{\mathrm{start}}}^{R_{\mathrm{final}}+1}R^{D}\approx\frac{\left(R_{\mathrm{final}}+1\right)^{D+1}-R_{\mathrm{start}}^{D+1}}{D+1}
 \]
-and get
+For $\mathcal{O}$ we can neglect the addition of $N$ and get
 \begin{equation}
-\mathcal{O}\left(N+\left(R_{\mathrm{final}}-R_{\mathrm{start}}+2\right)ND+\frac{3^{D}}{2(D+1)}\left(\left(R_{\mathrm{final}}+1\right)^{D+1}-R_{\mathrm{start}}^{D+1}\right)\right)
-\end{equation}
-\begin{equation}
-\mathcal{O}\approx\mathcal{O}\left(\left(R_{\mathrm{final}}-R_{\mathrm{start}}+2\right)ND+\frac{3^{D}}{2(D+1)}\left(\left(R_{\mathrm{final}}+1\right)^{D+1}-R_{\mathrm{start}}^{D+1}\right)\right)\label{eq:O()}
+\mathcal{O}\left(\left(R_{\mathrm{final}}-R_{\mathrm{start}}+2\right)ND+\frac{3^{D}}{2(D+1)}\left(\left(R_{\mathrm{final}}+1\right)^{D+1}-R_{\mathrm{start}}^{D+1}\right)\right)\label{eq:O()}
 \end{equation}
 
 The worst case is $R_{\mathrm{start}}=2$ as this is the lowest possible
@@ -781,20 +778,21 @@ resolution. This leads to
 
 With this result the following can be seen:
 \begin{itemize}
-\item $\mathcal{O}$ scales roughly with $\mathcal{O}\left(DN+R^{D+1}\right)$,
-thus a linear increase plus an offset
+\item \noun{Iteridense} scales roughly with $\mathcal{O}\left(DN+R^{D+1}\right)$
+-- a linear increase plus an offset.
 \item Setting $R_{\mathrm{start}}$ (the parameter \textbf{StartResolution})
-has not the major impact
-\item The worst case is that $\rho$ is set so high that the $R_{\mathrm{final}}=N$.
-To prevent that this happens, the parameter \textbf{StopResolution}
-is by default set to 100.
+has an impact, but a minor one.
+\item The worst case for \noun{Iteridense} is that $\rho$ is set so high
+that $R_{\mathrm{final}}=N$. To prevent that this happens, the parameter
+\textbf{StopResolution} sets the limit for $R_{\mathrm{final}}$.
 \end{itemize}
 \ref{tab:Computational-and-memory} lists $\mathcal{O}$ of different
 clustering algorithms. To prove that our derivation of $\mathcal{O}$
-is correct, we took a dataset with $N=1500$. We clustered subsequently
-subsets of that dataset to create a plot with the computation time
-over $N$. The used dataset is shown in \ref{fig:Result-Iteridense-Circles}.
-It was generated using the \emph{make\_circles }call to \emph{sklearn.datasets}.
+is correct, we took a dataset with $N=1500$ and clustered subsets
+of that dataset. Every subset has a different $N$, which allows to
+create a plot with the computation time over $N$. The used dataset
+is shown in \ref{fig:Result-Iteridense-Circles}. It was generated
+using the \emph{make\_circles }call to \emph{sklearn.datasets}.
 
 \begin{table}[h]
 \caption{\label{tab:Computational-and-memory}Computational and memory complexity
@@ -833,17 +831,21 @@ and DBSCAN for intersected circle-like clusters.}
 
 \ref{fig:Result-Iteridense-Circles}\,(a) shows the \noun{Iteridense}
 result for the full dataset for $\text{\textbf{MinClusters}}=2$.
-Thereby $R_{\mathrm{final}}=16$ and this value was used when measuring
-the calculation times. For comparison \ref{fig:Result-Iteridense-Circles}\,(b)
-shows the result using the DBSCAN algorithm for $\epsilon=0.1$ and
-$\text{\textbf{MinPts}}=3$. We chose for the time measurement for
-comparison also $\epsilon=0.2$. The computation of the k-mean and
-DBSCAN algorithms were performed using their implementation in the
-package \emph{Clustering} of the \noun{Julia} programming language,
-\cite{ClusteringDBSCAN}. The times were measured using the feature
-\emph{@elapsed} of the \noun{Julia} programming language. To get reliable
-values the clustering was for every algorithm performed 2000~times
-in a row and the overall time was taken.
+Thereby $R_{\mathrm{final}}=16$ and this value was used for \textbf{StopResolution}
+when clustering the subsets. By setting $\text{\textbf{MinClusters}}=20$
+it was assured that for every clustering $R_{\mathrm{final}}=16$
+was reached.\\
+For comparison, \ref{fig:Result-Iteridense-Circles}\,(b) shows the
+result using the DBSCAN algorithm for $\epsilon=0.1$ and $\text{\textbf{MinPts}}=3$.
+We chose for the subset clustering also $\epsilon=0.2$ to see the
+influence of $\epsilon$ on the computation time.\\
+The computation of the k-mean and DBSCAN algorithms were performed
+using their implementation in the package \emph{Clustering} of the
+\noun{Julia} programming language, \cite{ClusteringDBSCAN}. The times
+were measured using the feature \emph{@elapsed} of the \noun{Julia}
+programming language. To get reliable values, the clustering was for
+every algorithm performed 2000~times in a row and the overall time
+was taken.
 
 The result is shown in \ref{fig:Computation-time-comparison}\,(a).
 \noun{Iteridense} shows the same linear increase as k-means proving
@@ -867,14 +869,13 @@ time
 \end{figure}
 
 The $N$ at which \noun{Iteridense} is faster than DBSCAN is at about
-$N=670$. By repeating the test in 3D, we should see a shift of this
-value to greater number because of the greater offset in $\mathcal{O}$
-for \noun{Iteridense}. This test was performed by adding z-values
-to the dataset so that the clusters form cylinders. DBSCAN finds the
-2~clusters for the range $0.2\le\epsilon\le0.26$ and we therefore
-chose the lowest possible $\epsilon=0.2$. Eventually, we extended
-the dataset by copying its points to get in total $N=7500\thinspace$points.
-The result is shown in \ref{fig:Computation-time-comparison}\,(b).
+$N=670$. By repeating the test in 3D, we should see an increase of
+this value because of the greater offset in $\mathcal{O}$ for \noun{Iteridense}.
+This test was performed by adding z-values to the dataset so that
+the clusters form cylinders. DBSCAN finds the 2~clusters for the
+range $0.2\le\epsilon\le0.26$ and we chose the lowest possible $\epsilon=0.2$.
+Eventually, we extended the dataset by multiplying its points to get
+in total $N=7500\thinspace$points. The result is shown in \ref{fig:Computation-time-comparison}\,(b).
 The $N$ at which \noun{Iteridense} is faster than DBSCAN is now at
 about $N=3700$.
 
@@ -892,8 +893,8 @@ in comparison to $\mathcal{O}\left(DN^{2}\right)$ for $R_{\mathrm{final}}=10$.
 in more than 3 dimensions.) The $\mathcal{O}$ of \noun{Iteridense}
 is in all areas lower than $\mathcal{O}\left(DN^{2}\right)$ except
 of low $N$. Therefore \noun{Iterdense} extends the parameter range
-at which clustering could be performed dramatically, compared to algorithms
-with $\mathcal{O}\left(DN^{2}\right)$.
+at which clustering could be performed, dramatically, compared to
+algorithms with $\mathcal{O}\left(DN^{2}\right)$.
 
 \begin{figure}
 \begin{centering}
