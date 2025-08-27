@@ -26,8 +26,8 @@ end
 
 #-------------------------------------------------------------------------------------------------
 # function to get valid neighbors for a given index and dimension
-function getNeighbors!(maxIdxRange, dim::Int64, CheckIdxTuple, neighborIndices, noDiagonals,
-                        ::Val{dimensions}) where dimensions
+function getNeighbors!(maxIdxRanges, dim::Int64, CheckIdxTuple, neighborIndices,
+                        noDiagonals::Bool, ::Val{dimensions}) where dimensions
     # get the index of the current dimension
     idx = CheckIdxTuple[dim]
     # if we exclude diagonal cells, there is only one possible neighbor
@@ -40,12 +40,12 @@ function getNeighbors!(maxIdxRange, dim::Int64, CheckIdxTuple, neighborIndices, 
     # otherwise we have to call getNeighbors! for every variation to check further dimensions
     for offset in -1:1
         neighborIdx = idx + offset
-        if neighborIdx in maxIdxRange
+        if neighborIdx in maxIdxRanges[dim]
             # there are further dimensions to be checked, thus call getNeighbors! recursively
             if dim > 1
                 CheckIdxTupleNew = ntuple(i -> i == dim ? neighborIdx : CheckIdxTuple[i],
                                             Val(dimensions))
-                getNeighbors!(maxIdxRange, dim-1, CheckIdxTupleNew, neighborIndices, noDiagonals,
+                getNeighbors!(maxIdxRanges, dim-1, CheckIdxTupleNew, neighborIndices, noDiagonals,
                                 Val(dimensions))
             else
                 idxTuple = ntuple(i -> i == dim ? neighborIdx : CheckIdxTuple[i], Val(dimensions))
@@ -70,8 +70,8 @@ end
 
 #-------------------------------------------------------------------------------------------------
 # function to test if a cell is part of a cluster
-function checkNeighbors(clusterTensor, currentIdx, numClusters::Int64, maxIdxRange, dimOrder,
-                            noDiagonals, ::Val{dimensions}) where dimensions
+function checkNeighbors(clusterTensor, currentIdx, numClusters::Int64, maxIdxRanges, dimOrder,
+                            noDiagonals::Bool, ::Val{dimensions}) where dimensions
     # create vector in which the indices of all neighboring cells will be stored
     neighborIndices::Vector = []
     # Check neighbors dimension by dimension in reverse order
@@ -79,7 +79,7 @@ function checkNeighbors(clusterTensor, currentIdx, numClusters::Int64, maxIdxRan
         # go with the index one down in the current dimension
         checkDimIdx::Int = currentIdx[dim] - 1
         # if checkDimIdx is valid, check the neighbors that share the same dimension index
-        if checkDimIdx in maxIdxRange
+        if checkDimIdx in maxIdxRanges[dim]
             # if we are at the last index, there is only one neighbor
             if dim == 1
                 idxTuple = ntuple(i -> i == dim ? checkDimIdx : currentIdx[i], Val(dimensions))
@@ -88,7 +88,7 @@ function checkNeighbors(clusterTensor, currentIdx, numClusters::Int64, maxIdxRan
                 # pass the new index to the function to determine neighbors
                 CheckIdxTuple = ntuple(i -> i == dim ? checkDimIdx : currentIdx[i],
                                         Val(dimensions))
-                neighborIndices = getNeighbors!(maxIdxRange, dim-1, CheckIdxTuple,
+                neighborIndices = getNeighbors!(maxIdxRanges, dim-1, CheckIdxTuple,
                                                 neighborIndices, noDiagonals, Val(dimensions))
             end
         else
@@ -143,28 +143,125 @@ end
 
 
 #-------------------------------------------------------------------------------------------------
-# function determine the number of points within the cells
-function CreateCountTensor(dataMatrix, resolution::Int64, minMatrix::Vector, maxMatrix::Vector,
-                            ::Val{dimensions}) where dimensions
-    if !(length(minMatrix) == length(maxMatrix) == size(dataMatrix, 2) == dimensions)
-        error("Dimensions mismatch")
-    end
-    # at first calculate the cell size for every dimension
-    sizeMatrix = ntuple(i -> (maxMatrix[i] - minMatrix[i]) / resolution, Val(dimensions))
-    # we need now a tensor in that has resolution entries for every dimension
-    countTensor = zeros(Int32, ntuple(i -> resolution, Val(dimensions)))
+# function to reduce the number of cells per dimension
+function reduceVectorEntries(aVector::Vector{Int32})
+    # at first we create a count vector of how often a cell number occurs. Then every cell with
+    # zero counts is removed if its previous cell has also zero. This is because we must keep a
+    # single zero cell to separate the clusters. As last step the assignments are updated
+    # according to the new indices.
 
-    # create a matrix with coordinates in our grid
-    # every of its columns will get the coordinate values for the particular data point
-    # the countTensor is increased at the coordinates of the data point
+    # create count map
+    maxValue = maximum(aVector)
+    observedNumbers = sort(unique(aVector))
+
+    # find gaps and determine which numbers to keep
+    # keep all observed numbers and their predecessors
+    keepIndices = Set{Int}()
+    for num in observedNumbers
+        push!(keepIndices, num)
+        # exclude consecutive zeros
+        if num > 1 && !(num - 1 in observedNumbers) && (num - 1 <= maxValue)
+            push!(keepIndices, num - 1) 
+        end
+    end
+
+    # re-index with stable sorting
+    newIndices = Dict{Int, Int}()
+    currentIndex = 1
+    for k in sort(collect(keepIndices))
+        newIndices[k] = currentIndex
+        currentIndex += 1
+    end
+
+    # apply re-indexing to the vector
+    newVector = Vector{Int32}(undef, length(aVector))
+    for i in eachindex(aVector)
+        newVector[i] = newIndices[aVector[i]]
+    end
+    # get number of tensor entries for the current dimension
+    reducedLength = maximum(values(newIndices))
+
+    return newVector, reducedLength
+end
+
+
+#-------------------------------------------------------------------------------------------------
+# function assign every data point to a cell in a tensor
+function cellAssignments(dataMatrix, resolution::Int64, minMatrix::Vector{Float64},
+                            maxMatrix::Vector{Float64}, numData::Int64,
+                            ::Val{dimensions}) where dimensions
+    
+    # calculate the cell size for every dimension
+    sizeMatrix = (maxMatrix .- minMatrix) ./ resolution
+
+    # for every dimension we create a tuple assigning every point to the cell number
+    cellAssigns = Matrix{Int32}(undef, numData, dimensions)
+    countTensorDims = zeros(Int32, dimensions)
     smallValue = 1e-6
-    for k in axes(dataMatrix, 1)
+    for dim in 1:dimensions
+        # reduce memory calls in following for loop
+        sizeMatrixDim = sizeMatrix[dim]
+        minMatrixDim = minMatrix[dim]
+        for point in 1:numData
+            cellAssigns[point, dim] = trunc(Int32, (dataMatrix[point, dim] - smallValue
+                                            - minMatrixDim) / sizeMatrixDim) + 1
+        end
+        # now omit cells with value zero whose predecessor has also value zero
+        cellAssigns[:, dim], countTensorDims[dim] = reduceVectorEntries(cellAssigns[:, dim])
+    end
+    return cellAssigns, countTensorDims
+end
+
+
+#-------------------------------------------------------------------------------------------------
+# function determine the number of points within the cells
+function CreateCountTensor(dataMatrix, resolution::Int64, minMatrix::Vector{Float64},
+                            maxMatrix::Vector{Float64}, omitEmptyCells::Bool,
+                            ::Val{dimensions}) where dimensions
+    
+    numData = size(dataMatrix, 1)
+    # tuple to later reverse the dimension order
+    reverseDims = ntuple(i -> dimensions-i+1, Val(dimensions))
+    # calculate the cell size for every dimension
+    sizeMatrix = (maxMatrix .- minMatrix) ./ resolution
+
+    # we have 2 ways to create the countTensor:
+    # A: a symmetric tensor in which there are resolution entries for every dimension
+    #    this is for low dimensions the fastest
+    # B: an asymmetric tensor in which there are only as many entries per dimension as necessary
+    #    this has memory advantages because cells containing zeroes have no information value and
+    #    can be omitted. But it is computationally costly to determine what cells can be removed.
+    if omitEmptyCells # way B
+        # get for every point the assignments to the cell number in the future tensor
+        cellAssigns, countTensorDims = cellAssignments(dataMatrix, resolution, minMatrix,
+                                                maxMatrix, numData, Val(dimensions))
+        # create the countTensor with rank of dimensions, but every dimension has now not
+        # resolution entries, but only as many as really necessary
         # Julia swaps in matrices x and y, thus reverse to use the coordinate system of the plot
-        # due to precision issues, we subtract a small value from the values
-        coordMatrix = ntuple(i -> trunc(Int32, (dataMatrix[k, dimensions-i+1] - smallValue -
-                                                minMatrix[dimensions-i+1]) /
-                                            sizeMatrix[dimensions-i+1]) + 1, Val(dimensions))
-        countTensor[coordMatrix...] += 1
+        countTensor = zeros(Int32, reverse(countTensorDims)...)
+
+        # precompute reversal for indices to avoid to recreate tuple in the following for loop
+        for point in 1:numData
+            idx = CartesianIndex(ntuple(i -> cellAssigns[point, reverseDims[i]], Val(dimensions)))
+            countTensor[idx] += 1
+        end
+    else # way A
+        # create a symmetric tensor
+        countTensor = zeros(Int32, ntuple(i -> resolution, Val(dimensions)))
+
+        # create a matrix with coordinates in our grid
+        # every of its columns will get the coordinate values for the particular data point
+        # the countTensor cell at the coordinates of the data point is increased
+        smallValue = 1e-6
+        for point in 1:numData
+            # Julia swaps in matrices x and y, thus reverse to use the coordinate system
+            # of the plot
+            # due to precision issues, we subtract a small value from the values
+            idx = CartesianIndex(ntuple(i -> trunc(Int32, (dataMatrix[point, reverseDims[i]] -
+                                    smallValue - minMatrix[reverseDims[i]]) /
+                                    sizeMatrix[reverseDims[i]]) + 1, Val(dimensions)))
+            countTensor[idx] += 1
+        end
     end
     return countTensor
 end
@@ -212,14 +309,15 @@ end
 
 #-------------------------------------------------------------------------------------------------
 # function that actually performs the clustering
-function InternalClustering(countTensor, resolution::Int64, noDiagonals,
+function InternalClustering(countTensor, resolution::Int64, noDiagonals::Bool,
                             ::Val{dimensions}) where dimensions
-    # first create a tensor to store later the information about the clusters
-    clusterTensor = zeros(Int32, ntuple(i -> resolution, Val(dimensions)))
+    # create a tensor to store later the information about the clusters
+    clusterTensor = similar(countTensor)
+    fill!(clusterTensor, 0)
 
     numClusters = 0
     # to later check the maximal index range of the clusterTensor
-    maxIdxRange = 1:resolution
+    maxIdxRanges = ntuple(i -> 1:size(countTensor, i), Val(dimensions))
     # to later check neighbors dimension by dimension in reverse order
     dimOrder = reverse(1:dimensions)
     # check neighbors for all cells of the countTensor
@@ -229,7 +327,7 @@ function InternalClustering(countTensor, resolution::Int64, noDiagonals,
             # convert linear index to Cartesian index (as a tuple)
             indices = Tuple(CartesianIndices(countTensor)[idx])
             numClusters, clusterTensor = checkNeighbors(clusterTensor, indices, numClusters,
-                                                            maxIdxRange, dimOrder, noDiagonals,
+                                                            maxIdxRanges, dimOrder, noDiagonals,
                                                             Val(dimensions))
         else
             continue
@@ -305,11 +403,12 @@ function IteridenseLoop(dataMatrix,
                         maxResolution::Int64,
                         stopResolution::Int64,
                         minClusterDensity::Float64,
-                        useDensity,
-                        useClusters,
-                        noDiagonals,
-                        useFixedResolution,
-                        minMatrix, maxMatrix,
+                        useDensity::Bool,
+                        useClusters::Bool,
+                        noDiagonals::Bool,
+                        omitEmptyCells::Bool,
+                        useFixedResolution::Bool,
+                        minMatrix::Vector{Float64}, maxMatrix::Vector{Float64},
                         totalCounts::Int64,
                         ::Val{dimensions}) where dimensions
     # initializations
@@ -327,8 +426,8 @@ function IteridenseLoop(dataMatrix,
         # dimension= 16 it has 4^16 * 32 bit, thus 17 GB.
         # We must therefore test how much RAM is available stop the clustering if necessary.
         # get the available RAM
-        availableRAM = Int(Sys.free_memory()) # in bytes
-        # we have 2 tensors (countTensor and clusterTensor), therefore * 2, in byte
+        availableRAM = Int64(Sys.free_memory()) # in bytes
+        # we have 2 tensors (countTensor and clusterTensor), therefore * 2
         # we use Float32, which has a size of 4 bytes
         necessaryRAM = resolution^dimensions * 4 * 2
         # We break if 95% of the availableRAM is less than necessaryRAM because we need some RAM
@@ -338,7 +437,7 @@ function IteridenseLoop(dataMatrix,
             printstyled("Not enough available RAM!\n\
                     \nFor the $(dimensions) dimensions there is currently only enough RAM\
                     \navailable for a resolution of \
-                    $(Int(trunc((0.475*availableRAM / 4)^(1/dimensions))))."; color= :magenta)
+                    $(Int64(trunc((0.475*availableRAM / 4)^(1/dimensions))))."; color= :magenta)
             if resolution-1 ≥ initialResolution
                 printstyled("\nThe clustering was therefore stopped at resolution \
                             $(resolution-1).\n"; color= :magenta)
@@ -357,7 +456,7 @@ function IteridenseLoop(dataMatrix,
                                     clusterSizes= clusterSizes)
         end
         countTensor = CreateCountTensor(dataMatrix, resolution, minMatrix, maxMatrix,
-                                        Val(dimensions))
+                                        omitEmptyCells, Val(dimensions))
         numClusters, clusterTensor = InternalClustering(countTensor, resolution, noDiagonals,
                                                         Val(dimensions))
         # clusters can only be analyzed if there is at least one
@@ -404,31 +503,46 @@ function IteridenseLoop(dataMatrix,
     end
 
     return IteridenseResult(clusterTensor= clusterTensor, countTensor= countTensor,
-                                numOfClusters= numClusters, finalResolution= resolution,
-                                assignments= assignments, clusterDensities= clusterDensities,
-                                clusterSizes= clusterSizes)
+                            numOfClusters= numClusters, finalResolution= resolution,
+                            assignments= assignments, clusterDensities= clusterDensities,
+                            clusterSizes= clusterSizes)
 end
 
 
 #-------------------------------------------------------------------------------------------------
 # function to assign data points to clusters
-function AssignPoints(dataMatrix, clusterTensor, resolution::Int64, minMatrix, maxMatrix,
-                        totalCounts::Int64, ::Val{dimensions}) where dimensions
-    # at first calculate the cell size for every dimension
-    sizeMatrix = zeros(Float64, dimensions)
-    for i in 1:dimensions
-        sizeMatrix[i] = (maxMatrix[i] - minMatrix[i]) / resolution
-    end
-    # now assign every data point
+function AssignPoints(dataMatrix, clusterTensor, resolution::Int64, minMatrix::Vector{Float64},
+                        maxMatrix::Vector{Float64}, totalCounts::Int64, omitEmptyCells::Bool,
+                        ::Val{dimensions}) where dimensions
+
     assignments = zeros(Int64, totalCounts)
-    smallValue = 1e-6
-    for k in axes(dataMatrix, 1)
-        # Julia swaps in matrices x and y, thus reverse to use the coordinate system of the plot
-        # due to precision issues, we subtract a small value from the values
-        coordMatrix = ntuple(i -> trunc(Int64, (dataMatrix[k, dimensions-i+1] - smallValue -
-                                                minMatrix[dimensions-i+1]) /
-                                            sizeMatrix[dimensions-i+1]) + 1, Val(dimensions))
-        assignments[k] = clusterTensor[coordMatrix...]
+    numData = size(dataMatrix, 1)
+    # tuple to later reverse the dimension order
+    reverseDims = ntuple(i -> dimensions-i+1, dimensions)
+
+    # depending on omitEmptyCells we have 2 different assignments
+    if omitEmptyCells
+        # get point assignments
+        cellAssigns, countTensorDims = cellAssignments(dataMatrix, resolution, minMatrix,
+                                                        maxMatrix, numData, Val(dimensions))
+        # assign every data point
+        for point in 1:size(dataMatrix, 1)
+            idx = CartesianIndex(ntuple(i -> cellAssigns[point, reverseDims[i]], Val(dimensions)))
+            assignments[point] = clusterTensor[idx]
+        end
+    else
+        # calculate the cell size for every dimension
+        sizeMatrix = (maxMatrix .- minMatrix) ./ resolution
+        # assign every data point
+        smallValue = 1e-6
+        for point in 1:numData
+            # Julia swaps in matrices x and y, thus reverse to use the coordinate system of the
+            # plot due to precision issues, we subtract a small value from the values
+            idx = CartesianIndex(ntuple(i -> trunc(Int, (dataMatrix[point, reverseDims[i]] -
+                                    smallValue - minMatrix[reverseDims[i]]) /
+                                    sizeMatrix[reverseDims[i]]) + 1, Val(dimensions)))
+            assignments[point] = clusterTensor[idx]
+        end
     end
     return assignments
 end
@@ -469,17 +583,18 @@ end
 #-------------------------------------------------------------------------------------------------
 # main function
 function PerformClustering(dataMatrix;
-                            density= 1.1,
+                            density::Float64= 1.1,
                             minClusters::Int64= 1,
                             minClusterSize::Int64= 3,
                             startResolution::Int64= 2,
                             stopResolution::Int64= 64,
                             minClusterDensity::Float64= 0.0,
-                            useDensity= true,
-                            useClusters= false,
-                            noDiagonals= false )::IteridenseResultC
+                            useDensity::Bool= true,
+                            useClusters::Bool= false,
+                            noDiagonals::Bool= false,
+                            omitEmptyCells::Bool= false )
 
-    # at first count data points and determine the dimensions
+    # count data points and determine the dimensions
     totalCounts::Int64 = size(dataMatrix, 1)
     dimensions::Int64 = size(dataMatrix, 2)
     # dataMatrix is a matrix in which every column contains the data of a dimension
@@ -568,6 +683,7 @@ function PerformClustering(dataMatrix;
                                 useDensity,
                                 useClusters,
                                 noDiagonals,
+                                omitEmptyCells,
                                 useFixedResolution,
                                 minMatrix, maxMatrix,
                                 totalCounts,
@@ -617,6 +733,7 @@ function PerformClustering(dataMatrix;
                                             useDensity,
                                             useClusters,
                                             noDiagonals,
+                                            omitEmptyCells,
                                             true,             # use fixed resolution
                                             minMatrix, maxMatrix,
                                             totalCounts,
@@ -626,7 +743,7 @@ function PerformClustering(dataMatrix;
     # assign the data points according to the first clustering result
     assignments = AssignPoints(dataMatrix, LoopResult.clusterTensor,
                                 LoopResult.finalResolution, minMatrix, maxMatrix,
-                                totalCounts, Val(dimensions))
+                                totalCounts, omitEmptyCells, Val(dimensions))
 
     intermediateResult = IteridenseResultC(ArrayToCTensor(LoopResult.clusterTensor, Int32),
                                 ArrayToCTensor(LoopResult.countTensor, Int32),
@@ -645,7 +762,8 @@ function PerformClustering(dataMatrix;
     else
         assignmentsSecond = AssignPoints(dataMatrix, LoopResultSecond.clusterTensor,
                                             LoopResultSecond.finalResolution,
-                                            minMatrix, maxMatrix, totalCounts, Val(dimensions))
+                                            minMatrix, maxMatrix, totalCounts,
+                                            omitEmptyCells, Val(dimensions))
     end
 
     #=

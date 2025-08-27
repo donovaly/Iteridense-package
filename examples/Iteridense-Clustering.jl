@@ -18,9 +18,8 @@ plotlyjs()
 # setting default plot size
 plotly(size= (512, 512))
 # import the Iteridense library
-packagePath = dirname(@__DIR__)
-include(joinpath(packagePath, "src\\Iteridense.jl"))
-using .Iteridense: Clustering, PlotIteridenseHeatmap
+include(joinpath(@__DIR__, "IteridenseLibrary.jl"))
+using .IteridenseLibrary: Iteridense, PlotIteridenseHeatmap
 end
 
 # The data to be clustered are all in CSV files. The CSV files re expected to be in a subfolder
@@ -50,7 +49,7 @@ end
 # Iteridense clustering
 ρ = 4.1
 # perform the clustering
-IteridenseResult = Iteridense.Clustering(dataMatrix, density= ρ);
+IteridenseResult = Iteridense(dataMatrix, density= ρ);
 # list the different clustering results
 IteridenseResult.numOfClusters
 IteridenseResult.finalResolution
@@ -103,7 +102,7 @@ end
 
 # Iteridense clustering
 ρ = 2.0
-IteridenseResult = Iteridense.Clustering(dataMatrix, density= ρ);
+IteridenseResult = Iteridense(dataMatrix, density= ρ);
 IteridenseResult.numOfClusters
 IteridenseResult.finalResolution
 IteridenseResult.clusterDensities
@@ -132,7 +131,7 @@ end
 # 2. increase ρ
 # in our case at ρ = 2.2 we get 2 clusters
 ρ = 2.2
-IteridenseResult = Iteridense.Clustering(dataMatrix, density= ρ, minClusterSize= 10,
+IteridenseResult = Iteridense(dataMatrix, density= ρ, minClusterSize= 10,
 # uncomment the next line to see the effect of the noDiagonal option
 # set then also ρ = 5.0 to see the effect
                                         #noDiagonals= true,
@@ -181,7 +180,7 @@ end
 # We can use that we know there are 2 circles and thus set minClusters.
 # For this we must useClusters set to true. useClusters acts as a switch between
 # the 2 ways of clustering Iteridense provides.
-IteridenseResult = Iteridense.Clustering(dataMatrix, useClusters= true, minClusters= 2);
+IteridenseResult = Iteridense(dataMatrix, useClusters= true, minClusters= 2);
 IteridenseResult.finalResolution
 IteridenseResult.clusterDensities
 IteridenseResult.clusterSizes
@@ -204,7 +203,7 @@ timeResult = zeros(timeStep, 4) # we will get 4 time results
 dataPortion = Int(size(dataMatrix)[1] / timeStep)
 for i in 1:timeStep
     timeResult[i, 1] = @elapsed for k in 1:maxIterations
-    IteridenseResult = Iteridense.Clustering(dataMatrix[1:i*dataPortion, :],
+    IteridenseResult = Iteridense(dataMatrix[1:i*dataPortion, :],
                                 density = 100.0, # assure we reach the stopResolution 
                                 startResolution= 2, stopResolution= 16);
     end
@@ -302,7 +301,7 @@ display(resultPlot)
 end
 
 # cluster with Iteridense to find finalResolution
-IteridenseResult = Iteridense.Clustering(dataMatrix3D, minClusterSize= 150,
+IteridenseResult = Iteridense(dataMatrix3D, minClusterSize= 150,
                                 startResolution= 3, stopResolution= 100,
                                 useClusters= true, minClusters= 2);
 IteridenseResult.finalResolution
@@ -327,7 +326,7 @@ timeResult3D = zeros(timeStep, 3) # we will get 3 time results
 # Iteridense
 @elapsed for i in 1:timeStep
     timeResult3D[i, 1] = @elapsed for k in 1:maxIterations
-    IteridenseResult = Iteridense.Clustering(dataMatrix2x3D[1:i*dataPortion3D, :],
+    IteridenseResult = Iteridense(dataMatrix2x3D[1:i*dataPortion3D, :],
                                     density = 100.0, # assure we reach the stopResolution 
                                     startResolution= 2, stopResolution= 13);
     end
@@ -382,7 +381,7 @@ end
 # Try the two different ways, either specify ρ or minClusters.
 # For ρ until 6.8 there is only one cluster, increase it to get more clusters.
 ρ = 6.8
-IteridenseResult = Iteridense.Clustering(dataMatrix, density= ρ, minClusterSize= 6,
+IteridenseResult = Iteridense(dataMatrix, density= ρ, minClusterSize= 6,
                                         #useClusters= true, minClusters= 3
 );
 IteridenseResult.finalResolution
@@ -440,7 +439,7 @@ end
 #        there are 1500 data points and every cluster will roughly contain a third of all points.
 #        You get the desired result for ρ = 3.8 or higher
 ρ = 4.0
-IteridenseResult = Iteridense.Clustering(dataMatrix, density= ρ,
+IteridenseResult = Iteridense(dataMatrix, density= ρ,
                                         useClusters= true, minClusters= 3,
                                         minClusterSize= 20
 );
@@ -492,7 +491,7 @@ end
 # to a low value compares to the 1500 points in the dataset, for example to 10.
 # By increasing ρ you can identify regions with higher density.
 ρ = 3.0
-IteridenseResult = Iteridense.Clustering(dataMatrix, density= ρ, minClusterSize= 10);
+IteridenseResult = Iteridense(dataMatrix, density= ρ, minClusterSize= 10);
 IteridenseResult.numOfClusters
 IteridenseResult.finalResolution
 IteridenseResult.clusterSizes
@@ -543,7 +542,7 @@ end
 # clustering. To use all dimensions, input the inputMatrix.
 # Setting stopResolution as a safe guard is never wrong. It helps in case the algorithm cannot
 # find at least 3 clusters to stop it after some loops.
-IteridenseResult = Iteridense.Clustering(
+IteridenseResult = Iteridense(
                                 dataMatrix[:, end-2:end-1],
                                 #inputMatrix,
                                 minClusterSize= 10,
@@ -594,8 +593,8 @@ end
 # extract names and values
 dataLabels = String.(names(data))
 dataMatrix = Matrix(data)
-DataPlot = Plots.scatter(dataMatrix[:, 2], dataMatrix[:, 3], dataMatrix[:, 4],
-                xlabel= "Pu-239", ylabel= "Pu-240", zlabel= "Pu-241", legend= false)
+DataPlot = Plots.scatter(dataMatrix[:, 2], dataMatrix[:, 3], dataMatrix[:, 4], legend= false,
+                xlabel= dataLabels[2], ylabel= dataLabels[3], zlabel= dataLabels[4])
 end
 
 # To take only the 3 plotted dimensions into account, input dataMatrix[:, 2:end] otherwise
@@ -604,7 +603,7 @@ end
 # examples that had only 2 dimensions. But you can, as always, start with a low ρ and then
 # increase it according to the output of clusterDensities.
 ρ = 2
-IteridenseResult = Iteridense.Clustering(
+IteridenseResult = Iteridense(
                                 dataMatrix[:, 2:end],
                                 #dataMatrix,
                                 density= ρ, minClusterSize= 4
@@ -612,8 +611,8 @@ IteridenseResult = Iteridense.Clustering(
 IteridenseResult.finalResolution
 IteridenseResult.clusterDensities
 IteridenseResult.clusterSizes
-Plots.scatter(dataMatrix[:, 2], dataMatrix[:, 3], dataMatrix[:, 4], xlabel= "Pu-239",
-                ylabel= "Pu-240", zlabel= "Pu-241", title= "Iteridense ρ = $ρ",
+Plots.scatter(dataMatrix[:, 2], dataMatrix[:, 3], dataMatrix[:, 4], xlabel= dataLabels[2],
+                ylabel= dataLabels[3], zlabel= dataLabels[4], title= "Iteridense ρ = $ρ",
                 group= IteridenseResult.assignments)
 
 # k-means clustering
@@ -623,7 +622,7 @@ assign = Clustering.assignments(result)
 clusterCounts = Clustering.counts(result)
 clusterCenter = result.centers
 Plots.scatter(dataMatrix[:, 2], dataMatrix[:, 3], dataMatrix[:, 4],
-                xlabel= "Pu-239", ylabel= "Pu-240", zlabel= "Pu-241",
+                xlabel= dataLabels[2], ylabel= dataLabels[3], zlabel= dataLabels[4],
                 title= "k-means k = 4", group= assign)
 end
 
@@ -672,7 +671,7 @@ end
 # on every class. This is more work but one can then also go the way to specify ρ.
 
 # At first the clustering of the whole dataset:
-IteridenseResult = Iteridense.Clustering(
+IteridenseResult = Iteridense(
                                 subMatrix,
                                 #completeMatrix,
                                 minClusterSize= 20, useClusters= true, minClusters= 5
@@ -737,7 +736,7 @@ DataPlot = Plots.scatter(subMatrix[:, end], repeat([0], length(subMatrix[:, end]
                         xlabel= dataLabels[7], ylimits= (-1, 1), yticks=[],
                         title= "Unclustered Data", legend= false, markersize= 5)
 
-IteridenseResult = Iteridense.Clustering(subMatrix[:, end], minClusterSize= 6,
+IteridenseResult = Iteridense(subMatrix[:, end], minClusterSize= 6,
                                 useClusters= true, minClusters= 3);
 IteridenseResult.finalResolution
 IteridenseResult.clusterDensities
@@ -747,3 +746,40 @@ Plots.scatter(subMatrix[:, end], repeat([0], length(subMatrix[:, end])),
                 xlabel= dataLabels[7], ylimits= (-1, 1), yticks=[],
                 title= "Iteridense MinClusters = 3",
                 group= IteridenseResult.assignments, markersize= 5)
+
+
+#---------------------------------------------
+# last dataset: information about customers of a mall
+begin
+filePath = joinpath(@__DIR__, "datasets/MallCustomers.csv")
+if isfile(filePath)
+    data = CSV.read(filePath, DataFrame; delim= '\t', comment= "#")
+end
+#vscodedisplay(data)
+# extract names and values
+dataLabels = String.(names(data))
+dataMatrix = Matrix(data)
+DataPlot = Plots.scatter(dataMatrix[:, 3], dataMatrix[:, 5], dataMatrix[:, 6], legend= false,
+                            xlabel= dataLabels[3], ylabel= dataLabels[5], zlabel= dataLabels[6])
+end
+
+# Hereby we have we have categorial data: the Gender ID is either 0 or 1. Hereby we can save a lot
+# of memory by using the option omitEmptyCells because whatever resolution will be calculated
+# the dimension of the tensor for this dimension can be 3 to keep the information about the gender.
+ρ = 1.2
+IteridenseResult = Iteridense(dataMatrix[:, [3, 5, 6]], omitEmptyCells= true,
+                                density= ρ, minClusterSize= 10);
+IteridenseResult.finalResolution
+# we get a 20x20x3 tensor instead of a 20x20x20 tensor
+IteridenseResult.countTensor
+IteridenseResult.clusterDensities
+IteridenseResult.clusterSizes
+# result in 2D (despite we clustered in 3D)
+Plots.scatter(dataMatrix[:, 3], dataMatrix[:, 5],
+                xlabel= dataLabels[3], ylabel= dataLabels[5],
+                title= "Iteridense ρ = $ρ", group= IteridenseResult.assignments)
+# result in 3D
+Plots.scatter(dataMatrix[:, 3], dataMatrix[:, 5], dataMatrix[:, 6],
+                xlabel= dataLabels[3], ylabel= dataLabels[5], zlabel= dataLabels[6],
+                title= "Iteridense ρ = $ρ", group= IteridenseResult.assignments)
+
