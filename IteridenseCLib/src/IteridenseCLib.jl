@@ -223,15 +223,19 @@ function InternalClustering(countTensor, resolution::Int64, noDiagonals,
     # to later check neighbors dimension by dimension in reverse order
     dimOrder = reverse(1:dimensions)
     # check neighbors for all cells of the countTensor
-    iterRange = Iterators.product(ntuple(_ -> 1:resolution, Val(dimensions))...)
-    for indices in iterRange
+    for idx in eachindex(countTensor)
         # only if a cell has more than one data point it can be part of a cluster
-        if countTensor[indices...] > 1
+        if countTensor[idx] > 1
+            # convert linear index to Cartesian index (as a tuple)
+            indices = Tuple(CartesianIndices(countTensor)[idx])
             numClusters, clusterTensor = checkNeighbors(clusterTensor, indices, numClusters,
                                                             maxIdxRange, dimOrder, noDiagonals,
                                                             Val(dimensions))
+        else
+            continue
         end
     end
+
     # due to cluster merges in the clustering process we might end up with non-sequent cluster
     # numbering where e.g. there are cells in cluster 2 and 4 but not in cluster 1 and 3
     # to avoid that we have to rename the clusters
