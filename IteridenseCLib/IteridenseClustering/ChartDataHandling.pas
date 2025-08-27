@@ -111,7 +111,14 @@ begin
   LineReader:= TStreamReader.Create(OpenFileStream);
 
   // read the first header line to get the data names and the column separator
-  LineReader.ReadLine(firstLine);
+  // we might have comment lines at the beginning, therefore do this in a while
+  while true do
+  begin
+    LineReader.ReadLine(firstLine);
+    // check for the character '#' as this is then a comment line
+    if firstLine[1] <> '#' then
+       break;
+  end;
   DataHeader:= firstLine; // store the header for later usage
   // read second line to check for column separator
   LineReader.ReadLine(secondLine);
