@@ -3,13 +3,13 @@
 #
 # author: Uwe Stöhr
 #=
- This script demonstrates how Iteridense clustering is performed on different data sets.
+ This script demonstrates how Iteridense clustering is performed on different datasets.
  It also shows the clustering of the same datasets using the k-means and the DBSCAN algorithm
 =#
 
 # uncomment the following 2 lines on the first run to install missing packages
 # using Pkg; Pkg.add("Clustering"); Pkg.add("CSV"); Pkg.add("DataFrames");
-#  Pkg.add("Plots"); Pkg.add("PlotlyBase"); Pkg.add("PlotlyJS")
+#  Pkg.add("Plots"); Pkg.add("PlotlyBase"); Pkg.add("PlotlyJS"); Pkg.add("PlotlyKaleido")
 using Clustering, CSV, DataFrames, Plots
 
 begin
@@ -224,6 +224,7 @@ end
 
 # plot the results
 begin
+result = Clustering.dbscan(dataMatrix', ε, min_neighbors= 3, min_cluster_size= 10)
 assign = Clustering.assignments(result)
 clusterCounts = Clustering.counts(result)
 result = Clustering.dbscan(dataMatrix', 0.10, min_neighbors= 3, min_cluster_size= 10)
@@ -264,8 +265,7 @@ end
 
 # plot the times
 begin
-numPoints = collect(range(dataPortion, timeStep*dataPortion, timeStep)
-                )
+numPoints = collect(range(dataPortion, timeStep*dataPortion, timeStep))
 timePlot = scatter(numPoints, timeResult[:, 1], lab= "Iteridense", titlefontsize= 10,
                     title= "Calculation time comparison 2D", xlabel= "N", ylabel= "time in s",
                     legend= :left)
@@ -315,7 +315,7 @@ resultPlot = Plots.scatter(dataMatrix3D[:, 1], dataMatrix3D[:, 2], dataMatrix3D[
                 markersize= 2, markerstrokecolor= :black, markeralpha= 1.0)
 display(resultPlot)
 
-# now that we found the parameters, we extend the data set to have more points
+# now that we found the parameters, we extend the dataset to have more points
 begin
 dataMatrix2x3D = vcat(dataMatrix3D, dataMatrix3D, dataMatrix3D, dataMatrix3D, dataMatrix3D)
 dataPortion3D = Int(size(dataMatrix2x3D)[1] / timeStep)
@@ -354,8 +354,7 @@ end
 
 # plot the times
 begin
-numPoints = collect(range(dataPortion3D, timeStep*dataPortion3D, timeStep)
-                )
+numPoints = collect(range(dataPortion3D, timeStep*dataPortion3D, timeStep))
 timePlot = scatter(numPoints, timeResult3D[:, 1], lab= "Iteridense", titlefontsize= 10,
                     title= "Calculation time comparison 3D", xlabel= "N", ylabel= "time in s",
                     legend= :left)
