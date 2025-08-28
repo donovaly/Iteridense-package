@@ -188,11 +188,9 @@ end
 
 #-------------------------------------------------------------------------------------------------
 # function assign every data point to a cell in a tensor
-function cellAssignments(dataMatrix, resolution::Int64, sizeMatrix, minMatrix, numData::Int64,
+function cellAssignments(dataMatrix, resolution::Int64, sizeMatrix::Vector{Float64},
+                            minMatrix::Vector{Float64}, numData::Int64,
                             ::Val{dimensions}) where dimensions
-
-    # calculate the cell size for every dimension
-    sizeMatrix = (maxMatrix .- minMatrix) ./ resolution
 
     # for every dimension we create a tuple assigning every point to the cell number
     cellAssigns = Matrix{Int32}(undef, numData, dimensions)
@@ -215,11 +213,10 @@ end
 
 #-------------------------------------------------------------------------------------------------
 # function determine the number of points within the cells
-function CreateCountTensor(dataMatrix, resolution::Int64, minMatrix::Vector{Float64},
-                            maxMatrix::Vector{Float64}, omitEmptyCells::Bool,
-                            ::Val{dimensions}) where dimensions
+function CreateCountTensor(dataMatrix, resolution::Int64, numData::Int64,
+                            minMatrix::Vector{Float64}, maxMatrix::Vector{Float64},
+                            omitEmptyCells::Bool, ::Val{dimensions}) where dimensions
     
-    numData = size(dataMatrix, 1)
     # tuple to later reverse the dimension order
     reverseDims = ntuple(i -> dimensions-i+1, Val(dimensions))
     # calculate the cell size for every dimension
@@ -233,8 +230,8 @@ function CreateCountTensor(dataMatrix, resolution::Int64, minMatrix::Vector{Floa
     #    can be omitted. But it is computationally costly to determine what cells can be removed.
     if omitEmptyCells # way B
         # get for every point the assignments to the cell number in the future tensor
-        cellAssigns, countTensorDims = cellAssignments(dataMatrix, resolution, minMatrix,
-                                                maxMatrix, numData, Val(dimensions))
+        cellAssigns, countTensorDims = cellAssignments(dataMatrix, resolution, sizeMatrix,
+                                                        minMatrix, numData, Val(dimensions))
         # create the countTensor with rank of dimensions, but every dimension has now not
         # resolution entries, but only as many as really necessary
         # Julia swaps in matrices x and y, thus reverse to use the coordinate system of the plot
@@ -347,8 +344,7 @@ end
 #-------------------------------------------------------------------------------------------------
 # function to analyze the density of the found clusters
 function AnalyzeClusters(clusterTensor, countTensor, numClusters::Int64, resolution::Int64,
-                            totalCounts::Int64, ::Val{dimensions}) where dimensions
-    numOfCells = length(countTensor)
+                            numData::Int64, ::Val{dimensions}) where dimensions
     clusterDensities = zeros(Float64, numClusters)
     clusterSizes = zeros(Int64, numClusters)
     # the normalization factor γ
@@ -374,7 +370,9 @@ function AnalyzeClusters(clusterTensor, countTensor, numClusters::Int64, resolut
         # now calculate the cluster density in counts per volume
         clusterDensities[cluster] = clusterSizes[cluster] / cellCounter
         # normalize the density
-        clusterDensities[cluster] = clusterDensities[cluster] / (totalCounts / numOfCells) * γ
+        # the tensors can have different sizes but we take the maximal possible cell size
+        numOfCells::Int64 = resolution^dimensions
+        clusterDensities[cluster] = clusterDensities[cluster] / (numData / numOfCells) * γ
     end
     return clusterDensities, clusterSizes
 end
@@ -409,14 +407,14 @@ function IteridenseLoop(dataMatrix,
                         omitEmptyCells::Bool,
                         useFixedResolution::Bool,
                         minMatrix::Vector{Float64}, maxMatrix::Vector{Float64},
-                        totalCounts::Int64,
+                        numData::Int64,
                         ::Val{dimensions}) where dimensions
     # initializations
     countTensor = Array{Any}(undef)
     clusterTensor = Array{Any}(undef)
     clusterDensities = Array{Any}(undef)
     clusterSizes = Array{Any}(undef)
-    assignments = zeros(Int64, totalCounts)
+    assignments = zeros(Int64, numData)
     numClusters::Int64 = 0
     initialResolution = resolution
     achievedDensity = 0.0
@@ -455,7 +453,7 @@ function IteridenseLoop(dataMatrix,
                                     assignments= assignments, clusterDensities= clusterDensities,
                                     clusterSizes= clusterSizes)
         end
-        countTensor = CreateCountTensor(dataMatrix, resolution, minMatrix, maxMatrix,
+        countTensor = CreateCountTensor(dataMatrix, resolution, numData, minMatrix, maxMatrix,
                                         omitEmptyCells, Val(dimensions))
         numClusters, clusterTensor = InternalClustering(countTensor, resolution, noDiagonals,
                                                         Val(dimensions))
@@ -465,7 +463,7 @@ function IteridenseLoop(dataMatrix,
             continue
         end
         clusterDensities, clusterSizes = AnalyzeClusters(clusterTensor, countTensor, numClusters,
-                                                        resolution, totalCounts, Val(dimensions))
+                                                        resolution, numData, Val(dimensions))
         # Remove clusters smaller than minClusterSize or with density < minClusterDensity:
         # First set these cluster numbers to zero, then remove the empty clusters and eventually
         # re-evaluate the remaining clusters.
@@ -483,7 +481,7 @@ function IteridenseLoop(dataMatrix,
         end
         # since we merged clusters, analyze them again
         clusterDensities, clusterSizes = AnalyzeClusters(clusterTensor, countTensor, numClusters,
-                                                        resolution, totalCounts, Val(dimensions))
+                                                        resolution, numData, Val(dimensions))
         achievedDensity = minimum(clusterDensities)
         # break the loop according to the settings
         if (useDensity && (achievedDensity > density)) ||
@@ -512,11 +510,10 @@ end
 #-------------------------------------------------------------------------------------------------
 # function to assign data points to clusters
 function AssignPoints(dataMatrix, clusterTensor, resolution::Int64, minMatrix::Vector{Float64},
-                        maxMatrix::Vector{Float64}, totalCounts::Int64, omitEmptyCells::Bool,
+                        maxMatrix::Vector{Float64}, numData::Int64, omitEmptyCells::Bool,
                         ::Val{dimensions}) where dimensions
 
-    assignments = zeros(Int64, totalCounts)
-    numData = size(dataMatrix, 1)
+    assignments = zeros(Int64, numData)
     # tuple to later reverse the dimension order
     reverseDims = ntuple(i -> dimensions-i+1, dimensions)
     # calculate the cell size for every dimension
@@ -563,14 +560,12 @@ function Iteridense(dataMatrix;
                     omitEmptyCells::Bool= false )
 
     # count data points and determine the dimensions
-    totalCounts::Int64 = size(dataMatrix, 1)
+    numData::Int64 = size(dataMatrix, 1)
     dimensions::Int64 = size(dataMatrix, 2)
     # dataMatrix is a matrix in which every column contains the data of a dimension
     # therefore store the min/max of every dimension in vectors
-    minMatrix = zeros(Float64, dimensions)
-    maxMatrix = zeros(Float64, dimensions)
-    minMatrix = [minimum(col) for col in eachcol(dataMatrix)]
-    maxMatrix = [maximum(col) for col in eachcol(dataMatrix)]
+    minMatrix = Float64.([minimum(col) for col in eachcol(dataMatrix)])
+    maxMatrix = Float64.([maximum(col) for col in eachcol(dataMatrix)])
 
     # assure to have sensible inputs
     if minClusterSize < 2
@@ -582,16 +577,16 @@ function Iteridense(dataMatrix;
     if density < 0.0
         density = 0.0
     end
-    # minClusterSize cannot be greater than totalCounts - 1
-    if minClusterSize ≥ totalCounts
-        minClusterSize = totalCounts - 1
+    # minClusterSize cannot be greater than numData - 1
+    if minClusterSize ≥ numData
+        minClusterSize = numData - 1
     end
-    # totalCounts is maximal possible resolution
-    if startResolution > totalCounts
-        startResolution = totalCounts
+    # numData is maximal possible resolution
+    if startResolution > numData
+        startResolution = numData
     end
-    if stopResolution > totalCounts
-        stopResolution = totalCounts
+    if stopResolution > numData
+        stopResolution = numData
     end
     if stopResolution < startResolution
         stopResolution = startResolution
@@ -624,7 +619,7 @@ function Iteridense(dataMatrix;
     clusterDensities = Array{Any}(undef)
     clusterSizes = Array{Any}(undef)
     # assure that maximal resolution is used as limit
-    maxResolution = totalCounts
+    maxResolution = numData
     if stopResolution > maxResolution
         stopResolution = maxResolution
     end
@@ -652,7 +647,7 @@ function Iteridense(dataMatrix;
                                 omitEmptyCells,
                                 useFixedResolution,
                                 minMatrix, maxMatrix,
-                                totalCounts,
+                                numData,
                                 Val(dimensions) )
     #=
     The clustering could always lead to artifacts, that e.g. a point belonging to a cluster
@@ -679,7 +674,7 @@ function Iteridense(dataMatrix;
                                 countTensor= countTensorResult,
                                 numOfClusters= 0,
                                 finalResolution= LoopResult.finalResolution,
-                                assignments= zeros(Int64, totalCounts),
+                                assignments= zeros(Int64, numData),
                                 clusterDensities= [],
                                 clusterSizes= [] )
     else
@@ -699,14 +694,14 @@ function Iteridense(dataMatrix;
                                             omitEmptyCells,
                                             true,             # use fixed resolution
                                             minMatrix, maxMatrix,
-                                            totalCounts,
+                                            numData,
                                             Val(dimensions) )
     end
 
     # assign the data points according to the first clustering result
     assignments = AssignPoints(dataMatrix, LoopResult.clusterTensor,
                                 LoopResult.finalResolution, minMatrix, maxMatrix,
-                                totalCounts, omitEmptyCells, Val(dimensions))
+                                numData, omitEmptyCells, Val(dimensions))
 
     intermediateResult = IteridenseResult(clusterTensor= LoopResult.clusterTensor,
                                             countTensor= LoopResult.countTensor,
@@ -723,7 +718,7 @@ function Iteridense(dataMatrix;
     else
         assignmentsSecond = AssignPoints(dataMatrix, LoopResultSecond.clusterTensor,
                                             LoopResultSecond.finalResolution,
-                                            minMatrix, maxMatrix, totalCounts,
+                                            minMatrix, maxMatrix, numData,
                                             omitEmptyCells, Val(dimensions))
     end
 
