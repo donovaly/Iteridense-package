@@ -188,10 +188,9 @@ end
 
 #-------------------------------------------------------------------------------------------------
 # function assign every data point to a cell in a tensor
-function cellAssignments(dataMatrix, resolution::Int64, minMatrix::Vector{Float64},
-                            maxMatrix::Vector{Float64}, numData::Int64,
+function cellAssignments(dataMatrix, resolution::Int64, sizeMatrix, minMatrix, numData::Int64,
                             ::Val{dimensions}) where dimensions
-    
+
     # calculate the cell size for every dimension
     sizeMatrix = (maxMatrix .- minMatrix) ./ resolution
 
@@ -520,20 +519,20 @@ function AssignPoints(dataMatrix, clusterTensor, resolution::Int64, minMatrix::V
     numData = size(dataMatrix, 1)
     # tuple to later reverse the dimension order
     reverseDims = ntuple(i -> dimensions-i+1, dimensions)
+    # calculate the cell size for every dimension
+    sizeMatrix = (maxMatrix .- minMatrix) ./ resolution
 
     # depending on omitEmptyCells we have 2 different assignments
     if omitEmptyCells
         # get point assignments
-        cellAssigns, countTensorDims = cellAssignments(dataMatrix, resolution, minMatrix,
-                                                        maxMatrix, numData, Val(dimensions))
+        cellAssigns, countTensorDims = cellAssignments(dataMatrix, resolution, sizeMatrix,
+                                                        minMatrix, numData, Val(dimensions))
         # assign every data point
         for point in 1:size(dataMatrix, 1)
             idx = CartesianIndex(ntuple(i -> cellAssigns[point, reverseDims[i]], Val(dimensions)))
             assignments[point] = clusterTensor[idx]
         end
     else
-        # calculate the cell size for every dimension
-        sizeMatrix = (maxMatrix .- minMatrix) ./ resolution
         # assign every data point
         smallValue = 1e-6
         for point in 1:numData
@@ -570,10 +569,8 @@ function Iteridense(dataMatrix;
     # therefore store the min/max of every dimension in vectors
     minMatrix = zeros(Float64, dimensions)
     maxMatrix = zeros(Float64, dimensions)
-    for i in 1:dimensions
-        minMatrix[i] = minimum(dataMatrix[:, i])
-        maxMatrix[i] = maximum(dataMatrix[:, i])
-    end
+    minMatrix = [minimum(col) for col in eachcol(dataMatrix)]
+    maxMatrix = [maximum(col) for col in eachcol(dataMatrix)]
 
     # assure to have sensible inputs
     if minClusterSize < 2
