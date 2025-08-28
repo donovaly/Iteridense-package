@@ -860,7 +860,8 @@ Base.@ccallable function IteridenseClustering(
     minClusterDensity::Cdouble,
     useDensity::Clonglong,      # bool as int (0 or 1)
     useClusters::Clonglong,
-    noDiagonals::Clonglong )::Ptr{IteridenseResultC}
+    noDiagonals::Clonglong,
+    omitEmptyCells::Clonglong )::Ptr{IteridenseResultC}
     
     # allocate memory for the uninitialized struct
     resultPointer = Ptr{IteridenseResultC}(Libc.malloc(sizeof(IteridenseResultC)))
@@ -883,7 +884,8 @@ Base.@ccallable function IteridenseClustering(
         minClusterDensity = Float64(minClusterDensity),
         useDensity = useDensity != 0,
         useClusters = useClusters != 0,
-        noDiagonals = noDiagonals != 0
+        noDiagonals = noDiagonals != 0,
+        omitEmptyCells = omitEmptyCells != 0
     )
 
     # write result into allocated memory

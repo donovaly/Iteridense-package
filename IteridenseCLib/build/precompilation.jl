@@ -16,7 +16,8 @@ function TestIteridenseClustering()
         1.0, # minClusterDensity
         1,   # useDensity (true)
         0,   # useClusters (false)
-        0    # noDiagonals (false)
+        0,   # noDiagonals (false)
+        0    # omitEmptyCells (false)
     )
     if resultPointer == C_NULL
         error("Failed to allocate IteridenseResultC")
@@ -64,6 +65,21 @@ function TestIteridenseClustering()
     # get size of currently available memory
     FreeMemoryInBytes()
     println("currently available memory: ", FreeMemoryInBytes())
+
+    # eventually also cluster with omitEmptyCells
+    resultPointer = IteridenseClustering(
+        pointer(dataMatrix), 3, 2,
+        1.1, # density
+        1,   # minClusters
+        3,   # minClusterSize
+        2,   # startResolution
+        -1,  # stopResolution
+        1.0, # minClusterDensity
+        1,   # useDensity (true)
+        0,   # useClusters (false)
+        0,   # noDiagonals (false)
+        1    # omitEmptyCells (true)
+    )
 end
 
 # run multiple times to trigger precompilation and test stability
