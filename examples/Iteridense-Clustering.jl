@@ -210,6 +210,16 @@ for i in 1:timeStep
 end
 end
 
+# DBSCAN clustering
+begin
+ε = 0.1
+result = Clustering.dbscan(dataMatrix', ε, min_neighbors= 3, min_cluster_size= 10)
+assign = Clustering.assignments(result)
+clusterCounts = Clustering.counts(result)
+Plots.scatter(dataMatrix[:, 1], dataMatrix[:, 2], xlabel= "x", ylabel= "y",
+        title= "DBSCAN ε = $ε", group= assign, markersize= 5)
+end
+
 # for comparison to Iteridense, maxIterations runs with DBSCAN
 @elapsed begin
 ε = 0.1
@@ -219,17 +229,6 @@ for i in 1:timeStep
                                     ε, min_neighbors= 3, min_cluster_size= 10)
     end
 end
-end
-
-# plot the results
-begin
-result = Clustering.dbscan(dataMatrix', ε, min_neighbors= 3, min_cluster_size= 10)
-assign = Clustering.assignments(result)
-clusterCounts = Clustering.counts(result)
-result = Clustering.dbscan(dataMatrix', 0.10, min_neighbors= 3, min_cluster_size= 10)
-assign = Clustering.assignments(result)
-Plots.scatter(dataMatrix[:, 1], dataMatrix[:, 2], xlabel= "x", ylabel= "y",
-        title= "DBSCAN ε = $ε", group= assign, markersize= 5)
 end
 
 # also measure time for a greater ε
@@ -288,8 +287,6 @@ end
 
 # find possible ε for DBSCAN
 for ε in 0.1:0.1:0.5
-assign = Clustering.assignments(result)
-clusterCounts = Clustering.counts(result)
 result = Clustering.dbscan(dataMatrix3D', ε, min_neighbors= 3, min_cluster_size= 20)
 assign = Clustering.assignments(result)
 resultPlot = Plots.scatter(dataMatrix3D[:, 1], dataMatrix3D[:, 2], dataMatrix3D[:, 3],
@@ -369,7 +366,7 @@ end
 #---------------------------------------------
 # next dataset: 3 distorted blobs
 begin
-filePath = joinpath(@__DIR__, "datasets/NoisyAnisotrope.csv")
+filePath = joinpath(@__DIR__, "datasets/NoisyAnisotropic.csv")
 if isfile(filePath)
     data = CSV.read(filePath, DataFrame; delim= ',')
 end
@@ -766,12 +763,12 @@ end
 # Hereby we have we have categorial data: the Gender ID is either 0 or 1. Hereby we can save a lot
 # of memory by using the option omitEmptyCells because whatever resolution will be calculated
 # the dimension of the tensor for this dimension can be 3 to keep the information about the gender.
-ρ = 1.2
+ρ = 7.0
 IteridenseResult = Iteridense(dataMatrix[:, [3, 5, 6]], omitEmptyCells= true,
                                 density= ρ, minClusterSize= 10);
 IteridenseResult.finalResolution
 # we get a 20x20x3 tensor instead of a 20x20x20 tensor
-IteridenseResult.countTensor
+size(IteridenseResult.countTensor)
 IteridenseResult.clusterDensities
 IteridenseResult.clusterSizes
 # result in 2D (despite we clustered in 3D)
@@ -783,3 +780,111 @@ Plots.scatter(dataMatrix[:, 3], dataMatrix[:, 5], dataMatrix[:, 6],
                 xlabel= dataLabels[3], ylabel= dataLabels[5], zlabel= dataLabels[6],
                 title= "Iteridense ρ = $ρ", group= IteridenseResult.assignments)
 
+# now add 2 dimensions with categorial data (3 categories)
+# then duplicate the matrix 50 times to get a 10000x6 matrix with 6 numerical dimensions
+# of which are 3 categorial
+begin
+numData = size(dataMatrix)[1]
+zVals = zeros(numData, 2)
+for k in 1:2
+    for i in 1:50
+        zVals[i, k] = 1
+        zVals[numData-i+1, k] = 2
+    end
+end
+dataMatrix6D = hcat(dataMatrix, zVals[:, 1], reverse(zVals[:, 2]))
+dataMatrix50x6D = vcat(dataMatrix6D, dataMatrix6D)
+for i in 1:48
+    dataMatrix50x6D = vcat(dataMatrix50x6D, dataMatrix6D)
+end
+# DBSCAN needs the matrix in Float64
+dataMatrix50x6D = Float64.(dataMatrix50x6D[:, 3:end])
+end
+
+# cluster all dimensions
+@elapsed begin IteridenseResult = Iteridense(dataMatrix50x6D, omitEmptyCells= true,
+                                density= 1.4, minClusterSize= 500);
+end
+IteridenseResult.finalResolution
+# we get a 5x5x20x20x20, 3 tensor instead of a 20x20x20x20x20x20 tensor
+size(IteridenseResult.countTensor)
+IteridenseResult.clusterDensities
+IteridenseResult.clusterSizes
+
+begin
+timeStep = 20
+maxIterations = 20
+timeResult = zeros(timeStep, 4) # we will get 4 time results
+dataPortion = Int(size(dataMatrix50x6D)[1] / timeStep)
+end
+
+@elapsed begin
+for i in 1:timeStep
+    timeResult[i, 1] = @elapsed for k in 1:maxIterations
+    Iteridense(dataMatrix50x6D[1:i*dataPortion, :], minClusterSize= 500,
+                                density = 100.0, # assure we reach the stopResolution 
+                                startResolution= 2, stopResolution= 10, omitEmptyCells= false);
+    end
+end
+end
+
+@elapsed begin
+for i in 1:timeStep
+    timeResult[i, 2] = @elapsed for k in 1:maxIterations
+    Iteridense(dataMatrix50x6D[1:i*dataPortion, :], minClusterSize= 500,
+                                density = 100.0, # assure we reach the stopResolution 
+                                startResolution= 2, stopResolution= 10, omitEmptyCells= true);
+    end
+end
+end
+
+# DBSCAN clustering
+begin
+ε = 8.0
+result = Clustering.dbscan(dataMatrix50x6D', ε, min_neighbors= 3, min_cluster_size= 500)
+assign = Clustering.assignments(result)
+clusterCounts = Clustering.counts(result)
+end
+
+# for comparison to Iteridense, maxIterations runs with DBSCAN
+@elapsed begin
+ε = 8.0
+for i in 1:timeStep
+    timeResult[i, 3] = @elapsed for k in 1:maxIterations
+        Clustering.dbscan(dataMatrix50x6D[1:i*dataPortion, :]',
+                                    ε, min_neighbors= 3, min_cluster_size= 500)
+    end
+end
+end
+
+# k-means clustering
+begin
+result = Clustering.kmeans(dataMatrix50x6D', 2; maxiter= 20, display= :iter)
+assign = Clustering.assignments(result)
+clusterCounts = Clustering.counts(result)
+clusterCenter = result.centers
+end
+
+# also measure the time for k-means
+@elapsed for i in 1:timeStep
+    timeResult[i, 4] = @elapsed for k in 1:maxIterations
+        Clustering.kmeans(dataMatrix50x6D[1:i*dataPortion, :]',
+                                    2; maxiter= 20)
+    end
+end
+
+# plot the times
+begin
+numPoints = collect(range(dataPortion, timeStep*dataPortion, timeStep))
+timePlot = scatter(numPoints, timeResult[:, 1], lab= "Iteridense", titlefontsize= 10,
+                    title= "Calculation time comparison 6D", xlabel= "N", ylabel= "time in s",
+                    legend= :left)
+plot!(timePlot, numPoints, timeResult[:, 2], lab= "Iteridense with omitEmptyCells", st= scatter)
+plot!(timePlot, numPoints, timeResult[:, 3], lab= "DBSCAN ε= $ε", st= scatter)
+plot!(timePlot, numPoints, timeResult[:, 4], lab= "k-means", st= scatter)
+# at last connect the points
+plot!(timePlot, numPoints, timeResult[:, 1], lab= "", lw= 2, color= 1)
+plot!(timePlot, numPoints, timeResult[:, 2], lab= "", lw= 2, color= 2)
+plot!(timePlot, numPoints, timeResult[:, 3], lab= "", lw= 2, color= 3)
+plot!(timePlot, numPoints, timeResult[:, 4], lab= "", lw= 2, color= 4)
+end
