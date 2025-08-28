@@ -633,7 +633,7 @@ object MainForm: TMainForm
         AnchorSideTop.Side = asrBottom
         Left = 14
         Height = 19
-        Hint = 'remove as many empty cells from'#13#10'cluster tensor as possible the reduce'#13#10'memory consumption'
+        Hint = 'remove as many empty cells from'#13#10'cluster tensor as possible to reduce'#13#10'memory consumption'
         Top = 286
         Width = 108
         BorderSpacing.Top = 7
