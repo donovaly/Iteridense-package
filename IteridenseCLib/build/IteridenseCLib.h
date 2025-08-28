@@ -65,6 +65,7 @@ typedef struct {
  * @param useClusters Boolean flag (0 or 1)
  * @param useDensity Boolean flag (0 or 1)
  * @param noDiagonals Boolean flag (0 or 1)
+ * @param omitEmptyCells Boolean flag (0 or 1)
  * 
  * @return Pointer to an IteridenseResultC struct allocated on the heap
  *         Must be freed by calling IteridenseFree()
@@ -81,7 +82,8 @@ IteridenseResultC* IteridenseClustering(
     double minClusterDensity,
     int64_t useDensity,
     int64_t useClusters,
-    int64_t noDiagonals
+    int64_t noDiagonals,
+    int64_t omitEmptyCells
 );
 
 /**

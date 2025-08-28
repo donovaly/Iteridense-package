@@ -61,7 +61,8 @@ int main(int argc, char *argv[]) {
         1.0,    // minClusterDensity
         1,      // useDensity (true)
         0,      // useClusters (false)
-        0       // noDiagonals (false)
+        0,      // noDiagonals (false)
+        0       // omitEmptyCells (false)
     );
 
     if (resultIteridense == NULL) {

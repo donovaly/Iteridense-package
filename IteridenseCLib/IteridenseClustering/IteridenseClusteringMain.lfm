@@ -9,6 +9,7 @@ object MainForm: TMainForm
   ClientWidth = 929
   Color = clWindow
   Menu = MainMenu
+  LCLVersion = '4.2.0.0'
   OnClose = FormClose
   OnCreate = FormCreate
   OnDropFiles = FormDropFiles
@@ -21,7 +22,7 @@ object MainForm: TMainForm
     Left = 73
     Height = 42
     Hint = 'the currently active tab sets what'#13#10'clustering algorithm will be used'
-    Top = 416
+    Top = 435
     Width = 140
     BorderSpacing.Top = 14
     Caption = 'Clustering'
@@ -339,7 +340,7 @@ object MainForm: TMainForm
     AnchorSideTop.Control = OpenCsvBB
     AnchorSideTop.Side = asrBottom
     Left = 21
-    Height = 342
+    Height = 361
     Top = 60
     Width = 244
     ActivePage = IteridenseTS
@@ -354,7 +355,7 @@ object MainForm: TMainForm
     OnChange = MethodsPCChange
     object IteridenseTS: TTabSheet
       Caption = 'Iteridense'
-      ClientHeight = 294
+      ClientHeight = 313
       ClientWidth = 236
       object DensityFSE: TFloatSpinEdit
         AnchorSideLeft.Control = IteridenseTS
@@ -595,10 +596,13 @@ object MainForm: TMainForm
         AnchorSideTop.Side = asrBottom
         Left = 14
         Height = 19
+        Hint = 'don’t take cells into account that are in the'#13#10'cluster tensor only diagonally connected to'#13#10'the current cell'
         Top = 260
         Width = 110
         BorderSpacing.Top = 7
         Caption = 'no Diagonal Cells'
+        ParentShowHint = False
+        ShowHint = True
         TabOrder = 8
       end
       object DensityTB: TTrackBar
@@ -623,10 +627,25 @@ object MainForm: TMainForm
         ShowHint = True
         TabOrder = 9
       end
+      object OmitEmptyCellsCB: TCheckBox
+        AnchorSideLeft.Control = DensityFSE
+        AnchorSideTop.Control = NoDiagonalsCB
+        AnchorSideTop.Side = asrBottom
+        Left = 14
+        Height = 19
+        Hint = 'remove as many empty cells from'#13#10'cluster tensor as possible the reduce'#13#10'memory consumption'
+        Top = 286
+        Width = 108
+        BorderSpacing.Top = 7
+        Caption = 'omit Empty Cells'
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 10
+      end
     end
     object ClusterResultTS: TTabSheet
       Caption = 'Clustering Result'
-      ClientHeight = 294
+      ClientHeight = 313
       ClientWidth = 236
       object FinalResolutionLE: TLabeledEdit
         AnchorSideTop.Control = ClusterResultTS
@@ -656,7 +675,7 @@ object MainForm: TMainForm
         AnchorSideBottom.Control = ClusterResultTS
         AnchorSideBottom.Side = asrBottom
         Left = 19
-        Height = 229
+        Height = 248
         Top = 51
         Width = 199
         Anchors = [akTop, akLeft, akBottom]
@@ -694,7 +713,7 @@ object MainForm: TMainForm
     end
     object DBSCANTS: TTabSheet
       Caption = 'DBSCAN'
-      ClientHeight = 294
+      ClientHeight = 313
       ClientWidth = 236
       object RadiusFSE: TFloatSpinEdit
         AnchorSideLeft.Control = DBSCANTS
@@ -825,7 +844,7 @@ object MainForm: TMainForm
     end
     object KMeansTS: TTabSheet
       Caption = 'K-Means'
-      ClientHeight = 294
+      ClientHeight = 313
       ClientWidth = 236
       object NumberClustersSE: TSpinEdit
         AnchorSideLeft.Control = KMeansTS
@@ -940,7 +959,7 @@ object MainForm: TMainForm
     AnchorSideTop.Side = asrBottom
     Left = 21
     Height = 98
-    Top = 472
+    Top = 491
     Width = 342
     BorderSpacing.Top = 14
     Caption = 'Selection of Dimensions'
@@ -1032,7 +1051,7 @@ object MainForm: TMainForm
     AnchorSideBottom.Control = DimensionSelectionGB
     AnchorSideBottom.Side = asrBottom
     Left = 373
-    Height = 59
+    Height = 78
     Top = 511
     Width = 548
     Anchors = [akTop, akLeft, akRight, akBottom]
@@ -1040,7 +1059,7 @@ object MainForm: TMainForm
     BorderSpacing.Top = 3
     BorderSpacing.Right = 8
     Caption = 'Iteridense Resolution Inspector'
-    ClientHeight = 39
+    ClientHeight = 58
     ClientWidth = 544
     Enabled = False
     ParentBackground = False
@@ -1053,7 +1072,7 @@ object MainForm: TMainForm
       AnchorSideBottom.Control = IteridenseSliderGB
       AnchorSideBottom.Side = asrBottom
       Left = 55
-      Height = 33
+      Height = 52
       Hint = 'runs Iteridense at a fixed resolution'
       Top = 3
       Width = 434
@@ -1118,17 +1137,17 @@ object MainForm: TMainForm
   object LoadedDataFileLE: TLabeledEdit
     AnchorSideLeft.Control = DataC
     AnchorSideLeft.Side = asrCenter
-    AnchorSideTop.Control = DimensionSelectionGB
+    AnchorSideTop.Control = IteridenseSliderGB
     AnchorSideRight.Side = asrBottom
-    AnchorSideBottom.Side = asrBottom
+    AnchorSideBottom.Control = IteridenseSliderGB
     Left = 519
     Height = 23
     Hint = 'No data file loaded'
-    Top = 479
+    Top = 482
     Width = 157
     Alignment = taCenter
-    BorderSpacing.Left = 1
-    BorderSpacing.Top = 7
+    Anchors = [akLeft, akBottom]
+    BorderSpacing.Bottom = 6
     EditLabel.Height = 23
     EditLabel.Width = 114
     EditLabel.Caption = 'Loaded CSV Data File:'
@@ -1147,7 +1166,7 @@ object MainForm: TMainForm
     AnchorSideRight.Side = asrBottom
     Left = 863
     Height = 23
-    Top = 479
+    Top = 482
     Width = 50
     Alignment = taCenter
     Anchors = [akTop, akRight]

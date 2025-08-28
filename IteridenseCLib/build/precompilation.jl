@@ -5,6 +5,7 @@ using IteridenseCLib
 function TestIteridenseClustering()
     # a 3x2 Float64 matrix as test
     dataMatrix = Float64.([[19, 23, 57] [42, 39, 34]])
+    println("dataMatrix: $(dataMatrix)")
 
     resultPointer = IteridenseClustering(
         pointer(dataMatrix), 3, 2,
@@ -59,9 +60,6 @@ function TestIteridenseClustering()
     # free allocated memory
     IteridenseFree(resultPointer)
 
-    # perform garbage collection
-    GarbageCollection()
-
     # get size of currently available memory
     FreeMemoryInBytes()
     println("currently available memory: ", FreeMemoryInBytes())
@@ -80,6 +78,9 @@ function TestIteridenseClustering()
         0,   # noDiagonals (false)
         1    # omitEmptyCells (true)
     )
+
+    # perform garbage collection
+    GarbageCollection()
 end
 
 # run multiple times to trigger precompilation and test stability

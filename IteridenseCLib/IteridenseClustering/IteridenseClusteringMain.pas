@@ -73,7 +73,8 @@ type
     minClusterDensity: cdouble;
     useDensity: cint64;         // int64_t (0 or 1)
     useClusters: cint64;
-    noDiagonals: cint64
+    noDiagonals: cint64;
+    omitEmptyCells: cint64
     ): PIteridenseResultC; cdecl;
   // frees memory allocated by TIteridenseClustering
   // returns 0 on success, -1 if ptr is nil
@@ -118,6 +119,7 @@ type
     AboutMI: TMenuItem;
     AutoscaleMI: TMenuItem;
     AxisClickTool: TAxisClickTool;
+    OmitEmptyCellsCB: TCheckBox;
     NumDataPointsLE: TLabeledEdit;
     LabelHintB: TButton;
     FlipTB: TToggleBox;
@@ -672,7 +674,8 @@ begin
       MinClusterDensityFSE.Value,
       UseDensityRB.Checked.ToInteger,
       UseClustersRB.Checked.ToInteger,
-      NoDiagonalsCB.Checked.ToInteger );
+      NoDiagonalsCB.Checked.ToInteger,
+      OmitEmptyCellsCB.Checked.ToInteger );
     // test if there is a result
     if iteridenseResult = nil then
     begin
