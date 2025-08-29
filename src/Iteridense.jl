@@ -771,6 +771,7 @@ function PlotIteridenseHeatmap(dataMatrix, resolution::Int; omitEmptyCells::Bool
     @eval using Plots
     # getting interactive plots
     plotlyjs()
+    numData = size(dataMatrix, 1)
     # heatmaps can only be created for 1 or 2 dimensions
     dimensions= size(dataMatrix, 2)
     if size(dataMatrix, 2) > 2
@@ -787,8 +788,8 @@ function PlotIteridenseHeatmap(dataMatrix, resolution::Int; omitEmptyCells::Bool
         ranges[i] = Vector(maxVector[i]/(2*resolution):maxVector[i]/resolution:maxVector[i])
     end
     # create the count matrix for the given resolution
-    countMatrix = CreateCountTensor(dataMatrix, Int32(resolution), minVector, maxVector, omitEmptyCells,
-                                    Val(dimensions))
+    countMatrix = CreateCountTensor(dataMatrix, resolution, numData, minVector, maxVector,
+                                    omitEmptyCells, Val(dimensions))
     # plot the countMatrix as heatmap
     if dimensions == 2
         return Plots.heatmap(ranges[1], ranges[2], countMatrix, aspect_ratio= 1,
