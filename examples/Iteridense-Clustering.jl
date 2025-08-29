@@ -792,13 +792,13 @@ for k in 1:2
         zVals[numData-i+1, k] = 2
     end
 end
-dataMatrix6D = hcat(dataMatrix, zVals[:, 1], reverse(zVals[:, 2]))
+dataMatrix6D = hcat(dataMatrix[:, 3:end], zVals[:, 1], reverse(zVals[:, 2]))
 dataMatrix50x6D = vcat(dataMatrix6D, dataMatrix6D)
 for i in 1:48
     dataMatrix50x6D = vcat(dataMatrix50x6D, dataMatrix6D)
 end
 # DBSCAN needs the matrix in Float64
-dataMatrix50x6D = Float64.(dataMatrix50x6D[:, 3:end])
+dataMatrix50x6D = Float64.(dataMatrix50x6D)
 end
 
 # cluster all dimensions
@@ -806,7 +806,7 @@ end
                                 density= 1.4, minClusterSize= 500);
 end
 IteridenseResult.finalResolution
-# we get a 5x5x20x20x20, 3 tensor instead of a 20x20x20x20x20x20 tensor
+# we get a 5x5x10x10x10, 3 tensor instead of a 10x10x10x10x10x10 tensor
 size(IteridenseResult.countTensor)
 IteridenseResult.clusterDensities
 IteridenseResult.clusterSizes
@@ -818,6 +818,7 @@ timeResult = zeros(timeStep, 4) # we will get 4 time results
 dataPortion = Int(size(dataMatrix50x6D)[1] / timeStep)
 end
 
+# measure time with omitEmptyCells= false
 @elapsed begin
 for i in 1:timeStep
     timeResult[i, 1] = @elapsed for k in 1:maxIterations
@@ -828,6 +829,7 @@ for i in 1:timeStep
 end
 end
 
+# measure time with omitEmptyCells= true
 @elapsed begin
 for i in 1:timeStep
     timeResult[i, 2] = @elapsed for k in 1:maxIterations
