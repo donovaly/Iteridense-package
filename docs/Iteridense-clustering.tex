@@ -56,6 +56,7 @@
  \renewcommand{\subsectionautorefname}{Sec.\negthinspace}
  \renewcommand{\subsubsectionautorefname}{Sec.\negthinspace}
  \renewcommand{\figureautorefname}{Fig.\negthinspace}
+ \renewcommand{\tableautorefname}{Tab.\negthinspace}
 }
 
 % raises threshold above which floats appear on
@@ -374,6 +375,10 @@ maximum is the total number of points in the dataset minus 1.
 \item \label{enu:OptionClusterDensity}Specification of the minimal $\rho_{\mathrm{cluster}}$
 of a cluster (\textbf{MinClusterDensity}). Clusters with lower $\rho_{\mathrm{cluster}}$
 will be erased. The minimum and default is 1.0.
+\item In step~\ref{enu:AlgoStep1} don't divide the data space in $\text{resolution}^{\text{dimension}}$
+cells but use for every dimension only as many cells as necessary
+(\textbf{OmitEmptyCells}). See \ref{subsec:Memory-Complexity} for
+a details.
 \end{enumerate}
 Option~\ref{enu:OptionDiagonal} can be useful for a low $\rho$
 (and thus low resolutions)\footnote{For example with \textbf{NoDiagonals} in \ref{fig:Result-Iteridense}
@@ -743,6 +748,39 @@ together with $\rho$.
 for clusters with different densities.}
 \end{figure}
 
+Data with higher dimensions are a main use case for clustering algorithms
+as no human could do the clustering according to plots. \ref{fig:Iteridense-Pluton}
+is an example and also demonstrate the clustering performance of \noun{Iteridense}.
+The data are the publicly available \emph{pluton} dataset\cite{RDataPluton}
+containing concentrations of the different Plutonium isotopes in 45~ore
+samples. It has 4~dimensions.
+
+\begin{figure}
+\begin{centering}
+\subfloat[Clustering with only the shown\protect \\
+dimensions taken into account. final resolution: 6]{\includegraphics[width=0.33\columnwidth]{clipart/Pluto-Iteridense-rho2-5-only3}
+
+}\subfloat[Clustering with all dimensions taken into account. final resolution:
+5]{\includegraphics[width=0.33\columnwidth]{clipart/Pluto-Iteridense-rho2-5-all}
+
+}\subfloat[like (b) but $\rho=5.9$, final resolution: 7]{\includegraphics[width=0.33\columnwidth]{clipart/Pluto-Iteridense-rho5-9-all}
+
+}
+\par\end{centering}
+\caption{\label{fig:Iteridense-Pluton}Result of \noun{Iteridense} for the
+\emph{pluton} dataset.}
+\end{figure}
+
+By plotting 3~dimensions of the dataset and performing \noun{Iteridense}
+only on the plotted dimensions, the result would be \ref{fig:Iteridense-Pluton}\,(a).
+Taking all dimensions into account, the result is \ref{fig:Iteridense-Pluton}\,(b).
+The points of high Pu-241 concentrations are then identified as a
+cluster. Cluster~1 is so large because its density in all 4~dimensions
+matters. If one wants for some reason cluster~1 to be split into
+2~clusters, one follows the \noun{Iteridense} path and increases
+$\rho$ above the lowest $\rho_{\mathrm{cluster}}$ and ends up with
+\ref{fig:Iteridense-Pluton}\,(c).
+
 \pagebreak{}
 
 \section{Computational and Memory Complexity\label{subsec:Computational-Complexity}}
@@ -798,7 +836,9 @@ resolution. This leads to
 With this result the following can be seen:
 \begin{itemize}
 \item \noun{Iteridense} scales roughly with $\mathcal{O}\left(DN+R^{D+1}\right)$
--- a linear increase plus an offset.
+-- a linear increase plus an offset. This extends the parameter range
+at which clustering could be performed, dramatically, compared to
+algorithms with $\mathcal{O}\left(DN^{2}\right)$.
 \item Setting $R_{\mathrm{start}}$ (the parameter \textbf{StartResolution})
 has an impact, but a minor one.
 \item The worst case for \noun{Iteridense} is that $\rho$ is set so high
@@ -852,44 +892,26 @@ the choice of $\epsilon$ influences the computation time.
 
 \begin{figure}
 \begin{centering}
-\hfill{}\subfloat[$D=2$]{\begin{centering}
-\includegraphics[width=0.45\columnwidth]{clipart/Calculation-time-comparison-2D}
+\subfloat[$D=2$]{\includegraphics[width=0.49\columnwidth]{clipart/Calculation-time-comparison-2D}
+
+}\subfloat[$D=3$]{\includegraphics[width=0.49\columnwidth]{clipart/Calculation-time-comparison-3D}
+
+}
 \par\end{centering}
-}\hfill{}\subfloat[$D=3$]{\begin{centering}
-\includegraphics[width=0.45\columnwidth]{clipart/Calculation-time-comparison-3D}
-\par\end{centering}
-}\hfill{}
-\par\end{centering}
-\caption{\label{fig:Computation-time-comparison}Computation time comparisons.}
+\caption{\label{fig:Computation-time-comparison}Computation time comparisons
+for 2 similar datasets.}
 \end{figure}
 
 The $N$ at which \noun{Iteridense} is faster than DBSCAN is at about
-$N=670$. By repeating the test in 3D, we should see an increase of
-this value because of the greater offset in $\mathcal{O}$ for \noun{Iteridense}.
-This test was performed by adding z-values to the dataset so that
-the clusters form cylinders. DBSCAN finds the 2~clusters for the
-range $0.2\le\epsilon\le0.26$ and we chose the lowest possible $\epsilon=0.2$.
-Eventually, we extended the dataset by multiplying its points to get
-in total $N=7500\thinspace$points. The result is shown in \ref{fig:Computation-time-comparison}\,(b).
-The $N$ at which \noun{Iteridense} is faster than DBSCAN is now at
-about $N=3700$.
-
-\begin{figure}
-\begin{centering}
-\includegraphics[width=0.66\columnwidth]{clipart/Iteridense-Performance5e4}
-\par\end{centering}
-\caption{\label{fig:Computational-complexity-of}Computational complexity of
-\noun{Iteridense} in comparison to $\mathcal{O}\left(DN^{2}\right)$. }
-\end{figure}
-
-\ref{fig:Computational-complexity-of} shows $\mathcal{O}$ of \noun{Iteridense}
-in comparison to $\mathcal{O}\left(DN^{2}\right)$ for $R_{\mathrm{final}}=10$.
-($R_{\mathrm{final}}$ around 10 is a common result when clustering
-in more than 3 dimensions.) The $\mathcal{O}$ of \noun{Iteridense}
-is in all areas lower than $\mathcal{O}\left(DN^{2}\right)$ except
-of low $N$. Therefore \noun{Iteridense} extends the parameter range
-at which clustering could be performed, dramatically, compared to
-algorithms with $\mathcal{O}\left(DN^{2}\right)$.
+$N=520$. By repeating the test in 3D, there should be an increase
+of this value because of the greater offset in $\mathcal{O}$ for
+\noun{Iteridense}. This test was performed by adding z-values to the
+dataset so that the clusters form cylinders. DBSCAN finds the 2~clusters
+for the range $0.2\le\epsilon\le0.26$ and we chose the lowest possible
+$\epsilon=0.2$. Eventually, we extended the dataset by multiplying
+its points to get in total $N=6000\thinspace$points. The result is
+shown in \ref{fig:Computation-time-comparison}\,(b). The $N$ at
+which \noun{Iteridense} is faster than DBSCAN is now at about $N=1500$.
 
 \begin{figure}
 \begin{centering}
@@ -918,7 +940,7 @@ can set $\text{\textbf{MinClusters}}=2$ and then fine-tune with $\rho$.
 This dataset is a good example that every algorithm has its strengths
 and weaknesses.
 
-\subsection{Memory Complexity}
+\subsection{Memory Complexity\label{subsec:Memory-Complexity}}
 
 The main limitation of \noun{Iteridense} is its basic memory complexity
 of $\mathcal{O}\left(R^{D}\right)$. Therefore on consumer hardware
@@ -926,29 +948,49 @@ the practical limit would be with $R=10$ around $D\approx11$.\footnote{Assuming 
 for the tensors.} However, for many datasets several dimensions are categorical data.
 Therefore it is not necessary to create the count tensor with $R^{D}$
 cells. For example if one dimension is the gender, there are only
-3 cells necessary to store the information of this dimension, each
-one for the gender and one cell to separate both.
+3 cells necessary to store the information of this dimension, 2 for
+the gender and 1 to separate both.
 
 For this case the \noun{Iteridense} algorithm has the option \textbf{OmitEmptyCells}.
 If used, the tensor will have 
 \begin{equation}
 R^{D-D_{c}}\cdot\bar{K}^{D_{c}}
 \end{equation}
- cells, whereas $D_{c}$ are the number of dimensions with categorical
+ cells, whereas $D_{c}$ is the number of dimensions with categorical
 data and $\bar{K}$ is the mean number of categories in the categorical
 dimensions of the dataset.
 
-This increases the applicability of Iteridense significantly. Because
-a dataset with e.\,g. $D_{c}={\displaystyle \frac{D}{2}}$ and $\bar{K}=3$
-can be clustered on consumer hardware for $R=10$ if it has up to
-$D=14$.
+This option increases the applicability of Iteridense significantly.
+Because a dataset with e.\,g. $D_{c}={\displaystyle \frac{D}{2}}$
+and $\bar{K}=3$ can be clustered on consumer hardware for $R=10$
+up to $D=14$.
 
 The determination of the necessary number of cells per dimension has
-$\mathcal{O}\left(DN\log(N)\right)$, therefore the total $\mathcal{O}$
-is greater than without the option \textbf{OmitEmptyCells}.
+$\mathcal{O}\left(DN\left(1+\log(N)\right)\right)$, which results
+in a total 
+\begin{equation}
+\mathcal{O}\left(DN\left(2+\log(N)\right)+R^{D-D_{c}}\bar{K}^{D_{c}}\right)\label{eq:O-omitEmptyCells}
+\end{equation}
 
-\ref{tab:Computational-and-memory} lists $\mathcal{O}$ of different
-clustering algorithms.
+Compared with formula \eqref{eq:O()}, clustering with the option
+\textbf{OmitEmptyCells} will have a greater linear increase of the
+computation time with increasing number of data points. This can be
+seen in \ref{fig:Computational-time-6D} that shows the computation
+time of a dataset with $D=6$, $D_{c}=3$ and $\bar{K}=2.66$.
+
+\begin{figure}
+\begin{centering}
+\includegraphics[width=0.49\columnwidth]{clipart/Calculation-time-comparison-6D}
+\par\end{centering}
+\caption{\label{fig:Computational-time-6D}Computation time comparison for
+a dataset with $D=6$, $D_{c}=3$ and $\bar{K}=2.66$.}
+\end{figure}
+
+In effect the greater memory efficiency with the option \textbf{OmitEmptyCells}
+has computation costs but these are still linear. Thus \noun{Iteridense}
+outperforms also in this case algorithms with $\mathcal{O}\left(DN^{2}\right)$.
+For comparison \ref{tab:Computational-and-memory} lists $\mathcal{O}$
+of different clustering algorithms.
 
 \begin{table}[h]
 \caption{\label{tab:Computational-and-memory}Computational and memory complexity
@@ -960,7 +1002,7 @@ for different cluster algorithms.}
 Algorithm & Computational Complexity & note\tabularnewline
 \midrule
 \midrule 
-\noun{Iteridense} & $\mathcal{O}\left(DN+R^{D+1}\right)$ to $\mathcal{O}\left(DN\left(1+\log(N)\right)+R^{D-D_{c}}\bar{K}^{D_{c}}\right)$ & actually formula \eqref{eq:O()}\tabularnewline
+\noun{Iteridense} & $\mathcal{O}\left(DN+R^{D+1}\right)$ to $\mathcal{O}\left(DN\left(2+\log(N)\right)+R^{D-D_{c}}\bar{K}^{D_{c}}\right)$ & see formulas \eqref{eq:O()}, \eqref{eq:O-omitEmptyCells}\tabularnewline
 \midrule 
 DBSCAN & $\mathcal{O}(DN\log N)$ to $\mathcal{O}\left(DN^{2}\right)$ \cite{Chen2025} & $\mathcal{O}\left(DN^{2}\right)$ if brute force\tabularnewline
 \midrule 
@@ -970,73 +1012,6 @@ k-means & $\mathcal{O}(DN)$ \cite{Ahmed2020} & \tabularnewline
 \bottomrule
 \end{tabular}
 \end{table}
-
-
-\subsection{Results in higher Dimensions}
-
-Data with higher dimensions are a main use case for clustering algorithms
-as no human could do the clustering according to plots. \ref{fig:Iteridense-Pluton}
-is an example and also demonstrate the clustering performance of \noun{Iteridense}.
-The data are the publicly available \emph{pluton} dataset\cite{RDataPluton}
-containing concentrations of the different Plutonium isotopes in 45~ore
-samples. It has 4~dimensions.
-
-\begin{figure}
-\begin{centering}
-\subfloat[Clustering with only the shown\protect \\
-dimensions taken into account. final resolution: 6]{\includegraphics[width=0.33\columnwidth]{clipart/Pluto-Iteridense-rho2-5-only3}
-
-}\subfloat[Clustering with all dimensions taken into account. final resolution:
-5]{\includegraphics[width=0.33\columnwidth]{clipart/Pluto-Iteridense-rho2-5-all}
-
-}\subfloat[like (b) but $\rho=5.9$, final resolution: 7]{\includegraphics[width=0.33\columnwidth]{clipart/Pluto-Iteridense-rho5-9-all}
-
-}
-\par\end{centering}
-\caption{\label{fig:Iteridense-Pluton}Result of \noun{Iteridense} for the
-\emph{pluton} dataset.}
-\end{figure}
-
-By plotting 3~dimensions of the dataset and performing \noun{Iteridense}
-only on the plotted dimensions, the result would be \ref{fig:Iteridense-Pluton}\,(a).
-Taking all dimensions into account, the result is \ref{fig:Iteridense-Pluton}\,(b).
-The points of high Pu-241 concentrations are then identified as a
-cluster. Cluster~1 is so large because its density in all 4~dimensions
-matters. If one wants for some reason cluster~1 to be split into
-2~clusters, one follows the \noun{Iteridense} path and increases
-$\rho$ above the lowest $\rho_{\mathrm{cluster}}$ and ends up with
-\ref{fig:Iteridense-Pluton}\,(c).
-
-\ref{fig:Result-Iteridense-PhD} shows a use case in which \noun{Iteridense}
-shows its strengths. The data is the publicly available \emph{PhDPublications}
-dataset~\cite{RDataPhDCandData}. It has 6~dimensions and we selected
-3 for the visualization. Since there are 5~classes in the set, \textbf{MinCluster}s
-was set to 5. By evaluating only the 3~shown dimensions, one gets
-\ref{fig:Result-Iteridense-PhD}\,(a). This shows that \noun{Iteridense}'s
-grid-based approach combined with its density analysis makes it possible
-to deal directly with classes inside datasets. Pure density-based
-algorithms cannot directly cluster the dataset in the same way.
-
-When evaluating all available dimensions the clusters run across the
-clusters, \ref{fig:Result-Iteridense-PhD}\,(b). To find in this
-case clusters inside the classes, one has to extract the classes to
-different datasets and then run \noun{Iteridense} on every class.
-This is requires more efforts but leads to sensible results when going
-the way to specify $\rho$.
-
-\begin{figure}
-\begin{centering}
-\subfloat[Evaluation of the 3~shown dimensions. final resolution: 9]{\begin{centering}
-\includegraphics[width=0.45\columnwidth]{clipart/PhdPubs-Iteridense-MinClusters5-sub}
-\par\end{centering}
-}\hfill{}\subfloat[Evaluation of all 6~dimension. final resolution: 5]{\begin{centering}
-\includegraphics[width=0.45\columnwidth]{clipart/PhdPubs-Iteridense-MinClusters5-complete}
-\par\end{centering}
-}
-\par\end{centering}
-\caption{\label{fig:Result-Iteridense-PhD}Result of \noun{Iteridense} on the
-\emph{PhDPublications} dataset.}
-\end{figure}
 
 
 \section{Discussion}
@@ -1114,6 +1089,8 @@ We provide online a reference implementation together with an example
 worksheet, \cite{Iteridense}. We also provide a stand-alone program
 with a graphical user interface that can be used to cluster any data
 that is available as a CSV file, \cite{Iteridense-package}.
+
+\pagebreak{}
 
 \printbibliography[heading=bibintoc]
 

@@ -2,11 +2,14 @@
 <svg
    class="main-svg"
    width="507.11783"
-   height="479.00003"
+   height="465.00003"
    version="1.1"
    id="svg232"
    sodipodi:docname="Calculation-time-comparison-2D.svg"
    inkscape:version="1.4.2 (f4327f4, 2025-05-13)"
+   inkscape:export-filename="Calculation-time-comparison-2D.pdf"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -21,8 +24,8 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:zoom="1.5761719"
-     inkscape:cx="256.95167"
-     inkscape:cy="237.60099"
+     inkscape:cx="257.58612"
+     inkscape:cy="223.64312"
      inkscape:window-width="1920"
      inkscape:window-height="1009"
      inkscape:window-x="-8"
@@ -85,11 +88,11 @@
   <g
      class="bglayer"
      id="g8"
-     transform="translate(-0.94516757,-20)" />
+     transform="translate(-0.94516757,-34)" />
   <g
      class="layer-below"
      id="g11"
-     transform="translate(-0.94516757,-20)">
+     transform="translate(-0.94516757,-34)">
     <g
        class="imagelayer"
        id="g9" />
@@ -100,7 +103,7 @@
   <g
      class="cartesianlayer"
      id="g184"
-     transform="translate(-0.94516757,-20)">
+     transform="translate(-0.94516757,-34)">
     <g
        class="subplot xy"
        id="g183">
@@ -1133,43 +1136,43 @@
   <g
      class="polarlayer"
      id="g185"
-     transform="translate(-0.94516757,-20)" />
+     transform="translate(-0.94516757,-34)" />
   <g
      class="smithlayer"
      id="g186"
-     transform="translate(-0.94516757,-20)" />
+     transform="translate(-0.94516757,-34)" />
   <g
      class="ternarylayer"
      id="g187"
-     transform="translate(-0.94516757,-20)" />
+     transform="translate(-0.94516757,-34)" />
   <g
      class="geolayer"
      id="g188"
-     transform="translate(-0.94516757,-20)" />
+     transform="translate(-0.94516757,-34)" />
   <g
      class="funnelarealayer"
      id="g189"
-     transform="translate(-0.94516757,-20)" />
+     transform="translate(-0.94516757,-34)" />
   <g
      class="pielayer"
      id="g190"
-     transform="translate(-0.94516757,-20)" />
+     transform="translate(-0.94516757,-34)" />
   <g
      class="iciclelayer"
      id="g191"
-     transform="translate(-0.94516757,-20)" />
+     transform="translate(-0.94516757,-34)" />
   <g
      class="treemaplayer"
      id="g192"
-     transform="translate(-0.94516757,-20)" />
+     transform="translate(-0.94516757,-34)" />
   <g
      class="sunburstlayer"
      id="g193"
-     transform="translate(-0.94516757,-20)" />
+     transform="translate(-0.94516757,-34)" />
   <g
      class="glimages"
      id="g194"
-     transform="translate(-0.94516757,-20)" />
+     transform="translate(-0.94516757,-34)" />
   <defs
      id="topdefs-3eae62">
     <g
@@ -1188,7 +1191,7 @@
   <g
      class="layer-above"
      id="g198"
-     transform="translate(-0.94516757,-20)">
+     transform="translate(-0.94516757,-34)">
     <g
        class="imagelayer"
        id="g196" />
@@ -1199,11 +1202,11 @@
   <g
      class="infolayer"
      id="g232"
-     transform="translate(-0.94516757,-20)">
+     transform="translate(-0.94516757,-34)">
     <g
        class="legend"
        pointer-events="all"
-       transform="translate(35.84,202.56)"
+       transform="translate(52.087831,147.99742)"
        id="g225">
       <rect
          class="bg"
@@ -1217,7 +1220,8 @@
       <g
          class="scrollbox"
          clip-path="url(#legend3eae62)"
-         id="g224">
+         id="g224"
+         transform="translate(-8)">
         <g
            class="groups"
            id="g223">
@@ -1450,7 +1454,8 @@
        class="annotation"
        data-index="0"
        style="opacity:1"
-       id="g231">
+       id="g231"
+       transform="translate(0,14)">
       <g
          class="annotation-text-g"
          id="g230">

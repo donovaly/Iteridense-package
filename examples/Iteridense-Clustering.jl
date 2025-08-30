@@ -18,9 +18,8 @@ plotlyjs()
 # setting default plot size
 plotly(size= (512, 512))
 # import the Iteridense library
-packagePath = dirname(@__DIR__)
-include(joinpath(packagePath, "src\\IteridenseLibrary.jl"))
-using .Iteridense: Clustering, PlotIteridenseHeatmap
+include(joinpath(@__DIR__, "IteridenseLibrary.jl"))
+using .IteridenseLibrary: Iteridense, PlotIteridenseHeatmap
 end
 
 # The data to be clustered are all in CSV files. The CSV files re expected to be in a subfolder
@@ -788,6 +787,7 @@ begin
 numData = size(dataMatrix)[1]
 zVals = zeros(numData, 2)
 for k in 1:2
+    # first 50 and last 50 values get category 1 and 3
     for i in 1:50
         zVals[i, k] = 1
         zVals[numData-i+1, k] = 2
@@ -795,8 +795,8 @@ for k in 1:2
 end
 dataMatrix6D = hcat(dataMatrix[:, 3:end], zVals[:, 1], reverse(zVals[:, 2]))
 dataMatrix50x6D = vcat(dataMatrix6D, dataMatrix6D)
-for i in 1:5
-    dataMatrix50x6D = vcat(dataMatrix50x6D, dataMatrix50x6D)
+for i in 1:73
+    dataMatrix50x6D = vcat(dataMatrix50x6D, dataMatrix6D)
 end
 # DBSCAN needs the matrix in Float64
 dataMatrix50x6D = Float64.(dataMatrix50x6D)
@@ -882,7 +882,7 @@ numPoints = collect(range(dataPortion, timeStep*dataPortion, timeStep))
 timePlot = scatter(numPoints, timeResult[:, 1], lab= "Iteridense", titlefontsize= 10,
                     title= "Calculation time comparison 6D", xlabel= "N", ylabel= "time in s",
                     legend= :topleft)
-plot!(timePlot, numPoints, timeResult[:, 2], lab= "Iteridense with omitEmptyCells", st= scatter)
+plot!(timePlot, numPoints, timeResult[:, 2], lab= "Iteridense with OmitEmptyCells", st= scatter)
 plot!(timePlot, numPoints, timeResult[:, 3], lab= "DBSCAN ε= $ε", st= scatter)
 plot!(timePlot, numPoints, timeResult[:, 4], lab= "k-means", st= scatter)
 # at last connect the points

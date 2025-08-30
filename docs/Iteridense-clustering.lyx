@@ -22,6 +22,7 @@
  \renewcommand{\subsectionautorefname}{Sec.\negthinspace}
  \renewcommand{\subsubsectionautorefname}{Sec.\negthinspace}
  \renewcommand{\figureautorefname}{Fig.\negthinspace}
+ \renewcommand{\tableautorefname}{Tab.\negthinspace}
 }
 
 % raises threshold above which floats appear on
@@ -1765,6 +1766,37 @@ MinClusterDensity
 
  will be erased.
  The minimum and default is 1.0.
+\end_layout
+
+\begin_layout Enumerate
+In step
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:AlgoStep1"
+
+\end_inset
+
+ don't divide the data space in 
+\begin_inset Formula $\text{resolution}^{\text{dimension}}$
+\end_inset
+
+ cells but use for every dimension only as many cells as necessary (
+\series bold
+OmitEmptyCells
+\series default
+).
+ See 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Memory-Complexity"
+
+\end_inset
+
+ for a details.
 \end_layout
 
 \begin_layout Standard
@@ -4066,6 +4098,280 @@ Iteridense
 \end_layout
 
 \begin_layout Standard
+Data with higher dimensions are a main use case for clustering algorithms as no human could do the clustering according to plots.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Iteridense-Pluton"
+
+\end_inset
+
+ is an example and also demonstrate the clustering performance of 
+\noun on
+Iteridense
+\noun default
+.
+ The data are the publicly available 
+\emph on
+pluton
+\emph default
+ dataset
+\begin_inset CommandInset citation
+LatexCommand cite
+key "RDataPluton"
+literal "false"
+
+\end_inset
+
+ containing concentrations of the different Plutonium isotopes in 45
+\begin_inset space ~
+\end_inset
+
+ore samples.
+ It has 4
+\begin_inset space ~
+\end_inset
+
+dimensions.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement class
+alignment document
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename clipart/Pluto-Iteridense-rho2-5-only3.png
+	lyxscale 50
+	width 33col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Clustering with only the shown
+\begin_inset Newline newline
+\end_inset
+
+dimensions taken into account.
+ final resolution:
+ 6
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename clipart/Pluto-Iteridense-rho2-5-all.png
+	lyxscale 50
+	width 33col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Clustering with all dimensions taken into account.
+ final resolution:
+ 5
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename clipart/Pluto-Iteridense-rho5-9-all.png
+	lyxscale 50
+	width 33col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+like (b) but 
+\begin_inset Formula $\rho=5.9$
+\end_inset
+
+,
+ final resolution:
+ 7
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Iteridense-Pluton"
+
+\end_inset
+
+Result of 
+\noun on
+Iteridense
+\noun default
+ for the 
+\emph on
+pluton
+\emph default
+ dataset.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+By plotting 3
+\begin_inset space ~
+\end_inset
+
+dimensions of the dataset and performing 
+\noun on
+Iteridense
+\noun default
+ only on the plotted dimensions,
+ the result would be 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Iteridense-Pluton"
+
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+(a).
+ Taking all dimensions into account,
+ the result is 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Iteridense-Pluton"
+
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+(b).
+ The points of high Pu-241 concentrations are then identified as a cluster.
+ Cluster
+\begin_inset space ~
+\end_inset
+
+1 is so large because its density in all 4
+\begin_inset space ~
+\end_inset
+
+dimensions matters.
+ If one wants for some reason cluster
+\begin_inset space ~
+\end_inset
+
+1 to be split into 2
+\begin_inset space ~
+\end_inset
+
+clusters,
+ one follows the 
+\noun on
+Iteridense
+\noun default
+ path and increases 
+\begin_inset Formula $\rho$
+\end_inset
+
+ above the lowest 
+\begin_inset Formula $\rho_{\mathrm{cluster}}$
+\end_inset
+
+ and ends up with 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Iteridense-Pluton"
+
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+(c).
+\end_layout
+
+\begin_layout Standard
 \begin_inset Newpage pagebreak
 \end_inset
 
@@ -4271,6 +4577,13 @@ Iteridense
 \end_inset
 
  – a linear increase plus an offset.
+ This extends the parameter range at which clustering could be performed,
+ dramatically,
+ compared to algorithms with 
+\begin_inset Formula $\mathcal{O}\left(DN^{2}\right)$
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Itemize
@@ -4637,10 +4950,6 @@ status collapsed
 
 \begin_layout Plain Layout
 \align center
-\begin_inset space \hfill{}
-\end_inset
-
-
 \begin_inset Float figure
 placement document
 alignment document
@@ -4649,11 +4958,10 @@ sideways false
 status open
 
 \begin_layout Plain Layout
-\align center
 \begin_inset Graphics
 	filename clipart/Calculation-time-comparison-2D.svg
 	lyxscale 50
-	width 45col%
+	width 49col%
 
 \end_inset
 
@@ -4678,10 +4986,6 @@ status open
 \end_inset
 
 
-\begin_inset space \hfill{}
-\end_inset
-
-
 \begin_inset Float figure
 placement document
 alignment document
@@ -4690,11 +4994,10 @@ sideways false
 status open
 
 \begin_layout Plain Layout
-\align center
 \begin_inset Graphics
 	filename clipart/Calculation-time-comparison-3D.svg
 	lyxscale 50
-	width 45col%
+	width 49col%
 
 \end_inset
 
@@ -4719,10 +5022,6 @@ status open
 \end_inset
 
 
-\begin_inset space \hfill{}
-\end_inset
-
-
 \end_layout
 
 \begin_layout Plain Layout
@@ -4735,7 +5034,7 @@ name "fig:Computation-time-comparison"
 
 \end_inset
 
-Computation time comparisons.
+Computation time comparisons for 2 similar datasets.
 \end_layout
 
 \end_inset
@@ -4814,116 +5113,6 @@ Iteridense
 \noun default
  is faster than DBSCAN is now at about 
 \begin_inset Formula $N=1500$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-placement class
-alignment document
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename clipart/Iteridense-Performance5e4.jpg
-	lyxscale 50
-	width 66col%
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:Computational-complexity-of"
-
-\end_inset
-
-Computational complexity of 
-\noun on
-Iteridense
-\noun default
- in comparison to 
-\begin_inset Formula $\mathcal{O}\left(DN^{2}\right)$
-\end_inset
-
-.
- 
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Computational-complexity-of"
-
-\end_inset
-
- shows 
-\begin_inset Formula $\mathcal{O}$
-\end_inset
-
- of 
-\noun on
-Iteridense
-\noun default
- in comparison to 
-\begin_inset Formula $\mathcal{O}\left(DN^{2}\right)$
-\end_inset
-
- for 
-\begin_inset Formula $R_{\mathrm{final}}=10$
-\end_inset
-
-.
- (
-\begin_inset Formula $R_{\mathrm{final}}$
-\end_inset
-
- around 10 is a common result when clustering in more than 3 dimensions.) The 
-\begin_inset Formula $\mathcal{O}$
-\end_inset
-
- of 
-\noun on
-Iteridense
-\noun default
- is in all areas lower than 
-\begin_inset Formula $\mathcal{O}\left(DN^{2}\right)$
-\end_inset
-
- except of low 
-\begin_inset Formula $N$
-\end_inset
-
-.
- Therefore 
-\noun on
-Iteridense
-\noun default
- extends the parameter range at which clustering could be performed,
- dramatically,
- compared to algorithms with 
-\begin_inset Formula $\mathcal{O}\left(DN^{2}\right)$
 \end_inset
 
 .
@@ -5106,6 +5295,13 @@ Iteridense
 
 \begin_layout Subsection
 Memory Complexity
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Memory-Complexity"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -5153,7 +5349,7 @@ byte) for the tensors.
  cells.
  For example if one dimension is the gender,
  there are only 3 cells necessary to store the information of this dimension,
- each one for the gender and one cell to separate both.
+ 2 for the gender and 1 to separate both.
 \end_layout
 
 \begin_layout Standard
@@ -5180,7 +5376,7 @@ R^{D-D_{c}}\cdot\bar{K}^{D_{c}}
 \begin_inset Formula $D_{c}$
 \end_inset
 
- are the number of dimensions with categorical data and 
+ is the number of dimensions with categorical data and 
 \begin_inset Formula $\bar{K}$
 \end_inset
 
@@ -5188,7 +5384,7 @@ R^{D-D_{c}}\cdot\bar{K}^{D_{c}}
 \end_layout
 
 \begin_layout Standard
-This increases the applicability of Iteridense significantly.
+This option increases the applicability of Iteridense significantly.
  Because a dataset with e.
 \begin_inset space \thinspace{}
 \end_inset
@@ -5206,7 +5402,7 @@ g.
 \begin_inset Formula $R=10$
 \end_inset
 
- if it has up to 
+ up to 
 \begin_inset Formula $D=14$
 \end_inset
 
@@ -5215,22 +5411,130 @@ g.
 
 \begin_layout Standard
 The determination of the necessary number of cells per dimension has 
-\begin_inset Formula $\mathcal{O}\left(DN\log(N)\right)$
+\begin_inset Formula $\mathcal{O}\left(DN\left(1+\log(N)\right)\right)$
 \end_inset
 
 ,
- therefore the total 
-\begin_inset Formula $\mathcal{O}$
+ which results in a total 
+\begin_inset Formula 
+\begin{equation}
+\mathcal{O}\left(DN\left(2+\log(N)\right)+R^{D-D_{c}}\bar{K}^{D_{c}}\right)\label{eq:O-omitEmptyCells}
+\end{equation}
+
 \end_inset
 
- is greater than without the option 
+
+\end_layout
+
+\begin_layout Standard
+Compared with formula 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:O()"
+
+\end_inset
+
+,
+ clustering with the option 
 \series bold
 OmitEmptyCells
 \series default
+ will have a greater linear increase of the computation time with increasing number of data points.
+ This can be seen in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Computational-time-6D"
+
+\end_inset
+
+ that shows the computation time of a dataset with 
+\begin_inset Formula $D=6$
+\end_inset
+
+,
+ 
+\begin_inset Formula $D_{c}=3$
+\end_inset
+
+ and 
+\begin_inset Formula $\bar{K}=2.66$
+\end_inset
+
 .
 \end_layout
 
 \begin_layout Standard
+\begin_inset Float figure
+placement class
+alignment document
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename clipart/Calculation-time-comparison-6D.svg
+	lyxscale 50
+	width 49col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Computational-time-6D"
+
+\end_inset
+
+Computation time comparison for a dataset with 
+\begin_inset Formula $D=6$
+\end_inset
+
+,
+ 
+\begin_inset Formula $D_{c}=3$
+\end_inset
+
+ and 
+\begin_inset Formula $\bar{K}=2.66$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In effect the greater memory efficiency with the option 
+\series bold
+OmitEmptyCells
+\series default
+ has computation costs but these are still linear.
+ Thus 
+\noun on
+Iteridense
+\noun default
+ outperforms also in this case algorithms with 
+\begin_inset Formula $\mathcal{O}\left(DN^{2}\right)$
+\end_inset
+
+.
+ For comparison 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "tab:Computational-and-memory"
@@ -5327,7 +5631,7 @@ Iteridense
 \end_inset
 
  to 
-\begin_inset Formula $\mathcal{O}\left(DN\left(1+\log(N)\right)+R^{D-D_{c}}\bar{K}^{D_{c}}\right)$
+\begin_inset Formula $\mathcal{O}\left(DN\left(2+\log(N)\right)+R^{D-D_{c}}\bar{K}^{D_{c}}\right)$
 \end_inset
 
 
@@ -5339,10 +5643,18 @@ Iteridense
 \begin_inset Text
 
 \begin_layout Plain Layout
-actually formula 
+see formulas 
 \begin_inset CommandInset ref
 LatexCommand eqref
 reference "eq:O()"
+
+\end_inset
+
+,
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:O-omitEmptyCells"
 
 \end_inset
 
@@ -5491,507 +5803,6 @@ literal "false"
 </cell>
 </row>
 </lyxtabular>
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Subsection
-Results in higher Dimensions
-\end_layout
-
-\begin_layout Standard
-Data with higher dimensions are a main use case for clustering algorithms as no human could do the clustering according to plots.
- 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Iteridense-Pluton"
-
-\end_inset
-
- is an example and also demonstrate the clustering performance of 
-\noun on
-Iteridense
-\noun default
-.
- The data are the publicly available 
-\emph on
-pluton
-\emph default
- dataset
-\begin_inset CommandInset citation
-LatexCommand cite
-key "RDataPluton"
-literal "false"
-
-\end_inset
-
- containing concentrations of the different Plutonium isotopes in 45
-\begin_inset space ~
-\end_inset
-
-ore samples.
- It has 4
-\begin_inset space ~
-\end_inset
-
-dimensions.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-placement class
-alignment document
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Float figure
-placement document
-alignment document
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename clipart/Pluto-Iteridense-rho2-5-only3.png
-	lyxscale 50
-	width 33col%
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Clustering with only the shown
-\begin_inset Newline newline
-\end_inset
-
-dimensions taken into account.
- final resolution:
- 6
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset Float figure
-placement document
-alignment document
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename clipart/Pluto-Iteridense-rho2-5-all.png
-	lyxscale 50
-	width 33col%
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Clustering with all dimensions taken into account.
- final resolution:
- 5
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset Float figure
-placement document
-alignment document
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename clipart/Pluto-Iteridense-rho5-9-all.png
-	lyxscale 50
-	width 33col%
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-like (b) but 
-\begin_inset Formula $\rho=5.9$
-\end_inset
-
-,
- final resolution:
- 7
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:Iteridense-Pluton"
-
-\end_inset
-
-Result of 
-\noun on
-Iteridense
-\noun default
- for the 
-\emph on
-pluton
-\emph default
- dataset.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-By plotting 3
-\begin_inset space ~
-\end_inset
-
-dimensions of the dataset and performing 
-\noun on
-Iteridense
-\noun default
- only on the plotted dimensions,
- the result would be 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Iteridense-Pluton"
-
-\end_inset
-
-
-\begin_inset space \thinspace{}
-\end_inset
-
-(a).
- Taking all dimensions into account,
- the result is 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Iteridense-Pluton"
-
-\end_inset
-
-
-\begin_inset space \thinspace{}
-\end_inset
-
-(b).
- The points of high Pu-241 concentrations are then identified as a cluster.
- Cluster
-\begin_inset space ~
-\end_inset
-
-1 is so large because its density in all 4
-\begin_inset space ~
-\end_inset
-
-dimensions matters.
- If one wants for some reason cluster
-\begin_inset space ~
-\end_inset
-
-1 to be split into 2
-\begin_inset space ~
-\end_inset
-
-clusters,
- one follows the 
-\noun on
-Iteridense
-\noun default
- path and increases 
-\begin_inset Formula $\rho$
-\end_inset
-
- above the lowest 
-\begin_inset Formula $\rho_{\mathrm{cluster}}$
-\end_inset
-
- and ends up with 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Iteridense-Pluton"
-
-\end_inset
-
-
-\begin_inset space \thinspace{}
-\end_inset
-
-(c).
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Result-Iteridense-PhD"
-
-\end_inset
-
- shows a use case in which 
-\noun on
-Iteridense
-\noun default
- shows its strengths.
- The data is the publicly available 
-\emph on
-PhDPublications
-\emph default
- dataset
-\begin_inset space ~
-\end_inset
-
-
-\begin_inset CommandInset citation
-LatexCommand cite
-key "RDataPhDCandData"
-literal "false"
-
-\end_inset
-
-.
- It has 6
-\begin_inset space ~
-\end_inset
-
-dimensions and we selected 3 for the visualization.
- Since there are 5
-\begin_inset space ~
-\end_inset
-
-classes in the set,
- 
-\series bold
-MinCluster
-\series default
-s was set to 5.
- By evaluating only the 3
-\begin_inset space ~
-\end_inset
-
-shown dimensions,
- one gets 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Result-Iteridense-PhD"
-
-\end_inset
-
-
-\begin_inset space \thinspace{}
-\end_inset
-
-(a).
- This shows that 
-\noun on
-Iteridense
-\noun default
-'s grid-based approach combined with its density analysis makes it possible to deal directly with classes inside datasets.
- Pure density-based algorithms cannot directly cluster the dataset in the same way.
-\end_layout
-
-\begin_layout Standard
-When evaluating all available dimensions the clusters run across the clusters,
- 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Result-Iteridense-PhD"
-
-\end_inset
-
-
-\begin_inset space \thinspace{}
-\end_inset
-
-(b).
- To find in this case clusters inside the classes,
- one has to extract the classes to different datasets and then run 
-\noun on
-Iteridense
-\noun default
- on every class.
- This is requires more efforts but leads to sensible results when going the way to specify 
-\begin_inset Formula $\rho$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-placement class
-alignment document
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Float figure
-placement document
-alignment document
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename clipart/PhdPubs-Iteridense-MinClusters5-sub.png
-	lyxscale 50
-	width 45col%
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Evaluation of the 3
-\begin_inset space ~
-\end_inset
-
-shown dimensions.
- final resolution:
- 9
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset space \hfill{}
-\end_inset
-
-
-\begin_inset Float figure
-placement document
-alignment document
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename clipart/PhdPubs-Iteridense-MinClusters5-complete.png
-	lyxscale 50
-	width 45col%
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Evaluation of all 6
-\begin_inset space ~
-\end_inset
-
-dimension.
- final resolution:
- 5
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:Result-Iteridense-PhD"
-
-\end_inset
-
-Result of 
-\noun on
-Iteridense
-\noun default
- on the 
-\emph on
-PhDPublications
-\emph default
- dataset.
-\end_layout
 
 \end_inset
 
@@ -6250,6 +6061,13 @@ literal "false"
 \end_inset
 
 .
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
