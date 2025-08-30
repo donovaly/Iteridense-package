@@ -12,6 +12,7 @@ export  IteridenseClustering, IteridenseFree, GarbageCollection, FreeMemoryInByt
         DBSCANClustering, DBSCANFree,
         KMeansClustering, KMeansFree
 
+const smallValue = 1e-6 # for 64bit, for 32bit one needs 1e-5
 
 #-------------------------------------------------------------------------------------------------
 # function to merge and to renumber clusters
@@ -193,7 +194,6 @@ function cellAssignments(dataMatrix, sizeVector::Vector{Float64}, minVector::Vec
     # for every dimension we create a tuple assigning every point to the cell number
     cellAssigns = Matrix{Int32}(undef, numData, dimensions)
     countTensorDims = zeros(Int32, dimensions)
-    smallValue = 1e-6
     for dim in 1:dimensions
         # reduce memory calls in following for loop
         sizeVectorDim = sizeVector[dim]
@@ -247,7 +247,6 @@ function CreateCountTensor(dataMatrix, resolution::Int64, numData::Int64,
         # create a matrix with coordinates in our grid
         # every of its columns will get the coordinate values for the particular data point
         # the countTensor cell at the coordinates of the data point is increased
-        smallValue = 1e-6
         for point in 1:numData
             # Julia swaps in matrices x and y, thus reverse to use the coordinate system
             # of the plot
@@ -530,7 +529,6 @@ function AssignPoints(dataMatrix, clusterTensor, resolution::Int64, minVector::V
         end
     else
         # assign every data point
-        smallValue = 1e-6
         for point in 1:numData
             # Julia swaps in matrices x and y, thus reverse to use the coordinate system of the
             # plot due to precision issues, we subtract a small value from the values

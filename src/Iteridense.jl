@@ -13,6 +13,7 @@ export  @CreateCountTensor,
         @Iteridense,
         @PlotIteridenseHeatmap
 
+const smallValue = 1e-5 # for 32bit, for 64bit 1e-6 would be sufficient
 
 #-------------------------------------------------------------------------------------------------
 # function to merge and to renumber clusters
@@ -194,7 +195,6 @@ function cellAssignments(dataMatrix, sizeVector, minVector, numData::Int,
     # for every dimension we create a tuple assigning every point to the cell number
     cellAssigns = Matrix{Int32}(undef, numData, dimensions)
     countTensorDims = zeros(Int32, dimensions)
-    smallValue = 1e-5 # for 32bit, for 64bit 1e-6 would be sufficient
     for dim in 1:dimensions
         # reduce memory calls in following for loop
         sizeVectorDim = sizeVector[dim]
@@ -248,7 +248,6 @@ function CreateCountTensor(dataMatrix, resolution::Int, numData::Int, minVector,
         # create a matrix with coordinates in our grid
         # every of its columns will get the coordinate values for the particular data point
         # the countTensor cell at the coordinates of the data point is increased
-        smallValue = 1e-5 # for 32bit, for 64bit 1e-6 would be sufficient
         for point in 1:numData
             # Julia swaps in matrices x and y, thus reverse to use the coordinate system
             # of the plot
@@ -529,7 +528,6 @@ function AssignPoints(dataMatrix, clusterTensor, resolution::Int, minVector, max
         end
     else
         # assign every data point
-        smallValue = 1e-5 # for 32bit, for 64bit 1e-6 would be sufficient
         for point in 1:numData
             # Julia swaps in matrices x and y, thus reverse to use the coordinate system of the
             # plot due to precision issues, we subtract a small value from the values
