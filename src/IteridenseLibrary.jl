@@ -31,13 +31,14 @@ end
 
 #-------------------------------------------------------------------------------------------------
 # helper functions to manage cluster merges
-function findRootCell(clusterNumber::Int, clusterParent::Vector{Int})
+# its purpose is to track the cluster number when it is changed by cluster merges
+function findRootNumber(clusterNumber::Int, clusterParent::Vector{Int})
     # if the cluster is its own parent, it is the root
     if clusterParent[clusterNumber] == clusterNumber
         return clusterNumber
     end
-    # using path compression to find the root cell
-    clusterParent[clusterNumber] = findRootCell(clusterParent[clusterNumber], clusterParent)
+    # using path compression to find the root number
+    clusterParent[clusterNumber] = findRootNumber(clusterParent[clusterNumber], clusterParent)
     return clusterParent[clusterNumber]
 end
 
@@ -45,14 +46,14 @@ end
 #-------------------------------------------------------------------------------------------------
 # function to merge two clusters
 function mergeClusters(clusterNumber1::Int, clusterNumber2::Int, clusterParent::Vector{Int})
-    rootCell1 = findRootCell(clusterNumber1, clusterParent)
-    rootCell2 = findRootCell(clusterNumber2, clusterParent)
+    rootCell1 = findRootNumber(clusterNumber1, clusterParent)
+    rootCell2 = findRootNumber(clusterNumber2, clusterParent)
 
     if rootCell1 != rootCell2
-        # merge cluster with the larger root ID into the one with smaller ID
+        # merge cluster with the larger root into the one with smaller root
         clusterParent[max(rootCell1, rootCell2)] = min(rootCell1, rootCell2)
     end
-    return findRootCell(rootCell1, clusterParent) # ID of the merged cluster
+    return findRootNumber(rootCell1, clusterParent) # root of the merged cluster
 end
 
 
@@ -147,7 +148,7 @@ function checkNeighbors(clusterTensor, currentIdx, nextClusterNumber::Int, maxId
             # the root is the lowest cluster number of a cluster that is now part of the cluster
             # (for example when cluster 12 is merged to number 5, and cluster 5 is its own root
             #  then clusterParent[12] becomes 5)
-            rootOfCurrentCluster = findRootCell(currentClusterNumbers, clusterParent)
+            rootOfCurrentCluster = findRootNumber(currentClusterNumbers, clusterParent)
             push!(neighborClusterNumbers, rootOfCurrentCluster)
         end
     end
@@ -369,13 +370,13 @@ function InternalClustering(countTensor, resolution::Int, noDiagonals::Bool,
     # this applies all merges that were recorded in clusterParent
     for k in eachindex(clusterTensor)
         if clusterTensor[k] > 0
-            clusterTensor[k] = findRootCell(Int(clusterTensor[k]), clusterParent)
+            clusterTensor[k] = findRootNumber(Int(clusterTensor[k]), clusterParent)
         end
     end
 
     # due to cluster merges in the clustering process we might end up with non-sequent cluster
     # numbering where e.g. there are cells in cluster 2 and 4 but not in cluster 1 and 3
-    # to avoid that we have to rename the clusters
+    # to avoid that we have to rename/remove the clusters
     if maxClusterNumber > 0
         numClusters, clusterTensor = removeEmptyClusters!(clusterTensor, maxClusterNumber)
     else
@@ -512,36 +513,25 @@ function IteridenseLoop(dataMatrix,
         end
         clusterDensities, clusterSizes = AnalyzeClusters(clusterTensor, countTensor, numClusters,
                                                         resolution, numData, Val(dimensions))
-        # Remove clusters smaller than minClusterSize or with density < minClusterDensity:
-        # First collect the clusters to be deleted then perform a single run over the
-        # clusterTensor in which these cluster numbers are to zero
-        # finally remove the empty clusters and eventually re-evaluate the remaining clusters
-        clustersToSetToZero = Set{Int}()
-        for cluster in 1:numClusters
-            if clusterSizes[cluster] < minClusterSize ||
-                clusterDensities[cluster] < minClusterDensity
-                push!(clustersToSetToZero, cluster)
-            end
-        end
-
-        # run removal if there are clusters to remove
-        #if !isempty(clustersToSetToZero)
-        #    for k in eachindex(clusterTensor)
-        #        currentClusterID = clusterTensor[k]
-        #        if currentClusterID != 0 && currentClusterID in clustersToSetToZero
-        #            clusterTensor[k] = 0 # cluster 0 is for unclustered points
-        #        end
-        #    end
-        #end
-
+        
+        # remove clusters smaller than minClusterSize or with density < minClusterDensity
+        # One might think that first collect the clusters to be deleted then perform a single
+        # run over the clusterTensor in which these cluster numbers are set to zero is a good
+        # strategy but it turned out that even for 30 clusters to be deleted this approach is
+        # way faster:
         for cluster in 1:numClusters
             if clusterSizes[cluster] < minClusterSize ||
                 clusterDensities[cluster] < minClusterDensity
                 renumberClusters!(clusterTensor, currentNumber= cluster,
-                                        newNumber= 0)
+                                    newNumber= 0)
             end
         end
+
+        # due the cluster removal we will end up with non-sequent cluster
+        # numbering where e.g. there are cells in cluster 2 and 4 but not in cluster 1 and 3
+        # to avoid that we have to rename/remove the clusters
         numClusters, clusterTensor = removeEmptyClusters!(clusterTensor, numClusters)
+        # clusters can only be analyzed if there is at least one
         if numClusters == 0
             resolution += 1
             continue
