@@ -57,7 +57,7 @@ For a brief description and discussion of the Iteridense clustering algorithm, s
 
 # Structure of the repository
 
-The folder **[src](https://github.com/donovaly/Iteridense-package/tree/main/src)** contains the Julia module *[Iteridense.jl](https://github.com/donovaly/Iteridense-package/blob/main/src/Iteridense.jl)*.
+The folder **[src](https://github.com/donovaly/Iteridense-package/tree/main/src)** contains the Julia module *[IteridenseLibrary.jl](https://github.com/donovaly/Iteridense-package/blob/main/src/IteridenseLibrary.jl)*.
 
 The folder **[IteridenseCLib](https://github.com/donovaly/Iteridense-package/tree/main/IteridenseCLib)** contains the Julia module in a version that can be compiled as a C-library. That library can be used e.g. as DLL for any program that can read C-compatible libraries.
 The release ZIP file contains a precompiled version as DLL for Windows (filename IteridenseCLib.dll). 

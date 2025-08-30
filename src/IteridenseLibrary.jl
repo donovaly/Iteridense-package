@@ -464,10 +464,10 @@ function IteridenseLoop(dataMatrix,
                         numData::Int,
                         ::Val{dimensions}) where dimensions
     # initializations
-    countTensor = Array{Any}(undef)
-    clusterTensor = Array{Any}(undef)
-    clusterDensities = Array{Any}(undef)
-    clusterSizes = Array{Any}(undef)
+    countTensor::Union{Nothing, Array{Int32}} = nothing
+    clusterTensor::Union{Nothing, Array{Int32}} = nothing
+    clusterDensities::Union{Nothing, Vector{Float64}} = nothing
+    clusterSizes::Union{Nothing, Vector{Int}} = nothing
     assignments = zeros(Int, numData)
     numClusters::Int = 0
     initialResolution = resolution
@@ -501,6 +501,12 @@ function IteridenseLoop(dataMatrix,
                 # free memory
                 countTensor = nothing
                 clusterTensor = nothing
+            end
+            if isnothing(clusterDensities)
+                clusterDensities = Float64[]
+            end
+            if isnothing(clusterSizes)
+                clusterSizes = Int[]
             end
             return IteridenseResult(clusterTensor= clusterTensor, countTensor= countTensor,
                                     numOfClusters= numClusters, finalResolution= resolution,
@@ -554,6 +560,14 @@ function IteridenseLoop(dataMatrix,
         end
         # increase resolution for next iteration
         resolution += 1
+    end
+
+    # if no clustering was performed we want the output "Any[]"
+    if isnothing(countTensor)
+        countTensor = Array{Any}(undef)
+    end
+    if isnothing(clusterTensor)
+        clusterTensor = Array{Any}(undef)
     end
 
     # if the previous while loop was ended because resolution ≥ maxResolution
@@ -682,8 +696,8 @@ function Iteridense(dataMatrix;
 
     # initializations
     resolution = startResolution
-    clusterDensities = Array{Any}(undef)
-    clusterSizes = Array{Any}(undef)
+    clusterDensities::Union{Nothing, Vector{Float64}} = nothing
+    clusterSizes::Union{Nothing, Vector{Int}} = nothing
     # assure that maximal resolution is used as limit
     maxResolution = numData
     if stopResolution > maxResolution
@@ -731,7 +745,7 @@ function Iteridense(dataMatrix;
             println("The clustering detected no clusters")
         end
         # if no clustering was performed there is no countTensor
-        if typeof(LoopResult.countTensor) == Nothing
+        if LoopResult.countTensor === nothing
             countTensorResult= Int32[]
         else
             countTensorResult= LoopResult.countTensor
