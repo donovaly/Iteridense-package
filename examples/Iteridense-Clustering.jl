@@ -18,8 +18,9 @@ plotlyjs()
 # setting default plot size
 plotly(size= (512, 512))
 # import the Iteridense library
-include(joinpath(@__DIR__, "IteridenseLibrary.jl"))
-using .IteridenseLibrary: Iteridense, PlotIteridenseHeatmap
+packagePath = dirname(@__DIR__)
+include(joinpath(packagePath, "src\\Iteridense.jl"))
+using .Iteridense: Clustering, PlotIteridenseHeatmap
 end
 
 # The data to be clustered are all in CSV files. The CSV files re expected to be in a subfolder
@@ -210,39 +211,6 @@ for i in 1:timeStep
 end
 end
 
-# DBSCAN clustering
-begin
-ε = 0.1
-result = Clustering.dbscan(dataMatrix', ε, min_neighbors= 3, min_cluster_size= 10)
-assign = Clustering.assignments(result)
-clusterCounts = Clustering.counts(result)
-Plots.scatter(dataMatrix[:, 1], dataMatrix[:, 2], xlabel= "x", ylabel= "y",
-        title= "DBSCAN ε = $ε", group= assign, markersize= 5)
-end
-
-# for comparison to Iteridense, maxIterations runs with DBSCAN
-@elapsed begin
-ε = 0.1
-for i in 1:timeStep
-    timeResult[i, 2] = @elapsed for k in 1:maxIterations
-        result = Clustering.dbscan(dataMatrix[1:i*dataPortion, :]',
-                                    ε, min_neighbors= 3, min_cluster_size= 10)
-    end
-end
-end
-
-# also measure time for a greater ε
-# for comparison to Iteridense, maxIterations runs with DBSCAN
-@elapsed begin
-ε = 0.2
-for i in 1:timeStep
-    timeResult[i, 3] = @elapsed for k in 1:maxIterations
-        result = Clustering.dbscan(dataMatrix[1:i*dataPortion, :]',
-                                    ε, min_neighbors= 3, min_cluster_size= 10)
-    end
-end
-end
-
 # k-means clustering
 begin
 result = Clustering.kmeans(dataMatrix', 2; maxiter= 20, display= :iter)
@@ -255,10 +223,43 @@ end
 
 # also measure the time for k-means
 @elapsed for i in 1:timeStep
-    timeResult[i, 4] = @elapsed for k in 1:maxIterations
+    timeResult[i, 2] = @elapsed for k in 1:maxIterations
         result = Clustering.kmeans(dataMatrix[1:i*dataPortion, :]',
                                     2; maxiter= 20)
     end
+end
+
+# DBSCAN clustering
+begin
+ε = 0.1
+result = Clustering.dbscan(dataMatrix', ε, min_neighbors= 3, min_cluster_size= 10)
+assign = Clustering.assignments(result)
+clusterCounts = Clustering.counts(result)
+Plots.scatter(dataMatrix[:, 1], dataMatrix[:, 2], xlabel= "x", ylabel= "y",
+        title= "DBSCAN ε = $ε", group= assign, markersize= 5)
+end
+
+# measure the time with DBSCAN
+@elapsed begin
+ε = 0.1
+for i in 1:timeStep
+    timeResult[i, 3] = @elapsed for k in 1:maxIterations
+        result = Clustering.dbscan(dataMatrix[1:i*dataPortion, :]',
+                                    ε, min_neighbors= 3, min_cluster_size= 10)
+    end
+end
+end
+
+# also measure time for a greater ε
+# for comparison to Iteridense, maxIterations runs with DBSCAN
+@elapsed begin
+ε = 0.2
+for i in 1:timeStep
+    timeResult[i, 4] = @elapsed for k in 1:maxIterations
+        result = Clustering.dbscan(dataMatrix[1:i*dataPortion, :]',
+                                    ε, min_neighbors= 3, min_cluster_size= 10)
+    end
+end
 end
 
 # plot the times
@@ -267,9 +268,9 @@ numPoints = collect(range(dataPortion, timeStep*dataPortion, timeStep))
 timePlot = scatter(numPoints, timeResult[:, 1], lab= "Iteridense", titlefontsize= 10,
                     title= "Calculation time comparison 2D", xlabel= "N", ylabel= "time in s",
                     legend= :left)
-plot!(timePlot, numPoints, timeResult[:, 2], lab= "DBSCAN ε= 0.1", st= scatter)
-plot!(timePlot, numPoints, timeResult[:, 3], lab= "DBSCAN ε= 0.2", st= scatter)
-plot!(timePlot, numPoints, timeResult[:, 4], lab= "k-means", st= scatter)
+plot!(timePlot, numPoints, timeResult[:, 2], lab= "k-means", st= scatter)
+plot!(timePlot, numPoints, timeResult[:, 3], lab= "DBSCAN ε= 0.1", st= scatter)
+plot!(timePlot, numPoints, timeResult[:, 4], lab= "DBSCAN ε= 0.2", st= scatter)
 # at last connect the points
 plot!(timePlot, numPoints, timeResult[:, 1], lab= "", lw= 2, color= 1)
 plot!(timePlot, numPoints, timeResult[:, 2], lab= "", lw= 2, color= 2)
@@ -313,7 +314,7 @@ display(resultPlot)
 
 # now that we found the parameters, we extend the dataset to have more points
 begin
-dataMatrix2x3D = vcat(dataMatrix3D, dataMatrix3D, dataMatrix3D, dataMatrix3D, dataMatrix3D)
+dataMatrix2x3D = vcat(dataMatrix3D, dataMatrix3D, dataMatrix3D, dataMatrix3D)
 dataPortion3D = Int(size(dataMatrix2x3D)[1] / timeStep)
 end
 
@@ -329,23 +330,23 @@ timeResult3D = zeros(timeStep, 3) # we will get 3 time results
     end
 end
 
+# k-means
+@elapsed for i in 1:timeStep
+    timeResult3D[i, 2] = @elapsed for k in 1:maxIterations
+        result = Clustering.kmeans(dataMatrix2x3D[1:i*dataPortion3D, :]',
+                                    2; maxiter= 20)
+    end
+end
+
 # DBSCAN
 begin
 ε = 0.2
 @elapsed for i in 1:timeStep
-    timeResult3D[i, 2] = @elapsed for k in 1:maxIterations
+    timeResult3D[i, 3] = @elapsed for k in 1:maxIterations
         result = Clustering.dbscan(dataMatrix2x3D[1:i*dataPortion3D, :]',
                                     ε, min_neighbors= 3, min_cluster_size= 10)
     end
 end
-end
-
-# k-means
-@elapsed for i in 1:timeStep
-    timeResult3D[i, 3] = @elapsed for k in 1:maxIterations
-        result = Clustering.kmeans(dataMatrix2x3D[1:i*dataPortion3D, :]',
-                                    2; maxiter= 20)
-    end
 end
 
 # plot the times
@@ -353,9 +354,9 @@ begin
 numPoints = collect(range(dataPortion3D, timeStep*dataPortion3D, timeStep))
 timePlot = scatter(numPoints, timeResult3D[:, 1], lab= "Iteridense", titlefontsize= 10,
                     title= "Calculation time comparison 3D", xlabel= "N", ylabel= "time in s",
-                    legend= :left)
-plot!(timePlot, numPoints, timeResult3D[:, 2], lab= "DBSCAN", st= scatter)
-plot!(timePlot, numPoints, timeResult3D[:, 3], lab= "k-means", st= scatter)
+                    legend= :topleft)
+plot!(timePlot, numPoints, timeResult3D[:, 2], lab= "k-means", st= scatter)
+plot!(timePlot, numPoints, timeResult3D[:, 3], lab= "DBSCAN", st= scatter)
 # at last connect the points
 plot!(timePlot, numPoints, timeResult3D[:, 1], lab= "", lw= 2, color= 1)
 plot!(timePlot, numPoints, timeResult3D[:, 2], lab= "", lw= 2, color= 2)
@@ -794,8 +795,8 @@ for k in 1:2
 end
 dataMatrix6D = hcat(dataMatrix[:, 3:end], zVals[:, 1], reverse(zVals[:, 2]))
 dataMatrix50x6D = vcat(dataMatrix6D, dataMatrix6D)
-for i in 1:48
-    dataMatrix50x6D = vcat(dataMatrix50x6D, dataMatrix6D)
+for i in 1:5
+    dataMatrix50x6D = vcat(dataMatrix50x6D, dataMatrix50x6D)
 end
 # DBSCAN needs the matrix in Float64
 dataMatrix50x6D = Float64.(dataMatrix50x6D)
@@ -880,7 +881,7 @@ begin
 numPoints = collect(range(dataPortion, timeStep*dataPortion, timeStep))
 timePlot = scatter(numPoints, timeResult[:, 1], lab= "Iteridense", titlefontsize= 10,
                     title= "Calculation time comparison 6D", xlabel= "N", ylabel= "time in s",
-                    legend= :left)
+                    legend= :topleft)
 plot!(timePlot, numPoints, timeResult[:, 2], lab= "Iteridense with omitEmptyCells", st= scatter)
 plot!(timePlot, numPoints, timeResult[:, 3], lab= "DBSCAN ε= $ε", st= scatter)
 plot!(timePlot, numPoints, timeResult[:, 4], lab= "k-means", st= scatter)
