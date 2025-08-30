@@ -410,6 +410,11 @@ times faster than a pure density-based algorithm like DBSCAN.
 \end_layout
 
 \begin_layout Standard
+The algorithm clusters so that no point in a dataset can belong to more than one cluster.
+ And not all points in the dataset must be assigned to clusters.
+\end_layout
+
+\begin_layout Standard
 \begin_inset Newpage pagebreak
 \end_inset
 
@@ -4067,8 +4072,8 @@ Iteridense
 
 \end_layout
 
-\begin_layout Subsection
-Computational Complexity
+\begin_layout Section
+Computational and Memory Complexity
 \begin_inset CommandInset label
 LatexCommand label
 name "subsec:Computational-Complexity"
@@ -4076,6 +4081,10 @@ name "subsec:Computational-Complexity"
 \end_inset
 
 
+\end_layout
+
+\begin_layout Subsection
+Computational Complexity
 \end_layout
 
 \begin_layout Standard
@@ -4121,12 +4130,11 @@ To estimate the computational complexity
 
 \begin_layout Labeling
 \labelwidthstring 00.00.0000
-Counting 
-\begin_inset Formula $\mathcal{O}\left(ND\right)$
+Counting Because a computation is performed for every data point in every dimension we have 
+\begin_inset Formula $\mathcal{O}\left(DN\right)$
 \end_inset
 
-,
- because a computation is performed for every data point in every dimension.
+.
 \end_layout
 
 \begin_layout Labeling
@@ -4175,7 +4183,7 @@ Evaluation To evaluate how many clusters were found and how many cells they have
 \begin_layout Labeling
 \labelwidthstring 00.00.0000
 Assignment To assign the cluster number to every data point the complexity is 
-\begin_inset Formula $\mathcal{O}\left(N\right)$
+\begin_inset Formula $\mathcal{O}\left(DN\right)$
 \end_inset
 
 .
@@ -4196,11 +4204,11 @@ Iteridense
 \end_inset
 
 .
- So there are these number of computes:
+ In total these are the number of computes:
 \begin_inset Formula 
 \begin{align}
- & N+\sum_{R=R_{\mathrm{start}}}^{R_{\mathrm{final}}+1}\left(ND)+R^{D}\left(\frac{3^{D}}{2}+1\right)\right)\\
- & \approx N+\left(R_{\mathrm{final}}+1-R_{\mathrm{start}}+1\right)ND+\frac{3^{D}}{2}\sum_{R=R_{\mathrm{start}}}^{R_{\mathrm{final}}+1}R^{D}
+ & DN+\sum_{R=R_{\mathrm{start}}}^{R_{\mathrm{final}}+1}\left(DN+R^{D}\left(\frac{3^{D}}{2}+1\right)\right)\\
+ & \approx DN+\left(R_{\mathrm{final}}+1-R_{\mathrm{start}}+1\right)DN+\frac{3^{D}}{2}\sum_{R=R_{\mathrm{start}}}^{R_{\mathrm{final}}+1}R^{D}
 \end{align}
 
 \end_inset
@@ -4221,14 +4229,10 @@ For
 \begin_inset Formula $\mathcal{O}$
 \end_inset
 
- we can neglect the addition of 
-\begin_inset Formula $N$
-\end_inset
-
- and get
+ we get
 \begin_inset Formula 
 \begin{equation}
-\mathcal{O}\left(\left(R_{\mathrm{final}}-R_{\mathrm{start}}+2\right)ND+\frac{3^{D}}{2(D+1)}\left(\left(R_{\mathrm{final}}+1\right)^{D+1}-R_{\mathrm{start}}^{D+1}\right)\right)\label{eq:O()}
+\mathcal{O}\left(\left(R_{\mathrm{final}}-R_{\mathrm{start}}+3\right)DN+\frac{3^{D}}{2(D+1)}\left(\left(R_{\mathrm{final}}+1\right)^{D+1}-R_{\mathrm{start}}^{D+1}\right)\right)\label{eq:O()}
 \end{equation}
 
 \end_inset
@@ -4245,7 +4249,7 @@ The worst case is
  This leads to
 \begin_inset Formula 
 \begin{equation}
-\mathcal{O}_{\mathrm{worst\,case}}\approx\mathcal{O}\left(R_{\mathrm{final}}ND+\frac{3^{D}}{2(D+1)}\left(R_{\mathrm{final}}+1\right)^{D+1}\right)\label{eq:O(worst)}
+\mathcal{O}_{\mathrm{worst\,case}}\approx\mathcal{O}\left(R_{\mathrm{final}}DN+\frac{3^{D}}{2(D+1)}\left(R_{\mathrm{final}}+1\right)^{D+1}\right)\label{eq:O(worst)}
 \end{equation}
 
 \end_inset
@@ -4309,18 +4313,7 @@ StopResolution
 \end_layout
 
 \begin_layout Standard
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "tab:Computational-and-memory"
-
-\end_inset
-
- lists 
-\begin_inset Formula $\mathcal{O}$
-\end_inset
-
- of different clustering algorithms.
- To prove that our derivation of 
+To prove that our derivation of 
 \begin_inset Formula $\mathcal{O}$
 \end_inset
 
@@ -4357,258 +4350,6 @@ call to
 sklearn.datasets
 \emph default
 .
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float table
-placement document
-alignment document
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "tab:Computational-and-memory"
-
-\end_inset
-
-Computational and memory complexity for different cluster algorithms.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Tabular
-<lyxtabular version="3" rows="5" columns="3">
-<features booktabs="true" tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Algorithm
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Computational Complexity
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-note
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Iteridense
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\mathcal{O}\left(DN+R^{D+1}\right)$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-actually formula 
-\begin_inset CommandInset ref
-LatexCommand eqref
-reference "eq:O()"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-DBSCAN
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\mathcal{O}(DN\log N)$
-\end_inset
-
- to 
-\begin_inset Formula $\mathcal{O}\left(DN^{2}\right)$
-\end_inset
-
- 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Chen2025"
-literal "false"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\mathcal{O}\left(DN^{2}\right)$
-\end_inset
-
- if brute force
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-DENCLUE
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\mathcal{O}(DN\log N)$
-\end_inset
-
- to 
-\begin_inset Formula $\mathcal{O}\left(DN^{3}\right)$
-\end_inset
-
- 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Ajmal2024"
-literal "false"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\mathcal{O}\left(N^{3}\right)$
-\end_inset
-
- worst case for 
-\begin_inset Formula $N$
-\end_inset
-
- iterations
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-k-means
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\mathcal{O}(DN)$
-\end_inset
-
- 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Ahmed2020"
-literal "false"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -4879,12 +4620,11 @@ reference "eq:O(worst)"
 \begin_inset Formula $\mathcal{O}\left(DN^{2}\right)$
 \end_inset
 
-.
- It is interesting to see how strongly the choice of 
+ and how the choice of 
 \begin_inset Formula $\epsilon$
 \end_inset
 
- influences the computation time
+ influences the computation time.
 \end_layout
 
 \begin_layout Standard
@@ -5018,12 +4758,12 @@ The
 Iteridense
 \noun default
  is faster than DBSCAN is at about 
-\begin_inset Formula $N=670$
+\begin_inset Formula $N=520$
 \end_inset
 
 .
  By repeating the test in 3D,
- we should see an increase of this value because of the greater offset in 
+ there should be an increase of this value because of the greater offset in 
 \begin_inset Formula $\mathcal{O}$
 \end_inset
 
@@ -5048,7 +4788,7 @@ clusters for the range
 .
  Eventually,
  we extended the dataset by multiplying its points to get in total 
-\begin_inset Formula $N=7500\thinspace$
+\begin_inset Formula $N=6000\thinspace$
 \end_inset
 
 points.
@@ -5073,7 +4813,7 @@ reference "fig:Computation-time-comparison"
 Iteridense
 \noun default
  is faster than DBSCAN is now at about 
-\begin_inset Formula $N=3700$
+\begin_inset Formula $N=1500$
 \end_inset
 
 .
@@ -5362,6 +5102,404 @@ Iteridense
 
 .
  This dataset is a good example that every algorithm has its strengths and weaknesses.
+\end_layout
+
+\begin_layout Subsection
+Memory Complexity
+\end_layout
+
+\begin_layout Standard
+The main limitation of 
+\noun on
+Iteridense
+\noun default
+ is its basic memory complexity of 
+\begin_inset Formula $\mathcal{O}\left(R^{D}\right)$
+\end_inset
+
+.
+ Therefore on consumer hardware the practical limit would be with 
+\begin_inset Formula $R=10$
+\end_inset
+
+ around 
+\begin_inset Formula $D\approx11$
+\end_inset
+
+.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+Assuming 
+\noun on
+Iteridense
+\noun default
+ uses the data type Float32 (size 4
+\begin_inset space ~
+\end_inset
+
+byte) for the tensors.
+\end_layout
+
+\end_inset
+
+ However,
+ for many datasets several dimensions are categorical data.
+ Therefore it is not necessary to create the count tensor with 
+\begin_inset Formula $R^{D}$
+\end_inset
+
+ cells.
+ For example if one dimension is the gender,
+ there are only 3 cells necessary to store the information of this dimension,
+ each one for the gender and one cell to separate both.
+\end_layout
+
+\begin_layout Standard
+For this case the 
+\noun on
+Iteridense
+\noun default
+ algorithm has the option 
+\series bold
+OmitEmptyCells
+\series default
+.
+ If used,
+ the tensor will have 
+\begin_inset Formula 
+\begin{equation}
+R^{D-D_{c}}\cdot\bar{K}^{D_{c}}
+\end{equation}
+
+\end_inset
+
+ cells,
+ whereas 
+\begin_inset Formula $D_{c}$
+\end_inset
+
+ are the number of dimensions with categorical data and 
+\begin_inset Formula $\bar{K}$
+\end_inset
+
+ is the mean number of categories in the categorical dimensions of the dataset.
+\end_layout
+
+\begin_layout Standard
+This increases the applicability of Iteridense significantly.
+ Because a dataset with e.
+\begin_inset space \thinspace{}
+\end_inset
+
+g.
+ 
+\begin_inset Formula $D_{c}={\displaystyle \frac{D}{2}}$
+\end_inset
+
+ and 
+\begin_inset Formula $\bar{K}=3$
+\end_inset
+
+ can be clustered on consumer hardware for 
+\begin_inset Formula $R=10$
+\end_inset
+
+ if it has up to 
+\begin_inset Formula $D=14$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The determination of the necessary number of cells per dimension has 
+\begin_inset Formula $\mathcal{O}\left(DN\log(N)\right)$
+\end_inset
+
+,
+ therefore the total 
+\begin_inset Formula $\mathcal{O}$
+\end_inset
+
+ is greater than without the option 
+\series bold
+OmitEmptyCells
+\series default
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Computational-and-memory"
+
+\end_inset
+
+ lists 
+\begin_inset Formula $\mathcal{O}$
+\end_inset
+
+ of different clustering algorithms.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Computational-and-memory"
+
+\end_inset
+
+Computational and memory complexity for different cluster algorithms.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="3">
+<features booktabs="true" tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Algorithm
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Computational Complexity
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+note
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\noun on
+Iteridense
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\mathcal{O}\left(DN+R^{D+1}\right)$
+\end_inset
+
+ to 
+\begin_inset Formula $\mathcal{O}\left(DN\left(1+\log(N)\right)+R^{D-D_{c}}\bar{K}^{D_{c}}\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+actually formula 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:O()"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+DBSCAN
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\mathcal{O}(DN\log N)$
+\end_inset
+
+ to 
+\begin_inset Formula $\mathcal{O}\left(DN^{2}\right)$
+\end_inset
+
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Chen2025"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\mathcal{O}\left(DN^{2}\right)$
+\end_inset
+
+ if brute force
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+DENCLUE
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\mathcal{O}(DN\log N)$
+\end_inset
+
+ to 
+\begin_inset Formula $\mathcal{O}\left(DN^{3}\right)$
+\end_inset
+
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Ajmal2024"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\mathcal{O}\left(N^{3}\right)$
+\end_inset
+
+ worst case for 
+\begin_inset Formula $N$
+\end_inset
+
+ iterations
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+k-means
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\mathcal{O}(DN)$
+\end_inset
+
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Ahmed2020"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
@@ -6047,7 +6185,17 @@ Iteridense
 \noun default
 ,
  an iterative clustering algorithm combining grid-based and density-based methods.
- It is simple to use because it does not require to estimate settings in advance and because it provides two ways to run the clustering.
+ As result no point in a dataset can be in more than one cluster.
+ In contrary to k-Means and Gaussian mixture clustering,
+ points can also remain as not being part of any cluster.
+\end_layout
+
+\begin_layout Standard
+
+\noun on
+Iteridense
+\noun default
+ is simple to use because it does not require to estimate settings in advance and because it provides two ways to run the clustering.
  For both ways there is a clear path on how to change the algorithm's input parameters to achieve suitable results.
  
 \noun on
@@ -6078,7 +6226,7 @@ It was demonstrated that for common example datasets
 \noun on
 Iteridense
 \noun default
- performs clustering as good to the DBSCAN algorithm with less time and computational effort.
+ performs clustering as good to the DBSCAN algorithm with less computational effort.
 \end_layout
 
 \begin_layout Standard
