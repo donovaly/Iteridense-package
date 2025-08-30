@@ -128,23 +128,40 @@ function checkNeighbors(clusterTensor, currentIdx, nextClusterNumber::Int, maxId
             end
         end
     end
+
     # the neighbors can be in different clusters, in this case we need to merge them
-    rawClusterNumbers = getClusterNumbers(clusterTensor, neighborIndices)
-    
-    # Highlight: Collect and unique the roots of all positive-numbered neighboring clusters
-    # This prevents redundant `mergeClusters` calls for the same merged cluster.
-    neighborRoots = unique!([findRootCell(cn, clusterParent) for cn in rawClusterNumbers if cn > 0])
+    # for this, first store the cluster numbers
+    rawClusterNums = getClusterNumbers(clusterTensor, neighborIndices)
+
+    # Instead of performing the cluster merges step by step by changing the tensor for every
+    # only save the information about the cell numbers. This way we track the number history of
+    # a cluster and can eventually perform a single step through the tensor to update the cluster
+    # number. To track the number history we use a Union-Find structure.
+
+    # store the cluster numbers of valid neighbor cells
+    neighborClusterNumbers = Vector{Int}()
+    for currentClusterNumbers in rawClusterNums
+        # cluster zero means unclustered
+        if currentClusterNumbers > 0
+            # find the root (initial number) of the current cluster in the Union-Find structure
+            # the root is the lowest cluster number of a cluster that is now part of the cluster
+            # (for example when cluster 12 is merged to number 5, and cluster 5 is its own root
+            #  then clusterParent[12] becomes 5)
+            rootOfCurrentCluster = findRootCell(currentClusterNumbers, clusterParent)
+            push!(neighborClusterNumbers, rootOfCurrentCluster)
+        end
+    end
+    # get all cluster numbers that occurred
+    neighborClusterNumbers = unique!(neighborClusterNumbers)
 
     currentAssignedCluster = 0
-    if !isempty(neighborRoots)
-        # Highlight: Find the smallest representative among neighbors to assign to current cell.
-        # This will be the canonical cluster ID for this group of merged neighbors.
-        currentAssignedCluster = minimum(neighborRoots)
-        # Highlight: Unite all distinct neighbor roots under this smallest root.
-        # This updates the `clusterParent` array in-place to reflect the merges.
-        for root in neighborRoots
-            if root != currentAssignedCluster
-                mergeClusters(root, currentAssignedCluster, clusterParent)
+    if !isempty(neighborClusterNumbers)
+        # find the smallest cluster number among neighbors to assign it to current cell
+        currentAssignedCluster = minimum(neighborClusterNumbers)
+        # perform the merge
+        for clusterNum in neighborClusterNumbers
+            if clusterNum != currentAssignedCluster
+                mergeClusters(clusterNum, currentAssignedCluster, clusterParent)
             end
         end
     end
@@ -321,8 +338,7 @@ function InternalClustering(countTensor, resolution::Int, noDiagonals::Bool,
     fill!(clusterTensor, 0)
  
     # clusterParent stores the parent in a Union-Find structure
-    #  (number of cells + 1 for 1-based indexing)
-    maxPossibleClusters = length(clusterTensor) + 1
+     maxPossibleClusters = length(clusterTensor) + 1
     # initialize each cluster as its own parent
     clusterParent = collect(1:maxPossibleClusters)
 
@@ -338,10 +354,10 @@ function InternalClustering(countTensor, resolution::Int, noDiagonals::Bool,
         if countTensor[idx] > 1
             # convert linear index to Cartesian index (as a tuple)
             indices = Tuple(CartesianIndices(countTensor)[idx])
-            # clusterParent is modified by checkNeighbors() through mergeClusters()
+            # clusterParent will be modified by checkNeighbors() through mergeClusters()
             nextClusterNumber = checkNeighbors(clusterTensor, indices, nextClusterNumber,
                                                             maxIdxRanges, dimOrder, noDiagonals,
-                                                            Val(dimensions), clusterParent)
+                                                            clusterParent, Val(dimensions))
         end
     end
 

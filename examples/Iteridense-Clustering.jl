@@ -807,7 +807,7 @@ end
                                 density= 1.4, minClusterSize= 500);
 end
 IteridenseResult.finalResolution
-# we get a 5x5x10x10x10, 3 tensor instead of a 10x10x10x10x10x10 tensor
+# we get a 5x5x10x10x10x3 tensor instead of a 10x10x10x10x10x10 tensor
 size(IteridenseResult.countTensor)
 IteridenseResult.clusterDensities
 IteridenseResult.clusterSizes
