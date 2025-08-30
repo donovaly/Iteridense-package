@@ -19,7 +19,7 @@ plotlyjs()
 plotly(size= (512, 512))
 # import the Iteridense library
 packagePath = dirname(@__DIR__)
-include(joinpath(packagePath, "src\\Iteridense.jl"))
+include(joinpath(packagePath, "src\\IteridenseLibrary.jl"))
 using .Iteridense: Clustering, PlotIteridenseHeatmap
 end
 
