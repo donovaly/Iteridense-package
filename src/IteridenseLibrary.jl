@@ -232,11 +232,12 @@ function cellAssignments(dataMatrix, sizeVector, minVector, numData::Int,
     countTensorDims = zeros(Int32, dimensions)
     for dim in 1:dimensions
         # reduce memory calls in following for loop
-        sizeVectorDim = sizeVector[dim]
-        minVectorDim = minVector[dim]
+        inverseSizeVectorDim = 1 / sizeVector[dim]
+        # for numerical reasons we add a small number
+        minVectorDim = minVector[dim] + smallValue
         for point in 1:numData
-            cellAssigns[point, dim] = trunc(Int32, (dataMatrix[point, dim] - smallValue
-                                            - minVectorDim) / sizeVectorDim) + 1
+            cellAssigns[point, dim] = trunc(Int32, (dataMatrix[point, dim] - minVectorDim) *
+                                            inverseSizeVectorDim) + 1
         end
         # now omit cells with value zero whose predecessor has also value zero
         cellAssigns[:, dim], countTensorDims[dim] = reduceVectorEntries(cellAssigns[:, dim])
@@ -254,6 +255,10 @@ function CreateCountTensor(dataMatrix, resolution::Int, numData::Int, minVector,
     reverseDims = ntuple(i -> dimensions-i+1, Val(dimensions))
     # calculate the cell size for every dimension
     sizeVector = Float32.((maxVector .- minVector) ./ resolution)
+    # take the inverse to later be able to multiply
+    inverseSizeVector = 1.0 ./ sizeVector
+    # add a small value to minVector for numerical reasons, see below
+    offsetVector = minVector .+ smallValue
 
     # we have 2 ways to create the countTensor:
     # A: a symmetric tensor in which there are resolution entries for every dimension
@@ -288,8 +293,8 @@ function CreateCountTensor(dataMatrix, resolution::Int, numData::Int, minVector,
             # of the plot
             # due to precision issues, we subtract a small value from the values
             idx = CartesianIndex(ntuple(i -> trunc(Int32, (dataMatrix[point, reverseDims[i]] -
-                                    smallValue - minVector[reverseDims[i]]) /
-                                    sizeVector[reverseDims[i]]) + 1, Val(dimensions)))
+                                    offsetVector[reverseDims[i]]) *
+                                    inverseSizeVector[reverseDims[i]]) + 1, Val(dimensions)))
             countTensor[idx] += 1
         end
     end
@@ -574,6 +579,10 @@ function AssignPoints(dataMatrix, clusterTensor, resolution::Int, minVector, max
     reverseDims = ntuple(i -> dimensions-i+1, dimensions)
     # calculate the cell size for every dimension
     sizeVector = (maxVector .- minVector) ./ resolution
+    # take the inverse to later be able to multiply
+    inverseSizeVector = 1.0 ./ sizeVector
+    # add a small value to minVector for numerical reasons, see below
+    offsetVector = minVector .+ smallValue
 
     # depending on omitEmptyCells we have 2 different assignments
     if omitEmptyCells
@@ -589,10 +598,12 @@ function AssignPoints(dataMatrix, clusterTensor, resolution::Int, minVector, max
         # assign every data point
         for point in 1:numData
             # Julia swaps in matrices x and y, thus reverse to use the coordinate system of the
-            # plot due to precision issues, we subtract a small value from the values
+            # plot.
+            # Due to precision issues, we don't just subtract minVector[reverseDims[i] but
+            # also a small value.
             idx = CartesianIndex(ntuple(i -> trunc(Int32, (dataMatrix[point, reverseDims[i]] -
-                                    smallValue - minVector[reverseDims[i]]) /
-                                    sizeVector[reverseDims[i]]) + 1, Val(dimensions)))
+                                    offsetVector[reverseDims[i]]) *
+                                    inverseSizeVector[reverseDims[i]]) + 1, Val(dimensions)))
             assignments[point] = clusterTensor[idx]
         end
     end
