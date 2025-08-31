@@ -881,9 +881,9 @@ begin
 numPoints = collect(range(dataPortion, timeStep*dataPortion, timeStep))
 timePlot = scatter(numPoints, timeResult[:, 1], lab= "Iteridense", titlefontsize= 10,
                     title= "Calculation time comparison 6D", xlabel= "N", ylabel= "time in s",
-                    legend= :topleft)
-plot!(timePlot, numPoints, timeResult[:, 2], lab= "Iteridense with OmitEmptyCells", st= scatter)
-plot!(timePlot, numPoints, timeResult[:, 3], lab= "DBSCAN ε= $ε", st= scatter)
+                    legend= :left)
+plot!(timePlot, numPoints, timeResult[:, 2], lab= "Iteridense, OmitEmptyCells", st= scatter)
+plot!(timePlot, numPoints, timeResult[:, 3], lab= "DBSCAN", st= scatter)
 plot!(timePlot, numPoints, timeResult[:, 4], lab= "k-means", st= scatter)
 # at last connect the points
 plot!(timePlot, numPoints, timeResult[:, 1], lab= "", lw= 2, color= 1)

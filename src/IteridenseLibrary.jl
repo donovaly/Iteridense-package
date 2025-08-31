@@ -13,7 +13,7 @@ export  @CreateCountTensor,
         @Iteridense,
         @PlotIteridenseHeatmap
 
-const smallValue = 1e-5 # for 32bit, for 64bit 1e-6 would be sufficient
+const smallValue = 1e-6 # for 64bit, for 32bit one needs 1e-5
 
 #-------------------------------------------------------------------------------------------------
 # function to merge and to renumber clusters
@@ -644,8 +644,9 @@ function Iteridense(dataMatrix;
     dimensions = size(dataMatrix, 2)
     # dataMatrix is a matrix in which every column contains the data of a dimension
     # therefore store the min/max of every dimension in vectors
-    minVector = [minimum(col) for col in eachcol(dataMatrix)]
-    maxVector = [maximum(col) for col in eachcol(dataMatrix)]
+    # assure 64bit for better numerical stability
+    minVector = Float64.([minimum(col) for col in eachcol(dataMatrix)])
+    maxVector = Float64.([maximum(col) for col in eachcol(dataMatrix)])
 
     # assure to have sensible inputs
     if minClusterSize < 2
