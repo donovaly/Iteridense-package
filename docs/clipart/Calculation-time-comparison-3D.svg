@@ -2,7 +2,7 @@
 <svg
    class="main-svg"
    width="505.11761"
-   height="463.00003"
+   height="465.00003"
    version="1.1"
    id="svg193"
    sodipodi:docname="Calculation-time-comparison-3D.svg"
@@ -21,21 +21,21 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:zoom="1.5761719"
-     inkscape:cx="187.79678"
-     inkscape:cy="203.97521"
+     inkscape:cx="252.51053"
+     inkscape:cy="219.83643"
      inkscape:window-width="1920"
      inkscape:window-height="1009"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
-     inkscape:current-layer="g193" />
+     inkscape:current-layer="svg193" />
   <defs
-     id="defs-9450dd">
+     id="defs-1eec54">
     <g
        class="clips"
        id="g5">
       <clipPath
-         id="clip9450ddxyplot"
+         id="clip1eec54xyplot"
          class="plotclip">
         <rect
            width="471.07043"
@@ -46,7 +46,7 @@
       </clipPath>
       <clipPath
          class="axesclip"
-         id="clip9450ddx">
+         id="clip1eec54x">
         <rect
            x="36.992565"
            y="0"
@@ -56,7 +56,7 @@
       </clipPath>
       <clipPath
          class="axesclip"
-         id="clip9450ddy">
+         id="clip1eec54y">
         <rect
            x="0"
            y="36.43325"
@@ -66,7 +66,7 @@
       </clipPath>
       <clipPath
          class="axesclip"
-         id="clip9450ddxy">
+         id="clip1eec54xy">
         <rect
            x="36.992565"
            y="36.43325"
@@ -172,25 +172,25 @@
            id="g26">
           <path
              class="ygrid crisp"
-             transform="translate(0,453.83325)"
+             transform="translate(0,453.92325)"
              d="M 36.992563,0 H 508.06299"
              style="stroke:#000000;stroke-width:0.5px;stroke-opacity:0.1"
              id="path23" />
           <path
              class="ygrid crisp"
-             transform="translate(0,322.37325)"
+             transform="translate(0,316.60325)"
              d="M 36.992563,0 H 508.06299"
              style="stroke:#000000;stroke-width:0.5px;stroke-opacity:0.1"
              id="path24" />
           <path
              class="ygrid crisp"
-             transform="translate(0,190.90325)"
+             transform="translate(0,179.29325)"
              d="M 36.992563,0 H 508.06299"
              style="stroke:#000000;stroke-width:0.5px;stroke-opacity:0.1"
              id="path25" />
           <path
              class="ygrid crisp"
-             transform="translate(0,59.443249)"
+             transform="translate(0,41.973249)"
              d="M 36.992563,0 H 508.06299"
              style="stroke:#000000;stroke-width:0.5px;stroke-opacity:0.1"
              id="path26" />
@@ -235,13 +235,13 @@
         <g
            class="xy"
            transform="translate(36.992563,36.433249)"
-           clip-path="url(#clip9450ddxyplot)"
+           clip-path="url(#clip1eec54xyplot)"
            id="g127">
           <g
              class="scatterlayer mlayer"
              id="g126">
             <g
-               class="trace scatter tracea3b694"
+               class="trace scatter trace5e9ecc"
                style="opacity:1;stroke-miterlimit:2"
                id="g59">
               <g
@@ -258,121 +258,121 @@
                  id="g57">
                 <path
                    class="point"
-                   transform="translate(13.33,403.8)"
+                   transform="translate(13.33,404.62)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#009afa;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path38" />
                 <path
                    class="point"
-                   transform="translate(36.72,391.14)"
+                   transform="translate(36.72,393.78)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#009afa;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path39" />
                 <path
                    class="point"
-                   transform="translate(60.11,378.48)"
+                   transform="translate(60.11,383.66)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#009afa;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path40" />
                 <path
                    class="point"
-                   transform="translate(83.5,367.72)"
+                   transform="translate(83.5,375.87)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#009afa;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path41" />
                 <path
                    class="point"
-                   transform="translate(106.89,358.95)"
+                   transform="translate(106.89,369.5)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#009afa;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path42" />
                 <path
                    class="point"
-                   transform="translate(130.28,354.69)"
+                   transform="translate(130.28,365.56)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#009afa;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path43" />
                 <path
                    class="point"
-                   transform="translate(153.67,347.32)"
+                   transform="translate(153.67,358.94)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#009afa;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path44" />
                 <path
                    class="point"
-                   transform="translate(177.06,339.37)"
+                   transform="translate(177.06,352.49)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#009afa;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path45" />
                 <path
                    class="point"
-                   transform="translate(200.45,332.4)"
+                   transform="translate(200.45,347.44)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#009afa;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path46" />
                 <path
                    class="point"
-                   transform="translate(223.84,326.38)"
+                   transform="translate(223.84,340.19)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#009afa;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path47" />
                 <path
                    class="point"
-                   transform="translate(247.23,323.46)"
+                   transform="translate(247.23,341.97)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#009afa;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path48" />
                 <path
                    class="point"
-                   transform="translate(270.62,325.3)"
+                   transform="translate(270.62,343.88)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#009afa;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path49" />
                 <path
                    class="point"
-                   transform="translate(294.01,326.44)"
+                   transform="translate(294.01,343.5)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#009afa;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path50" />
                 <path
                    class="point"
-                   transform="translate(317.4,324.52)"
+                   transform="translate(317.4,342.47)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#009afa;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path51" />
                 <path
                    class="point"
-                   transform="translate(340.79,323.19)"
+                   transform="translate(340.79,342.32)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#009afa;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path52" />
                 <path
                    class="point"
-                   transform="translate(364.18,319.24)"
+                   transform="translate(364.18,341.37)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#009afa;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path53" />
                 <path
                    class="point"
-                   transform="translate(387.57,320.77)"
+                   transform="translate(387.57,340.66)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#009afa;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path54" />
                 <path
                    class="point"
-                   transform="translate(410.96,323.49)"
+                   transform="translate(410.96,341.16)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#009afa;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path55" />
                 <path
                    class="point"
-                   transform="translate(434.35,322.96)"
+                   transform="translate(434.35,340.58)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#009afa;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path56" />
                 <path
                    class="point"
-                   transform="translate(457.74,322.1)"
+                   transform="translate(457.74,339.92)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#009afa;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path57" />
@@ -382,7 +382,7 @@
                  id="g58" />
             </g>
             <g
-               class="trace scatter tracee10863"
+               class="trace scatter traceed6dea"
                style="opacity:1;stroke-miterlimit:2"
                id="g83">
               <g
@@ -405,67 +405,67 @@
                    id="path62" />
                 <path
                    class="point"
-                   transform="translate(36.72,414.31)"
+                   transform="translate(36.72,414.64)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#e36f47;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path63" />
                 <path
                    class="point"
-                   transform="translate(60.11,413)"
+                   transform="translate(60.11,413.24)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#e36f47;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path64" />
                 <path
                    class="point"
-                   transform="translate(83.5,410.78)"
+                   transform="translate(83.5,411.03)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#e36f47;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path65" />
                 <path
                    class="point"
-                   transform="translate(106.89,408.06)"
+                   transform="translate(106.89,408.65)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#e36f47;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path66" />
                 <path
                    class="point"
-                   transform="translate(130.28,407.21)"
+                   transform="translate(130.28,408.13)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#e36f47;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path67" />
                 <path
                    class="point"
-                   transform="translate(153.67,404.47)"
+                   transform="translate(153.67,405.94)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#e36f47;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path68" />
                 <path
                    class="point"
-                   transform="translate(177.06,401.83)"
+                   transform="translate(177.06,402.29)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#e36f47;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path69" />
                 <path
                    class="point"
-                   transform="translate(200.45,400.68)"
+                   transform="translate(200.45,401)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#e36f47;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path70" />
                 <path
                    class="point"
-                   transform="translate(223.84,399.05)"
+                   transform="translate(223.84,399.23)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#e36f47;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path71" />
                 <path
                    class="point"
-                   transform="translate(247.23,399.11)"
+                   transform="translate(247.23,398.74)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#e36f47;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path72" />
                 <path
                    class="point"
-                   transform="translate(270.62,397.31)"
+                   transform="translate(270.62,397.39)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#e36f47;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path73" />
@@ -477,43 +477,43 @@
                    id="path74" />
                 <path
                    class="point"
-                   transform="translate(317.4,392.48)"
+                   transform="translate(317.4,391.49)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#e36f47;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path75" />
                 <path
                    class="point"
-                   transform="translate(340.79,391.24)"
+                   transform="translate(340.79,390.26)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#e36f47;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path76" />
                 <path
                    class="point"
-                   transform="translate(364.18,390.66)"
+                   transform="translate(364.18,390.21)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#e36f47;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path77" />
                 <path
                    class="point"
-                   transform="translate(387.57,388.87)"
+                   transform="translate(387.57,387.36)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#e36f47;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path78" />
                 <path
                    class="point"
-                   transform="translate(410.96,384.98)"
+                   transform="translate(410.96,383.94)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#e36f47;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path79" />
                 <path
                    class="point"
-                   transform="translate(434.35,383.24)"
+                   transform="translate(434.35,383)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#e36f47;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path80" />
                 <path
                    class="point"
-                   transform="translate(457.74,383.3)"
+                   transform="translate(457.74,382.88)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#e36f47;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path81" />
@@ -523,7 +523,7 @@
                  id="g82" />
             </g>
             <g
-               class="trace scatter trace225c1b"
+               class="trace scatter trace73f11b"
                style="opacity:1;stroke-miterlimit:2"
                id="g107">
               <g
@@ -540,115 +540,115 @@
                  id="g105">
                 <path
                    class="point"
-                   transform="translate(13.33,411.76)"
+                   transform="translate(13.33,411.37)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#3ea44e;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path86" />
                 <path
                    class="point"
-                   transform="translate(36.72,401.27)"
+                   transform="translate(36.72,400.6)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#3ea44e;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path87" />
                 <path
                    class="point"
-                   transform="translate(60.11,389.44)"
+                   transform="translate(60.11,387.95)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#3ea44e;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path88" />
                 <path
                    class="point"
-                   transform="translate(83.5,374.11)"
+                   transform="translate(83.5,372.15)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#3ea44e;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path89" />
                 <path
                    class="point"
-                   transform="translate(106.89,360.77)"
+                   transform="translate(106.89,357.45)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#3ea44e;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path90" />
                 <path
                    class="point"
-                   transform="translate(130.28,343.96)"
+                   transform="translate(130.28,340.15)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#3ea44e;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path91" />
                 <path
                    class="point"
-                   transform="translate(153.67,323.03)"
+                   transform="translate(153.67,317.6)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#3ea44e;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path92" />
                 <path
                    class="point"
-                   transform="translate(177.06,305.7)"
+                   transform="translate(177.06,295.85)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#3ea44e;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path93" />
                 <path
                    class="point"
-                   transform="translate(200.45,287.42)"
+                   transform="translate(200.45,275.34)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#3ea44e;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path94" />
                 <path
                    class="point"
-                   transform="translate(223.84,272.34)"
+                   transform="translate(223.84,262.54)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#3ea44e;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path95" />
                 <path
                    class="point"
-                   transform="translate(247.23,251.96)"
+                   transform="translate(247.23,243.32)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#3ea44e;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path96" />
                 <path
                    class="point"
-                   transform="translate(270.62,230.17)"
+                   transform="translate(270.62,221.75)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#3ea44e;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path97" />
                 <path
                    class="point"
-                   transform="translate(294.01,201.94)"
+                   transform="translate(294.01,193.43)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#3ea44e;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path98" />
                 <path
                    class="point"
-                   transform="translate(317.4,176.01)"
+                   transform="translate(317.4,167.46)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#3ea44e;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path99" />
                 <path
                    class="point"
-                   transform="translate(340.79,154.24)"
+                   transform="translate(340.79,141.78)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#3ea44e;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path100" />
                 <path
                    class="point"
-                   transform="translate(364.18,130.43)"
+                   transform="translate(364.18,118.71)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#3ea44e;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path101" />
                 <path
                    class="point"
-                   transform="translate(387.57,102.29)"
+                   transform="translate(387.57,87)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#3ea44e;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path102" />
                 <path
                    class="point"
-                   transform="translate(410.96,73.44)"
+                   transform="translate(410.96,59.93)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#3ea44e;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path103" />
                 <path
                    class="point"
-                   transform="translate(434.35,45.37)"
+                   transform="translate(434.35,38.38)"
                    d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
                    style="opacity:1;fill:#3ea44e;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
                    id="path104" />
@@ -664,7 +664,7 @@
                  id="g106" />
             </g>
             <g
-               class="trace scatter trace5a25fa"
+               class="trace scatter traceb40222"
                style="opacity:1;stroke-miterlimit:2"
                id="g113">
               <g
@@ -678,7 +678,7 @@
                  id="g110">
                 <path
                    class="js-line"
-                   d="m 13.33,403.8 46.78,-25.32 23.39,-10.76 23.39,-8.77 23.39,-4.26 70.17,-22.29 23.39,-6.02 23.39,-2.92 23.39,1.84 23.39,1.14 23.39,-1.92 23.39,-1.33 23.39,-3.95 23.39,1.53 23.39,2.72 46.78,-1.39"
+                   d="m 13.33,404.62 46.78,-20.96 23.39,-7.79 23.39,-6.37 23.39,-3.94 46.78,-13.07 23.39,-5.05 23.39,-7.25 23.39,1.78 23.39,1.91 23.39,-0.38 23.39,-1.03 23.39,-0.15 46.78,-1.66 23.39,0.5 46.78,-1.24"
                    style="opacity:1;vector-effect:none;fill:none;stroke:#009afa;stroke-width:2px;stroke-opacity:1"
                    id="path109" />
               </g>
@@ -690,7 +690,7 @@
                  id="g112" />
             </g>
             <g
-               class="trace scatter trace7d11cc"
+               class="trace scatter trace3997d8"
                style="opacity:1;stroke-miterlimit:2"
                id="g119">
               <g
@@ -704,7 +704,7 @@
                  id="g116">
                 <path
                    class="js-line"
-                   d="m 13.33,415.51 46.78,-2.51 23.39,-2.22 23.39,-2.72 23.39,-0.85 46.78,-5.38 23.39,-1.15 23.39,-1.63 23.39,0.06 23.39,-1.8 23.39,-4.39 23.39,-0.44 23.39,-1.24 23.39,-0.58 23.39,-1.79 23.39,-3.89 23.39,-1.74 23.39,0.06"
+                   d="m 13.33,415.51 46.78,-2.27 23.39,-2.21 23.39,-2.38 23.39,-0.52 23.39,-2.19 23.39,-3.65 46.78,-3.06 23.39,-0.49 23.39,-1.35 23.39,-4.47 46.78,-2.66 23.39,-0.05 46.78,-6.27 23.39,-0.94 23.39,-0.12"
                    style="opacity:1;vector-effect:none;fill:none;stroke:#e36f47;stroke-width:2px;stroke-opacity:1"
                    id="path115" />
               </g>
@@ -716,7 +716,7 @@
                  id="g118" />
             </g>
             <g
-               class="trace scatter traceac57f1"
+               class="trace scatter trace74c0ff"
                style="opacity:1;stroke-miterlimit:2"
                id="g125">
               <g
@@ -730,7 +730,7 @@
                  id="g122">
                 <path
                    class="js-line"
-                   d="m 13.33,411.76 23.39,-10.49 23.39,-11.83 23.39,-15.33 23.39,-13.34 23.39,-16.81 23.39,-20.93 23.39,-17.33 23.39,-18.28 23.39,-15.08 23.39,-20.38 23.39,-21.79 23.39,-28.23 23.39,-25.93 23.39,-21.77 23.39,-23.81 23.39,-28.14 46.78,-56.92 23.39,-33.27"
+                   d="m 13.33,411.37 23.39,-10.77 23.39,-12.65 23.39,-15.8 23.39,-14.7 23.39,-17.3 23.39,-22.55 23.39,-21.75 23.39,-20.51 23.39,-12.8 23.39,-19.22 23.39,-21.57 23.39,-28.32 46.78,-51.65 23.39,-23.07 L 387.57,87 410.96,59.93 434.35,38.38 457.74,12.1"
                    style="opacity:1;vector-effect:none;fill:none;stroke:#3ea44e;stroke-width:2px;stroke-opacity:1"
                    id="path121" />
               </g>
@@ -869,25 +869,25 @@
         <path
            class="ytick ticks crisp"
            d="m 36.992563,0 h 5"
-           transform="translate(0,453.83325)"
+           transform="translate(0,453.92325)"
            style="stroke:#000000;stroke-width:1px;stroke-opacity:1"
            id="path141" />
         <path
            class="ytick ticks crisp"
            d="m 36.992563,0 h 5"
-           transform="translate(0,322.37325)"
+           transform="translate(0,316.60325)"
            style="stroke:#000000;stroke-width:1px;stroke-opacity:1"
            id="path142" />
         <path
            class="ytick ticks crisp"
            d="m 36.992563,0 h 5"
-           transform="translate(0,190.90325)"
+           transform="translate(0,179.29325)"
            style="stroke:#000000;stroke-width:1px;stroke-opacity:1"
            id="path143" />
         <path
            class="ytick ticks crisp"
            d="m 36.992563,0 h 5"
-           transform="translate(0,59.443249)"
+           transform="translate(0,41.973249)"
            style="stroke:#000000;stroke-width:1px;stroke-opacity:1"
            id="path144" />
         <g
@@ -897,7 +897,7 @@
              text-anchor="end"
              x="33.792564"
              y="3.8499999"
-             transform="translate(0,453.83325)"
+             transform="translate(0,453.92325)"
              style="font-size:11px;font-family:sans-serif;white-space:pre;opacity:1;fill:#000000;fill-opacity:1"
              id="text144">0</text>
         </g>
@@ -909,7 +909,7 @@
              x="33.792564"
              y="3.8499999"
              style="font-size:11px;font-family:sans-serif;white-space:pre;opacity:1;fill:#000000;fill-opacity:1"
-             transform="translate(0,322.37325)"
+             transform="translate(0,316.60325)"
              id="text145">5</text>
         </g>
         <g
@@ -920,7 +920,7 @@
              x="33.792564"
              y="3.8499999"
              style="font-size:11px;font-family:sans-serif;white-space:pre;opacity:1;fill:#000000;fill-opacity:1"
-             transform="translate(0,190.90325)"
+             transform="translate(0,179.29325)"
              id="text146">10</text>
         </g>
         <g
@@ -931,7 +931,7 @@
              x="33.792564"
              y="3.8499999"
              style="font-size:11px;font-family:sans-serif;white-space:pre;opacity:1;fill:#000000;fill-opacity:1"
-             transform="translate(0,59.443249)"
+             transform="translate(0,41.973249)"
              id="text147">15</text>
         </g>
       </g>
@@ -981,12 +981,12 @@
      id="g161"
      transform="translate(-2.945384,-36)" />
   <defs
-     id="topdefs-9450dd">
+     id="topdefs-1eec54">
     <g
        class="clips"
        id="g162" />
     <clipPath
-       id="legend9450dd">
+       id="legend1eec54">
       <rect
          width="94"
          height="67"
@@ -1007,239 +1007,234 @@
        id="g164" />
   </g>
   <g
-     class="infolayer"
-     id="g193"
-     transform="translate(-2.945384,-36)">
+     class="legend"
+     pointer-events="all"
+     transform="translate(52.894616,168.06)"
+     id="g186">
+    <rect
+       class="bg"
+       shape-rendering="crispEdges"
+       width="95"
+       height="68"
+       x="0.5"
+       y="0.5"
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
+       id="rect165" />
     <g
-       class="legend"
-       pointer-events="all"
-       transform="translate(60.915589,155.59603)"
-       id="g186">
-      <rect
-         class="bg"
-         shape-rendering="crispEdges"
-         width="95"
-         height="68"
-         x="0.5"
-         y="0.5"
-         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
-         id="rect165" />
+       class="scrollbox"
+       clip-path="url(#legend1eec54)"
+       id="g185">
       <g
-         class="scrollbox"
-         clip-path="url(#legend9450dd)"
-         id="g185"
-         transform="translate(-8)">
+         class="groups"
+         id="g184"
+         transform="translate(-4)">
         <g
-           class="groups"
-           id="g184">
+           class="traces"
+           transform="translate(1,15.5)"
+           style="opacity:1"
+           id="g171">
+          <text
+             class="legendtext"
+             text-anchor="start"
+             x="40"
+             y="4.29"
+             style="font-size:11px;font-family:sans-serif;white-space:pre;fill:#000000;fill-opacity:1"
+             id="text165">Iteridense</text>
           <g
-             class="traces"
-             transform="translate(1,15.5)"
+             class="layers"
              style="opacity:1"
-             id="g171">
-            <text
-               class="legendtext"
-               text-anchor="start"
-               x="40"
-               y="4.29"
-               style="font-size:11px;font-family:sans-serif;white-space:pre;fill:#000000;fill-opacity:1"
-               id="text165">Iteridense</text>
+             id="g170">
             <g
-               class="layers"
-               style="opacity:1"
-               id="g170">
+               class="legendfill"
+               id="g166" />
+            <g
+               class="legendlines"
+               id="g167" />
+            <g
+               class="legendsymbols"
+               id="g169">
               <g
-                 class="legendfill"
-                 id="g166" />
-              <g
-                 class="legendlines"
-                 id="g167" />
-              <g
-                 class="legendsymbols"
-                 id="g169">
-                <g
-                   class="legendpoints"
-                   id="g168">
-                  <path
-                     class="scatterpts"
-                     transform="translate(20)"
-                     d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
-                     style="opacity:1;fill:#009afa;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
-                     id="path167" />
-                </g>
+                 class="legendpoints"
+                 id="g168">
+                <path
+                   class="scatterpts"
+                   transform="translate(20)"
+                   d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
+                   style="opacity:1;fill:#009afa;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
+                   id="path167" />
               </g>
             </g>
-            <rect
-               class="legendtoggle"
-               x="0"
-               y="-9.5"
-               width="88.3125"
-               height="19"
-               style="fill:#000000;fill-opacity:0"
-               id="rect170" />
           </g>
+          <rect
+             class="legendtoggle"
+             x="0"
+             y="-9.5"
+             width="88.3125"
+             height="19"
+             style="fill:#000000;fill-opacity:0"
+             id="rect170" />
+        </g>
+        <g
+           class="traces"
+           transform="translate(1,34.5)"
+           style="opacity:1"
+           id="g177">
+          <text
+             class="legendtext"
+             text-anchor="start"
+             x="40"
+             y="4.29"
+             style="font-size:11px;font-family:sans-serif;white-space:pre;fill:#000000;fill-opacity:1"
+             id="text171">k-means</text>
           <g
-             class="traces"
-             transform="translate(1,34.5)"
+             class="layers"
              style="opacity:1"
-             id="g177">
-            <text
-               class="legendtext"
-               text-anchor="start"
-               x="40"
-               y="4.29"
-               style="font-size:11px;font-family:sans-serif;white-space:pre;fill:#000000;fill-opacity:1"
-               id="text171">k-means</text>
+             id="g176">
             <g
-               class="layers"
-               style="opacity:1"
-               id="g176">
+               class="legendfill"
+               id="g172" />
+            <g
+               class="legendlines"
+               id="g173" />
+            <g
+               class="legendsymbols"
+               id="g175">
               <g
-                 class="legendfill"
-                 id="g172" />
-              <g
-                 class="legendlines"
-                 id="g173" />
-              <g
-                 class="legendsymbols"
-                 id="g175">
-                <g
-                   class="legendpoints"
-                   id="g174">
-                  <path
-                     class="scatterpts"
-                     transform="translate(20)"
-                     d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
-                     style="opacity:1;fill:#e36f47;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
-                     id="path173" />
-                </g>
+                 class="legendpoints"
+                 id="g174">
+                <path
+                   class="scatterpts"
+                   transform="translate(20)"
+                   d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
+                   style="opacity:1;fill:#e36f47;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
+                   id="path173" />
               </g>
             </g>
-            <rect
-               class="legendtoggle"
-               x="0"
-               y="-9.5"
-               width="88.3125"
-               height="19"
-               style="fill:#000000;fill-opacity:0"
-               id="rect176" />
           </g>
+          <rect
+             class="legendtoggle"
+             x="0"
+             y="-9.5"
+             width="88.3125"
+             height="19"
+             style="fill:#000000;fill-opacity:0"
+             id="rect176" />
+        </g>
+        <g
+           class="traces"
+           transform="translate(1,53.5)"
+           style="opacity:1"
+           id="g183">
+          <text
+             class="legendtext"
+             text-anchor="start"
+             x="40"
+             y="4.29"
+             style="font-size:11px;font-family:sans-serif;white-space:pre;fill:#000000;fill-opacity:1"
+             id="text177">DBSCAN</text>
           <g
-             class="traces"
-             transform="translate(1,53.5)"
+             class="layers"
              style="opacity:1"
-             id="g183">
-            <text
-               class="legendtext"
-               text-anchor="start"
-               x="40"
-               y="4.29"
-               style="font-size:11px;font-family:sans-serif;white-space:pre;fill:#000000;fill-opacity:1"
-               id="text177">DBSCAN</text>
+             id="g182">
             <g
-               class="layers"
-               style="opacity:1"
-               id="g182">
+               class="legendfill"
+               id="g178" />
+            <g
+               class="legendlines"
+               id="g179" />
+            <g
+               class="legendsymbols"
+               id="g181">
               <g
-                 class="legendfill"
-                 id="g178" />
-              <g
-                 class="legendlines"
-                 id="g179" />
-              <g
-                 class="legendsymbols"
-                 id="g181">
-                <g
-                   class="legendpoints"
-                   id="g180">
-                  <path
-                     class="scatterpts"
-                     transform="translate(20)"
-                     d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
-                     style="opacity:1;fill:#3ea44e;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
-                     id="path179" />
-                </g>
+                 class="legendpoints"
+                 id="g180">
+                <path
+                   class="scatterpts"
+                   transform="translate(20)"
+                   d="M 4,0 A 4,4 0 1 1 0,-4 4,4 0 0 1 4,0 Z"
+                   style="opacity:1;fill:#3ea44e;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
+                   id="path179" />
               </g>
             </g>
-            <rect
-               class="legendtoggle"
-               x="0"
-               y="-9.5"
-               width="88.3125"
-               height="19"
-               style="fill:#000000;fill-opacity:0"
-               id="rect182" />
           </g>
+          <rect
+             class="legendtoggle"
+             x="0"
+             y="-9.5"
+             width="88.3125"
+             height="19"
+             style="fill:#000000;fill-opacity:0"
+             id="rect182" />
         </g>
       </g>
-      <rect
-         class="scrollbar"
-         rx="20"
-         ry="3"
-         width="0"
-         height="0"
-         x="0"
-         y="0"
-         style="fill:#808ba4;fill-opacity:1"
-         id="rect185" />
     </g>
+    <rect
+       class="scrollbar"
+       rx="20"
+       ry="3"
+       width="0"
+       height="0"
+       x="0"
+       y="0"
+       style="fill:#808ba4;fill-opacity:1"
+       id="rect185" />
+  </g>
+  <g
+     class="g-gtitle"
+     id="g187"
+     transform="translate(-2.945384,-36)" />
+  <g
+     class="g-xtitle"
+     transform="translate(-2.945384,-54.043314)"
+     id="g188">
+    <text
+       class="xtitle"
+       x="272.52777"
+       y="519.04333"
+       text-anchor="middle"
+       style="font-size:15px;font-family:sans-serif;white-space:pre;opacity:1;fill:#000000;fill-opacity:1"
+       id="text187">N</text>
+  </g>
+  <g
+     class="g-ytitle"
+     transform="translate(14.062428,-36)"
+     id="g189">
+    <text
+       class="ytitle"
+       transform="rotate(-90,-3.0074366,250.23828)"
+       x="-3.0074365"
+       y="250.23828"
+       text-anchor="middle"
+       style="font-size:15px;font-family:sans-serif;white-space:pre;opacity:1;fill:#000000;fill-opacity:1"
+       id="text188">time in s</text>
+  </g>
+  <g
+     class="annotation"
+     data-index="0"
+     id="g192"
+     transform="translate(-2.945384,-20)">
     <g
-       class="g-gtitle"
-       id="g187" />
-    <g
-       class="g-xtitle"
-       transform="translate(0,-20.043314)"
-       id="g188">
-      <text
-         class="xtitle"
-         x="272.52777"
-         y="519.04333"
-         text-anchor="middle"
-         style="font-size:15px;font-family:sans-serif;white-space:pre;opacity:1;fill:#000000;fill-opacity:1"
-         id="text187">N</text>
-    </g>
-    <g
-       class="g-ytitle"
-       transform="translate(17.007812)"
-       id="g189">
-      <text
-         class="ytitle"
-         transform="rotate(-90,-3.0074366,250.23828)"
-         x="-3.0074365"
-         y="250.23828"
-         text-anchor="middle"
-         style="font-size:15px;font-family:sans-serif;white-space:pre;opacity:1;fill:#000000;fill-opacity:1"
-         id="text188">time in s</text>
-    </g>
-    <g
-       class="annotation"
-       data-index="0"
-       style="opacity:1"
-       id="g192"
-       transform="translate(0,16)">
+       class="annotation-text-g"
+       id="g191">
       <g
-         class="annotation-text-g"
-         id="g191">
-        <g
-           class="cursor-pointer"
-           transform="translate(172,20)"
-           id="g190">
-          <rect
-             class="bg"
-             x="0.5"
-             y="0.5"
-             width="201"
-             height="19"
-             style="fill:#000000;fill-opacity:0;stroke:#000000;stroke-width:1px;stroke-opacity:0"
-             id="rect189" />
-          <text
-             class="annotation-text"
-             text-anchor="middle"
-             x="100.82031"
-             y="15"
-             style="font-size:14px;font-family:sans-serif;white-space:pre;fill:#000000;fill-opacity:1"
-             id="text189">Calculation time comparison 3D</text>
-        </g>
+         class="cursor-pointer"
+         transform="translate(172,20)"
+         id="g190">
+        <rect
+           class="bg"
+           x="0.5"
+           y="0.5"
+           width="201"
+           height="19"
+           style="fill:#000000;fill-opacity:0;stroke:#000000;stroke-width:1px;stroke-opacity:0"
+           id="rect189" />
+        <text
+           class="annotation-text"
+           text-anchor="middle"
+           x="100.82031"
+           y="15"
+           style="font-size:14px;font-family:sans-serif;white-space:pre;fill:#000000;fill-opacity:1"
+           id="text189">Calculation time comparison 3D</text>
       </g>
     </g>
   </g>

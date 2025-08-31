@@ -5066,7 +5066,7 @@ The
 Iteridense
 \noun default
  is faster than DBSCAN is at about 
-\begin_inset Formula $N=520$
+\begin_inset Formula $N=470$
 \end_inset
 
 .
@@ -5121,7 +5121,7 @@ reference "fig:Computation-time-comparison"
 Iteridense
 \noun default
  is faster than DBSCAN is now at about 
-\begin_inset Formula $N=1500$
+\begin_inset Formula $N=1100$
 \end_inset
 
 .
