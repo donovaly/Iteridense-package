@@ -153,7 +153,7 @@ function checkNeighbors(clusterTensor, currentIdx, nextClusterNumber::Int, maxId
         end
     end
     # get all cluster numbers that occurred
-    neighborClusterNumbers = unique!(neighborClusterNumbers)
+    neighborClusterNumbers = unique(neighborClusterNumbers)
 
     currentAssignedCluster = 0
     if !isempty(neighborClusterNumbers)
@@ -181,7 +181,7 @@ end
 
 #-------------------------------------------------------------------------------------------------
 # function to reduce the number of cells per dimension
-function reduceVectorEntries(aVector::Vector{Int})
+function reduceVectorEntries(aVector::AbstractVector{Int})
     # at first we create a count vector of how often a cell number occurs. Then every cell with
     # zero counts is removed if its previous cell has also zero. This is because we must keep a
     # single zero cell to separate the clusters. As last step the assignments are updated
@@ -224,23 +224,19 @@ end
 
 #-------------------------------------------------------------------------------------------------
 # function assign every data point to a cell in a tensor
-function cellAssignments(dataMatrix, sizeVector, minVector, numData::Int,
+function cellAssignments(dataMatrix, inverseSizeVector, offsetVector, numData::Int,
                             ::Val{dimensions}) where dimensions
 
     # for every dimension we create a tuple assigning every point to the cell number
     cellAssigns = Matrix{Int}(undef, numData, dimensions)
     countTensorDims = zeros(Int, dimensions)
     for dim in 1:dimensions
-        # reduce memory calls in following for loop
-        inverseSizeVectorDim = 1 / sizeVector[dim]
-        # for numerical reasons we add a small number
-        minVectorDim = minVector[dim] + smallValue
         for point in 1:numData
-            cellAssigns[point, dim] = trunc(Int, (dataMatrix[point, dim] - minVectorDim) *
-                                            inverseSizeVectorDim) + 1
+            cellAssigns[point, dim] = trunc(Int, (dataMatrix[point, dim] - offsetVector[dim]) *
+                                               inverseSizeVector[dim]) + 1
         end
         # now omit cells with value zero whose predecessor has also value zero
-        cellAssigns[:, dim], countTensorDims[dim] = reduceVectorEntries(cellAssigns[:, dim])
+        cellAssigns[:, dim], countTensorDims[dim] = reduceVectorEntries(view(cellAssigns, :, dim))
     end
     return cellAssigns, countTensorDims
 end
@@ -268,8 +264,8 @@ function CreateCountTensor(dataMatrix, resolution::Int, numData::Int, minVector,
     #    can be omitted. But it is computationally costly to determine what cells can be removed.
     if omitEmptyCells # way B
         # get for every point the assignments to the cell number in the future tensor
-        cellAssigns, countTensorDims = cellAssignments(dataMatrix, sizeVector, minVector, numData,
-                                                        Val(dimensions))
+        cellAssigns, countTensorDims = cellAssignments(dataMatrix, inverseSizeVector,
+                                                        offsetVector, numData, Val(dimensions))
         # create the countTensor with rank of dimensions, but every dimension has now not
         # resolution entries, but only as many as really necessary
         # Julia swaps in matrices x and y, thus reverse to use the coordinate system of the plot
@@ -601,8 +597,8 @@ function AssignPoints(dataMatrix, clusterTensor, resolution::Int, minVector, max
     # depending on omitEmptyCells we have 2 different assignments
     if omitEmptyCells
         # get point assignments
-        cellAssigns, countTensorDims = cellAssignments(dataMatrix, sizeVector, minVector, numData,
-                                                        Val(dimensions))
+        cellAssigns, countTensorDims = cellAssignments(dataMatrix, inverseSizeVector,
+                                                        offsetVector, numData, Val(dimensions))
         # assign every data point
         for point in 1:size(dataMatrix, 1)
             idx = CartesianIndex(ntuple(i -> cellAssigns[point, reverseDims[i]], Val(dimensions)))
