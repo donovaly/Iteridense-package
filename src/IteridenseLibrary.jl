@@ -140,7 +140,11 @@ function checkNeighbors(clusterTensor, currentIdx, nextClusterNumber::Int, maxId
     # number. To track the number history we use a Union-Find structure.
 
     # store the cluster numbers of valid neighbor cells
-    neighborClusterNumbers = Vector{Int}()
+    # We don't use a vector but a set because then we would later need a call of unique!()
+    # push! on a set automatically adds the element if it is not already present, ensuring
+    # uniqueness without extra work. As we have positive integers we can use even a BitSet
+    # (It turned out that unique() is a bottleneck in Julia and should be avoided if possible.)
+    neighborClusterNumbers = BitSet()
     for currentClusterNumbers in rawClusterNums
         # cluster zero means unclustered
         if currentClusterNumbers > 0
@@ -152,8 +156,6 @@ function checkNeighbors(clusterTensor, currentIdx, nextClusterNumber::Int, maxId
             push!(neighborClusterNumbers, rootOfCurrentCluster)
         end
     end
-    # get all cluster numbers that occurred
-    neighborClusterNumbers = unique(neighborClusterNumbers)
 
     currentAssignedCluster = 0
     if !isempty(neighborClusterNumbers)
@@ -187,37 +189,51 @@ function reduceVectorEntries(aVector::AbstractVector{Int})
     # single zero cell to separate the clusters. As last step the assignments are updated
     # according to the new indices.
 
+    # safe guard
+    if isempty(aVector)
+        return Vector{Int}(), 1
+    end
+
     # create count map
-    maxValue = maximum(aVector)
-    observedNumbers = sort(unique(aVector))
+    # it turned out that using a BitSet is about 10 % faster then using
+    # observedNumbers = sort(unique(aVector))
+    observedNumbersBitSet = BitSet()
+    for numberValue in aVector
+        push!(observedNumbersBitSet, numberValue)
+    end
 
     # find gaps and determine which numbers to keep
-    # keep all observed numbers and their predecessors
-    keepIndices = Set{Int}()
-    for num in observedNumbers
-        push!(keepIndices, num)
-        # exclude consecutive zeros
-        if num > 1 && !(num - 1 in observedNumbers) && (num - 1 <= maxValue)
-            push!(keepIndices, num - 1) 
+    # in fact we slice out every number whose predecessor iz a zero and the predecessor of
+    # that zero is also a zero
+    numbersToMapBitSet = BitSet()
+    for num in observedNumbersBitSet
+        # keep the observed number itself
+        push!(numbersToMapBitSet, num) 
+        # If num - 1 exists and is not an observed number, it means num - 1 represents a gap
+        # before num. We keep this predecessor to ensure cluster separation.
+        if num > 1 && !(num - 1 in observedNumbersBitSet)
+            push!(numbersToMapBitSet, num - 1)
         end
     end
 
-    # re-index with stable sorting
+    # set the new indices
+    maxValue = maximum(aVector)
     newIndices = Dict{Int, Int}()
     currentIndex = 1
-    for k in sort(collect(keepIndices))
-        newIndices[k] = currentIndex
-        currentIndex += 1
+    for k in 1:maxValue
+        if k in numbersToMapBitSet
+            newIndices[k] = currentIndex
+            currentIndex += 1
+        end
     end
+    # get number of tensor entries for the current dimension
+    reducedLength = currentIndex - 1
 
     # apply re-indexing to the vector
     newVector = Vector{Int}(undef, length(aVector))
     for i in eachindex(aVector)
         newVector[i] = newIndices[aVector[i]]
     end
-    # get number of tensor entries for the current dimension
-    reducedLength = maximum(values(newIndices))
-
     return newVector, reducedLength
 end
 
