@@ -366,7 +366,7 @@ and minimum is 2, the maximum is the total number of points in the
 dataset.
 \item \label{enu:Specification-of-a}Specification of a resolution at which
 the loop step~\ref{enu:AlgoStep1}\,--\,\ref{enu:AlgoStep5} is
-stopped (\textbf{StopResolution}). It is by default set to $\min(64,N)$,
+stopped (\textbf{StopResolution}). It is by default set to $\min(64,N)$,\footnote{Using 64 as default limit is a choice based on practical experience.}
 whereas $N$ is the number of data points.
 \item \label{enu:OptionClusterSize}Specification of the minimal number
 of data points in a cluster (\textbf{MinClusterSize}). Clusters with
@@ -378,7 +378,7 @@ will be erased. The minimum and default is 1.0.
 \item In step~\ref{enu:AlgoStep1} don't divide the data space in $\text{resolution}^{\text{dimension}}$
 cells but use for every dimension only as many cells as necessary
 (\textbf{OmitEmptyCells}). See \ref{subsec:Memory-Complexity} for
-a details.
+details.
 \end{enumerate}
 Option~\ref{enu:OptionDiagonal} can be useful for a low $\rho$
 (and thus low resolutions)\footnote{For example with \textbf{NoDiagonals} in \ref{fig:Result-Iteridense}
@@ -814,14 +814,14 @@ complexity is $\mathcal{O}\left(DN\right)$.
 Note that the assignment is only performed once for the final $R$.
 In total these are the number of computes:
 \begin{align}
- & DN+\sum_{R=R_{\mathrm{start}}}^{R_{\mathrm{final}}+1}\left(DN+R^{D}\left(\frac{3^{D}}{2}+1\right)\right)\\
+ & DN+\sum_{R=R_{\mathrm{start}}}^{R_{\mathrm{final}}+1}\left(DN+R^{D}\left(\frac{3^{D}}{2}+1\right)\right)\label{eq:O-initial}\\
  & \approx DN+\left(R_{\mathrm{final}}+1-R_{\mathrm{start}}+1\right)DN+\frac{3^{D}}{2}\sum_{R=R_{\mathrm{start}}}^{R_{\mathrm{final}}+1}R^{D}
 \end{align}
 
 as approximation we can write
-\[
-\sum_{R=R_{\mathrm{start}}}^{R_{\mathrm{final}}+1}R^{D}\approx\frac{\left(R_{\mathrm{final}}+1\right)^{D+1}-R_{\mathrm{start}}^{D+1}}{D+1}
-\]
+\begin{equation}
+\sum_{R=R_{\mathrm{start}}}^{R_{\mathrm{final}}+1}R^{D}\approx\frac{\left(R_{\mathrm{final}}+1\right)^{D+1}-R_{\mathrm{start}}^{D+1}}{D+1}\label{eq:R^D-approx}
+\end{equation}
 For $\mathcal{O}$ we get
 \begin{equation}
 \mathcal{O}\left(\left(R_{\mathrm{final}}-R_{\mathrm{start}}+3\right)DN+\frac{3^{D}}{2(D+1)}\left(\left(R_{\mathrm{final}}+1\right)^{D+1}-R_{\mathrm{start}}^{D+1}\right)\right)\label{eq:O()}
@@ -835,7 +835,7 @@ resolution. This leads to
 
 With this result the following can be seen:
 \begin{itemize}
-\item \noun{Iteridense} scales roughly with $\mathcal{O}\left(DN+R^{D+1}\right)$
+\item \noun{Iteridense} scales roughly with $\mathcal{O}\left(RDN+(R+1)^{D+1}\right)$
 -- a linear increase plus an offset. This extends the parameter range
 at which clustering could be performed, dramatically, compared to
 algorithms with $\mathcal{O}\left(DN^{2}\right)$.
@@ -966,16 +966,28 @@ and $\bar{K}=3$ can be clustered on consumer hardware for $R=10$
 up to $D=14$.
 
 The determination of the necessary number of cells per dimension has
-$\mathcal{O}\left(DN\left(1+\log(N)\right)\right)$, which results
-in a total 
+$\mathcal{O}\left(DN\left(1+\log(N)\right)\right)$. For the clustering
+step of the algorithm there are not $R^{D}$ cells, thus $\approx\mathcal{O}\left(0.5\cdot3^{D}R^{D-D_{c}}\cdot\bar{K}^{D_{c}}\right)\vphantom{\bar{K}^{D_{c}^{D^{D}}}}$.
+Therefore \eqref{eq:O-initial} changes to 
+\begin{align}
+ & DN+\sum_{R=R_{\mathrm{start}}}^{R_{\mathrm{final}}+1}\left(DN\log(N)+DN+R^{D-D_{c}}\cdot\bar{K}^{D_{c}}\left(\frac{3^{D}}{2}+1\right)\right)
+\end{align}
+
+Using \eqref{eq:R^D-approx} this leads with the worst case $R_{\mathrm{start}}=2$
+to
 \begin{equation}
-\mathcal{O}\left(DN\left(2+\log(N)\right)+R^{D-D_{c}}\bar{K}^{D_{c}}\right)\label{eq:O-omitEmptyCells}
+\mathcal{O}_{\mathrm{worst\,case}}\approx\mathcal{O}\left(DN+R_{\mathrm{final}}DN\left(1+\log(N)\right)+\frac{3^{D}\bar{K}^{D_{c}}}{2(D-D_{c}+1)}\left(R_{\mathrm{final}}+1\right)^{D-D_{c}+1}\right)\label{eq:O-omitEmptyCells}
 \end{equation}
 
-Compared with formula \eqref{eq:O()}, clustering with the option
-\textbf{OmitEmptyCells} will have a greater linear increase of the
-computation time with increasing number of data points. This can be
-seen in \ref{fig:Computational-time-6D} that shows the computation
+In effect clustering with the option \textbf{OmitEmptyCells} scales
+roughly with
+\begin{equation}
+\mathcal{O}\left(RDN\left(1+\log(N)\right)+(R+1)^{D-D_{c}+1}\bar{K}^{D_{c}}\right)
+\end{equation}
+Comparing this with \eqref{eq:O()}, shows that clustering will then
+have a $\left(1+\log(N)\right)$ times greater linear increase of
+the computation time with increasing number of data points. This can
+be seen in \ref{fig:Computational-time-6D} that shows the computation
 time of a dataset with $D=6$, $D_{c}=3$ and $\bar{K}=2.66$.
 
 \begin{figure}
@@ -1002,7 +1014,7 @@ for different cluster algorithms.}
 Algorithm & Computational Complexity & note\tabularnewline
 \midrule
 \midrule 
-\noun{Iteridense} & $\mathcal{O}\left(DN+R^{D+1}\right)$ to $\mathcal{O}\left(DN\left(2+\log(N)\right)+R^{D-D_{c}}\bar{K}^{D_{c}}\right)$ & see formulas \eqref{eq:O()}, \eqref{eq:O-omitEmptyCells}\tabularnewline
+\noun{Iteridense} & $\mathcal{O}\left(RDN+(R+1)^{D+1}\right)$ or $\mathcal{O}\left(RDN\left(1+\log(N)\right)+(R+1)^{D-D_{c}+1}\bar{K}^{D_{c}}\right)$ & see formulas \eqref{eq:O()}, \eqref{eq:O-omitEmptyCells}\tabularnewline
 \midrule 
 DBSCAN & $\mathcal{O}(DN\log N)$ to $\mathcal{O}\left(DN^{2}\right)$ \cite{Chen2025} & $\mathcal{O}\left(DN^{2}\right)$ if brute force\tabularnewline
 \midrule 

@@ -1719,6 +1719,15 @@ StopResolution
 \end_inset
 
 ,
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Using 64 as default limit is a choice based on practical experience.
+\end_layout
+
+\end_inset
+
  whereas 
 \begin_inset Formula $N$
 \end_inset
@@ -1796,7 +1805,7 @@ reference "subsec:Memory-Complexity"
 
 \end_inset
 
- for a details.
+ for details.
 \end_layout
 
 \begin_layout Standard
@@ -4513,7 +4522,7 @@ Iteridense
  In total these are the number of computes:
 \begin_inset Formula 
 \begin{align}
- & DN+\sum_{R=R_{\mathrm{start}}}^{R_{\mathrm{final}}+1}\left(DN+R^{D}\left(\frac{3^{D}}{2}+1\right)\right)\\
+ & DN+\sum_{R=R_{\mathrm{start}}}^{R_{\mathrm{final}}+1}\left(DN+R^{D}\left(\frac{3^{D}}{2}+1\right)\right)\label{eq:O-initial}\\
  & \approx DN+\left(R_{\mathrm{final}}+1-R_{\mathrm{start}}+1\right)DN+\frac{3^{D}}{2}\sum_{R=R_{\mathrm{start}}}^{R_{\mathrm{final}}+1}R^{D}
 \end{align}
 
@@ -4525,9 +4534,9 @@ Iteridense
 \begin_layout Standard
 as approximation we can write
 \begin_inset Formula 
-\[
-\sum_{R=R_{\mathrm{start}}}^{R_{\mathrm{final}}+1}R^{D}\approx\frac{\left(R_{\mathrm{final}}+1\right)^{D+1}-R_{\mathrm{start}}^{D+1}}{D+1}
-\]
+\begin{equation}
+\sum_{R=R_{\mathrm{start}}}^{R_{\mathrm{final}}+1}R^{D}\approx\frac{\left(R_{\mathrm{final}}+1\right)^{D+1}-R_{\mathrm{start}}^{D+1}}{D+1}\label{eq:R^D-approx}
+\end{equation}
 
 \end_inset
 
@@ -4573,7 +4582,7 @@ With this result the following can be seen:
 Iteridense
 \noun default
  scales roughly with 
-\begin_inset Formula $\mathcal{O}\left(DN+R^{D+1}\right)$
+\begin_inset Formula $\mathcal{O}\left(RDN+(R+1)^{D+1}\right)$
 \end_inset
 
  – a linear increase plus an offset.
@@ -5414,11 +5423,51 @@ The determination of the necessary number of cells per dimension has
 \begin_inset Formula $\mathcal{O}\left(DN\left(1+\log(N)\right)\right)$
 \end_inset
 
-,
- which results in a total 
+.
+ For the clustering step of the algorithm there are not 
+\begin_inset Formula $R^{D}$
+\end_inset
+
+ cells,
+ thus 
+\begin_inset Formula $\approx\mathcal{O}\left(0.5\cdot3^{D}R^{D-D_{c}}\cdot\bar{K}^{D_{c}}\right)\vphantom{\bar{K}^{D_{c}^{D^{D}}}}$
+\end_inset
+
+.
+ Therefore 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:O-initial"
+
+\end_inset
+
+ changes to 
+\begin_inset Formula 
+\begin{align}
+ & DN+\sum_{R=R_{\mathrm{start}}}^{R_{\mathrm{final}}+1}\left(DN\log(N)+DN+R^{D-D_{c}}\cdot\bar{K}^{D_{c}}\left(\frac{3^{D}}{2}+1\right)\right)
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Using 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:R^D-approx"
+
+\end_inset
+
+ this leads with the worst case 
+\begin_inset Formula $R_{\mathrm{start}}=2$
+\end_inset
+
+ to
 \begin_inset Formula 
 \begin{equation}
-\mathcal{O}\left(DN\left(2+\log(N)\right)+R^{D-D_{c}}\bar{K}^{D_{c}}\right)\label{eq:O-omitEmptyCells}
+\mathcal{O}_{\mathrm{worst\,case}}\approx\mathcal{O}\left(DN+R_{\mathrm{final}}DN\left(1+\log(N)\right)+\frac{3^{D}\bar{K}^{D_{c}}}{2(D-D_{c}+1)}\left(R_{\mathrm{final}}+1\right)^{D-D_{c}+1}\right)\label{eq:O-omitEmptyCells}
 \end{equation}
 
 \end_inset
@@ -5427,7 +5476,19 @@ The determination of the necessary number of cells per dimension has
 \end_layout
 
 \begin_layout Standard
-Compared with formula 
+In effect clustering with the option 
+\series bold
+OmitEmptyCells
+\series default
+ scales roughly with
+\begin_inset Formula 
+\begin{equation}
+\mathcal{O}\left(RDN\left(1+\log(N)\right)+(R+1)^{D-D_{c}+1}\bar{K}^{D_{c}}\right)
+\end{equation}
+
+\end_inset
+
+Comparing this with 
 \begin_inset CommandInset ref
 LatexCommand eqref
 reference "eq:O()"
@@ -5435,11 +5496,11 @@ reference "eq:O()"
 \end_inset
 
 ,
- clustering with the option 
-\series bold
-OmitEmptyCells
-\series default
- will have a greater linear increase of the computation time with increasing number of data points.
+ shows that clustering will then have a 
+\begin_inset Formula $\left(1+\log(N)\right)$
+\end_inset
+
+ times greater linear increase of the computation time with increasing number of data points.
  This can be seen in 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -5627,11 +5688,11 @@ Iteridense
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset Formula $\mathcal{O}\left(DN+R^{D+1}\right)$
+\begin_inset Formula $\mathcal{O}\left(RDN+(R+1)^{D+1}\right)$
 \end_inset
 
- to 
-\begin_inset Formula $\mathcal{O}\left(DN\left(2+\log(N)\right)+R^{D-D_{c}}\bar{K}^{D_{c}}\right)$
+ or 
+\begin_inset Formula $\mathcal{O}\left(RDN\left(1+\log(N)\right)+(R+1)^{D-D_{c}+1}\bar{K}^{D_{c}}\right)$
 \end_inset
 
 
