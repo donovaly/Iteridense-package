@@ -945,7 +945,7 @@ begin
   // as resetting the slider triggers DensityTBChange, set SliderIncrement to zero
   SliderIncrement:= 0;
   DensityTB.Position:= DensityTB.Min;
-  DensityFSE.Value:= 1.1;
+  DensityFSE.Value:= 1.0;
   // reset resolution
   // the slider must be set first because it will change the others
   IteridenseSliderTB.Position:= 2;
@@ -1001,25 +1001,6 @@ begin
   IteridenseSliderGB.Enabled:= false;
 end;
 
-procedure TMainForm.DensityFSEChange(Sender: TObject);
-var
-  increment : Double;
-begin
-  if IderidenseDensityBySlider then
-     exit;
-  increment:= SliderIncrement;
-  // as changing slider position triggers DensityTBChange, set SliderIncrement to zero
-  SliderIncrement:= 0;
-  // if increased, set position to Min otherwise to Max
-  if DensityFSE.Value > IderidenseDensity then
-    DensityTB.Position:= DensityTB.Min;
-  if DensityFSE.Value < IderidenseDensity then
-    DensityTB.Position:= DensityTB.Max;
-  // save new density
-  IderidenseDensity:= DensityFSE.Value;
-  SliderIncrement:= increment;
-end;
-
 procedure TMainForm.IteridenseSliderTBChange(Sender: TObject);
 begin
   StartResolutionSE.Value:= IteridenseSliderTB.Position;
@@ -1067,6 +1048,28 @@ begin
   LabelHintB.Top:= IteridenseSliderGB.Top + 8 - LabelHintB.Height div 2;
 end;
 
+procedure TMainForm.DensityFSEChange(Sender: TObject);
+var
+  increment : Double;
+begin
+  if IderidenseDensityBySlider then
+     exit;
+  increment:= SliderIncrement;
+  // as changing slider position triggers DensityTBChange, set SliderIncrement to zero
+  SliderIncrement:= 0;
+  // if increased, set position to Min otherwise to Max
+  if DensityFSE.Value > IderidenseDensity then
+    DensityTB.Position:= DensityTB.Min;
+  if DensityFSE.Value < IderidenseDensity then
+    DensityTB.Position:= DensityTB.Max;
+  // save new density
+  IderidenseDensity:= DensityFSE.Value;
+  // if SliderIncrement still = 0 restore it initial value
+  if SliderIncrement = 0 then
+     SliderIncrement:= increment;
+  SliderPosition:= DensityTB.Position;
+end;
+
 procedure TMainForm.DensityTBChange(Sender: TObject);
 var
   sign : Integer;
@@ -1077,7 +1080,9 @@ begin
   // at first determine the movement direction by setting the sign of increment
   sign:= DensityTB.Position - SliderPosition;
   // only set new increment if previous position was 1
-  if (sign > 0) and (DensityTB.Position = 2) then
+  // if it was 1 and DensityFSE was decremented, the position jumps to 10 and sign becomes 9
+  if ((sign = 1) and (DensityTB.Position = 2))
+   or ((sign = 9) and (DensityTB.Position = 10)) then
   begin
     SliderIncrement:= Trunc(DensityFSE.Value) / 10;
     // we can also have the case that DensityFSE.Value < 0
@@ -1086,7 +1091,7 @@ begin
   end;
 
   // cluster only if there was actually a change (not on e.g. slider resets)
-  if SliderIncrement > 0 then
+  if (SliderIncrement > 0) and not ((sign = 9) and (DensityTB.Position = 10)) then
   begin
     IderidenseDensityBySlider:= true;
     DensityFSE.Value:= DensityFSE.Value + sign * SliderIncrement;
@@ -1096,11 +1101,6 @@ begin
   end;
   // save new position
   SliderPosition:= DensityTB.Position;
-end;
-
-procedure TMainForm.FlipTBChange(Sender: TObject);
-begin
-  ChartData.CDFlipTBChange(Sender);
 end;
 
 procedure TMainForm.RadiusFSEChange(Sender: TObject);
@@ -1119,17 +1119,10 @@ begin
     RadiusTB.Position:= RadiusTB.Max;
   // save new radius
   DBSCANRadius:= RadiusFSE.Value;
-  SliderIncrement:= increment;
-end;
-
-procedure TMainForm.StartResolutionSEChange(Sender: TObject);
-begin
-  StopResolutionSE.MinValue:= StartResolutionSE.Value;
-end;
-
-procedure TMainForm.StopResolutionSEChange(Sender: TObject);
-begin
-  StartResolutionSE.MaxValue:= StopResolutionSE.Value;
+  // if SliderIncrement still = 0 restore it initial value
+  if SliderIncrement = 0 then
+    SliderIncrement:= increment;
+  SliderPosition:= RadiusTB.Position;
 end;
 
 procedure TMainForm.RadiusTBChange(Sender: TObject);
@@ -1142,7 +1135,9 @@ begin
   // at first determine the movement direction by setting the sign of increment
   sign:= RadiusTB.Position - SliderPosition;
   // only set new increment if previous position was 1
-  if (sign > 0) and (RadiusTB.Position = 2) then
+  // if it was 1 and RadiusFSE was decremented, the position jumps to 10 and sign becomes 9
+  if ((sign = 1) and (RadiusTB.Position = 2))
+   or ((sign = 9) and (RadiusTB.Position = 10)) then
   begin
     SliderIncrement:= Trunc(RadiusFSE.Value) / 10;
     // since the radius could be < 0, set the increment to at least 0.1
@@ -1151,7 +1146,7 @@ begin
   end;
 
   // cluster only if there was actually a change (not on e.g. slider resets)
-  if SliderIncrement > 0 then
+  if (SliderIncrement > 0) and not ((sign = 9) and (RadiusTB.Position = 10)) then
   begin
     DBSCANRadiusBySlider:= true;
     RadiusFSE.Value:= RadiusFSE.Value + sign * SliderIncrement;
@@ -1161,6 +1156,21 @@ begin
   end;
   // save new position
   SliderPosition:= RadiusTB.Position;
+end;
+
+procedure TMainForm.FlipTBChange(Sender: TObject);
+begin
+  ChartData.CDFlipTBChange(Sender);
+end;
+
+procedure TMainForm.StartResolutionSEChange(Sender: TObject);
+begin
+  StopResolutionSE.MinValue:= StartResolutionSE.Value;
+end;
+
+procedure TMainForm.StopResolutionSEChange(Sender: TObject);
+begin
+  StartResolutionSE.MaxValue:= StopResolutionSE.Value;
 end;
 
 procedure TMainForm.PlotSelectionCCBItemChange(Sender: TObject; AIndex: Integer);
