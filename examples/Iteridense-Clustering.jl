@@ -353,7 +353,7 @@ begin
 numPoints = collect(range(dataPortion3D, timeStep*dataPortion3D, timeStep))
 timePlot = scatter(numPoints, timeResult3D[:, 1], lab= "Iteridense", titlefontsize= 10,
                     title= "Calculation time comparison 3D", xlabel= "N", ylabel= "time in s",
-                    legend= :topleft)
+                    legend= :left)
 plot!(timePlot, numPoints, timeResult3D[:, 2], lab= "k-means", st= scatter)
 plot!(timePlot, numPoints, timeResult3D[:, 3], lab= "DBSCAN", st= scatter)
 # at last connect the points
