@@ -44,7 +44,7 @@ For a brief description and discussion of the Iteridense clustering algorithm, s
 
 ### Requirements for CSV data format
 
-* The CSV data file must have exactly one header line
+* The CSV data file must have exactly one header line (it can have comment lines, comments must begin with a '#')
 * Every column represents a data dimension
 * The CSV can have any column delimiter character (IteridenseClustering detects it automatically) 
 
