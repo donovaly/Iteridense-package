@@ -293,7 +293,7 @@ in the cluster.
 \end{equation}
 To make $\rho_{\mathrm{cluster}}$ independent of the resolution,
 it has to be the normalized.\\
-For dimension $>3$:
+For dimension $>2$:
 \begin{equation}
 \rho_{\mathrm{cluster}}=\frac{\text{num points in cluster}}{\text{num cells of cluster}}\cdot\frac{\text{total num of points}}{\text{total num of cells}}\cdot\frac{\text{dimension}}{2\thinspace\text{resolution}^{\text{dimension}-2\vphantom{\hat{A}}}}
 \end{equation}
@@ -303,7 +303,7 @@ For dimension $<3$:
 \end{equation}
 
 The normalization is derived in \ref{subsec:Density-Normalization}.
-For less than 2~dimensions $\rho_{\mathrm{cluster}}$ expresses by
+For less than 3~dimensions $\rho_{\mathrm{cluster}}$ expresses by
 what factor the cluster is more dense than the whole dataset.
 
 The final density $\rho_{\mathrm{final}}$ is the minimum of all $\rho_{\mathrm{cluster}}$.
@@ -818,7 +818,8 @@ In total these are the number of computes:
  & \approx DN+\left(R_{\mathrm{final}}+1-R_{\mathrm{start}}+1\right)DN+\frac{3^{D}}{2}\sum_{R=R_{\mathrm{start}}}^{R_{\mathrm{final}}+1}R^{D}
 \end{align}
 
-as approximation we can write
+The sum can be approximated by the integral $\int R^{D}\thinspace\mathrm{d}R$
+and we can write
 \begin{equation}
 \sum_{R=R_{\mathrm{start}}}^{R_{\mathrm{final}}+1}R^{D}\approx\frac{\left(R_{\mathrm{final}}+1\right)^{D+1}-R_{\mathrm{start}}^{D+1}}{D+1}\label{eq:R^D-approx}
 \end{equation}
@@ -899,7 +900,8 @@ the choice of $\epsilon$ influences the computation time.
 }
 \par\end{centering}
 \caption{\label{fig:Computation-time-comparison}Computation time comparisons
-for 2 similar datasets.}
+for 2 similar datasets. The computations were performed using the
+CPU \noun{AMD Ryzen 9 9900X}.}
 \end{figure}
 
 The $N$ at which \noun{Iteridense} is faster than DBSCAN is at about
@@ -1101,8 +1103,6 @@ We provide online a reference implementation together with an example
 worksheet, \cite{Iteridense}. We also provide a stand-alone program
 with a graphical user interface that can be used to cluster any data
 that is available as a CSV file, \cite{Iteridense-package}.
-
-\pagebreak{}
 
 \printbibliography[heading=bibintoc]
 

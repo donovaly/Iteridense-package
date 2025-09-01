@@ -1211,7 +1211,7 @@ To make
 \end_inset
 
 For dimension 
-\begin_inset Formula $>3$
+\begin_inset Formula $>2$
 \end_inset
 
 :
@@ -1247,7 +1247,7 @@ reference "subsec:Density-Normalization"
 \end_inset
 
 .
- For less than 2
+ For less than 3
 \begin_inset space ~
 \end_inset
 
@@ -1720,7 +1720,7 @@ StopResolution
 
 ,
 \begin_inset Foot
-status open
+status collapsed
 
 \begin_layout Plain Layout
 Using 64 as default limit is a choice based on practical experience.
@@ -4532,7 +4532,11 @@ Iteridense
 \end_layout
 
 \begin_layout Standard
-as approximation we can write
+The sum can be approximated by the integral 
+\begin_inset Formula $\int R^{D}\thinspace\mathrm{d}R$
+\end_inset
+
+ and we can write
 \begin_inset Formula 
 \begin{equation}
 \sum_{R=R_{\mathrm{start}}}^{R_{\mathrm{final}}+1}R^{D}\approx\frac{\left(R_{\mathrm{final}}+1\right)^{D+1}-R_{\mathrm{start}}^{D+1}}{D+1}\label{eq:R^D-approx}
@@ -5044,6 +5048,11 @@ name "fig:Computation-time-comparison"
 \end_inset
 
 Computation time comparisons for 2 similar datasets.
+ The computations were performed using the CPU 
+\noun on
+AMD Ryzen 9 9900X
+\noun default
+.
 \end_layout
 
 \end_inset
@@ -6122,13 +6131,6 @@ literal "false"
 \end_inset
 
 .
-\end_layout
-
-\begin_layout Standard
-\begin_inset Newpage pagebreak
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
