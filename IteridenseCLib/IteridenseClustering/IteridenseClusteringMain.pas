@@ -1003,6 +1003,9 @@ end;
 
 procedure TMainForm.IteridenseSliderTBChange(Sender: TObject);
 begin
+  // first set min/max before the values can be changed
+  StartResolutionSE.MaxValue:= IteridenseSliderTB.Position;
+  StopResolutionSE.MinValue:= IteridenseSliderTB.Position;
   StartResolutionSE.Value:= IteridenseSliderTB.Position;
   StopResolutionSE.Value:= IteridenseSliderTB.Position;
   // cluster only if allowed
