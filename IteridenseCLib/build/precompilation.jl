@@ -9,11 +9,11 @@ function TestIteridenseClustering()
 
     resultPointer = IteridenseClustering(
         pointer(dataMatrix), 3, 2,
-        1.1, # density
+        2.0, # density
         1,   # minClusters
-        3,   # minClusterSize
+        2,   # minClusterSize
         2,   # startResolution
-        -1,  # stopResolution
+        64,  # stopResolution
         1.0, # minClusterDensity
         1,   # useDensity (true)
         0,   # useClusters (false)
@@ -67,11 +67,11 @@ function TestIteridenseClustering()
     # eventually also cluster with omitEmptyCells
     resultPointer = IteridenseClustering(
         pointer(dataMatrix), 3, 2,
-        1.1, # density
+        2.0, # density
         1,   # minClusters
-        3,   # minClusterSize
+        2,   # minClusterSize
         2,   # startResolution
-        -1,  # stopResolution
+        64,  # stopResolution
         1.0, # minClusterDensity
         1,   # useDensity (true)
         0,   # useClusters (false)
