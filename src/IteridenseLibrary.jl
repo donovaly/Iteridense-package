@@ -550,7 +550,7 @@ function IteridenseLoop(dataMatrix,
             end
         end
 
-        # due the cluster removal we will end up with non-sequent cluster
+        # due the cluster removal we will end up with non-sequential cluster
         # numbering where e.g. there are cells in cluster 2 and 4 but not in cluster 1 and 3
         # to avoid that we have to rename/remove the clusters
         numClusters, clusterTensor = removeEmptyClusters!(clusterTensor, numClusters)

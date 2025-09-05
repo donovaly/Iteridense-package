@@ -391,7 +391,7 @@ function InternalClustering(countTensor, resolution::Int64, noDiagonals::Bool,
         end
     end
 
-    # due to cluster merges in the clustering process we might end up with non-sequent cluster
+    # due to cluster merges in the clustering process we might end up with non-sequential cluster
     # numbering where e.g. there are cells in cluster 2 and 4 but not in cluster 1 and 3
     # to avoid that we have to rename/remove the clusters
     if maxClusterNumber > 0
