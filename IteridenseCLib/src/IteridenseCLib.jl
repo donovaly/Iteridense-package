@@ -544,7 +544,7 @@ function IteridenseLoop(dataMatrix,
         # way faster:
         for cluster in 1:numClusters
             if clusterSizes[cluster] < minClusterSize ||
-                clusterDensities[cluster] < minClusterDensity
+                    clusterDensities[cluster] < minClusterDensity
                 renumberClusters!(clusterTensor, currentNumber= cluster,
                                     newNumber= 0)
             end
@@ -673,7 +673,7 @@ end
 #-------------------------------------------------------------------------------------------------
 # main function
 function PerformClustering(dataMatrix;
-                            density::Float64= 1.1,
+                            density::Float64= 1.0,
                             minClusters::Int64= 1,
                             minClusterSize::Int64= 3,
                             startResolution::Int64= 2,
@@ -722,10 +722,6 @@ function PerformClustering(dataMatrix;
     if minClusterDensity < 0.0
         minClusterDensity = 0.0
     end
-    # minClusterDensity must not be greater than the density
-    if minClusterDensity > density
-        minClusterDensity = density
-    end
     if startResolution == stopResolution
         useFixedResolution = true
     else
@@ -737,6 +733,10 @@ function PerformClustering(dataMatrix;
     # useClusters works as a toggle, if on, the density is not used
     if useClusters
         useDensity= false
+    end
+    # minClusterDensity must not be greater than the density
+    if useDensity && minClusterDensity > density
+        minClusterDensity = density
     end
 
     # initializations

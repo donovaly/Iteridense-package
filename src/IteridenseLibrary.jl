@@ -544,7 +544,7 @@ function IteridenseLoop(dataMatrix,
         # way faster:
         for cluster in 1:numClusters
             if clusterSizes[cluster] < minClusterSize ||
-                clusterDensities[cluster] < minClusterDensity
+                    clusterDensities[cluster] < minClusterDensity
                 renumberClusters!(clusterTensor, currentNumber= cluster,
                                     newNumber= 0)
             end
@@ -640,7 +640,7 @@ end
 #-------------------------------------------------------------------------------------------------
 # main function
 function Iteridense(dataMatrix;
-                    density= 1.1,
+                    density= 1.0,
                     minClusters::Int= 1,
                     minClusterSize::Int= 3,
                     startResolution::Int= 2,
@@ -690,10 +690,6 @@ function Iteridense(dataMatrix;
     if minClusterDensity < 0.0
         minClusterDensity = 0.0
     end
-    # minClusterDensity must not be greater than the density
-    if minClusterDensity > density
-        minClusterDensity = density
-    end
     if startResolution == stopResolution
         useFixedResolution = true
     else
@@ -705,6 +701,10 @@ function Iteridense(dataMatrix;
     # useClusters works as a toggle, if on, the density is not used
     if useClusters
         useDensity= false
+    end
+    # minClusterDensity must not be greater than the density
+    if useDensity && minClusterDensity > density
+        minClusterDensity = density
     end
 
     # initializations

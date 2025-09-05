@@ -47,7 +47,7 @@ DataPlot = Plots.scatter(dataMatrix[:, 1], dataMatrix[:, 2],
 end
 
 # Iteridense clustering
-ρ = 4.1
+ρ = 3.0
 # perform the clustering
 IteridenseResult = Iteridense(dataMatrix, density= ρ);
 # list the different clustering results
