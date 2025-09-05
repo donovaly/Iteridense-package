@@ -1436,7 +1436,7 @@ nolink "false"
 \end_inset
 
  shows the result for 
-\begin_inset Formula $\rho=4.1$
+\begin_inset Formula $\rho=3.0$
 \end_inset
 
 .
@@ -1468,7 +1468,7 @@ placement class
 alignment document
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
@@ -1580,7 +1580,7 @@ reference "fig:Clustering-process"
 \end_inset
 
 (a) for 
-\begin_inset Formula $\rho=4.1$
+\begin_inset Formula $\rho=3.0$
 \end_inset
 
 .

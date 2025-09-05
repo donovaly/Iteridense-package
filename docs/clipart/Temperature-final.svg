@@ -2,7 +2,7 @@
 <svg
    class="main-svg"
    width="509.43671"
-   height="492.10837"
+   height="480.10837"
    version="1.1"
    id="svg193"
    sodipodi:docname="Temperature-final.svg"
@@ -24,14 +24,14 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:zoom="1.5761719"
-     inkscape:cx="254.09665"
+     inkscape:cx="254.41387"
      inkscape:cy="235.69764"
      inkscape:window-width="1920"
      inkscape:window-height="1009"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
-     inkscape:current-layer="g190" />
+     inkscape:current-layer="g193" />
   <defs
      id="defs-dcbcf0">
     <g
@@ -88,11 +88,11 @@
   <g
      class="bglayer"
      id="g8"
-     transform="translate(-2.5632883,-20)" />
+     transform="translate(-2.5632833,-20)" />
   <g
      class="layer-below"
      id="g11"
-     transform="translate(-2.5632883,-20)">
+     transform="translate(-2.5632833,-20)">
     <g
        class="imagelayer"
        id="g9" />
@@ -103,7 +103,7 @@
   <g
      class="cartesianlayer"
      id="g158"
-     transform="translate(-2.5632883,-20)">
+     transform="translate(-2.5632833,-20)">
     <g
        class="subplot xy"
        id="g157">
@@ -1026,39 +1026,39 @@
   <g
      class="polarlayer"
      id="g159"
-     transform="translate(-2.5632883,-20)" />
+     transform="translate(-2.5632833,-20)" />
   <g
      class="ternarylayer"
      id="g160"
-     transform="translate(-2.5632883,-20)" />
+     transform="translate(-2.5632833,-20)" />
   <g
      class="geolayer"
      id="g161"
-     transform="translate(-2.5632883,-20)" />
+     transform="translate(-2.5632833,-20)" />
   <g
      class="funnelarealayer"
      id="g162"
-     transform="translate(-2.5632883,-20)" />
+     transform="translate(-2.5632833,-20)" />
   <g
      class="pielayer"
      id="g163"
-     transform="translate(-2.5632883,-20)" />
+     transform="translate(-2.5632833,-20)" />
   <g
      class="iciclelayer"
      id="g164"
-     transform="translate(-2.5632883,-20)" />
+     transform="translate(-2.5632833,-20)" />
   <g
      class="treemaplayer"
      id="g165"
-     transform="translate(-2.5632883,-20)" />
+     transform="translate(-2.5632833,-20)" />
   <g
      class="sunburstlayer"
      id="g166"
-     transform="translate(-2.5632883,-20)" />
+     transform="translate(-2.5632833,-20)" />
   <g
      class="glimages"
      id="g167"
-     transform="translate(-2.5632883,-20)" />
+     transform="translate(-2.5632833,-20)" />
   <defs
      id="topdefs-dcbcf0">
     <g
@@ -1077,7 +1077,7 @@
   <g
      class="layer-above"
      id="g171"
-     transform="translate(-2.5632883,-20)">
+     transform="translate(-2.5632833,-20)">
     <g
        class="imagelayer"
        id="g169" />
@@ -1088,7 +1088,7 @@
   <g
      class="infolayer"
      id="g193"
-     transform="translate(-2.5632883,-20)">
+     transform="translate(-2.5632833,-20)">
     <g
        class="legend"
        pointer-events="all"
@@ -1220,7 +1220,7 @@
        id="g187" />
     <g
        class="g-xtitle"
-       transform="translate(0,-10.534967)"
+       transform="translate(0,-22.534967)"
        id="g188">
       <text
          class="xtitle"
@@ -1271,7 +1271,7 @@
              style="font-size:20px;font-family:sans-serif;white-space:pre;fill:#000000;fill-opacity:1"
              id="text189"><tspan
                style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Arial;-inkscape-font-specification:Arial"
-               id="tspan1">Iteridense ρ = 4.1</tspan></text>
+               id="tspan1">Iteridense ρ = 3.0</tspan></text>
         </g>
       </g>
     </g>
