@@ -380,10 +380,10 @@ cells but use for every dimension only as many cells as necessary
 (\textbf{OmitEmptyCells}). See \ref{subsec:Memory-Complexity} for
 details.
 \end{enumerate}
-Option~\ref{enu:OptionDiagonal} can be useful for a low $\rho$
-(and thus low resolutions)\footnote{For example with \textbf{NoDiagonals} in \ref{fig:Result-Iteridense}
-with $\rho=2.2$ the cluster would contain more points.} while for higher $\rho$ and also high dimensions it might lead to
-bad results. Therefore this option should only be used if really desired.
+Option~\ref{enu:OptionDiagonal} can be useful for a low resolutions\footnote{For example in \ref{fig:Result-Iteridense} (resolution~13), with
+\textbf{NoDiagonals} the cluster would split into 3~clusters.} while for higher resolutions and it has less effect. For high dimensions
+it might unsuitable results. Therefore this option should only be
+used if really desired.
 
 Option~\ref{enu:Specification-of-the} can speed up the computation,
 see \ref{subsec:Computational-Complexity} for details.
@@ -410,22 +410,20 @@ what cluster a grid cell belongs to. There is also a stand-alone program
 available with a graphical user interface (GUI) that uses the reference
 implementation~\cite{Iteridense-package}.
 
-\subsection{Density Normalization\label{subsec:Density-Normalization}}
+\subsection{Cluster Density Normalization\label{subsec:Density-Normalization}}
 
-To be able to use the cluster density in a useful way, it has to be
-normalized. The point is that without it, the density will increase
-with the increase of the resolution. We define $\rho_{\mathrm{cluster}}$
-as:
+We define the cluster density $\rho_{\mathrm{cluster}}$ as:
 \begin{equation}
 \rho_{\mathrm{cluster}}=\frac{P}{C}
 \end{equation}
 whereas $C$ is the number of cells of the cluster and $P$ the number
 of points in the cluster.
 
-When the resolution doubles, $\rho_{\mathrm{cluster}}$ will increase
+The \noun{Iteridense} algorithm requires $\rho_{\mathrm{cluster}}$
+to be independent of the resolution. According to our definition,
+when the resolution doubles, $\rho_{\mathrm{cluster}}$ is halved
 because the cluster will keep its number of points but will have more
-cells. The \noun{Iteridense} algorithm requires $\rho_{\mathrm{cluster}}$
-to be independent of the resolution. One approach would be to normalize
+cells. One approach to achieve resolution independence is to normalize
 $\rho_{\mathrm{cluster}}$ with the density of the whole dataset
 \begin{equation}
 \rho_{\mathrm{cluster\,norm}}=\frac{\rho_{\mathrm{cluster}}}{\rho_{\mathrm{dataset}}}
@@ -437,11 +435,12 @@ We have
 whereas $N$ is total number of points, $R$ the resolution and $D$
 the dimension.
 
-This density is independent of the resolution but not on the dimension.
-In practice it is often a tricky question if more or less dimensions
-are applicable for the effect one wants to evaluate. By taking another
-dimension into account, the density would increase, even if the new
-dimension does not influence the cluster at all.
+$\rho_{\mathrm{cluster\,norm}}$ is independent of the resolution
+but not on the dimension. In practice it is often a tricky question
+if more or less dimensions are applicable for the effect one wants
+to evaluate. By taking another dimension into account, the density
+would increase, even if the new dimension does not influence the cluster
+at all.
 
 Take for example this case: dimension $D=1$, resolution $R=8$, $C=R/4$
 ($C$ depends on $R$), $P=8$, $N=16$.\\
@@ -451,7 +450,7 @@ $\rho_{\mathrm{cluster\,norm\,1D}}={\displaystyle \frac{PR}{CN}}=2\vphantom{\cfr
 so the cluster is 2~times more dense than the dataset.
 
 Now another dimension is added. Here we have to make assumptions how
-the number of data points change by this addition:
+the number of data points changes by this addition:
 \begin{itemize}
 \item We assume that for the 1D case we have 2~equal clusters that contain
 together all data points, so $N=2P$.

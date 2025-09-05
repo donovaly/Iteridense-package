@@ -1820,40 +1820,38 @@ reference "enu:OptionDiagonal"
 
 \end_inset
 
- can be useful for a low 
-\begin_inset Formula $\rho$
-\end_inset
-
- (and thus low resolutions)
+ can be useful for a low resolutions
 \begin_inset Foot
 status collapsed
 
 \begin_layout Plain Layout
-For example with 
-\series bold
-NoDiagonals
-\series default
- in 
+For example in 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Result-Iteridense"
 
 \end_inset
 
- with 
-\begin_inset Formula $\rho=2.2$
+ (resolution
+\begin_inset space ~
 \end_inset
 
- the cluster would contain more points.
+13),
+ with 
+\series bold
+NoDiagonals
+\series default
+ the cluster would split into 3
+\begin_inset space ~
+\end_inset
+
+clusters.
 \end_layout
 
 \end_inset
 
- while for higher 
-\begin_inset Formula $\rho$
-\end_inset
-
- and also high dimensions it might lead to bad results.
+ while for higher resolutions and it has less effect.
+ For high dimensions it might unsuitable results.
  Therefore this option should only be used if really desired.
 \end_layout
 
@@ -1988,7 +1986,7 @@ literal "false"
 \end_layout
 
 \begin_layout Subsection
-Density Normalization
+Cluster Density Normalization
 \begin_inset CommandInset label
 LatexCommand label
 name "subsec:Density-Normalization"
@@ -1999,11 +1997,7 @@ name "subsec:Density-Normalization"
 \end_layout
 
 \begin_layout Standard
-To be able to use the cluster density in a useful way,
- it has to be normalized.
- The point is that without it,
- the density will increase with the increase of the resolution.
- We define 
+We define the cluster density 
 \begin_inset Formula $\rho_{\mathrm{cluster}}$
 \end_inset
 
@@ -2027,13 +2021,7 @@ whereas
 \end_layout
 
 \begin_layout Standard
-When the resolution doubles,
- 
-\begin_inset Formula $\rho_{\mathrm{cluster}}$
-\end_inset
-
- will increase because the cluster will keep its number of points but will have more cells.
- The 
+The 
 \noun on
 Iteridense
 \noun default
@@ -2042,7 +2030,14 @@ Iteridense
 \end_inset
 
  to be independent of the resolution.
- One approach would be to normalize 
+ According to our definition,
+ when the resolution doubles,
+ 
+\begin_inset Formula $\rho_{\mathrm{cluster}}$
+\end_inset
+
+ is halved because the cluster will keep its number of points but will have more cells.
+ One approach to achieve resolution independence is to normalize 
 \begin_inset Formula $\rho_{\mathrm{cluster}}$
 \end_inset
 
@@ -2079,7 +2074,10 @@ whereas
 \end_layout
 
 \begin_layout Standard
-This density is independent of the resolution but not on the dimension.
+\begin_inset Formula $\rho_{\mathrm{cluster\,norm}}$
+\end_inset
+
+ is independent of the resolution but not on the dimension.
  In practice it is often a tricky question if more or less dimensions are applicable for the effect one wants to evaluate.
  By taking another dimension into account,
  the density would increase,
@@ -2148,7 +2146,7 @@ times more dense than the dataset.
 
 \begin_layout Standard
 Now another dimension is added.
- Here we have to make assumptions how the number of data points change by this addition:
+ Here we have to make assumptions how the number of data points changes by this addition:
 \end_layout
 
 \begin_layout Itemize
