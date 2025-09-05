@@ -199,9 +199,9 @@ clustering). Based on our approach the key features of \noun{Iteridense}
 are:
 \begin{itemize}
 \item The clustering works without the need to test neighbors of every data
-point, making the clustering more computation-efficient. The clusters
-are derived by counting the numbers of data points within a certain
-data area.
+point, making the clustering computation-efficient, as discussed in
+\ref{subsec:Computational-Complexity}. The clusters are derived by
+counting the numbers of data points within a certain data space.
 \item One has two choices to stop the algorithm. Either one specifies $\rho$,
 the minimal density every found cluster must have to stop the algorithm,
 or \textbf{MinClusters}, the number of how many clusters should at
@@ -210,12 +210,12 @@ necessary). The possibility to specify \textbf{MinClusters} is a big
 advantage compared to pure density-based algorithms that by design
 cannot have this feature.
 \item For \noun{Iteridense} $\rho$ is defined being normalized so that
-the whole dataset has $\rho=1$. Because of the iteration with increasing
-resolutions our algorithm provides a clear path on how to set and
-change $\rho$: Start with a low $\rho>1$ and increase $\rho$ until
-you get a suitable result. The algorithm stops at a resolution that
-fulfills the specification of $\rho$. We will demonstrate this feature
-with an example in \ref{subsec:Clustering-Performance}.
+a whole 2-dimensional dataset has $\rho=1$. Because of the iteration
+with increasing resolutions our algorithm provides a clear path on
+how to set and change $\rho$: Start with a low $\rho>1$ and increase
+$\rho$ until you get a suitable result. The algorithm stops at a
+resolution that fulfills the specification of $\rho$. We will demonstrate
+this feature with an example in \ref{subsec:Clustering-Performance}.
 \end{itemize}
 
 \section{Description of the Iteridense Clustering Algorithm}
