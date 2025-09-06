@@ -6,7 +6,7 @@
 2. Extract the ZIP and there in the folder *bin* start the *IteridenseClustering.exe* (no installation or admin permissions are required)
 3. In the program click the button to open a CSV data file
 4. Perform the clustering as you wish
-5. Save the result either the plot or as CSV. The CSV is hereby the input file plus an additional colum with the assignments to the clusters.
+5. Save the result either the plot or as CSV. The CSV is hereby the input file plus an additional column with the assignments to the clusters.
 
 ### Requirements for CSV data format
 
