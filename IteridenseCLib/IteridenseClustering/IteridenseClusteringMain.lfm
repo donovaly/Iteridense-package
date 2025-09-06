@@ -354,9 +354,12 @@ object MainForm: TMainForm
     TabWidth = 119
     OnChange = MethodsPCChange
     object IteridenseTS: TTabSheet
+      Hint = 'changes of values with a star'#13#10'don''t trigger a new clustering'
       Caption = 'Iteridense'
       ClientHeight = 313
       ClientWidth = 236
+      ParentShowHint = False
+      ShowHint = True
       object DensityFSE: TFloatSpinEdit
         AnchorSideLeft.Control = IteridenseTS
         AnchorSideTop.Control = UseDensityRB
@@ -392,6 +395,7 @@ object MainForm: TMainForm
         ParentShowHint = False
         ShowHint = True
         TabOrder = 1
+        OnChange = MinClusterDensityFSEChange
       end
       object StartResolutionSE: TSpinEdit
         AnchorSideLeft.Control = DensityFSE
@@ -426,6 +430,7 @@ object MainForm: TMainForm
         ShowHint = True
         TabOrder = 3
         Value = 3
+        OnChange = MinClusterSizeIterIdenseSEChange
       end
       object StopResolutionSE: TSpinEdit
         AnchorSideLeft.Control = DensityFSE
@@ -489,9 +494,9 @@ object MainForm: TMainForm
         Left = 82
         Height = 15
         Top = 174
-        Width = 82
+        Width = 90
         BorderSpacing.Left = 7
-        Caption = 'start Resolution'
+        Caption = 'start Resolution *'
       end
       object StopResolutionL: TLabel
         AnchorSideLeft.Control = StopResolutionSE
@@ -501,9 +506,9 @@ object MainForm: TMainForm
         Left = 82
         Height = 15
         Top = 204
-        Width = 82
+        Width = 90
         BorderSpacing.Left = 7
-        Caption = 'stop Resolution'
+        Caption = 'stop Resolution *'
       end
       object MinClustersSE: TSpinEdit
         AnchorSideLeft.Control = DensityFSE
@@ -522,6 +527,7 @@ object MainForm: TMainForm
         ShowHint = True
         TabOrder = 5
         Value = 2
+        OnChange = MinClustersSEChange
       end
       object MinClustersL: TLabel
         AnchorSideLeft.Control = MinClusterSizeIterIdenseSE
@@ -559,6 +565,7 @@ object MainForm: TMainForm
         BorderSpacing.Top = 7
         Caption = 'use Number of Clusters'
         TabOrder = 6
+        OnChange = UseClustersRBChange
       end
       object IteridenseBevelBottomB: TBevel
         AnchorSideLeft.Control = IteridenseTS
@@ -604,6 +611,7 @@ object MainForm: TMainForm
         ParentShowHint = False
         ShowHint = True
         TabOrder = 8
+        OnChange = NoDiagonalsCBChange
       end
       object DensityTB: TTrackBar
         AnchorSideLeft.Side = asrBottom
@@ -635,9 +643,9 @@ object MainForm: TMainForm
         Height = 19
         Hint = 'remove as many empty cells from'#13#10'cluster tensor as possible to reduce'#13#10'memory consumption'
         Top = 286
-        Width = 108
+        Width = 116
         BorderSpacing.Top = 7
-        Caption = 'omit Empty Cells'
+        Caption = 'omit Empty Cells *'
         ParentShowHint = False
         ShowHint = True
         TabOrder = 10
@@ -762,6 +770,7 @@ object MainForm: TMainForm
         ShowHint = True
         TabOrder = 1
         Value = 3
+        OnChange = MinClusterSizeDBscanSEChange
       end
       object MinClusterSizeDBscanL: TLabel
         AnchorSideLeft.Control = MinClusterSizeDBscanSE
@@ -806,6 +815,7 @@ object MainForm: TMainForm
         ShowHint = True
         TabOrder = 2
         Value = 2
+        OnChange = MinNeighborsSEChange
       end
       object MinNeighborsL: TLabel
         AnchorSideLeft.Control = MinNeighborsSE
@@ -843,9 +853,12 @@ object MainForm: TMainForm
       end
     end
     object KMeansTS: TTabSheet
+      Hint = 'changes of values with a star'#13#10'don''t trigger a new clustering'
       Caption = 'K-Means'
       ClientHeight = 313
       ClientWidth = 236
+      ParentShowHint = False
+      ShowHint = True
       object NumberClustersSE: TSpinEdit
         AnchorSideLeft.Control = KMeansTS
         AnchorSideTop.Control = KMeansTS
@@ -859,6 +872,7 @@ object MainForm: TMainForm
         MinValue = 1
         TabOrder = 0
         Value = 2
+        OnChange = NumberClustersSEChange
       end
       object NumberClustersL: TLabel
         AnchorSideLeft.Control = NumberClustersSE
@@ -902,6 +916,7 @@ object MainForm: TMainForm
         ShowHint = True
         TabOrder = 1
         Value = 20
+        OnChange = MaxIterationsSEChange
       end
       object MaxIterationsL: TLabel
         AnchorSideLeft.Control = MaxIterationsSE
@@ -923,9 +938,9 @@ object MainForm: TMainForm
         Left = 82
         Height = 15
         Top = 94
-        Width = 121
+        Width = 129
         BorderSpacing.Left = 7
-        Caption = 'Tolerance for Iterations'
+        Caption = 'Tolerance for Iterations *'
       end
       object ToleranceFSX: TFloatSpinEditEx
         AnchorSideLeft.Control = NumberClustersSE

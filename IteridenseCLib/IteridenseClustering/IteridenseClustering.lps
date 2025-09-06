@@ -10,17 +10,17 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="2"/>
         <CursorPos X="16" Y="6"/>
-        <UsageCount Value="23"/>
+        <UsageCount Value="29"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="ChartDataHandling.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="58"/>
-        <CursorPos X="31" Y="82"/>
-        <FoldState Value=" T3j00}12 pjNnS0M1]9Djf0a[94WkY0M6]97k70C3 plGlf0#J2"/>
-        <UsageCount Value="23"/>
+        <TopLine Value="61"/>
+        <CursorPos X="5" Y="84"/>
+        <FoldState Value=" T3j00}82 pjNnZ0M1]9Djf0a[94WkY0M316 pnTp50#Jc"/>
+        <UsageCount Value="29"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -30,7 +30,7 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="ceAxisDlg"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="23"/>
+        <UsageCount Value="29"/>
       </Unit>
       <Unit>
         <Filename Value="ChartEditing\cebrushframe.pas"/>
@@ -38,7 +38,7 @@
         <ComponentName Value="ChartBrushFrame"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="ceBrushFrame"/>
-        <UsageCount Value="23"/>
+        <UsageCount Value="29"/>
       </Unit>
       <Unit>
         <Filename Value="ChartEditing\cefontframe.pas"/>
@@ -46,7 +46,7 @@
         <ComponentName Value="ChartFontFrame"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="ceFontFrame"/>
-        <UsageCount Value="23"/>
+        <UsageCount Value="29"/>
       </Unit>
       <Unit>
         <Filename Value="ChartEditing\celegenddlg.pas"/>
@@ -54,7 +54,7 @@
         <ComponentName Value="ChartLegendEditor"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="ceLegendDlg"/>
-        <UsageCount Value="23"/>
+        <UsageCount Value="29"/>
       </Unit>
       <Unit>
         <Filename Value="ChartEditing\cepenframe.pas"/>
@@ -62,7 +62,7 @@
         <ComponentName Value="ChartPenFrame"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="cePenFrame"/>
-        <UsageCount Value="23"/>
+        <UsageCount Value="29"/>
       </Unit>
       <Unit>
         <Filename Value="ChartEditing\cepointerframe.pas"/>
@@ -70,7 +70,7 @@
         <ComponentName Value="ChartPointerFrame"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="cePointerFrame"/>
-        <UsageCount Value="23"/>
+        <UsageCount Value="29"/>
       </Unit>
       <Unit>
         <Filename Value="ChartEditing\ceseriesdlg.pas"/>
@@ -78,7 +78,7 @@
         <ComponentName Value="ChartSeriesEditor"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="ceSeriesDlg"/>
-        <UsageCount Value="23"/>
+        <UsageCount Value="29"/>
       </Unit>
       <Unit>
         <Filename Value="ChartEditing\ceshapebrushpenmarginsframe.pas"/>
@@ -86,7 +86,7 @@
         <ComponentName Value="ChartShapeBrushPenMarginsFrame"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="ceShapeBrushPenMarginsFrame"/>
-        <UsageCount Value="23"/>
+        <UsageCount Value="29"/>
       </Unit>
       <Unit>
         <Filename Value="ChartEditing\cetitlefootdlg.pas"/>
@@ -94,13 +94,13 @@
         <ComponentName Value="ChartTitleFootEditor"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="ceTitleFootDlg"/>
-        <UsageCount Value="23"/>
+        <UsageCount Value="29"/>
       </Unit>
       <Unit>
         <Filename Value="ChartEditing\ceutils.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="ceUtils"/>
-        <UsageCount Value="23"/>
+        <UsageCount Value="29"/>
       </Unit>
       <Unit>
         <Filename Value="ChartEditing\ceaxisframe.pas"/>
@@ -112,7 +112,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="238"/>
         <CursorPos X="56" Y="262"/>
-        <UsageCount Value="23"/>
+        <UsageCount Value="29"/>
       </Unit>
       <Unit>
         <Filename Value="IteridenseClusteringMain.pas"/>
@@ -121,10 +121,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="623"/>
-        <CursorPos X="38" Y="637"/>
-        <FoldState Value=" T3nb0{(8 pianB0F011 pjNq0048]91jN0T9]Tck1034 PUb0,"/>
-        <UsageCount Value="23"/>
+        <TopLine Value="301"/>
+        <CursorPos X="21" Y="306"/>
+        <FoldState Value=" T3o70{(9 pignE0F]9nSoM0{X8]JYlc0M3]9fjS03D PiSjA0F"/>
+        <UsageCount Value="29"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -137,7 +137,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="22"/>
         <CursorPos X="18" Y="34"/>
-        <UsageCount Value="23"/>
+        <UsageCount Value="29"/>
       </Unit>
     </Units>
     <JumpHistory HistoryIndex="-1"/>

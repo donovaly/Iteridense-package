@@ -224,6 +224,14 @@ type
     function CArrayToTIntArray(cArray: CArray): TIntArray;
     function CArrayToTDoubleArray(cArray: CArray): TDoubleArray;
     function CTensorToTDoubleArray(tensor: CTensor): TDoubleArray;
+    procedure MaxIterationsSEChange(Sender: TObject);
+    procedure MinClusterDensityFSEChange(Sender: TObject);
+    procedure MinClusterSizeDBscanSEChange(Sender: TObject);
+    procedure MinClusterSizeIterIdenseSEChange(Sender: TObject);
+    procedure MinClustersSEChange(Sender: TObject);
+    procedure MinNeighborsSEChange(Sender: TObject);
+    procedure NoDiagonalsCBChange(Sender: TObject);
+    procedure NumberClustersSEChange(Sender: TObject);
     procedure ProportionalMIClick(Sender: TObject);
     procedure RadiusFSEChange(Sender: TObject);
     procedure StartResolutionSEChange(Sender: TObject);
@@ -248,6 +256,7 @@ type
     procedure SliderStartSEEditingDone(Sender: TObject);
     procedure SliderStopSEEditingDone(Sender: TObject);
     procedure TitleFootClickToolClick(ASender: TChartTool; ATitle: TChartTitle);
+    procedure UseClustersRBChange(Sender: TObject);
     procedure UseDensityRBChange(Sender: TObject);
   private
   public
@@ -457,7 +466,6 @@ begin
 
 end;
 
-
 procedure TMainForm.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 var
   iniFile : string;
@@ -476,7 +484,6 @@ begin
   ChartData.SaveAppearance(iniFile);
 end;
 
-
 procedure TMainForm.FormDropFiles(Sender: TObject;
 const
   FileNames: array of String);
@@ -485,7 +492,6 @@ begin
   OpenCsvBBClick(Sender);
   DropfileName:= '';
 end;
-
 
 procedure TMainForm.ResetChartAppearanceMIClick(Sender: TObject);
 var
@@ -518,6 +524,12 @@ begin
 end;
 
 
+procedure TMainForm.UseClustersRBChange(Sender: TObject);
+begin
+  if UseClustersRB.Checked then // start clustering
+     ClusteringBBClick(Sender);
+end;
+
 procedure TMainForm.UseDensityRBChange(Sender: TObject);
 begin
   if UseDensityRB.Checked then
@@ -525,6 +537,8 @@ begin
     DensityFSE.Enabled:= true;
     DensityTB.Enabled:= true;
     MinClustersSE.Enabled:= false;
+    // start clustering
+    ClusteringBBClick(Sender)
   end
   else
   begin
@@ -533,7 +547,6 @@ begin
     MinClustersSE.Enabled:= true;
   end;
 end;
-
 
 // Note: the following 2 functions CArrayToTIntArray and CArrayToTDoubleArray
 // cannot be merged as of FreePascal 3.2 since single generic functions are not yet supported.
@@ -564,7 +577,6 @@ begin
     result[i]:= arrayPointer[i];
 end;
 
-
 // function to convert a C-tensor to an array of Double
 function TMainForm.CTensorToTDoubleArray(tensor: CTensor): TDoubleArray;
 var
@@ -581,6 +593,54 @@ begin
   dataPointer:= PDouble(tensor.data);
   for i:= 0 to count - 1 do
     result[i]:= dataPointer[i];
+end;
+
+procedure TMainForm.MaxIterationsSEChange(Sender: TObject);
+begin
+  // start clustering
+  ClusteringBBClick(Sender)
+end;
+
+procedure TMainForm.MinClusterDensityFSEChange(Sender: TObject);
+begin
+  // start clustering
+  ClusteringBBClick(Sender)
+end;
+
+procedure TMainForm.MinClusterSizeDBscanSEChange(Sender: TObject);
+begin
+  // start clustering
+  ClusteringBBClick(Sender)
+end;
+
+procedure TMainForm.MinClusterSizeIterIdenseSEChange(Sender: TObject);
+begin
+  // start clustering
+  ClusteringBBClick(Sender)
+end;
+
+procedure TMainForm.MinClustersSEChange(Sender: TObject);
+begin
+  // start clustering
+  ClusteringBBClick(Sender);
+end;
+
+procedure TMainForm.MinNeighborsSEChange(Sender: TObject);
+begin
+  // start clustering
+  ClusteringBBClick(Sender)
+end;
+
+procedure TMainForm.NoDiagonalsCBChange(Sender: TObject);
+begin
+  // start clustering
+  ClusteringBBClick(Sender)
+end;
+
+procedure TMainForm.NumberClustersSEChange(Sender: TObject);
+begin
+  // start clustering
+  ClusteringBBClick(Sender)
 end;
 
 
@@ -1071,6 +1131,8 @@ begin
   if SliderIncrement = 0 then
      SliderIncrement:= increment;
   SliderPosition:= DensityTB.Position;
+  // start clustering
+  ClusteringBBClick(Sender);
 end;
 
 procedure TMainForm.DensityTBChange(Sender: TObject);
@@ -1126,6 +1188,8 @@ begin
   if SliderIncrement = 0 then
     SliderIncrement:= increment;
   SliderPosition:= RadiusTB.Position;
+  // start clustering
+  ClusteringBBClick(Sender);
 end;
 
 procedure TMainForm.RadiusTBChange(Sender: TObject);
