@@ -88,69 +88,70 @@
 \title{A simple iterative grid- and density-based Clustering Algorithm}
 \author{\IEEEauthorblockN{Uwe Stöhr}
 
-\IEEEauthorblockA{Soloof EOOD, Sofia, Bulgaria\\
+\IEEEauthorblockA{Soloof EOOD, Plovdiv, Bulgaria\\
 Email: research\negthinspace{ }@\negthinspace{ }soloof.com\\
 Project Page: \href{https://codeberg.org/Soloof/Iteridense}{https://codeberg.org/Soloof/Iteridense}}\vspace{-3\baselineskip}
 }
 \maketitle
 \begin{abstract}
 We introduce \noun{Iteridense}, an iterative clustering algorithm
-combining grid-based and density-based methods. It provides two possibilities
+combining grid-based and density-based methods. It provides two ways
 to perform the clustering and for both it provides a clear path on
 how to change the algorithm's input parameters to achieve suitable
-results. We show that \noun{Iteridense} is applicable for datasets
-with any dimensionality. \noun{Iteridense} provides shorter computation
-times than pure density-based algorithms and that it performs clustering
-at least as good as the DBSCAN algorithm. We provide a reference implementation
-of \noun{Iteridense} as well as a stand-alone program with a graphical
-user interface.
+results. We show that \noun{Iteridense} provides lower computational
+complexity than pure density-based algorithms and that it performs
+clustering at least as good as the DBSCAN algorithm. Our algorithm
+is deterministic, does not forcibly assign all data points to a cluster
+and optionally allows to specify the number of clusters. We provide
+a reference implementation of \noun{Iteridense} as well as a stand-alone
+program with a graphical user interface.
 \end{abstract}
 
 
 \section{Introduction}
 
 Density-based clustering algorithms have been proven useful for many
-practical applications. There exists a wide variety of algorithms,
-some optimized for particular use cases~\cite{Kriegel2011}. However,
-these algorithms have a major drawback -- one needs to evaluate neighboring
-points for every data point in the dataset to determine if it is part
-of a cluster. This is the case for most density-based clustering algorithms
-like PreDeCon~\cite{Boehm2004} or HDBSCAN~\cite{Campello2013}.
-Other algorithms that combine grid-based with density-based methods
-like DENCLUE~\cite{Hinneburg1998} or CLIQUE\,\cite{Agrawal1998}
-don't have this drawback but make assumptions about the shape of the
-probability distribution of the data (what is the probability to find
-a data point inside the range of available data).
+practical applications. Therefore a variety of algorithms exists~\cite{Kriegel2011}.
+However, many of these algorithms have as major drawback that one
+needs to evaluate neighboring points for every data point in the dataset
+to determine if it is part of a cluster. This is the case for most
+density-based clustering algorithms like PreDeCon~\cite{Boehm2004}
+or HDBSCAN~\cite{Campello2013}. Other algorithms that combine grid-based
+with density-based methods like DENCLUE~\cite{Hinneburg1998} or
+CLIQUE\,\cite{Agrawal1998} don't have this drawback but make assumptions
+about the shape of the probability distribution of the data (what
+is the probability to find a data point inside the range of available
+data).
 
-Another issue of many clustering algorithms is that as user there
-is no clear path on how to change the algorithm's input parameters
+Another issue of many clustering algorithms is that there is no clear
+path for the user on how to change the algorithm's input parameters
 to achieve a suitable clustering result. Taking for example the algorithm
 DBSCAN~\cite{Ester1996}, it requires to specify the parameter $\epsilon$,
 the maximum distance to another core point of a cluster. For many
 use cases there is no clear path on how to change $\epsilon$ to get
-a suitable result as we will also discuss in this paper.
+a suitable result. We will discuss this particular case and how our
+algorithm is a benefit for the user.
 
 The algorithm presented in this paper uses both, density-based and
 grid-based methods. Its main idea is to work with different probability-density
 functions of the dataset and analyzing them in a grid. This approach
-makes it possible that even for small datasets in 2~dimensions the
-computation can be 10~times faster than a pure density-based algorithm
-like DBSCAN. Our algorithm follows an iterative approach to calculate
-the probability-density function and makes no assumptions about the
-shape of that function. Therefore it provides a clear path on how
-to set a start value of the algorithm's main parameter and how to
-change it to achieve a certain result.
+leads to a lower computational complexity than for pure density-based
+algorithms like DBSCAN. Our algorithm follows an iterative approach
+to calculate the probability-density function and makes no assumptions
+about the shape of that function. Therefore it provides a clear path
+on how to set a start value of the algorithm's main parameter and
+how to change it to achieve a certain result.
 
-The algorithm clusters so that no point in a dataset can belong to
-more than one cluster. And not all points in the dataset must be assigned
-to clusters.
+The algorithm clusters in a way that no point in a dataset can belong
+to more than one cluster, and that points in the dataset are not forcibly
+assigned to clusters.
 
 \pagebreak{}
 
 \section{Derivation of the Algorithm\label{sec:Derivation-of-the}}
 
 The basic idea of the algorithm is how mountain peak areas are separated
-from each other in a geographical relief. Take for example the relief
+from each other in a topographical relief. Take for example the relief
 shown at the left in \ref{fig:Relief-of-a}. To identify areas around
 a peak one cuts the relief at a desired height. The cut-off areas
 are then the mountain peak areas. For example in \ref{fig:Relief-of-a}\,(a)
@@ -179,8 +180,8 @@ different heights.}
 Translating the relief height to the density of data points $\rho$,
 the cut is made at a certain $\rho$ through the probability-density
 function of the dataset. See also the section \emph{Background and
-Motivation} of \cite{Kriegel2011} for a similar visualization than
-in \ref{fig:Relief-of-a}.
+Motivation} in \cite{Kriegel2011} for a similar visualization than
+\ref{fig:Relief-of-a}.
 
 Detecting clusters by making a cut through the probability-distribution
 is state-of-the-art \cite{Kriegel2011}. The novelty is how to generate
@@ -205,17 +206,16 @@ counting the numbers of data points within a certain data space.
 \item One has two choices to stop the algorithm. Either one specifies $\rho$,
 the minimal density every found cluster must have to stop the algorithm,
 or \textbf{MinClusters}, the number of how many clusters should at
-least be detected (in that case the specification of $\rho$ is not
-necessary). The possibility to specify \textbf{MinClusters} is a big
-advantage compared to pure density-based algorithms that by design
-cannot have this feature.
+least be detected. The possibility to specify \textbf{MinClusters}
+is a big advantage compared to pure density-based algorithms that
+by design cannot have this feature.
 \item For \noun{Iteridense} $\rho$ is defined being normalized so that
 a whole 2-dimensional dataset has $\rho=1$. Because of the iteration
 with increasing resolutions our algorithm provides a clear path on
 how to set and change $\rho$: Start with a low $\rho>1$ and increase
-$\rho$ until you get a suitable result. The algorithm stops at a
-resolution that fulfills the specification of $\rho$. We will demonstrate
-this feature with an example in \ref{subsec:Clustering-Performance}.
+$\rho$ until you get a suitable result. The algorithm stops at the
+resolution at which the specification of $\rho$ is fulfilled. We
+will demonstrate this feature with an example in \ref{subsec:Clustering-Performance}.
 \end{itemize}
 
 \section{Description of the Iteridense Clustering Algorithm}
@@ -224,7 +224,7 @@ this feature with an example in \ref{subsec:Clustering-Performance}.
 
 There are two possible input parameters to the algorithm, either to
 specify how many clusters should at least be detected (\textbf{MinClusters})
-or the minimal data point density $\rho$ to form a cluster. $\rho$
+or the minimal density $\rho$ every found cluster must have. $\rho$
 is treated as a dimensionless number since the dimension of the data
 point space can be anything, depending on the source of the data points.
 
@@ -232,7 +232,7 @@ point space can be anything, depending on the source of the data points.
 dataset which represents the relative humidity and temperature of
 air inside a thermal cabinet after a certain chemical process. It
 looks like there might be a cluster of points inside an area in form
-of a quarter circle. To find that potential cluster \noun{Iteridense}
+of a quarter circle. To find that potential cluster, \noun{Iteridense}
 works on this dataset the following way:
 
 \begin{figure}
@@ -249,7 +249,7 @@ algorithm step~\ref{enu:AlgoStep3}.]{\includegraphics[width=0.33\columnwidth]{cl
 \caption{\label{fig:Clustering-process}Clustering process of \noun{Iteridense}.
 (a) Data to be clustered; (b) Count map generated in algorithm step~\ref{enu:AlgoStep3}
 for resolution 4: 16~cells with the info how many data points are
-in.; (c) Clustering scheme of the count map. The red cell is the currently
+in; (c) Clustering scheme of the count map. The red cell is the currently
 evaluated cell, the blue cells have already be evaluated, cells~A\,--\,D
 are neighboring cells determining the clustering for the red cell.}
 \end{figure}
@@ -268,7 +268,7 @@ of 5 and so on.
 \item The number of data points in the cells are counted. The result is
 a count map as shown in \ref{fig:Clustering-process}\,(b).
 \item \label{enu:AlgoStep3}Now the actual clustering is performed. The
-evaluating scheme is depicted in \ref{fig:Clustering-process}\,(c).
+evaluation scheme is depicted in \ref{fig:Clustering-process}\,(c).
 Every cell is evaluated one after another first in x- then in y-direction.
 The most basic definition of a cluster is that a cluster consists
 of at least one cell that has at least 2~data points. Therefore,
@@ -320,7 +320,7 @@ To assure that the steps are not repeated forever, the loop is stopped
 if the resolution reaches the total number of points in the dataset.
 The resolution reached at the end of this step is the final resolution.
 \item All data points are assigned according to the found clusters. Points
-in cluster ``0'' are hereby not part of a cluster.
+in cluster ``0'' are hereby not part of any cluster.
 \item \label{enu:AlgoStep8}Due to the grid generated in step~\ref{enu:AlgoStep1},
 single points might appear in the corner of a cell and are thus not
 detected as part of a cluster. Therefore steps \ref{enu:AlgoStep1}\,--\,\ref{enu:AlgoStep5}
@@ -375,15 +375,14 @@ maximum is the total number of points in the dataset minus 1.
 \item \label{enu:OptionClusterDensity}Specification of the minimal $\rho_{\mathrm{cluster}}$
 of a cluster (\textbf{MinClusterDensity}). Clusters with lower $\rho_{\mathrm{cluster}}$
 will be erased. The minimum and default is 1.0.
-\item In step~\ref{enu:AlgoStep1} don't divide the data space in $\text{resolution}^{\text{dimension}}$
-cells but use for every dimension only as many cells as necessary
-(\textbf{OmitEmptyCells}). See \ref{subsec:Memory-Complexity} for
-details.
+\item \label{enu:OptionOmitEmptyCells}In step~\ref{enu:AlgoStep1} don't
+divide the data space in $\text{resolution}^{\text{dimension}}$ cells
+but use for every dimension only as many cells as necessary (\textbf{OmitEmptyCells}).
 \end{enumerate}
 Option~\ref{enu:OptionDiagonal} can be useful for a low resolutions\footnote{For example in \ref{fig:Result-Iteridense} (resolution~13), with
 \textbf{NoDiagonals} the cluster would split into 3~clusters.} while for higher resolutions and it has less effect. For high dimensions
-it might unsuitable results. Therefore this option should only be
-used if really desired.
+it might lead to unsuitable results. Therefore this option should
+only be used if really desired.
 
 Option~\ref{enu:Specification-of-the} can speed up the computation,
 see \ref{subsec:Computational-Complexity} for details.
@@ -400,11 +399,15 @@ Option~\ref{enu:OptionClusterDensity} has only an effect if \textbf{MinClusters}
 is used. It helps to sort out clusters with a density too low to be
 sensible for the use case.
 
+Option~\ref{enu:OptionOmitEmptyCells} is important for high dimensions
+to make it possible to perform the clustering, see \ref{subsec:Memory-Complexity}
+for details.
+
 A reference implementation of \noun{Iteridense} in the programming
 language \noun{Julia} is online available~\cite{Iteridense}. Its
-outputs are the assignments of the points to clusters, the size of
-clusters, density of clusters, final resolution, number of clusters,
-the count map as tensor in the final resolution (the actual probability-density
+outputs are the assignments of the points to clusters, size of clusters,
+density of clusters, final resolution, number of clusters, count map
+as tensor in the final resolution (the actual probability-density
 function) and a tensor like the count map but with information about
 what cluster a grid cell belongs to. There is also a stand-alone program
 available with a graphical user interface (GUI) that uses the reference
@@ -514,7 +517,7 @@ For $D<3$ we omit the factor $\gamma_{2D}$:
 This normalization cannot cover all cases but keeps $\rho_{\mathrm{cluster\,norm}}$
 stable enough for practical usage. To get a feeling about the stability
 we take the case $D=2$, $R=8$ and clusters with each $P=8$ and
-$C=2$, thus $\rho_{\mathrm{cluster}}=4$. We look at these 4~cases:\pagebreak{}
+$C=2$, thus $\rho_{\mathrm{cluster}}=4$. We look at these 4~cases:
 \begin{itemize}
 \item 2~clusters, one at the upper right corner, the other one of the lower
 left corner of the data grid.
@@ -1002,6 +1005,7 @@ a dataset with $D=6$, $D_{c}=3$ and $\bar{K}=2.66$.}
 In effect the greater memory efficiency with the option \textbf{OmitEmptyCells}
 has computation costs but these are still linear. Thus \noun{Iteridense}
 outperforms also in this case algorithms with $\mathcal{O}\left(DN^{2}\right)$.
+
 For comparison \ref{tab:Computational-and-memory} lists $\mathcal{O}$
 of different clustering algorithms.
 
@@ -1038,20 +1042,19 @@ on Fisher's Iris dataset, \cite{Fisher1936}.
 
 \noun{Iteridense} shows some similarities to the grid-based DENCLUE
 algorithm. However, the assignments of the data points to the clusters
-is different because\linebreak{}
- DENCLUE assumes a Gaussian distribution function as shape of the
-density function. Another big difference to DENCLUE is that there
-is not only a single probability-density function created but iteratively
-several ones with increasing resolution. This increases the computation
-efforts for the benefit that one does not need to make assumptions
-about the density in the dataset. DENCLUE requires at least 2~input
-variables. $\xi$ is similar to $\rho$ in \noun{Iteridense}. The
-parameter $\sigma$ defines the width of the Gaussian that is used
-to assign the data points to the clusters. Its value has to be guessed
-and therefore introduces for some practical applications a trial and
-error process. There are approaches to improve the initial setting
-of the DENCLUE parameters, see~\cite{Ajmal2024}, but in general
-this will remain as a practical challenge.
+is different because DENCLUE assumes a Gaussian distribution function
+as shape of the density function. Another big difference to DENCLUE
+is that there is not only a single probability-density function created
+but iteratively several ones with increasing resolution. This increases
+the computation efforts for the benefit that one does not need to
+make assumptions about the density in the dataset. DENCLUE requires
+at least 2~input variables, $\xi$ and $\sigma_{D}$. $\xi$ is similar
+to $\rho$ of \noun{Iteridense}, $\sigma_{D}$ defines the width of
+the Gaussian that is used to assign the data points to the clusters.
+Its value has to be guessed and therefore introduces for some practical
+applications a trial and error process. There are approaches to improve
+the initial setting of the DENCLUE parameters, \cite{Ajmal2024} but
+in general this will remain a practical challenge.
 
 Compared to the grid-based algorithm CLIQUE, \noun{Iteridense} does
 not require to specify the size of the cell (CLIQUE's parameter $\xi$)
@@ -1068,8 +1071,8 @@ how many data points might end up in a cell.
 \noun{Iteridense} is a simple algorithm: The user does not need to
 estimate in advance a cell size, how many data points will be in a
 cell, the mean distance between data points in a cluster or the like.
-One can either specify \textbf{MinClusters} or $\rho$ , sets \textbf{MinClusterSize}
-and gets in many cases directly a suitable result. If necessary, \noun{Iteridense}'s
+He can either specify \textbf{MinClusters} or $\rho$ , sets \textbf{MinClusterSize}
+and gets in many cases directly a suitable result. \noun{Iteridense}'s
 clear path on how to change the input parameters guides the user to
 more suitable or different results.
 

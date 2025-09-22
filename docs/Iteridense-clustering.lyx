@@ -202,7 +202,7 @@ IEEEauthorblockA{
 \end_inset
 
 Soloof EOOD,
- Sofia,
+ Plovdiv,
  Bulgaria
 \begin_inset Newline newline
 \end_inset
@@ -273,17 +273,14 @@ Iteridense
 \noun default
 ,
  an iterative clustering algorithm combining grid-based and density-based methods.
- It provides two possibilities to perform the clustering and for both it provides a clear path on how to change the algorithm's input parameters to achieve suitable results.
+ It provides two ways to perform the clustering and for both it provides a clear path on how to change the algorithm's input parameters to achieve suitable results.
  We show that 
 \noun on
 Iteridense
 \noun default
- is applicable for datasets with any dimensionality.
- 
-\noun on
-Iteridense
-\noun default
- provides shorter computation times than pure density-based algorithms and that it performs clustering at least as good as the DBSCAN algorithm.
+ provides lower computational complexity than pure density-based algorithms and that it performs clustering at least as good as the DBSCAN algorithm.
+ Our algorithm is deterministic,
+ does not forcibly assign all data points to a cluster and optionally allows to specify the number of clusters.
  We provide a reference implementation of 
 \noun on
 Iteridense
@@ -297,8 +294,7 @@ Introduction
 
 \begin_layout Standard
 Density-based clustering algorithms have been proven useful for many practical applications.
- There exists a wide variety of algorithms,
- some optimized for particular use cases
+ Therefore a variety of algorithms exists
 \begin_inset space ~
 \end_inset
 
@@ -312,7 +308,7 @@ literal "false"
 
 .
  However,
- these algorithms have a major drawback – one needs to evaluate neighboring points for every data point in the dataset to determine if it is part of a cluster.
+ many of these algorithms have as major drawback that one needs to evaluate neighboring points for every data point in the dataset to determine if it is part of a cluster.
  This is the case for most density-based clustering algorithms like PreDeCon
 \begin_inset space ~
 \end_inset
@@ -366,7 +362,7 @@ literal "false"
 \end_layout
 
 \begin_layout Standard
-Another issue of many clustering algorithms is that as user there is no clear path on how to change the algorithm's input parameters to achieve a suitable clustering result.
+Another issue of many clustering algorithms is that there is no clear path for the user on how to change the algorithm's input parameters to achieve a suitable clustering result.
  Taking for example the algorithm DBSCAN
 \begin_inset space ~
 \end_inset
@@ -390,29 +386,22 @@ literal "false"
 \begin_inset Formula $\epsilon$
 \end_inset
 
- to get a suitable result as we will also discuss in this paper.
+ to get a suitable result.
+ We will discuss this particular case and how our algorithm is a benefit for the user.
 \end_layout
 
 \begin_layout Standard
 The algorithm presented in this paper uses both,
  density-based and grid-based methods.
  Its main idea is to work with different probability-density functions of the dataset and analyzing them in a grid.
- This approach makes it possible that even for small datasets in 2
-\begin_inset space ~
-\end_inset
-
-dimensions the computation can be 10
-\begin_inset space ~
-\end_inset
-
-times faster than a pure density-based algorithm like DBSCAN.
+ This approach leads to a lower computational complexity than for pure density-based algorithms like DBSCAN.
  Our algorithm follows an iterative approach to calculate the probability-density function and makes no assumptions about the shape of that function.
  Therefore it provides a clear path on how to set a start value of the algorithm's main parameter and how to change it to achieve a certain result.
 \end_layout
 
 \begin_layout Standard
-The algorithm clusters so that no point in a dataset can belong to more than one cluster.
- And not all points in the dataset must be assigned to clusters.
+The algorithm clusters in a way that no point in a dataset can belong to more than one cluster,
+ and that points in the dataset are not forcibly assigned to clusters.
 \end_layout
 
 \begin_layout Standard
@@ -434,7 +423,7 @@ name "sec:Derivation-of-the"
 \end_layout
 
 \begin_layout Standard
-The basic idea of the algorithm is how mountain peak areas are separated from each other in a geographical relief.
+The basic idea of the algorithm is how mountain peak areas are separated from each other in a topographical relief.
  Take for example the relief shown at the left in 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -593,7 +582,7 @@ Translating the relief height to the density of data points
 \emph on
 Background and Motivation
 \emph default
- of 
+ in 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Kriegel2011"
@@ -601,7 +590,7 @@ literal "false"
 
 \end_inset
 
- for a similar visualization than in 
+ for a similar visualization than 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Relief-of-a"
@@ -672,11 +661,7 @@ One has two choices to stop the algorithm.
 MinClusters
 \series default
 ,
- the number of how many clusters should at least be detected (in that case the specification of 
-\begin_inset Formula $\rho$
-\end_inset
-
- is not necessary).
+ the number of how many clusters should at least be detected.
  The possibility to specify 
 \series bold
 MinClusters
@@ -712,11 +697,11 @@ Iteridense
 \end_inset
 
  until you get a suitable result.
- The algorithm stops at a resolution that fulfills the specification of 
+ The algorithm stops at the resolution at which the specification of 
 \begin_inset Formula $\rho$
 \end_inset
 
-.
+ is fulfilled.
  We will demonstrate this feature with an example in 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -741,11 +726,11 @@ There are two possible input parameters to the algorithm,
 \series bold
 MinClusters
 \series default
-) or the minimal data point density 
+) or the minimal density 
 \begin_inset Formula $\rho$
 \end_inset
 
- to form a cluster.
+ every found cluster must have.
  
 \begin_inset Formula $\rho$
 \end_inset
@@ -767,7 +752,8 @@ reference "fig:Clustering-process"
 
 (a) shows as example a 2-dimensional dataset which represents the relative humidity and temperature of air inside a thermal cabinet after a certain chemical process.
  It looks like there might be a cluster of points inside an area in form of a quarter circle.
- To find that potential cluster 
+ To find that potential cluster,
+ 
 \noun on
 Iteridense
 \noun default
@@ -932,7 +918,7 @@ reference "enu:AlgoStep3"
 \begin_inset space ~
 \end_inset
 
-cells with the info how many data points are in.;
+cells with the info how many data points are in;
  (c) Clustering scheme of the count map.
  The red cell is the currently evaluated cell,
  the blue cells have already be evaluated,
@@ -1128,7 +1114,7 @@ name "enu:AlgoStep3"
 \end_inset
 
 Now the actual clustering is performed.
- The evaluating scheme is depicted in 
+ The evaluation scheme is depicted in 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Clustering-process"
@@ -1345,7 +1331,7 @@ All data points are assigned according to the found clusters.
 \begin_inset Quotes erd
 \end_inset
 
- are hereby not part of a cluster.
+ are hereby not part of any cluster.
 \end_layout
 
 \begin_layout Enumerate
@@ -1786,6 +1772,12 @@ MinClusterDensity
 \end_layout
 
 \begin_layout Enumerate
+\begin_inset CommandInset label
+LatexCommand label
+name "enu:OptionOmitEmptyCells"
+
+\end_inset
+
 In step
 \begin_inset space ~
 \end_inset
@@ -1806,14 +1798,6 @@ reference "enu:AlgoStep1"
 OmitEmptyCells
 \series default
 ).
- See 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "subsec:Memory-Complexity"
-
-\end_inset
-
- for details.
 \end_layout
 
 \begin_layout Standard
@@ -1859,7 +1843,7 @@ clusters.
 \end_inset
 
  while for higher resolutions and it has less effect.
- For high dimensions it might unsuitable results.
+ For high dimensions it might lead to unsuitable results.
  Therefore this option should only be used if really desired.
 \end_layout
 
@@ -1951,6 +1935,29 @@ MinClusters
 \end_layout
 
 \begin_layout Standard
+Option
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:OptionOmitEmptyCells"
+
+\end_inset
+
+ is important for high dimensions to make it possible to perform the clustering,
+ see 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Memory-Complexity"
+
+\end_inset
+
+ for details.
+\end_layout
+
+\begin_layout Standard
 A reference implementation of 
 \noun on
 Iteridense
@@ -1973,11 +1980,11 @@ literal "false"
 
 .
  Its outputs are the assignments of the points to clusters,
- the size of clusters,
+ size of clusters,
  density of clusters,
  final resolution,
  number of clusters,
- the count map as tensor in the final resolution (the actual probability-density function) and a tensor like the count map but with information about what cluster a grid cell belongs to.
+ count map as tensor in the final resolution (the actual probability-density function) and a tensor like the count map but with information about what cluster a grid cell belongs to.
  There is also a stand-alone program available with a graphical user interface (GUI) that uses the reference implementation
 \begin_inset space ~
 \end_inset
@@ -2403,10 +2410,6 @@ This normalization cannot cover all cases but keeps
 \end_inset
 
 cases:
-\begin_inset Newpage pagebreak
-\end_inset
-
-
 \end_layout
 
 \begin_layout Itemize
@@ -5610,7 +5613,10 @@ Iteridense
 \end_inset
 
 .
- For comparison 
+\end_layout
+
+\begin_layout Standard
+For comparison 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "tab:Computational-and-memory"
@@ -5922,18 +5928,23 @@ Iteridense
 \noun default
  shows some similarities to the grid-based DENCLUE algorithm.
  However,
- the assignments of the data points to the clusters is different because
-\begin_inset Newline linebreak
-\end_inset
-
- DENCLUE assumes a Gaussian distribution function as shape of the density function.
+ the assignments of the data points to the clusters is different because DENCLUE assumes a Gaussian distribution function as shape of the density function.
  Another big difference to DENCLUE is that there is not only a single probability-density function created but iteratively several ones with increasing resolution.
  This increases the computation efforts for the benefit that one does not need to make assumptions about the density in the dataset.
  DENCLUE requires at least 2
 \begin_inset space ~
 \end_inset
 
-input variables.
+input variables,
+ 
+\begin_inset Formula $\xi$
+\end_inset
+
+ and 
+\begin_inset Formula $\sigma_{D}$
+\end_inset
+
+.
  
 \begin_inset Formula $\xi$
 \end_inset
@@ -5942,23 +5953,19 @@ input variables.
 \begin_inset Formula $\rho$
 \end_inset
 
- in 
+ of 
 \noun on
 Iteridense
 \noun default
-.
- The parameter 
-\begin_inset Formula $\sigma$
+,
+ 
+\begin_inset Formula $\sigma_{D}$
 \end_inset
 
  defines the width of the Gaussian that is used to assign the data points to the clusters.
  Its value has to be guessed and therefore introduces for some practical applications a trial and error process.
  There are approaches to improve the initial setting of the DENCLUE parameters,
- see
-\begin_inset space ~
-\end_inset
-
-
+ 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Ajmal2024"
@@ -5966,8 +5973,7 @@ literal "false"
 
 \end_inset
 
-,
- but in general this will remain as a practical challenge.
+ but in general this will remain a practical challenge.
 \end_layout
 
 \begin_layout Standard
@@ -6039,7 +6045,7 @@ Iteridense
  The user does not need to estimate in advance a cell size,
  how many data points will be in a cell,
  the mean distance between data points in a cluster or the like.
- One can either specify 
+ He can either specify 
 \series bold
 MinClusters
 \series default
@@ -6053,7 +6059,6 @@ MinClusters
 MinClusterSize
 \series default
  and gets in many cases directly a suitable result.
- If necessary,
  
 \noun on
 Iteridense
