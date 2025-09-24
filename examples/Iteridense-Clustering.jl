@@ -19,7 +19,8 @@ plotlyjs()
 # setting default plot size
 plotly(size= (512, 512))
 # import the Iteridense library
-include(joinpath(@__DIR__, "IteridenseLibrary.jl"))
+packagePath = dirname(@__DIR__)
+include(joinpath(packagePath, "src\\IteridenseLibrary.jl"))
 using .IteridenseLibrary: Iteridense, PlotIteridenseHeatmap
 end
 
@@ -930,7 +931,8 @@ minClusterSize = ceil(Int, 0.05 * size(dataMatrix, 1))
  SizeClusterPlot = Plots.plot(resolutionVector, sizeClusters, xlabel= "resolution",
                                 ylabel= "mean size of clusters", lw= 2, lab= "NoisyMoons")
  DensityClusterPlot = Plots.plot(resolutionVector, densityClusters, xlabel= "resolution",
-                                ylabel= "mean density of clusters", lw= 2, lab= "NoisyMoons")
+                                ylabel= "mean density of clusters", lw= 2, lab= "NoisyMoons",
+                                legend= :top)
 
  # data NoisyCircles
  filePath = joinpath(@__DIR__, "datasets/NoisyCircles.csv")
