@@ -2644,7 +2644,7 @@ Effect of the Density Parameter
 The data shown in 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "fig:Result-of-the"
+reference "fig:Result-Moons"
 
 \end_inset
 
@@ -2667,7 +2667,7 @@ sklearn.datasets
  
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "fig:Result-of-the"
+reference "fig:Result-Moons"
 
 \end_inset
 
@@ -2683,7 +2683,7 @@ reference "fig:Result-of-the"
  
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "fig:Result-of-the"
+reference "fig:Result-Moons"
 
 \end_inset
 
@@ -2821,7 +2821,7 @@ status open
 \begin_layout Plain Layout
 \begin_inset CommandInset label
 LatexCommand label
-name "fig:Result-of-the"
+name "fig:Result-Moons"
 
 \end_inset
 
@@ -3101,7 +3101,7 @@ The second path is computationally the fastest,
  
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "fig:Result-Iteridense-Blobs"
+reference "fig:Result-Iteridense-Anisotropic"
 
 \end_inset
 
@@ -3120,7 +3120,7 @@ reference "fig:Result-Iteridense-Blobs"
 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "fig:Result-Iteridense-Blobs2"
+reference "fig:Result-Iteridense-Anisotropic2"
 
 \end_inset
 
@@ -3287,7 +3287,7 @@ status open
 \begin_layout Plain Layout
 \begin_inset CommandInset label
 LatexCommand label
-name "fig:Result-Iteridense-Blobs"
+name "fig:Result-Iteridense-Anisotropic"
 
 \end_inset
 
@@ -3418,7 +3418,7 @@ status open
 \begin_layout Plain Layout
 \begin_inset CommandInset label
 LatexCommand label
-name "fig:Result-Iteridense-Blobs2"
+name "fig:Result-Iteridense-Anisotropic2"
 
 \end_inset
 
@@ -3453,7 +3453,7 @@ For comparison,
  An example is the data shown in 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "fig:Result-Iteridense-Blobs2"
+reference "fig:Result-Iteridense-Anisotropic2"
 
 \end_inset
 
@@ -3819,7 +3819,7 @@ suitable
  For example the data shown in 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "fig:Result-of-Iteridense-NoisyBlobs"
+reference "fig:Result-Different-Density-Clusters"
 
 \end_inset
 
@@ -3853,7 +3853,7 @@ MinClusterSize
  As result one gets 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "fig:Result-of-Iteridense-NoisyBlobs"
+reference "fig:Result-Different-Density-Clusters"
 
 \end_inset
 
@@ -3884,7 +3884,7 @@ MinClusters
  see 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "fig:Result-of-Iteridense-NoisyBlobs"
+reference "fig:Result-Different-Density-Clusters"
 
 \end_inset
 
@@ -3916,7 +3916,7 @@ high-density clusters,
  see 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "fig:Result-of-Iteridense-NoisyBlobs"
+reference "fig:Result-Different-Density-Clusters"
 
 \end_inset
 
@@ -4094,7 +4094,7 @@ MinClusterSize
 \begin_layout Plain Layout
 \begin_inset CommandInset label
 LatexCommand label
-name "fig:Result-of-Iteridense-NoisyBlobs"
+name "fig:Result-Different-Density-Clusters"
 
 \end_inset
 
@@ -6144,7 +6144,429 @@ literal "false"
 .
 \end_layout
 
+\begin_layout Subsection*
+Acknowledgments
+\end_layout
+
 \begin_layout Standard
+The author thanks Michael Klaiber,
+ Ph.D for the fruitful discussion and feedback and for the scientific proof-reading.
+\end_layout
+
+\begin_layout Subsection*
+Ethical Statement
+\end_layout
+
+\begin_layout Standard
+The author works for the solar company Soloof.
+ He and Soloof got no financial support for this work.
+ Soloof as a solar company focuses in solar solutions and 
+\noun on
+Iteridense
+\noun default
+ is a side-product of their work they share with the public.
+\end_layout
+
+\begin_layout Appendix
+
+\end_layout
+
+\begin_layout Standard
+By design 
+\noun on
+Iteridense
+\noun default
+ delivers clustering results for any possible resolution.
+ The possible resolutions are in the range 2
+\begin_inset space \thinspace{}
+\end_inset
+
+–
+\begin_inset space \thinspace{}
+\end_inset
+
+number of data points.
+ The final clustering result is at the resolution at which the specified values for either 
+\begin_inset Formula $\rho$
+\end_inset
+
+ or 
+\series bold
+MinClusters
+\series default
+ are reached.
+ The question is why we don't use the resolution as a parameter to stop the loop of the 
+\noun on
+Iteridense
+\noun default
+ algorithm.
+ To answer this,
+ we have to look how the clustering result changes with the resolution and how this change behave for different data sets.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Dataset-with-random"
+
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+(b) shows the number of clusters in dependence of the resolution for some of the data sets used in this paper.
+ For comparison also a the set of random data points was clustered.
+ All used datasets have each 1500
+\begin_inset space ~
+\end_inset
+
+data points.
+ 
+\series bold
+MinClusterSize
+\series default
+ was in all cases set to 75 (5
+\begin_inset space \thinspace{}
+\end_inset
+
+% of the number of data points).
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Mean-size-and-density"
+
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+(a) shows the mean size of clusters in dependence of the resolution and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Mean-size-and-density"
+
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+(b) shows the mean density of clusters in dependence of the resolution.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement class
+alignment document
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename clipart/Random-data.svg
+	lyxscale 50
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Dataset with random noise.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename clipart/Resolution-NumClusters.svg
+	lyxscale 50
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Numbers of clusters in dependence of resolution.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Dataset-with-random"
+
+\end_inset
+
+Dataset with random data and numbers of clusters in dependence of the resolution for:
+\begin_inset Newline newline
+\end_inset
+
+- moon-like clusters shown in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Result-Moons"
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+- anisotropic clusters shown in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Result-Iteridense-Anisotropic"
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+- different-density clusters shown in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Result-Different-Density-Clusters"
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+- circle-like clusters shown in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Result-Iteridense-Circles"
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+- random noise shown in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Dataset-with-random"
+
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+(a).
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement class
+alignment document
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename clipart/Resolution-ClusterSize.svg
+	lyxscale 50
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Mean size of clusters in dependence of the resolution.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename clipart/Resolution-ClusterDensity.svg
+	lyxscale 50
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Mean density of clusters in dependence of the resolution.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Mean-size-and-density"
+
+\end_inset
+
+Mean size and mean density of clusters in dependence of the resolution using the same data as in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Dataset-with-random"
+
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+(b).
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+It can be seen that it is impossible to predict what resolution leads to what clustering results.
+ Therefore the resolution is not a suitable parameter to stop the algorithm loop.
+ For practical applications the goal is to find either at least a certain amount of clusters or clusters with at least a certain density.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
 \begin_inset CommandInset bibtex
 LatexCommand bibtex
 btprint "btPrintCited"

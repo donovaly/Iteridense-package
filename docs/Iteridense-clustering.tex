@@ -562,9 +562,9 @@ GUI reference implementation for \noun{Iteridense} that uses the component
 
 \subsection{Effect of the Density Parameter}
 
-The data shown in \ref{fig:Result-of-the} and \ref{fig:Effect-of-a}
+The data shown in \ref{fig:Result-Moons} and \ref{fig:Effect-of-a}
 was generated using the \emph{make\_moons }call to \emph{sklearn.datasets}.
-\ref{fig:Result-of-the}\,(a) shows the result for $\rho=2.2$, \ref{fig:Result-of-the}\,(b)
+\ref{fig:Result-Moons}\,(a) shows the result for $\rho=2.2$, \ref{fig:Result-Moons}\,(b)
 shows the result for $\rho=5.0$. As derived in \ref{sec:Derivation-of-the},
 the greater the density, means (translated to the relief example)
 the area of the cluster gets smaller. Therefore less points are assigned
@@ -580,7 +580,7 @@ to the clusters for $\rho=5.0$.
 \par\end{centering}
 }\hfill{}
 \par\end{centering}
-\caption{\label{fig:Result-of-the}Result of \noun{Iteridense} for intersected
+\caption{\label{fig:Result-Moons}Result of \noun{Iteridense} for intersected
 moon-like clusters using different $\rho$.}
 \end{figure}
 
@@ -630,7 +630,7 @@ or \textbf{MinClusterDensity}.
 The second path is computationally the fastest, as discussed in the
 next section. However, it can only be taken if there is a physical
 or technical reason for the number of clusters. For the path to specify
-$\rho$ \ref{fig:Result-Iteridense-Blobs}\,(a)\,--\,\ref{fig:Result-Iteridense-Blobs2}\,(a)
+$\rho$ \ref{fig:Result-Iteridense-Anisotropic}\,(a)\,--\,\ref{fig:Result-Iteridense-Anisotropic2}\,(a)
 shows the results (with \textbf{MinClusterSize}\,=\,6): Until $\rho\le6.8$
 only one cluster is detected and starting at $\rho=7.3$ there are
 3~clusters. Increasing $\rho$ leads to more and more clusters. This
@@ -648,8 +648,8 @@ more dense regions that are unveiled with greater $\rho$.
 \par\end{centering}
 }\hfill{}
 \par\end{centering}
-\caption{\label{fig:Result-Iteridense-Blobs}Result of \noun{Iteridense} for
-$\rho\ge6.8$ at anisotropic clusters.}
+\caption{\label{fig:Result-Iteridense-Anisotropic}Result of \noun{Iteridense}
+for $\rho\ge6.8$ at anisotropic clusters.}
 \end{figure}
 
 \begin{figure}[p]
@@ -662,16 +662,16 @@ $\rho\ge6.8$ at anisotropic clusters.}
 \par\end{centering}
 }\hfill{}
 \par\end{centering}
-\caption{\label{fig:Result-Iteridense-Blobs2}Result of \noun{Iteridense} for
-$\rho=12.0$ and DBSCAN for $\epsilon=0.1$ at anisotropic clusters.}
+\caption{\label{fig:Result-Iteridense-Anisotropic2}Result of \noun{Iteridense}
+for $\rho=12.0$ and DBSCAN for $\epsilon=0.1$ at anisotropic clusters.}
 \end{figure}
 
 For comparison, the algorithm DBSCAN does not provide a clear path
 on how to change its input parameters. An example is the data shown
-in \ref{fig:Result-Iteridense-Blobs2}\,(b). This data was generated
-using the \emph{make\_blobs }call to \emph{sklearn.datasets} with
-a subsequent transformation. Like in the previous example, there are
-1500~data points. $\epsilon=0.1$ (the maximum distance to another
+in \ref{fig:Result-Iteridense-Anisotropic2}\,(b). This data was
+generated using the \emph{make\_blobs }call to \emph{sklearn.datasets}
+with a subsequent transformation. Like in the previous example, there
+are 1500~data points. $\epsilon=0.1$ (the maximum distance to another
 core point of a cluster) seems to be a sensible start value for DBSCAN.
 The result is \ref{fig:Result-of-DBSCAN}\,(b). As the result is
 not a useful one might increase $\epsilon$ in small steps and gets
@@ -712,20 +712,20 @@ with $\epsilon>0.2$.}
 \end{figure}
 
 What is ``suitable'' depends on the application. For example the
-data shown in \ref{fig:Result-of-Iteridense-NoisyBlobs} consist also
-of 1500~data points. It was generated using the \emph{make\_blobs
+data shown in \ref{fig:Result-Different-Density-Clusters} consist
+also of 1500~data points. It was generated using the \emph{make\_blobs
 }call to \emph{sklearn.datasets} with a subsequent transformation.
 One might see in the data 2~clusters and therefore set \textbf{MinClusters}
-to 2 and \textbf{MinClusterSize} to 20. As result one gets \ref{fig:Result-of-Iteridense-NoisyBlobs}\,(a).
+to 2 and \textbf{MinClusterSize} to 20. As result one gets \ref{fig:Result-Different-Density-Clusters}\,(a).
 There cluster~1 has $\rho_{\mathrm{cluster}}=2.6$ and is a merge
 of a high- and a low-density region. This might not be suitable because
 one had the 2 dense regions in mind to form each a cluster. There
 are now two ways to change the result:
 \begin{itemize}
 \item Either set \textbf{MinClusters} to 3 to get two clusters with a high
-density and one with a lower density, see \ref{fig:Result-of-Iteridense-NoisyBlobs}\,(b).
+density and one with a lower density, see \ref{fig:Result-Different-Density-Clusters}\,(b).
 \item Or increase $\rho$ and also increase \textbf{MinClusterSize} e.g.~to
-50 unless one gets only 2~high-density clusters, see \ref{fig:Result-of-Iteridense-NoisyBlobs}\,(c).
+50 unless one gets only 2~high-density clusters, see \ref{fig:Result-Different-Density-Clusters}\,(c).
 Increasing \textbf{MinClusterSize} is hereby necessary to avoid small
 clusters in the low-density area.
 \end{itemize}
@@ -746,7 +746,7 @@ together with $\rho$.
 
 }
 \par\end{centering}
-\caption{\label{fig:Result-of-Iteridense-NoisyBlobs}Result of \noun{Iteridense}
+\caption{\label{fig:Result-Different-Density-Clusters}Result of \noun{Iteridense}
 for clusters with different densities.}
 \end{figure}
 
@@ -1106,6 +1106,77 @@ worksheet, \cite{Iteridense}. We also provide a stand-alone program
 with a graphical user interface that can be used to cluster any data
 that is available as a CSV file, \cite{Iteridense-package}.
 
-\printbibliography[heading=bibintoc]
+\subsection*{Acknowledgments}
+
+The author thanks Michael Klaiber, Ph.D for the fruitful discussion
+and feedback and for the scientific proof-reading.
+
+\subsection*{Ethical Statement}
+
+The author works for the solar company Soloof. He and Soloof got no
+financial support for this work. Soloof as a solar company focuses
+in solar solutions and \noun{Iteridense} is a side-product of their
+work they share with the public.
+
+\appendix{}
+
+By design \noun{Iteridense} delivers clustering results for any possible
+resolution. The possible resolutions are in the range 2\,--\,number
+of data points. The final clustering result is at the resolution at
+which the specified values for either $\rho$ or \textbf{MinClusters}
+are reached. The question is why we don't use the resolution as a
+parameter to stop the loop of the \noun{Iteridense} algorithm. To
+answer this, we have to look how the clustering result changes with
+the resolution and how this change behave for different data sets.
+
+\ref{fig:Dataset-with-random}\,(b) shows the number of clusters
+in dependence of the resolution for some of the data sets used in
+this paper. For comparison also a the set of random data points was
+clustered. All used datasets have each 1500~data points. \textbf{MinClusterSize}
+was in all cases set to 75 (5\,\% of the number of data points).
+\ref{fig:Mean-size-and-density}\,(a) shows the mean size of clusters
+in dependence of the resolution and \ref{fig:Mean-size-and-density}\,(b)
+shows the mean density of clusters in dependence of the resolution.
+
+\begin{figure}
+\begin{centering}
+\hfill{}\subfloat[Dataset with random noise.]{\begin{centering}
+\includegraphics[scale=0.4]{clipart/Random-data}
+\par\end{centering}
+}\hfill{}\subfloat[Numbers of clusters in dependence of resolution.]{\begin{centering}
+\includegraphics[scale=0.4]{clipart/Resolution-NumClusters}
+\par\end{centering}
+}\hfill{}
+\par\end{centering}
+\caption{\label{fig:Dataset-with-random}Dataset with random data and numbers
+of clusters in dependence of the resolution for:\protect \\
+- moon-like clusters shown in \ref{fig:Result-Moons}\protect \\
+- anisotropic clusters shown in \ref{fig:Result-Iteridense-Anisotropic}\protect \\
+- different-density clusters shown in \ref{fig:Result-Different-Density-Clusters}\protect \\
+- circle-like clusters shown in \ref{fig:Result-Iteridense-Circles}\protect \\
+- random noise shown in \ref{fig:Dataset-with-random}\,(a).}
+\end{figure}
+
+\begin{figure}
+\begin{centering}
+\hfill{}\subfloat[Mean size of clusters in dependence of the resolution.]{\begin{centering}
+\includegraphics[scale=0.4]{clipart/Resolution-ClusterSize}
+\par\end{centering}
+}\hfill{}\subfloat[Mean density of clusters in dependence of the resolution.]{\begin{centering}
+\includegraphics[scale=0.4]{clipart/Resolution-ClusterDensity}
+\par\end{centering}
+}\hfill{}
+\par\end{centering}
+\caption{\label{fig:Mean-size-and-density}Mean size and mean density of clusters
+in dependence of the resolution using the same data as in \ref{fig:Dataset-with-random}\,(b).}
+\end{figure}
+
+It can be seen that it is impossible to predict what resolution leads
+to what clustering results. Therefore the resolution is not a suitable
+parameter to stop the algorithm loop. For practical applications the
+goal is to find either at least a certain amount of clusters or clusters
+with at least a certain density.
+
+\newpage\printbibliography[heading=bibintoc]
 
 \end{document}

@@ -1,0 +1,973 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   class="main-svg"
+   width="501.53836"
+   height="471.52057"
+   version="1.1"
+   id="svg145"
+   sodipodi:docname="Resolution-ClusterDensity.svg"
+   inkscape:version="1.4.2 (f4327f4, 2025-05-13)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview145"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="1.5761719"
+     inkscape:cx="249.65551"
+     inkscape:cy="232.5254"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g151" />
+  <defs
+     id="defs-4ab6df">
+    <g
+       class="clips"
+       id="g5">
+      <clipPath
+         id="clip4ab6dfxyplot"
+         class="plotclip">
+        <rect
+           width="462.18155"
+           height="440.41388"
+           id="rect2"
+           x="0"
+           y="0" />
+      </clipPath>
+      <clipPath
+         class="axesclip"
+         id="clip4ab6dfx">
+        <rect
+           x="45.881451"
+           y="0"
+           width="462.18155"
+           height="512"
+           id="rect3" />
+      </clipPath>
+      <clipPath
+         class="axesclip"
+         id="clip4ab6dfy">
+        <rect
+           x="0"
+           y="23.629429"
+           width="512"
+           height="440.41388"
+           id="rect4" />
+      </clipPath>
+      <clipPath
+         class="axesclip"
+         id="clip4ab6dfxy">
+        <rect
+           x="45.881451"
+           y="23.629429"
+           width="462.18155"
+           height="440.41388"
+           id="rect5" />
+      </clipPath>
+    </g>
+    <g
+       class="gradients"
+       id="g6" />
+    <g
+       class="patterns"
+       id="g7" />
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath149">
+      <rect
+         width="165"
+         height="105"
+         x="0"
+         y="-14.5"
+         id="rect150" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath148">
+      <rect
+         width="165"
+         height="105"
+         x="0"
+         y="-33.5"
+         id="rect149" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath150">
+      <rect
+         width="165"
+         height="105"
+         x="0"
+         y="-52.5"
+         id="rect151" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath146">
+      <rect
+         width="165"
+         height="105"
+         x="0"
+         y="-71.5"
+         id="rect147" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath145">
+      <rect
+         width="165"
+         height="105"
+         x="0"
+         y="-90.5"
+         id="rect146" />
+    </clipPath>
+  </defs>
+  <g
+     class="bglayer"
+     id="g8"
+     transform="translate(-6.5246202,-23.629429)" />
+  <g
+     class="layer-below"
+     id="g11"
+     transform="translate(-6.5246202,-23.629429)">
+    <g
+       class="imagelayer"
+       id="g9" />
+    <g
+       class="shapelayer"
+       id="g10" />
+  </g>
+  <g
+     class="cartesianlayer"
+     id="g94"
+     transform="translate(-6.5246202,-23.629429)">
+    <g
+       class="subplot xy"
+       id="g93">
+      <g
+         class="layer-subplot"
+         id="g14">
+        <g
+           class="shapelayer"
+           id="g12" />
+        <g
+           class="imagelayer"
+           id="g13" />
+      </g>
+      <g
+         class="minor-gridlayer"
+         id="g17">
+        <g
+           class="x"
+           id="g15" />
+        <g
+           class="y"
+           id="g16" />
+      </g>
+      <g
+         class="gridlayer"
+         id="g28">
+        <g
+           class="x"
+           id="g20">
+          <path
+             class="xgrid crisp"
+             transform="translate(56.031452)"
+             d="M 0,23.629429 V 464.04331"
+             style="stroke:#000000;stroke-width:0.5px;stroke-opacity:0.1"
+             id="path17" />
+          <path
+             class="xgrid crisp"
+             transform="translate(202.35145)"
+             d="M 0,23.629429 V 464.04331"
+             style="stroke:#000000;stroke-width:0.5px;stroke-opacity:0.1"
+             id="path18" />
+          <path
+             class="xgrid crisp"
+             transform="translate(348.67145)"
+             d="M 0,23.629429 V 464.04331"
+             style="stroke:#000000;stroke-width:0.5px;stroke-opacity:0.1"
+             id="path19" />
+          <path
+             class="xgrid crisp"
+             transform="translate(494.98145)"
+             d="M 0,23.629429 V 464.04331"
+             style="stroke:#000000;stroke-width:0.5px;stroke-opacity:0.1"
+             id="path20" />
+        </g>
+        <g
+           class="y"
+           id="g27">
+          <path
+             class="ygrid crisp"
+             transform="translate(0,451.57943)"
+             d="M 45.881452,0 H 508.06299"
+             style="stroke:#000000;stroke-width:0.5px;stroke-opacity:0.1"
+             id="path21" />
+          <path
+             class="ygrid crisp"
+             transform="translate(0,390.07943)"
+             d="M 45.881452,0 H 508.06299"
+             style="stroke:#000000;stroke-width:0.5px;stroke-opacity:0.1"
+             id="path22" />
+          <path
+             class="ygrid crisp"
+             transform="translate(0,328.56943)"
+             d="M 45.881452,0 H 508.06299"
+             style="stroke:#000000;stroke-width:0.5px;stroke-opacity:0.1"
+             id="path23" />
+          <path
+             class="ygrid crisp"
+             transform="translate(0,267.06943)"
+             d="M 45.881452,0 H 508.06299"
+             style="stroke:#000000;stroke-width:0.5px;stroke-opacity:0.1"
+             id="path24" />
+          <path
+             class="ygrid crisp"
+             transform="translate(0,205.56943)"
+             d="M 45.881452,0 H 508.06299"
+             style="stroke:#000000;stroke-width:0.5px;stroke-opacity:0.1"
+             id="path25" />
+          <path
+             class="ygrid crisp"
+             transform="translate(0,144.06943)"
+             d="M 45.881452,0 H 508.06299"
+             style="stroke:#000000;stroke-width:0.5px;stroke-opacity:0.1"
+             id="path26" />
+          <path
+             class="ygrid crisp"
+             transform="translate(0,82.559429)"
+             d="M 45.881452,0 H 508.06299"
+             style="stroke:#000000;stroke-width:0.5px;stroke-opacity:0.1"
+             id="path27" />
+        </g>
+      </g>
+      <g
+         class="zerolinelayer"
+         id="g29" />
+      <g
+         class="layer-between"
+         id="g32">
+        <g
+           class="shapelayer"
+           id="g30" />
+        <g
+           class="imagelayer"
+           id="g31" />
+      </g>
+      <path
+         class="xlines-below"
+         id="path32"
+         d="" />
+      <path
+         class="ylines-below"
+         id="path33"
+         d="" />
+      <g
+         class="overlines-below"
+         id="g33" />
+      <g
+         class="xaxislayer-below"
+         id="g34" />
+      <g
+         class="yaxislayer-below"
+         id="g35" />
+      <g
+         class="overaxes-below"
+         id="g36" />
+      <g
+         class="overplot"
+         id="g69">
+        <g
+           class="xy"
+           transform="translate(45.881452,23.629429)"
+           clip-path="url(#clip4ab6dfxyplot)"
+           id="g68">
+          <g
+             class="scatterlayer mlayer"
+             id="g67">
+            <g
+               class="trace scatter trace3cfe77"
+               style="opacity:1;stroke-miterlimit:2"
+               id="g42">
+              <g
+                 class="fills"
+                 id="g37" />
+              <g
+                 class="errorbars"
+                 id="g38" />
+              <g
+                 class="lines"
+                 id="g39">
+                <path
+                   class="js-line"
+                   d="m 13.08,424.87 5.85,-0.87 1.47,-1.42 1.46,0.68 1.46,-0.72 1.47,-1.12 1.46,0.24 2.93,-1.48 1.46,0.19 21.95,-4.21 1.46,-0.24 2.93,-0.41 1.46,-0.31 5.85,-1.12 1.46,-0.21 2.93,-0.54 1.46,-0.65 7.32,-1.42 1.46,0.05 2.93,-1.19 1.46,0.14 7.32,-2.42 1.46,0.44 1.46,-1.48 1.47,0.06 1.46,-1.03 1.46,0.12 1.47,-1.37 1.46,0.21 4.39,-1.65 1.46,0.34 1.47,-2.01 1.46,-0.59 2.93,0.31 1.46,-1.08 2.92,-1.79 1.47,1.54 1.46,-2.24 1.46,-0.81 2.93,-1.53 1.46,-0.33 1.47,33 1.46,-36.46 1.46,0.85 1.47,-1.33 1.46,36.94 h 1.46 l 1.47,-40.72 1.46,40.72 H 449.1"
+                   style="opacity:1;vector-effect:none;fill:none;stroke:#009afa;stroke-width:2px;stroke-opacity:1"
+                   id="path38" />
+              </g>
+              <g
+                 class="points"
+                 id="g40" />
+              <g
+                 class="text"
+                 id="g41" />
+            </g>
+            <g
+               class="trace scatter trace1de9ee"
+               style="opacity:1;stroke-miterlimit:2"
+               id="g48">
+              <g
+                 class="fills"
+                 id="g43" />
+              <g
+                 class="errorbars"
+                 id="g44" />
+              <g
+                 class="lines"
+                 id="g45">
+                <path
+                   class="js-line"
+                   d="m 13.08,424.87 5.85,-3.07 1.47,-1.77 1.46,0.35 1.46,-1.01 2.93,-1.72 1.46,0.28 2.93,-2.7 1.46,0.86 2.93,-2.12 1.46,0.61 7.32,-4.02 1.46,0.91 1.46,-1.69 1.47,-0.29 4.39,-1.36 1.46,-1.13 2.93,0.5 1.46,-1.06 4.39,-2.6 1.46,0.47 8.78,-4.04 1.46,-0.31 4.39,-1.03 1.47,-1.71 1.46,-0.7 1.46,0.25 7.32,-2.21 1.46,-0.11 1.46,-2.24 1.47,1.24 1.46,-1.58 1.46,-0.06 1.47,1.04 1.46,-2.12 4.39,-1.79 1.46,-0.36 1.47,0.41 1.46,-1.32 1.46,-0.28 1.47,-1.67 2.92,-0.83 1.46,0.34 1.47,-1.06 1.46,-0.07 5.85,-3.23 1.47,0.06 1.46,0.51 1.46,-1.31 2.93,-1.98 1.46,0.61 1.47,-0.48 1.46,-2.87 1.46,0.75 1.47,-1.5 1.46,0.38 1.46,-0.41 1.46,-1.5 1.47,-0.08 1.46,-1.68 1.46,-0.39 4.39,-2.56 1.47,-1.59 1.46,0.73 1.46,-1.08 1.47,-0.69 1.46,-1.71 1.46,-1.06 1.47,0.13 1.46,0.43 1.46,-2.04 2.93,-3.72 1.46,2.17 1.46,-2.82 1.47,-0.54 1.46,-0.22 1.46,-2.12 1.47,-1.26 1.46,-2.95 2.93,1.47 1.46,-1.19 1.46,-4.12 1.47,1.82 1.46,-0.2 1.46,-3.29 1.47,3.05 1.46,-5.45 1.46,1.52 1.47,-1.41 1.46,-3.46 1.46,0.05 1.46,0.25 1.47,-3.6 1.46,0.74 1.46,-2.74 1.47,1.88 1.46,-4.98 1.46,-0.81 1.47,1.71 2.92,-4.32 1.47,-5.25 1.46,3.03 1.46,-4.11 1.47,0.55 1.46,-1.42 1.46,-1.88 1.46,-3.91 1.47,-2.09 1.46,9.31 1.46,-19.55 1.47,1.73 1.46,9 1.46,-13.93 1.47,2.44 1.46,127.03 1.46,-119.62 1.47,-4.43 1.46,-0.12 1.46,124.17 h 1.47 l 1.46,-124.65 1.46,-19.59 1.47,15.64 1.46,-4.08 1.46,132.68 H 449.1"
+                   style="opacity:1;vector-effect:none;fill:none;stroke:#e36f47;stroke-width:2px;stroke-opacity:1"
+                   id="path44" />
+              </g>
+              <g
+                 class="points"
+                 id="g46" />
+              <g
+                 class="text"
+                 id="g47" />
+            </g>
+            <g
+               class="trace scatter tracec11c11"
+               style="opacity:1;stroke-miterlimit:2"
+               id="g54">
+              <g
+                 class="fills"
+                 id="g49" />
+              <g
+                 class="errorbars"
+                 id="g50" />
+              <g
+                 class="lines"
+                 id="g51">
+                <path
+                   class="js-line"
+                   d="m 13.08,424.87 2.93,-0.43 1.46,-0.53 4.39,-0.42 1.46,-0.49 21.95,-4.83 1.46,-0.77 1.47,-9.27 1.46,-1.41 1.46,8.66 1.47,1.08 1.46,-8.12 1.46,0.75 1.47,-4.13 1.46,3.12 2.92,-1.2 1.47,-4 1.46,2.83 1.46,-0.02 1.47,-2.12 1.46,-0.25 1.46,-0.93 1.47,1.01 1.46,-1.84 1.46,0.52 1.47,-1.9 1.46,1.42 1.46,-10.43 1.47,1.25 1.46,-1.84 1.46,0.17 1.47,-1.53 1.46,-2.84 1.46,1.77 1.46,-1.12 1.47,0.58 1.46,-1.69 2.93,-1.64 1.46,-2.17 1.46,-0.89 1.47,1.77 4.39,-5.06 1.46,0.07 1.46,-0.38 1.47,1.61 4.39,-3.23 1.46,0.28 1.46,-2.58 1.46,2.29 1.47,-2.22 1.46,0.29 4.39,-3.01 1.46,-0.9 1.47,-1.26 1.46,-0.25 1.46,0.24 1.47,-1.81 2.92,-0.95 1.47,0.5 1.46,-2.61 1.46,-0.23 1.47,-0.46 1.46,1.21 1.46,-1.29 1.46,0.13 1.47,-6 1.46,4.8 1.46,-2.86 1.47,-0.08 2.92,-3.22 1.47,-1.63 1.46,-1.49 1.46,1.04 2.93,2.56 1.46,-5.72 1.47,2.5 1.46,-6.07 1.46,4.63 1.47,-1.95 1.46,-2.6 1.46,-19.99 1.46,16.1 1.47,2.64 1.46,-4.04 1.46,5.77 1.47,-7.24 1.46,2.96 1.46,-4.34 1.47,-25.09 1.46,21.03 1.46,-17.7 1.47,0.69 1.46,-2.64 1.46,-3.06 1.47,-0.79 1.46,-5.17 1.46,-0.67 1.47,-1.3 1.46,8.39 1.46,-7.7 1.46,0.01 1.47,23.77 1.46,-26.83 1.46,1.31 1.47,-1.6 2.92,-3.17 1.47,1.3 1.46,-8.07 1.46,2.73 1.47,3.47 1.46,1.06 1.46,-0.88 1.47,-9.12 2.92,0.6 1.46,-2.91 2.93,-0.38 1.46,5.73 1.47,-8.87 1.46,-0.76 1.46,0.35 1.47,-4.13 1.46,-0.56 1.46,-5.36 1.47,6.75 1.46,-1.53 2.93,-4.21 1.46,-0.02 1.46,-4.29 1.47,0.48 1.46,-6 1.46,0.63 1.46,1.97 1.47,-1.63 1.46,-6.26 1.46,-2.68 2.93,4.66 1.46,0.43 2.93,-12.86 1.46,-1.45 1.47,-10.35 1.46,12.36 2.93,-0.49 1.46,3.2 1.46,-10.91 1.47,4.22 1.46,-9.29 1.46,3.93 1.46,1.55 1.47,-7.89 1.46,-11.05 1.46,11.27 1.47,-26.7 1.46,27.9 1.46,-10.77 1.47,1.53 1.46,2.72 1.46,-7.36 1.47,-0.68 1.46,-10.53 1.46,3.87 1.47,0.32 1.46,0.96 1.46,-3.5 1.47,-2.79 1.46,1.96 4.39,-20.19 1.46,8.52 1.46,-2.66 1.47,5.26 1.46,-10.23 1.46,0.75 1.47,13.66 1.46,-25.6 1.46,6.28 1.47,-9.6 1.46,7.37 1.46,-22.57 1.47,15.1 1.46,-3.79 1.46,9.15 1.47,1.11 1.46,-5.64 1.46,-9.21 1.46,5.62 1.47,-28.63 1.46,16.61 1.46,-14.48 1.47,2.39 1.46,8.95 1.46,-5.82 1.47,0.16 1.46,-4.8 1.46,8.35 2.93,-25.19 1.46,12.14 1.47,-5.47 1.46,6.86 1.46,-0.01 1.47,-17.47 1.46,7.98 1.46,-8.36 1.46,-6.25 1.47,-15.3 2.92,15.97 1.47,-29.9 1.46,44.53 1.46,-9.39 1.47,-12.15 1.46,-2.61 1.46,6.32 1.47,-0.08 1.46,-30.51 1.46,17.48 1.47,-21.68 1.46,344.69 1.46,-314.67 1.47,-35.52 1.46,12.62 1.46,-22.42 1.46,28.11 1.47,-27.23 1.46,359.11 1.46,-352.48 1.47,352.48 1.46,-355.92 1.46,-0.5 1.47,356.42 h 1.46 l 1.46,-356.03 1.47,-13.45 1.46,369.48 1.46,-396.31 1.47,396.31 h 4.39 l 1.46,-357.5 1.46,-3.39 1.46,-43.38 1.47,55.26 1.46,-66.48 1.46,415.49 h 1.47 1.46 l 1.46,-382.01 1.47,382.01 1.46,-401.05 1.46,401.05 h 1.47 16.09"
+                   style="opacity:1;vector-effect:none;fill:none;stroke:#3ea44e;stroke-width:2px;stroke-opacity:1"
+                   id="path50" />
+              </g>
+              <g
+                 class="points"
+                 id="g52" />
+              <g
+                 class="text"
+                 id="g53" />
+            </g>
+            <g
+               class="trace scatter traceab6a33"
+               style="opacity:1;stroke-miterlimit:2"
+               id="g60">
+              <g
+                 class="fills"
+                 id="g55" />
+              <g
+                 class="errorbars"
+                 id="g56" />
+              <g
+                 class="lines"
+                 id="g57">
+                <path
+                   class="js-line"
+                   d="m 13.08,424.87 8.78,-0.63 1.46,-0.5 8.78,-1.09 1.46,-0.95 7.32,-1.09 1.46,0.03 5.86,-1.15 1.46,0.04 10.24,-1.57 1.46,0.54 2.93,-0.39 1.46,0.06 2.93,-0.95 1.46,0.01 2.93,-1.16 1.46,-0.89 2.93,-0.71 1.46,-2.63 1.47,3.08 1.46,-3.25 2.93,0.19 1.46,-1.48 7.31,-1.32 1.47,-1.29 1.46,-1 1.46,0.29 4.39,-1.87 1.47,0.65 1.46,-2.01 1.46,-0.11 1.47,0.97 1.46,-0.74 1.46,-3.78 1.47,2.91 1.46,24.87 1.46,-29.32 1.46,29.32 h 1.47 5.85 l 1.46,-31.78 1.47,31.78 h 1.46 320.43"
+                   style="opacity:1;vector-effect:none;fill:none;stroke:#c371d2;stroke-width:2px;stroke-opacity:1"
+                   id="path56" />
+              </g>
+              <g
+                 class="points"
+                 id="g58" />
+              <g
+                 class="text"
+                 id="g59" />
+            </g>
+            <g
+               class="trace scatter traceb40cf8"
+               style="opacity:1;stroke-miterlimit:2"
+               id="g66">
+              <g
+                 class="fills"
+                 id="g61" />
+              <g
+                 class="errorbars"
+                 id="g62" />
+              <g
+                 class="lines"
+                 id="g63">
+                <path
+                   class="js-line"
+                   d="m 13.08,424.87 30.73,-0.69 1.46,-0.11 13.17,-1.97 1.46,-0.38 2.93,-0.25 1.46,-0.39 2.93,-0.93 1.46,7.8 H 449.1"
+                   style="opacity:1;vector-effect:none;fill:none;stroke:#ac8e18;stroke-width:2px;stroke-opacity:1"
+                   id="path62" />
+              </g>
+              <g
+                 class="points"
+                 id="g64" />
+              <g
+                 class="text"
+                 id="g65" />
+            </g>
+          </g>
+        </g>
+      </g>
+      <path
+         class="xlines-above crisp"
+         d="M 44.881452,464.54331 H 508.06299"
+         style="fill:none;stroke:#000000;stroke-width:1px;stroke-opacity:1"
+         id="path69" />
+      <path
+         class="ylines-above crisp"
+         d="M 45.381452,23.629429 V 464.04331"
+         style="fill:none;stroke:#000000;stroke-width:1px;stroke-opacity:1"
+         id="path70" />
+      <g
+         class="overlines-above"
+         id="g70" />
+      <g
+         class="xaxislayer-above"
+         id="g78">
+        <path
+           class="xtick ticks crisp"
+           d="m 0,464.04331 v -5"
+           transform="translate(56.031452)"
+           style="stroke:#000000;stroke-width:1px;stroke-opacity:1"
+           id="path71" />
+        <path
+           class="xtick ticks crisp"
+           d="m 0,464.04331 v -5"
+           transform="translate(202.35145)"
+           style="stroke:#000000;stroke-width:1px;stroke-opacity:1"
+           id="path72" />
+        <path
+           class="xtick ticks crisp"
+           d="m 0,464.04331 v -5"
+           transform="translate(348.67145)"
+           style="stroke:#000000;stroke-width:1px;stroke-opacity:1"
+           id="path73" />
+        <path
+           class="xtick ticks crisp"
+           d="m 0,464.04331 v -5"
+           transform="translate(494.98145)"
+           style="stroke:#000000;stroke-width:1px;stroke-opacity:1"
+           id="path74" />
+        <g
+           class="xtick"
+           id="g74">
+          <text
+             text-anchor="middle"
+             x="0"
+             y="478.24332"
+             transform="translate(56.031452)"
+             style="font-size:11px;font-family:sans-serif;white-space:pre;opacity:1;fill:#000000;fill-opacity:1"
+             id="text74">0</text>
+        </g>
+        <g
+           class="xtick"
+           id="g75">
+          <text
+             text-anchor="middle"
+             x="0"
+             y="478.24332"
+             style="font-size:11px;font-family:sans-serif;white-space:pre;opacity:1;fill:#000000;fill-opacity:1"
+             transform="translate(202.35145)"
+             id="text75">100</text>
+        </g>
+        <g
+           class="xtick"
+           id="g76">
+          <text
+             text-anchor="middle"
+             x="0"
+             y="478.24332"
+             style="font-size:11px;font-family:sans-serif;white-space:pre;opacity:1;fill:#000000;fill-opacity:1"
+             transform="translate(348.67145)"
+             id="text76">200</text>
+        </g>
+        <g
+           class="xtick"
+           id="g77">
+          <text
+             text-anchor="middle"
+             x="0"
+             y="478.24332"
+             style="font-size:11px;font-family:sans-serif;white-space:pre;opacity:1;fill:#000000;fill-opacity:1"
+             transform="translate(494.98145)"
+             id="text77">300</text>
+        </g>
+      </g>
+      <g
+         class="yaxislayer-above"
+         id="g91">
+        <path
+           class="ytick ticks crisp"
+           d="m 45.881452,0 h 5"
+           transform="translate(0,451.57943)"
+           style="stroke:#000000;stroke-width:1px;stroke-opacity:1"
+           id="path78" />
+        <path
+           class="ytick ticks crisp"
+           d="m 45.881452,0 h 5"
+           transform="translate(0,390.07943)"
+           style="stroke:#000000;stroke-width:1px;stroke-opacity:1"
+           id="path79" />
+        <path
+           class="ytick ticks crisp"
+           d="m 45.881452,0 h 5"
+           transform="translate(0,328.56943)"
+           style="stroke:#000000;stroke-width:1px;stroke-opacity:1"
+           id="path80" />
+        <path
+           class="ytick ticks crisp"
+           d="m 45.881452,0 h 5"
+           transform="translate(0,267.06943)"
+           style="stroke:#000000;stroke-width:1px;stroke-opacity:1"
+           id="path81" />
+        <path
+           class="ytick ticks crisp"
+           d="m 45.881452,0 h 5"
+           transform="translate(0,205.56943)"
+           style="stroke:#000000;stroke-width:1px;stroke-opacity:1"
+           id="path82" />
+        <path
+           class="ytick ticks crisp"
+           d="m 45.881452,0 h 5"
+           transform="translate(0,144.06943)"
+           style="stroke:#000000;stroke-width:1px;stroke-opacity:1"
+           id="path83" />
+        <path
+           class="ytick ticks crisp"
+           d="m 45.881452,0 h 5"
+           transform="translate(0,82.559429)"
+           style="stroke:#000000;stroke-width:1px;stroke-opacity:1"
+           id="path84" />
+        <g
+           class="ytick"
+           id="g84">
+          <text
+             text-anchor="end"
+             x="42.681454"
+             y="3.8499999"
+             transform="translate(0,451.57943)"
+             style="font-size:11px;font-family:sans-serif;white-space:pre;opacity:1;fill:#000000;fill-opacity:1"
+             id="text84">0</text>
+        </g>
+        <g
+           class="ytick"
+           id="g85">
+          <text
+             text-anchor="end"
+             x="42.681454"
+             y="3.8499999"
+             style="font-size:11px;font-family:sans-serif;white-space:pre;opacity:1;fill:#000000;fill-opacity:1"
+             transform="translate(0,390.07943)"
+             id="text85">20</text>
+        </g>
+        <g
+           class="ytick"
+           id="g86">
+          <text
+             text-anchor="end"
+             x="42.681454"
+             y="3.8499999"
+             style="font-size:11px;font-family:sans-serif;white-space:pre;opacity:1;fill:#000000;fill-opacity:1"
+             transform="translate(0,328.56943)"
+             id="text86">40</text>
+        </g>
+        <g
+           class="ytick"
+           id="g87">
+          <text
+             text-anchor="end"
+             x="42.681454"
+             y="3.8499999"
+             style="font-size:11px;font-family:sans-serif;white-space:pre;opacity:1;fill:#000000;fill-opacity:1"
+             transform="translate(0,267.06943)"
+             id="text87">60</text>
+        </g>
+        <g
+           class="ytick"
+           id="g88">
+          <text
+             text-anchor="end"
+             x="42.681454"
+             y="3.8499999"
+             style="font-size:11px;font-family:sans-serif;white-space:pre;opacity:1;fill:#000000;fill-opacity:1"
+             transform="translate(0,205.56943)"
+             id="text88">80</text>
+        </g>
+        <g
+           class="ytick"
+           id="g89">
+          <text
+             text-anchor="end"
+             x="42.681454"
+             y="3.8499999"
+             style="font-size:11px;font-family:sans-serif;white-space:pre;opacity:1;fill:#000000;fill-opacity:1"
+             transform="translate(0,144.06943)"
+             id="text89">100</text>
+        </g>
+        <g
+           class="ytick"
+           id="g90">
+          <text
+             text-anchor="end"
+             x="42.681454"
+             y="3.8499999"
+             style="font-size:11px;font-family:sans-serif;white-space:pre;opacity:1;fill:#000000;fill-opacity:1"
+             transform="translate(0,82.559429)"
+             id="text90">120</text>
+        </g>
+      </g>
+      <g
+         class="overaxes-above"
+         id="g92" />
+    </g>
+  </g>
+  <g
+     id="g151"
+     transform="translate(-160.52462,-6.6294291)">
+    <rect
+       class="bg"
+       shape-rendering="crispEdges"
+       width="212.31476"
+       height="106"
+       x="299.5"
+       y="20.5"
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-opacity:1"
+       id="rect108" />
+    <g
+       class="traces"
+       transform="translate(300,35.5)"
+       id="g114"
+       clip-path="url(#clipPath149)">
+      <text
+         class="legendtext"
+         text-anchor="start"
+         x="40"
+         y="4.29"
+         style="font-size:13.3333px;font-family:sans-serif;white-space:pre;fill:#000000;fill-opacity:1"
+         id="text108">moon-like clusters</text>
+      <g
+         class="layers"
+         style="opacity:1"
+         id="g113">
+        <g
+           class="legendfill"
+           id="g109" />
+        <g
+           class="legendlines"
+           id="g110">
+          <path
+             class="js-line"
+             d="M 5,0 H 35"
+             style="fill:none;stroke:#009afa;stroke-width:2px;stroke-opacity:1"
+             id="path109" />
+        </g>
+        <g
+           class="legendsymbols"
+           id="g112">
+          <g
+             class="legendpoints"
+             id="g111" />
+        </g>
+      </g>
+      <rect
+         class="legendtoggle"
+         x="0"
+         y="-9.5"
+         width="159.51758"
+         height="19"
+         style="fill:#000000;fill-opacity:0"
+         id="rect113" />
+    </g>
+    <g
+       class="traces"
+       transform="translate(300,54.5)"
+       id="g120"
+       clip-path="url(#clipPath148)">
+      <text
+         class="legendtext"
+         text-anchor="start"
+         x="40"
+         y="4.29"
+         style="font-size:13.3333px;font-family:sans-serif;white-space:pre;fill:#000000;fill-opacity:1"
+         id="text114">anisotropic clusters</text>
+      <g
+         class="layers"
+         style="opacity:1"
+         id="g119">
+        <g
+           class="legendfill"
+           id="g115" />
+        <g
+           class="legendlines"
+           id="g116">
+          <path
+             class="js-line"
+             d="M 5,0 H 35"
+             style="fill:none;stroke:#e36f47;stroke-width:2px;stroke-opacity:1"
+             id="path115" />
+        </g>
+        <g
+           class="legendsymbols"
+           id="g118">
+          <g
+             class="legendpoints"
+             id="g117" />
+        </g>
+      </g>
+      <rect
+         class="legendtoggle"
+         x="0"
+         y="-9.5"
+         width="159.51758"
+         height="19"
+         style="fill:#000000;fill-opacity:0"
+         id="rect119" />
+    </g>
+    <text
+       class="legendtext"
+       text-anchor="start"
+       x="340"
+       y="77.790001"
+       style="font-size:13.3333px;font-family:sans-serif;white-space:pre;fill:#000000;fill-opacity:1"
+       id="text120">different-density clusters</text>
+    <g
+       class="layers"
+       id="g125"
+       transform="translate(300,73.5)"
+       clip-path="url(#clipPath150)">
+      <g
+         class="legendfill"
+         id="g121" />
+      <g
+         class="legendlines"
+         id="g122">
+        <path
+           class="js-line"
+           d="M 5,0 H 35"
+           style="fill:none;stroke:#3ea44e;stroke-width:2px;stroke-opacity:1"
+           id="path121" />
+      </g>
+      <g
+         class="legendsymbols"
+         id="g124">
+        <g
+           class="legendpoints"
+           id="g123" />
+      </g>
+    </g>
+    <rect
+       class="legendtoggle"
+       x="300"
+       y="64"
+       width="159.51758"
+       height="19"
+       style="fill:#000000;fill-opacity:0"
+       id="rect125" />
+    <g
+       class="traces"
+       transform="translate(300,92.5)"
+       id="g132"
+       clip-path="url(#clipPath146)">
+      <text
+         class="legendtext"
+         text-anchor="start"
+         x="40"
+         y="4.29"
+         style="font-size:13.3333px;font-family:sans-serif;white-space:pre;fill:#000000;fill-opacity:1"
+         id="text126">circle-like clusters</text>
+      <g
+         class="layers"
+         style="opacity:1"
+         id="g131">
+        <g
+           class="legendfill"
+           id="g127" />
+        <g
+           class="legendlines"
+           id="g128">
+          <path
+             class="js-line"
+             d="M 5,0 H 35"
+             style="fill:none;stroke:#c371d2;stroke-width:2px;stroke-opacity:1"
+             id="path127" />
+        </g>
+        <g
+           class="legendsymbols"
+           id="g130">
+          <g
+             class="legendpoints"
+             id="g129" />
+        </g>
+      </g>
+      <rect
+         class="legendtoggle"
+         x="0"
+         y="-9.5"
+         width="159.51758"
+         height="19"
+         style="fill:#000000;fill-opacity:0"
+         id="rect131" />
+    </g>
+    <g
+       class="traces"
+       transform="translate(300,111.5)"
+       id="g138"
+       clip-path="url(#clipPath145)">
+      <text
+         class="legendtext"
+         text-anchor="start"
+         x="40"
+         y="4.29"
+         style="font-size:13.3333px;font-family:sans-serif;white-space:pre;fill:#000000;fill-opacity:1"
+         id="text132">random noise</text>
+      <g
+         class="layers"
+         style="opacity:1"
+         id="g137">
+        <g
+           class="legendfill"
+           id="g133" />
+        <g
+           class="legendlines"
+           id="g134">
+          <path
+             class="js-line"
+             d="M 5,0 H 35"
+             style="fill:none;stroke:#ac8e18;stroke-width:2px;stroke-opacity:1"
+             id="path133" />
+        </g>
+        <g
+           class="legendsymbols"
+           id="g136">
+          <g
+             class="legendpoints"
+             id="g135" />
+        </g>
+      </g>
+      <rect
+         class="legendtoggle"
+         x="0"
+         y="-9.5"
+         width="159.51758"
+         height="19"
+         style="fill:#000000;fill-opacity:0"
+         id="rect137" />
+    </g>
+  </g>
+  <g
+     class="polarlayer"
+     id="g95"
+     transform="translate(-6.5246202,-23.629429)" />
+  <g
+     class="smithlayer"
+     id="g96"
+     transform="translate(-6.5246202,-23.629429)" />
+  <g
+     class="ternarylayer"
+     id="g97"
+     transform="translate(-6.5246202,-23.629429)" />
+  <g
+     class="geolayer"
+     id="g98"
+     transform="translate(-6.5246202,-23.629429)" />
+  <g
+     class="funnelarealayer"
+     id="g99"
+     transform="translate(-6.5246202,-23.629429)" />
+  <g
+     class="pielayer"
+     id="g100"
+     transform="translate(-6.5246202,-23.629429)" />
+  <g
+     class="iciclelayer"
+     id="g101"
+     transform="translate(-6.5246202,-23.629429)" />
+  <g
+     class="treemaplayer"
+     id="g102"
+     transform="translate(-6.5246202,-23.629429)" />
+  <g
+     class="sunburstlayer"
+     id="g103"
+     transform="translate(-6.5246202,-23.629429)" />
+  <g
+     class="glimages"
+     id="g104"
+     transform="translate(-6.5246202,-23.629429)" />
+  <defs
+     id="topdefs-4ab6df">
+    <g
+       class="clips"
+       id="g105" />
+    <clipPath
+       id="legend4ab6df">
+      <rect
+         width="165"
+         height="105"
+         x="1"
+         y="1"
+         id="rect105" />
+    </clipPath>
+  </defs>
+  <g
+     class="layer-above"
+     id="g108"
+     transform="translate(-6.5246202,-23.629429)">
+    <g
+       class="imagelayer"
+       id="g106" />
+    <g
+       class="shapelayer"
+       id="g107" />
+  </g>
+  <g
+     class="g-gtitle"
+     id="g142"
+     transform="translate(-6.5246202,-23.629429)" />
+  <g
+     class="g-xtitle"
+     transform="translate(-6.5246202,-47.672743)"
+     id="g143">
+    <text
+       class="xtitle"
+       x="276.97223"
+       y="519.04333"
+       text-anchor="middle"
+       style="font-size:15px;font-family:sans-serif;white-space:pre;opacity:1;fill:#000000;fill-opacity:1"
+       id="text142">resolution</text>
+  </g>
+  <g
+     class="g-ytitle"
+     transform="translate(5.5935438,-23.629429)"
+     id="g144">
+    <text
+       class="ytitle"
+       transform="rotate(-90,5.8814523,243.83637)"
+       x="5.8814521"
+       y="243.83636"
+       text-anchor="middle"
+       style="font-size:15px;font-family:sans-serif;white-space:pre;opacity:1;fill:#000000;fill-opacity:1"
+       id="text143">mean density of clusters</text>
+  </g>
+</svg>
