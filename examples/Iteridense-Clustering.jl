@@ -905,7 +905,7 @@ resolutionVector = collect(2:maxResolution)
 numClusters = zeros(maxResolution-1)
 sizeClusters = zeros(maxResolution-1)
 densityClusters = zeros(maxResolution-1)
-# a cluster should hat least have 5% of all data points
+# a cluster should hat least have 5 % of all data points
 minClusterSize = ceil(Int, 0.05 * size(dataMatrix, 1))
 
  # data NoisyMoons
@@ -927,34 +927,12 @@ minClusterSize = ceil(Int, 0.05 * size(dataMatrix, 1))
     end
  end
  NumClusterPlot = Plots.plot(resolutionVector, numClusters, xlabel= "resolution",
-                                ylabel= "number of clusters", lw= 2, lab= "NoisyMoons")
+                            ylabel= "number of clusters", lw= 2, lab= "moon-like clusters")
  SizeClusterPlot = Plots.plot(resolutionVector, sizeClusters, xlabel= "resolution",
-                                ylabel= "mean size of clusters", lw= 2, lab= "NoisyMoons")
+                            ylabel= "mean size of clusters", lw= 2, lab= "moon-like clusters")
  DensityClusterPlot = Plots.plot(resolutionVector, densityClusters, xlabel= "resolution",
-                                ylabel= "mean density of clusters", lw= 2, lab= "NoisyMoons",
+                            ylabel= "mean density of clusters", lw= 2, lab= "moon-like clusters",
                                 legend= :top)
-
- # data NoisyCircles
- filePath = joinpath(@__DIR__, "datasets/NoisyCircles.csv")
- if isfile(filePath)
-    data = CSV.read(filePath, DataFrame; delim= ',')
- end
- dataMatrix = Matrix(data)
- for i in 2:maxResolution
-    IteridenseResult = Iteridense(dataMatrix, startResolution= i, stopResolution= i,
-                                    minClusterSize= minClusterSize);
-    numClusters[i-1] = IteridenseResult.numOfClusters
-    if IteridenseResult.numOfClusters > 0
-        sizeClusters[i-1] = mean(IteridenseResult.clusterSizes)
-        densityClusters[i-1] = mean(IteridenseResult.clusterDensities)
-    else
-        sizeClusters[i-1] = 0
-        densityClusters[i-1] = 0
-    end
- end
- plot!(NumClusterPlot, resolutionVector, numClusters, lw= 2, lab= "NoisyCircles")
- plot!(SizeClusterPlot, resolutionVector, sizeClusters, lw= 2, lab= "NoisyCircles")
- plot!(DensityClusterPlot, resolutionVector, densityClusters, lw= 2, lab= "NoisyCircles")
 
  # data NoisyAnisotropic
  filePath = joinpath(@__DIR__, "datasets/NoisyAnisotropic.csv")
@@ -974,9 +952,9 @@ minClusterSize = ceil(Int, 0.05 * size(dataMatrix, 1))
         densityClusters[i-1] = 0
     end
  end
- plot!(NumClusterPlot, resolutionVector, numClusters, lw= 2, lab= "NoisyAnisotropic")
- plot!(SizeClusterPlot, resolutionVector, sizeClusters, lw= 2, lab= "NoisyAnisotropic")
- plot!(DensityClusterPlot, resolutionVector, densityClusters, lw= 2, lab= "NoisyAnisotropic")
+ plot!(NumClusterPlot, resolutionVector, numClusters, lw= 2, lab= "anisotropic clusters")
+ plot!(SizeClusterPlot, resolutionVector, sizeClusters, lw= 2, lab= "anisotropic clusters")
+ plot!(DensityClusterPlot, resolutionVector, densityClusters, lw= 2, lab= "anisotropic clusters")
 
  # data NoisyBlobsVaried
  filePath = joinpath(@__DIR__, "datasets/NoisyBlobsVaried.csv")
@@ -996,9 +974,32 @@ minClusterSize = ceil(Int, 0.05 * size(dataMatrix, 1))
         densityClusters[i-1] = 0
     end
  end
- plot!(NumClusterPlot, resolutionVector, numClusters, lw= 2, lab= "NoisyBlobsVaried")
- plot!(SizeClusterPlot, resolutionVector, sizeClusters, lw= 2, lab= "NoisyBlobsVaried")
- plot!(DensityClusterPlot, resolutionVector, densityClusters, lw= 2, lab= "NoisyBlobsVaried")
+ plot!(NumClusterPlot, resolutionVector, numClusters, lw= 2, lab= "different-density clusters")
+ plot!(SizeClusterPlot, resolutionVector, sizeClusters, lw= 2, lab= "different-density clusters")
+ plot!(DensityClusterPlot, resolutionVector, densityClusters, lw= 2,
+                                                            lab= "different-density clusters")
+
+ # data NoisyCircles
+ filePath = joinpath(@__DIR__, "datasets/NoisyCircles.csv")
+ if isfile(filePath)
+    data = CSV.read(filePath, DataFrame; delim= ',')
+ end
+ dataMatrix = Matrix(data)
+ for i in 2:maxResolution
+    IteridenseResult = Iteridense(dataMatrix, startResolution= i, stopResolution= i,
+                                    minClusterSize= minClusterSize);
+    numClusters[i-1] = IteridenseResult.numOfClusters
+    if IteridenseResult.numOfClusters > 0
+        sizeClusters[i-1] = mean(IteridenseResult.clusterSizes)
+        densityClusters[i-1] = mean(IteridenseResult.clusterDensities)
+    else
+        sizeClusters[i-1] = 0
+        densityClusters[i-1] = 0
+    end
+ end
+ plot!(NumClusterPlot, resolutionVector, numClusters, lw= 2, lab= "circle-like clusters")
+ plot!(SizeClusterPlot, resolutionVector, sizeClusters, lw= 2, lab= "circle-like clusters")
+ plot!(DensityClusterPlot, resolutionVector, densityClusters, lw= 2, lab= "circle-like clusters")
 
  # data NoisyRandom
  filePath = joinpath(@__DIR__, "datasets/NoisyRandom.csv")
@@ -1018,9 +1019,9 @@ minClusterSize = ceil(Int, 0.05 * size(dataMatrix, 1))
         densityClusters[i-1] = 0
     end
  end
- plot!(NumClusterPlot, resolutionVector, numClusters, lw= 2, lab= "NoisyRandom")
- plot!(SizeClusterPlot, resolutionVector, sizeClusters, lw= 2, lab= "NoisyRandom")
- plot!(DensityClusterPlot, resolutionVector, densityClusters, lw= 2, lab= "NoisyRandom")
+ plot!(NumClusterPlot, resolutionVector, numClusters, lw= 2, lab= "random noise")
+ plot!(SizeClusterPlot, resolutionVector, sizeClusters, lw= 2, lab= "random noise")
+ plot!(DensityClusterPlot, resolutionVector, densityClusters, lw= 2, lab= "random noise")
 
 end;
 
