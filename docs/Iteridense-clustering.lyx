@@ -6150,7 +6150,8 @@ Acknowledgments
 
 \begin_layout Standard
 The author thanks Michael Klaiber,
- Ph.D for the fruitful discussion and feedback and for the scientific proof-reading.
+ PhD for the fruitful discussion,
+ feedback and for the scientific proof-reading.
 \end_layout
 
 \begin_layout Subsection*
@@ -6177,15 +6178,7 @@ By design
 Iteridense
 \noun default
  delivers clustering results for any possible resolution.
- The possible resolutions are in the range 2
-\begin_inset space \thinspace{}
-\end_inset
-
-–
-\begin_inset space \thinspace{}
-\end_inset
-
-number of data points.
+ The possible resolutions are in the range two – number of data points.
  The final clustering result is at the resolution at which the specified values for either 
 \begin_inset Formula $\rho$
 \end_inset
@@ -6216,7 +6209,7 @@ reference "fig:Dataset-with-random"
 \end_inset
 
 (b) shows the number of clusters in dependence of the resolution for some of the data sets used in this paper.
- For comparison also a the set of random data points was clustered.
+ For comparison also a set of random data points was clustered.
  All used datasets have each 1500
 \begin_inset space ~
 \end_inset
@@ -6230,7 +6223,7 @@ MinClusterSize
 \begin_inset space \thinspace{}
 \end_inset
 
-% of the number of data points).
+% of 1500).
  
 \begin_inset CommandInset ref
 LatexCommand ref
