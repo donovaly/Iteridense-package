@@ -779,7 +779,7 @@ status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename clipart/Temperature-initial.svg
+	filename clipart/Temperature-initial.pdf
 	lyxscale 50
 	width 33col%
 
@@ -812,7 +812,7 @@ status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename clipart/Temperature-4x4-countmap.svg
+	filename clipart/Temperature-4x4-countmap.pdf
 	lyxscale 50
 	width 33col%
 
@@ -1480,7 +1480,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename clipart/Temperature-final.svg
+	filename clipart/Temperature-final.pdf
 	lyxscale 50
 	scale 40
 
@@ -1518,7 +1518,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename clipart/Temperature-13x13-countmap.svg
+	filename clipart/Temperature-13x13-countmap.pdf
 	lyxscale 50
 	scale 40
 
@@ -2737,7 +2737,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename clipart/Moons-Iteridense-rho2-2.svg
+	filename clipart/Moons-Iteridense-rho2-2.pdf
 	lyxscale 50
 	scale 40
 
@@ -2780,7 +2780,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename clipart/Moons-Iteridense-rho5.svg
+	filename clipart/Moons-Iteridense-rho5.pdf
 	lyxscale 50
 	scale 40
 
@@ -2905,7 +2905,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename clipart/Moons-Iteridense-rho6-noDiagonals.svg
+	filename clipart/Moons-Iteridense-rho6-noDiagonals.pdf
 	lyxscale 50
 	scale 40
 
@@ -2965,7 +2965,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename clipart/Moons-Iteridense-rho6.svg
+	filename clipart/Moons-Iteridense-rho6.pdf
 	lyxscale 50
 	scale 40
 
@@ -3203,7 +3203,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename clipart/Anisotropes-Iteridense-rho6-8.svg
+	filename clipart/Anisotropes-Iteridense-rho6-8.pdf
 	lyxscale 50
 	scale 40
 
@@ -3246,7 +3246,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename clipart/Anisotropes-Iteridense-rho7-3.svg
+	filename clipart/Anisotropes-Iteridense-rho7-3.pdf
 	lyxscale 50
 	scale 40
 
@@ -3336,7 +3336,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename clipart/Anisotropes-Iteridense-rho12.svg
+	filename clipart/Anisotropes-Iteridense-rho12.pdf
 	lyxscale 50
 	scale 40
 
@@ -3379,7 +3379,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename clipart/Anisotropes-DBSCAN-eps0-10.svg
+	filename clipart/Anisotropes-DBSCAN-eps0-10.pdf
 	lyxscale 50
 	scale 40
 
@@ -3580,7 +3580,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename clipart/Anisotropes-DBSCAN-eps0-15.svg
+	filename clipart/Anisotropes-DBSCAN-eps0-15.pdf
 	lyxscale 50
 	scale 40
 
@@ -3621,7 +3621,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename clipart/Anisotropes-DBSCAN-eps0-20.svg
+	filename clipart/Anisotropes-DBSCAN-eps0-20.pdf
 	lyxscale 50
 	scale 40
 
@@ -3705,7 +3705,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename clipart/Anisotropes-DBSCAN-eps0-25.svg
+	filename clipart/Anisotropes-DBSCAN-eps0-25.pdf
 	lyxscale 50
 	scale 40
 
@@ -3746,7 +3746,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename clipart/Anisotropes-DBSCAN-eps0-30.svg
+	filename clipart/Anisotropes-DBSCAN-eps0-30.pdf
 	lyxscale 50
 	scale 40
 
@@ -3977,7 +3977,7 @@ status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename clipart/BlobNoise-Iteridense-MinClusters2.svg
+	filename clipart/BlobNoise-Iteridense-MinClusters2.pdf
 	lyxscale 50
 	width 33col%
 
@@ -4014,7 +4014,7 @@ status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename clipart/BlobNoise-Iteridense-MinClusters3.svg
+	filename clipart/BlobNoise-Iteridense-MinClusters3.pdf
 	lyxscale 50
 	width 33col%
 
@@ -4051,7 +4051,7 @@ status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename clipart/BlobNoise-Iteridense-rho4-0.svg
+	filename clipart/BlobNoise-Iteridense-rho4-0.pdf
 	lyxscale 50
 	width 33col%
 
@@ -4711,7 +4711,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename clipart/Circles-Iteridense-MinClusters2.svg
+	filename clipart/Circles-Iteridense-MinClusters2.pdf
 	lyxscale 50
 	scale 40
 
@@ -4755,7 +4755,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename clipart/Circles-DBSCAN-eps0-1.svg
+	filename clipart/Circles-DBSCAN-eps0-1.pdf
 	lyxscale 50
 	scale 40
 
@@ -4981,7 +4981,7 @@ status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename clipart/Calculation-time-comparison-2D.svg
+	filename clipart/Calculation-time-comparison-2D.pdf
 	lyxscale 50
 	width 49col%
 
@@ -5017,7 +5017,7 @@ status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename clipart/Calculation-time-comparison-3D.svg
+	filename clipart/Calculation-time-comparison-3D.pdf
 	lyxscale 50
 	width 49col%
 
@@ -5553,7 +5553,7 @@ status collapsed
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename clipart/Calculation-time-comparison-6D.svg
+	filename clipart/Calculation-time-comparison-6D.pdf
 	lyxscale 50
 	width 49col%
 
@@ -6273,7 +6273,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename clipart/Random-data.svg
+	filename clipart/Random-data.pdf
 	lyxscale 50
 	scale 40
 
@@ -6311,7 +6311,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename clipart/Resolution-NumClusters.svg
+	filename clipart/Resolution-NumClusters.pdf
 	lyxscale 50
 	scale 40
 
@@ -6447,7 +6447,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename clipart/Resolution-ClusterSize.svg
+	filename clipart/Resolution-ClusterSize.pdf
 	lyxscale 50
 	scale 40
 
@@ -6485,7 +6485,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename clipart/Resolution-ClusterDensity.svg
+	filename clipart/Resolution-ClusterDensity.pdf
 	lyxscale 50
 	scale 40
 
